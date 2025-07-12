@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 
 import Home from './pages/Home'
+import Navbar from './components/Navbar'
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
@@ -13,10 +14,13 @@ function App() {
 
   return (
     <Router>
-      <div className="w-screen min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 overflow-x-hidden">
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+      <div className="w-screen min-h-screen bg-white dark:bg-black transition-colors duration-300 overflow-x-hidden">
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <div className="pt-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   )

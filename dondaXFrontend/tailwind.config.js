@@ -13,6 +13,11 @@ module.exports = {
         sans: ['Inter', 'sans-serif'],
         mono: ['Courier New', 'monospace'],
       },
+      borderWidth: {
+        '0.2': '0.2px',
+        '0.5': '0.5px',
+        '1': '1px',
+      },
     },
   },
   plugins: [],
