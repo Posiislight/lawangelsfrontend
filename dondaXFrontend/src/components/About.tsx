@@ -24,7 +24,7 @@ const About: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center px-2 sm:px-4 py-8 bg-[#f8fbff] dark:bg-black transition-colors duration-300">
+    <div id="about" className="min-h-screen w-full flex flex-col items-center justify-center px-2 sm:px-4 py-8 bg-[#f8fbff] dark:bg-black transition-colors duration-300">
       <div
         ref={ref}
         className={`w-full max-w-7xl transition-all duration-700 ease-out flex flex-col gap-8 

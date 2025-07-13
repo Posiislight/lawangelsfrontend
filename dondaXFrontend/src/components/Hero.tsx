@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
   const currentMotorcycle = motorcycles[currentIndex];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-[#f8fbff] dark:bg-black transition-colors duration-300 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center bg-[#f8fbff] dark:bg-black transition-colors duration-300 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-7xl w-full mx-auto">
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
@@ -199,6 +199,26 @@ const Hero: React.FC = () => {
             </button>
           </motion.div>
         </div>
+        
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.5 }}
+        >
+          <motion.div 
+            className="w-6 h-10 border-2 border-green rounded-full flex justify-center"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ 
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <div className="w-1 h-3 bg-green rounded-full mt-2 animate-pulse" />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

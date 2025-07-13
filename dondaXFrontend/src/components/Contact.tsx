@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
   const position: [number, number] = [6.5244, 3.3792];
 
   return (
-    <section className="min-h-screen w-full bg-gray-100 dark:bg-black flex flex-col items-center py-8 sm:py-10 px-2 sm:px-4 transition-colors duration-300">
+    <section id="contact" className="min-h-screen w-full bg-gray-100 dark:bg-black flex flex-col items-center py-8 sm:py-10 px-2 sm:px-4 transition-colors duration-300">
       <div
         ref={ref}
         className={`w-full max-w-5xl transition-all duration-700 ease-out flex flex-col gap-8 

@@ -1,29 +1,45 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './App.css'
-
-import Home from './pages/Home'
-import Navbar from './components/Navbar'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import { ThemeProvider } from "./context/ThemeContext";
+import Blog from "./pages/Blog";
+import Order from "./pages/order";
+import GNModel from "./pages/products/GNModel";
+import SportModel from "./pages/products/SportModel";
+import UrbanModel from "./pages/products/UrbanModel";
+import AdventureModel from "./pages/products/AdventureModel";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(true)
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
-  }, [darkMode])
-
   return (
-    <Router>
-      <div className="w-screen min-h-screen bg-white dark:bg-black transition-colors duration-300 overflow-x-hidden">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <div className="pt-16">
+    <ThemeProvider>
+      <Router>
+        <div className="App">
+          <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={
+              <>
+                <Hero />
+                <About />
+                <Contact />
+              </>
+            } />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/products/gn-model" element={<GNModel />} />
+            <Route path="/products/sport-model" element={<SportModel />} />
+            <Route path="/products/urban-model" element={<UrbanModel />} />
+            <Route path="/products/adventure-model" element={<AdventureModel />} />
+            {/* Add other routes here */}
           </Routes>
+          <Footer />
         </div>
-      </div>
-    </Router>
-  )
+      </Router>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
