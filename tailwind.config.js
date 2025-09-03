@@ -9,6 +9,9 @@ export default {
       fontFamily: {
         'worksans': ['"Work Sans"', 'sans-serif'],
       },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(90deg, #405896 0%, #4A8EB9 100%)',
+      },
     },
   },
   plugins: [],

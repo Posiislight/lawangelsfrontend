@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export default function Features() {
     const features = [
@@ -61,7 +61,7 @@ export default function Features() {
                             height="2500" 
                             src="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png" 
                             alt="Product screenshot" 
-                            className=" w-[50rem] h-[30rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
+                            className="w-[50rem] h-[30rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:ml-8 lg:ml-32"
                         />
                         
                         {/* Bottom sections placeholder */}
