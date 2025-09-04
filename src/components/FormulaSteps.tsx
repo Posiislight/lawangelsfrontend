@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function FormulaSteps() {
-  const curvedVariantsRight = {
+  const curvedVariantsRight: any = {
     initial: { scaleX: 0.75, borderTopRightRadius: 300, borderBottomRightRadius: 300, backgroundColor: '#ffffff' },
-    hover: { scaleX: 1, borderTopRightRadius: 48, width:"250%",zIndex: 0, borderBottomRightRadius: 48, backgroundColor: '#BFDBFE', transition: { duration: 1.25, ease: 'easeOut' } },
+    hover: { scaleX: 1, borderTopRightRadius: 48, width:"250%",zIndex: 0, borderBottomRightRadius: 48, backgroundColor: '#BFDBFE', transition: { duration: 1.25, ease: [0.22, 1, 0.36, 1] } },
   };
 
-  const curvedVariantsLeft = {
+  const curvedVariantsLeft: any = {
     initial: { scaleX: 0.75, borderTopLeftRadius: 300, borderBottomLeftRadius: 300, backgroundColor: '#f3f4f6' },
-    hover: { scaleX: 1, borderTopLeftRadius: 48, zIndex: 0, width:"250%",borderBottomLeftRadius: 48, backgroundColor: '#BFDBFE', transition: { duration: 1.25, ease: 'easeOut' } },
+    hover: { scaleX: 1, borderTopLeftRadius: 48, zIndex: 0, width:"250%",borderBottomLeftRadius: 48, backgroundColor: '#BFDBFE', transition: { duration: 1.25, ease: [0.22, 1, 0.36, 1] } },
   };
   useEffect(() => {
     const steps = document.querySelectorAll<HTMLElement>('.step');
