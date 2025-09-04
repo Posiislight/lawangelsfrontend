@@ -3,7 +3,7 @@ import bgImage from '../assets/lawangelsbg.jpg';
  // Ensure you have a suitable background image in your assets
 export default function Hero() {
     return (
-        <section className="relative h-[calc(100vh-55px)] font-worksans"> {/* Changed height and added margin-top */}
+        <section id="home" className="relative h-[calc(100vh-55px)] font-worksans"> {/* Changed height and added margin-top */}
             {/* Hero Content */}
             
             {/* Background Image */}

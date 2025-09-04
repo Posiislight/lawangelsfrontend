@@ -4,23 +4,23 @@ export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     
     return (
-        <nav className="bg-white font-worksans">
+        <nav className="sticky top-0 z-40 bg-white font-worksans">
             <div className="max-w-[1440px] mx-auto px-4">
                 <div className="flex items-center justify-between h-[55px]">
                     {/* Logo */}
-                    <div className="flex items-center">
+                    <a href="#home" className="flex items-center">
                         <h2 className="text-2xl font-bold">
                             <span className="text-orange-400">Law</span>
                             <span className="text-sky-400">Angels</span>
                         </h2>
-                    </div>
+                    </a>
                     
                     {/* Desktop Navigation */}
                     <ul className="hidden lg:flex lg:gap-x-8">
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors">About Us</li>
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors">Courses</li>
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors">Pricing</li>
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors">Contact</li>
+                        <li className="cursor-pointer hover:text-gray-600 transition-colors"><a href='#' className='visited:text-black '>About Us</a></li>
+                        <li className="cursor-pointer hover:text-gray-600 transition-colors" ><a href="#" className='visited:text-black'>Courses</a></li>
+                        <li className="cursor-pointer hover:text-gray-600 transition-colors"><a href="#pricing" className='visited:text-black'>Pricing</a></li>
+                        <li className="cursor-pointer hover:text-gray-600 transition-colors"><a href="#" className='visited:text-black'>Contact</a></li>
                     </ul>
                     
                     {/* Desktop Buttons */}
