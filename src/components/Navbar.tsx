@@ -1,34 +1,32 @@
 import { useState } from 'react';
+import logo from '../assets/logo.png';
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     
     return (
-        <nav className="sticky top-0 z-40 bg-white font-worksans">
-            <div className="max-w-[1440px] mx-auto px-4">
-                <div className="flex items-center justify-between h-[55px]">
+        <nav className="fixed top-4 left-0 right-0 z-40 font-worksans">
+            <div className="max-w-[1200px] mx-auto px-4">
+                <div className="flex items-center justify-between rounded-full bg-[#1A1D3E] text-white shadow-lg ring-1 ring-white/10 px-4 h-[56px]">
                     {/* Logo */}
-                    <a href="#home" className="flex items-center">
-                        <h2 className="text-2xl font-bold">
-                            <span className="text-orange-400">Law</span>
-                            <span className="text-sky-400">Angels</span>
-                        </h2>
+                    <a href="#home" className="flex items-center gap-2">
+                        <img src={logo} alt="LawAngels" className="h-12 w-16" />
                     </a>
                     
                     {/* Desktop Navigation */}
-                    <ul className="hidden lg:flex lg:gap-x-8">
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors"><a href='#' className='visited:text-black '>About Us</a></li>
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors" ><a href="#" className='visited:text-black'>Courses</a></li>
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors"><a href="#pricing" className='visited:text-black'>Pricing</a></li>
-                        <li className="cursor-pointer hover:text-gray-600 transition-colors"><a href="#" className='visited:text-black'>Contact</a></li>
+                    <ul className="hidden lg:flex gap-x-8">
+                        <li><a href="#about" className="text-sm text-white/80 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#courses" className="text-sm text-white/80 hover:text-white transition-colors">Courses</a></li>
+                        <li><a href="#pricing" className="text-sm text-white/80 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#contact" className="text-sm text-white/80 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                     
                     {/* Desktop Buttons */}
-                    <div className="hidden lg:flex lg:gap-x-4">
-                        <button className="px-4 py-2 rounded-full border border-sky-400 text-sky-400 hover:bg-sky-50 transition-colors">
+                    <div className="hidden lg:flex items-center gap-x-3">
+                        <button className="px-4 py-2 rounded-full text-sm bg-[#1A1D3E] text-white/80 hover:text-white ">
                             Login
                         </button>
-                        <button className="px-4 py-2 rounded-full bg-sky-400 text-white hover:bg-sky-500 transition-colors">
+                        <button className="px-4 py-2 rounded-full bg-sky-400 text-white text-sm hover:bg-sky-500 transition-colors">
                             Get started
                         </button>
                     </div>
@@ -37,7 +35,7 @@ export default function Navbar() {
                     <div className="lg:hidden">
                         <button
                             type="button"
-                            className="p-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+                            className="p-2 text-white hover:bg-white/10 rounded-md transition-colors"
                             onClick={() => setMobileMenuOpen(true)}
                         >
                             <span className="sr-only">Open main menu</span>
@@ -53,16 +51,15 @@ export default function Navbar() {
             {mobileMenuOpen && (
                 <div className="lg:hidden">
                     <div className="fixed inset-0 z-50">
-                        <div className="fixed inset-0 bg-black bg-opacity-25" onClick={() => setMobileMenuOpen(false)} />
-                        <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm">
+                        <div className="fixed inset-0 bg-black/40" onClick={() => setMobileMenuOpen(false)} />
+                        <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-slate-900 px-6 py-6 sm:max-w-sm text-white">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-2xl font-bold">
-                                    <span className="text-orange-400">Law</span>
-                                    <span className="text-sky-400">Angels</span>
-                                </h2>
+                                <div className="flex items-center gap-2">
+                                    <img src={logo} alt="LawAngels" className="h-6 w-auto" />
+                                </div>
                                 <button
                                     type="button"
-                                    className="p-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+                                    className="p-2 hover:bg-white/10 rounded-md transition-colors"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     <span className="sr-only">Close menu</span>
@@ -73,15 +70,16 @@ export default function Navbar() {
                             </div>
                             <div className="mt-6 flow-root">
                                 <div className="space-y-2 py-6">
-                                    <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50 transition-colors">About Us</a>
-                                    <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50 transition-colors">Courses</a>
-                                    <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50 transition-colors">Pricing</a>
-                                    <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50 transition-colors">Contact</a>
+                                    <a href="#about" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">About Us</a>
+                                    <a href="#courses" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">Courses</a>
+                                    <a href="#pricing" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">Pricing</a>
+                                    <a href="#contact" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">Contact</a>
                                 </div>
                                 <div className="py-6 space-y-2">
-                                    <button className="w-full px-4 py-2 rounded-full border border-sky-400 text-sky-400 hover:bg-sky-50 transition-colors">
-                                        Login
-                                    </button>
+                                <button className="px-4 py-2 rounded-full bg-[#1A1D3E] text-sm text-white hover:bg-[#2C3170] transition-colors">
+                                    Login
+                                </button>
+
                                     <button className="w-full px-4 py-2 rounded-full bg-sky-400 text-white hover:bg-sky-500 transition-colors">
                                         Get started
                                     </button>

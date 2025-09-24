@@ -1,14 +1,14 @@
 
-import bgImage from '../assets/lawangelsbg.jpg';
+import bgImage from '../assets/newheropic.jpg';
  // Ensure you have a suitable background image in your assets
 export default function Hero() {
     return (
-        <section id="home" className="relative h-[calc(100vh-55px)] font-worksans"> {/* Changed height and added margin-top */}
+        <section id="home" className="relative h-[100vh] font-worksans"> {/* Changed height and added margin-top */}
             {/* Hero Content */}
             
             {/* Background Image */}
             <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 bg-cover bg-top bg-no-repeat"
                 style={{
                     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${bgImage}')`
                 }}
@@ -18,25 +18,24 @@ export default function Hero() {
             </div>
             
             {/* Content */}
-            <div className="relative z-10 flex items-center h-full">
+            <div className="relative z-10 flex items-center justify-center h-full">
                 <div className="w-full max-w-[1440px] mx-auto px-4">
-                    <div className=" max-w-4xl">
+                    <div className=" max-w-5xl mx-auto text-center">
                         {/* Main Heading */}
-                        <h1 className="justify-start text-5xl font-worksans font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl lg:text-left">
-                            Your Journey to{' '}
-                            <span className="text-sky-400 lg:text-left">SQE</span>
+                        <h1 className="text-3xl font-worksans font-medium tracking-tight text-white text-center sm:text-4xl md:text-5xl lg:text-5xl">
+                            Your Journey to SQE Success
                             <br />
-                            Success Starts Here
+                             Starts Here
                         </h1>
                         
                         {/* Subtitle */}
-                        <p className="font-worksans mt-6 text-xl leading-8 text-gray-200 max-w-xl lg:text-left">
+                        <p className="font-worksans mt-6 text-base font-normal leading-7 text-gray-200 max-w-2xl text-center mx-auto sm:text-lg">
                             Master the Solicitors Qualifying Examination with expert-led courses, interactive practice tests, and a clear roadmap to becoming a qualified solicitor.
                         </p>
                         
                         {/* CTA Button */}
-                        <div className="mt-10">
-                            <button className="lg:float-left bg-sky-400 hover:bg-sky-500 text-white font-semibold py-4 px-8 rounded-full text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl lg:left">
+                        <div className="mt-8 text-center">
+                            <button className="bg-sky-400 hover:bg-sky-500 text-black font-medium py-3 px-6 rounded-full text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl mx-auto">
                                 Start your Journey
                             </button>
                         </div>
