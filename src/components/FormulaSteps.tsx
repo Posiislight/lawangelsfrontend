@@ -1,6 +1,6 @@
-import learnimage from '../assets/learnimg.jpg';
-import reinforceimage from '../assets/reinforceimg.jpg';
-import practiceimage from '../assets/practiceimg.jpg';
+import learnimage from '../assets/learnimg.webp';
+import reinforceimage from '../assets/reinforceimg.webp';
+import practiceimage from '../assets/practiceimg.webp';
 
 export default function FormulaSteps() {
   return (
