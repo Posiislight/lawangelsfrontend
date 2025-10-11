@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/lawangelslogo.png';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,8 +15,8 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex gap-x-8">
-            <li><a href="#about" className="text-sm text-white/80 hover:text-white transition-colors">About Us</a></li>
-            <li><a href="#courses" className="text-sm text-white/80 hover:text-white transition-colors">Courses</a></li>
+            <li><a href="/about" className="text-sm text-white/80 hover:text-white transition-colors">About Us</a></li>
+            <li><a href="/blog" className="text-sm text-white/80 hover:text-white transition-colors">Blog</a></li>
             <li><a href="#pricing" className="text-sm text-white/80 hover:text-white transition-colors">Pricing</a></li>
             <li><a href="#contact" className="text-sm text-white/80 hover:text-white transition-colors">Contact</a></li>
           </ul>

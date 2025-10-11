@@ -1,0 +1,109 @@
+import { Link, useLocation } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { BsStars } from 'react-icons/bs';
+
+export default function About() {
+    const location = useLocation();
+    const pathnames = location.pathname.split('/').filter((x) => x);
+    
+    return (
+        <>
+            <div className='min-h-screen w-full font-worksans'>
+                <Navbar />
+                <div className='md:block'>
+                    <div className='relative flex bg-orange-500 max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-44 shadow-lg'>
+                        <div className='absolute left-4 top-3 font-normal text-white text-sm'>
+                            {pathnames.map((name, index) => {
+                                const to = "/" + pathnames.slice(0, index + 1).join("/");
+                                const isLast = index === pathnames.length - 1;
+                                return isLast ? (
+                                    <span key={to}>{name} {'>'}</span>
+                                ) : (
+                                    <Link to={to} key={to}>{'>'} {name} </Link>
+                                );
+                            })}
+                        </div>
+                        <div className='absolute left-4 bottom-3 font-semibold text-white text-3xl'>
+                            Our Mission & Values
+                        </div>
+                    </div>
+
+                    <div className='text-sm max-w-[1200px] mx-auto'>
+                        <p className='mt-10'>
+                            At LAWANGELS, we're more than a platform for Solicitors Qualifying Examination (SQE)
+                            preparation; we're your partner in turning your dream of becoming a solicitor in England and
+                            Wales into reality.
+                        </p>
+                    </div>
+
+                    <div className="flex max-w-[1200px] mx-auto mt-10 mb-20 items-stretch gap-8">
+                        {/* Left column */}
+                        <div className="w-9/12">
+                            {/* Mission Section with Icon */}
+                            <div className="bg-neutral-900/40 rounded-xl p-8">
+                                <div className="flex items-start gap-4">
+                                    <div className="text-3xl text-[#81D6FB]">
+                                        <BsStars />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-semibold mb-4 text-[#81D6FB]">
+                                            How we support your SQE journey
+                                        </h3>
+                                        <div className="space-y-4 text-sm text-gray-300">
+                                            <p>
+                                                LAWANGELS offers tailored resources for diverse learners, law graduates tackling
+                                                SQE1 legal knowledge, non-lawyers mastering ethics, or overseas lawyers
+                                                navigating exemptions.
+                                            </p>
+                                            <p>
+                                                We aim to inspire confidence, preparing you not just to pass exams but to thrive
+                                                as an ethical, capable solicitor.
+                                            </p>
+                                            <p>
+                                                Inclusivity is at the heart of LAWANGELS. We embrace aspiring solicitors from all
+                                                walks of life, offering resources that fit your unique needs. Our jurisdiction-specific
+                                                guides help overseas lawyers to secure exemptions.
+                                            </p>
+                                            <p>
+                                                Excellence drives everything we do. Our study tools are written by industry-vetted SQE
+                                                standards, updated annually to stay cutting-edge. We're committed to delivering
+                                                tools that maximize your pass chances and prepare you for real-world practice.
+                                            </p>
+                                            <p>
+                                                Innovation sets LAWANGELS apart. Our tools LAW ANGEL AI keep your preparation
+                                                modern and accessible. Join LAWANGELS for cutting-edge resources and SRA
+                                                insights delivered through intuitive technology.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Sidebar */}
+                        <aside className="w-3/12 bg-white rounded-2xl border border-orange-100 shadow-lg p-6 flex flex-col justify-between">
+                            <div className="w-full mb-6">
+                                <img
+                                    src="#"
+                                    alt="visual"
+                                    className="w-full h-40 object-cover rounded-lg"
+                                />
+                            </div>
+                            <div className="text-sm font-normal text-gray-700 mb-6">
+                                Subscribe to exclusive study planners, mock exams, and a network to
+                                guide you every step of the way!
+                            </div>
+                            <div className="w-full">
+                                <button className="w-full bg-orange-500 text-white rounded-lg py-2">
+                                    Subscribe
+                                </button>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+            <Footer />
+        </>
+    );
+}

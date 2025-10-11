@@ -11,7 +11,7 @@ export default function FormulaSteps() {
           Our Formula to Passing in
         </h2>
         <p className="text-3xl md:text-5xl font-semibold text-orange-500 mt-1">Flying Colors</p>
-        <p className="mt-6 max-w-3xl text-slate-700 text-base md:text-lg">
+        <p className="mt-6 max-w-3xl text-slate-700 text-base md:text-lg ">
           Dive into our learning modules crafted by seasoned solicitors. Complex rules are transformed into
           clear, concise breakdowns with animated explainers and bite-sized video lessons.
         </p>
@@ -74,11 +74,11 @@ export default function FormulaSteps() {
             ========================= */}
         <div className="md:hidden relative mt-4">
           {/* Vertical connector line running down the left of the steps */}
-          <div className="absolute left-6 top-6 bottom-6 border-l-4 border-orange-400" aria-hidden="true" />
+          <div className="absolute top-6 bottom-6 " aria-hidden="true" />
 
           {/* Step 1 */}
-          <div className="relative pl-16 pb-12">
-            <div className="absolute -left-2 top-8 w-6 h-6 bg-orange-500 rounded-full"></div>
+          <div className="relative  pb-12 border-b-4 border-orange-400 ">
+            
 
             <h3 className="text-2xl font-semibold text-slate-800">Learn</h3>
             <p className="mt-2 text-slate-700">
@@ -91,10 +91,10 @@ export default function FormulaSteps() {
           </div>
 
           {/* Step 2 */}
-          <div className="relative pl-16 pb-12">
-            <div className="absolute -left-2 top-8 w-6 h-6 bg-orange-500 rounded-full"></div>
+          <div className="relative pb-12 pt-12 border-b-4 border-orange-400">
+            
 
-            <h3 className="text-2xl font-semibold text-slate-800">Reinforce</h3>
+            <h3 className="text-2xl font-semibold text-slate-800 ">Reinforce</h3>
             <p className="mt-2 text-slate-700">
               Solidify your understanding with flashcards that target the essentials, and never let them slip away.
               Break out visually structured mind maps that connect legal principles across topics for full clarity and
@@ -106,8 +106,8 @@ export default function FormulaSteps() {
           </div>
 
           {/* Step 3 */}
-          <div className="relative pl-16 pb-6">
-            <div className="absolute -left-2 top-8 w-6 h-6 bg-orange-500 rounded-full"></div>
+          <div className="relative pb-6 pt-6 ">
+            
 
             <h3 className="text-2xl font-semibold text-slate-800">Practice</h3>
             <p className="mt-2 text-slate-700">
