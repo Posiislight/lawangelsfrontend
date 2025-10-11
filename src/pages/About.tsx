@@ -7,13 +7,13 @@ export default function About() {
     const pathnames = location.pathname.split('/').filter((x)=>x)
     return (
       <>
-        <div className='min-h-screen w-full font-worksans '>
+  <div className='w-full font-worksans mx-auto md:min-h-screen'>
             <Navbar />
             {/* =========================
             DESKTOP / TABLET (md and up)
             KEEP ORIGINAL LAYOUT (unchanged)
             ========================= */}
-            <div className='md:block'>
+            <div className='hidden md:block'>
             <div className='relative flex  bg-orange-500  max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-44 shadow-lg'>
                 <div className='absolute left-4 top-3 font-normal text-white text-sm '>
                     {pathnames.map((name,index)=> {
@@ -54,7 +54,7 @@ export default function About() {
                 At LAWANGELS, we’re more than a platform for Solicitors Qualifying Examination (SQE) preparation, we’re your partner in turning your dream of becoming a solicitor in England and Wales into reality. 
                 </p>
             </div>
-            <div className="flex max-w-[1200px] mx-auto mt-10 mb-20 items-stretch gap-8">
+            <div className="flex max-w-[1200px] mx-auto mt-10 mb-20 items-start gap-8">
   {/* Left column */}
   <div className="w-9/12">
     <p className="text-2xl font-semibold">Our Mission</p>
@@ -85,7 +85,7 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
 
   {/* Sidebar card that matches left column height */}
   
-  <aside className=" w-3/12 bg-white rounded-2xl border border-orange-500 shadow-lg p-6 flex flex-col h-96">
+  <aside className="w-3/12 bg-white rounded-2xl border border-orange-500 shadow-lg p-6 flex flex-col">
     {/* Top: image / visual */}
     <div className="w-full mb-5">
       <img
@@ -111,7 +111,43 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
 </div>
 
             </div>
-        </div>
+            </div>
+
+            {/* Mobile / small devices - simplified layout */}
+            <div className="md:hidden px-4 mt-20 md:mt-0">
+              <div className="bg-orange-500 rounded-2xl mt-8 p-5 shadow-md ">
+                <div className="text-sm text-white mb-2">
+                  {pathnames.map((name, index) => {
+                    const to = "/" + pathnames.slice(0, index + 1).join("/");
+                    const isLast = index === pathnames.length - 1;
+                    return isLast ? (
+                      <span key={to}>{name} &gt;</span>
+                    ) : (
+                      <Link to={to} key={to} className="opacity-90">{'>'} {name} </Link>
+                    );
+                  })}
+                </div>
+                <h2 className="text-xl font-semibold text-white">How we support your SQE1 Journey</h2>
+              </div>
+
+              <div className="max-w-[720px] mx-auto mt-6 text-sm">
+                <p>
+                  At LAWANGELS, we’re more than a platform for Solicitors Qualifying Examination (SQE) preparation — we’re your partner in turning your dream of becoming a solicitor in England and Wales.
+                </p>
+              </div>
+
+              <div className="max-w-[720px] mx-auto mt-6">
+                <h3 className="text-lg font-semibold">Our Mission</h3>
+                <p className="text-sm mt-3">Our mission is to make the SQE journey inclusive, achievable, and empowering for everyone, whether you’re a law graduate, a career changer, or an overseas lawyer.</p>
+                <p className="text-sm mt-3">LAWANGELS offers tailored resources for diverse learners, law graduates tackling SQE1’s legal knowledge, non-lawyers mastering ethics, or overseas professionals navigating exemptions.</p>
+              </div>
+
+              <aside className="w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6">
+                <div className="w-full h-36 bg-gray-100 mb-4" />
+                <p className="text-sm text-gray-700">Subscribe to exclusive study planners, mock exams, and a network to guide you every step of the way!</p>
+                <button className="w-full bg-orange-500 text-white rounded-lg py-2 mt-4">Subscribe</button>
+              </aside>
+            </div>
         <Footer />
         </>
     )
