@@ -1,6 +1,6 @@
 import {Link , useLocation} from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
 export default function About() {
     const location = useLocation()
@@ -15,7 +15,7 @@ export default function About() {
             ========================= */}
             <div className='hidden md:block'>
             <div className='relative flex  bg-orange-500  max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-44 shadow-lg'>
-                <div className='absolute left-4 top-3 font-normal text-white text-sm '>
+                <div className='absolute left-4 top-3 font-semibold text-white text-normal '>
                     {pathnames.map((name,index)=> {
                         const to = "/" + pathnames.slice(0,index+1).join("/")
                         const isLast = index === pathnames.length - 1
@@ -46,7 +46,7 @@ export default function About() {
         />
       </svg>
                 </div>
-                <div className='absolute left-4 bottom-3 font-medium text-white text-4xl'> How we support your SQE1 Journey </div>
+                <div className='absolute left-4 bottom-3 font-medium text-white text-4xl'>Our Mission & Values</div>
                 
             </div>
             <div className='text-lg  max-w-[1200px] mx-auto'>

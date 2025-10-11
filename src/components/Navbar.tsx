@@ -9,14 +9,14 @@ export default function Navbar() {
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex items-center justify-between rounded-full bg-[#1A1D3E] text-white shadow-lg ring-1 ring-white/10 px-4 h-[56px]">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2">
+          <a href="/" className="flex items-center gap-2">
             <img src={logo} alt="LawAngels" className="h-12 w-16" />
           </a>
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex gap-x-8">
-            <li><a href="/about" className="text-sm text-white/80 hover:text-white transition-colors">About Us</a></li>
-            <li><a href="/blog" className="text-sm text-white/80 hover:text-white transition-colors">Blog</a></li>
+            <li><a href="/AboutUs" className="text-sm text-white/80 hover:text-white transition-colors">About Us</a></li>
+            <li><a href="/Pathtoqualification" className="text-sm text-white/80 hover:text-white transition-colors">Blog</a></li>
             <li><a href="#pricing" className="text-sm text-white/80 hover:text-white transition-colors">Pricing</a></li>
             <li><a href="#contact" className="text-sm text-white/80 hover:text-white transition-colors">Contact</a></li>
           </ul>
