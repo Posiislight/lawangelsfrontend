@@ -16,37 +16,37 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex gap-x-8">
             <li className="relative group ">
-              <a href="/AboutUs/Howwesupport" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">About Us</a>
+              <a href="/about-us" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">About Us</a>
                 <div className='absolute flex flex-row gap-20 top-[40px] px-10 -left-80 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4 min-w-[600px] '>
                   <div className='flex flex-col py-2 space-y-2'>
                     <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>About Us</p>
-                    <a href="/AboutUs/Mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Our Mission</a>
-                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How We Support</a>
-                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Testimonials & reviews</a>
+                    <a href="/about-us/mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Our Mission</a>
+                    <a href="/about-us/how-we-support" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How We Support</a>
+                    <a href="/about-us/testimonials" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Testimonials & reviews</a>
                   </div>
                   <div className='flex flex-col py-2 space-y-2'>
                     <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>Path to Qualification</p>
-                    <a href="/PathtoQualifications" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How to qualify as a solicitor via the SQE Route</a>
-                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Assessment time & key dates for SQE Assessmenet 2026</a>
-                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Registering after you pass and admission </a>
-                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Overseas lawyer pathways and exemptions </a>
+                    <a href="/path-to-qualification/sqe-route" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How to qualify as a solicitor via the SQE Route</a>
+                    <a href="/path-to-qualification/assessment-dates" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Assessment time & key dates for SQE Assessment 2026</a>
+                    <a href="/path-to-qualification/registration" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Registering after you pass and admission </a>
+                    <a href="/path-to-qualification/overseas-pathways" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Overseas lawyer pathways and exemptions </a>
                   </div>
                   <div className='flex flex-col py-2 space-y-2'>
                     <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>Prep Tools</p>
-                    <a href="/AboutUs/Mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Pricing & features</a>
-                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Sample MCQs</a>
+                    <a href="/prep-tools/pricing" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Pricing & features</a>
+                    <a href="/prep-tools/sample-mcqs" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Sample MCQs</a>
                   </div>
                   <div className='flex flex-col py-2 space-y-2'>
                     <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2 gap-3'>Get in Touch </p>
-                    <a href="/AboutUs/Mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-2 pl-2">Call us</a>
-                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Email support </a>
-                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Press and collaborations</a>
+                    <a href="/contact/call-us" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-2 pl-2">Call us</a>
+                    <a href="/contact/support" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Email support </a>
+                    <a href="/contact/press" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Press and collaborations</a>
                   </div>
                 </div>
               </li>
-            <li><a href="/PathtoQualifications" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a></li>
-            <li><a href="#pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Pricing</a></li>
-            <li><a href="#contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Contact</a></li>
+            <li><a href="/blog" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a></li>
+            <li><a href="/pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Pricing</a></li>
+            <li><a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Contact</a></li>
           </ul>
 
           {/* Desktop Buttons */}
@@ -115,9 +115,9 @@ export default function Navbar() {
                   <div className="space-y-2">
                     <p className="px-3 text-base font-semibold text-sky-400">About Us</p>
                     <div className="space-y-1">
-                      <a href="/AboutUs/Mission" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Our Mission</a>
-                      <a href="/AboutUs/Howwesupport" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How We Support</a>
-                      <a href="/AboutUs/Team" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Testimonials & reviews</a>
+                      <a href="/about-us/mission" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Our Mission</a>
+                      <a href="/about-us/how-we-support" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How We Support</a>
+                      <a href="/about-us/testimonials" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Testimonials & reviews</a>
                     </div>
                   </div>
 
@@ -125,10 +125,10 @@ export default function Navbar() {
                   <div className="space-y-2">
                     <p className="px-3 text-base font-semibold text-sky-400">Path to Qualification</p>
                     <div className="space-y-1">
-                      <a href="/PathtoQualifications" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How to qualify as a solicitor via the SQE Route</a>
-                      <a href="/Assessment-timeline" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Assessment time & key dates for SQE Assessment 2026</a>
-                      <a href="/Registration" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Registering after you pass and admission</a>
-                      <a href="/Overseas-pathways" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Overseas lawyer pathways and exemptions</a>
+                      <a href="/path-to-qualification/sqe-route" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How to qualify as a solicitor via the SQE Route</a>
+                      <a href="/path-to-qualification/assessment-dates" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Assessment time & key dates for SQE Assessment 2026</a>
+                      <a href="/path-to-qualification/registration" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Registering after you pass and admission</a>
+                      <a href="/path-to-qualification/overseas-pathways" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Overseas lawyer pathways and exemptions</a>
                     </div>
                   </div>
 
@@ -136,8 +136,8 @@ export default function Navbar() {
                   <div className="space-y-2">
                     <p className="px-3 text-base font-semibold text-sky-400">Prep Tools</p>
                     <div className="space-y-1">
-                      <a href="/pricing" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Pricing & features</a>
-                      <a href="/sample-mcqs" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Sample MCQs</a>
+                      <a href="/prep-tools/pricing" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Pricing & features</a>
+                      <a href="/prep-tools/sample-mcqs" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Sample MCQs</a>
                     </div>
                   </div>
 
@@ -145,9 +145,9 @@ export default function Navbar() {
                   <div className="space-y-2">
                     <p className="px-3 text-base font-semibold text-sky-400">Get in Touch</p>
                     <div className="space-y-1">
-                      <a href="/contact" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Call us</a>
-                      <a href="/support" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Email support</a>
-                      <a href="/press" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Press and collaborations</a>
+                      <a href="/contact/call-us" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Call us</a>
+                      <a href="/contact/support" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Email support</a>
+                      <a href="/contact/press" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Press and collaborations</a>
                     </div>
                   </div>
                 </div>
