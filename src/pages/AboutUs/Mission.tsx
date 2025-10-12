@@ -14,21 +14,9 @@ export default function About() {
             KEEP ORIGINAL LAYOUT (unchanged)
             ========================= */}
             <div className='hidden md:block'>
-            <div className='relative flex  bg-orange-500  max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-44 shadow-lg'>
-                <div className='absolute left-4 top-3 font-semibold text-white text-normal '>
-                    {pathnames.map((name,index)=> {
-                        const to = "/" + pathnames.slice(0,index+1).join("/")
-                        const isLast = index === pathnames.length - 1
-
-                        return isLast ? (
-                            <span key={to}>{name} {'>'}</span>
-                        ) : (
-
-                            <Link to={to} key={to}>{'>'} {name} </Link>
-                        )
-
-                    }
-                    )}
+            <div className='relative flex  bg-orange-500  max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-60 shadow-lg'>
+                <div className='absolute left-4 top-3 font-normal text-white text-normal '>
+                    About Us {'>'}
                 </div>
                 <div className='absolute right-9 top-0 text-white my-auto'>
                   {/* Explicit size + color so the icon is visible on the orange banner */}
@@ -49,7 +37,7 @@ export default function About() {
                 <div className='absolute left-4 bottom-3 font-medium text-white text-4xl'>Our Mission & Values</div>
                 
             </div>
-            <div className='text-lg  max-w-[1200px] mx-auto'>
+            <div className='text-lg  max-w-[1000px] mx-auto'>
                 <p className='mt-10'>
                 At LAWANGELS, we’re more than a platform for Solicitors Qualifying Examination (SQE) preparation, we’re your partner in turning your dream of becoming a solicitor in England and Wales into reality. 
                 </p>

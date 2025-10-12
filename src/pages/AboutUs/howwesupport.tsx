@@ -28,9 +28,9 @@ export default function PathToQualification(){
 
         {/* Desktop / Tablet layout */}
         <div className='hidden md:block'>
-          <div className='relative flex bg-orange-500 max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-44 shadow-lg'>
-            <div className='absolute left-4 top-3 font-normal text-white text-sm'>
-              <Link to='/' className='opacity-90'>{'>'} Home</Link>
+          <div className='relative flex bg-orange-500 max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-60 shadow-lg'>
+            <div className='absolute left-4 top-3 font-normal text-white text-normal'>
+              About Us {'>'}
             </div>
             <div className='absolute right-8 top-0 text-white my-auto'>
               <svg width="177" height="176" viewBox="0 0 177 176" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,15 +1,17 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import About from './pages/AboutUs/Mission'
-import PathToQualify from './pages/AboutUs/howwesupport'
+import Mission from './pages/AboutUs/Mission'
+import Howwesupport from './pages/AboutUs/howwesupport'
+import PathToQualification from './pages/Path to Qualification/Pathtoqualify'
 
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/AboutUs" element={<About />}/>
-      <Route path="/Pathtoqualification" element={<PathToQualify />}/>
+      <Route path="/AboutUs/Mission" element={<Mission />}/>
+      <Route path="/AboutUs/Howwesupport" element={<Howwesupport />}/>
+      <Route path="/PathtoQualifications" element={<PathToQualification/>}/>
     </Routes>
   )
 }

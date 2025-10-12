@@ -15,10 +15,38 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex gap-x-8">
-            <li><a href="/AboutUs" className="text-sm text-white/80 hover:text-white transition-colors">About Us</a></li>
-            <li><a href="/Pathtoqualification" className="text-sm text-white/80 hover:text-white transition-colors">Blog</a></li>
-            <li><a href="#pricing" className="text-sm text-white/80 hover:text-white transition-colors">Pricing</a></li>
-            <li><a href="#contact" className="text-sm text-white/80 hover:text-white transition-colors">Contact</a></li>
+            <li className="relative group ">
+              <a href="/AboutUs/Howwesupport" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">About Us</a>
+                <div className='absolute flex flex-row gap-20 top-[40px] px-10 -left-80 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4 min-w-[600px] '>
+                  <div className='flex flex-col py-2 space-y-2'>
+                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>About Us</p>
+                    <a href="/AboutUs/Mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Our Mission</a>
+                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How We Support</a>
+                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Testimonials & reviews</a>
+                  </div>
+                  <div className='flex flex-col py-2 space-y-2'>
+                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>Path to Qualification</p>
+                    <a href="/PathtoQualifications" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How to qualify as a solicitor via the SQE Route</a>
+                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Assessment time & key dates for SQE Assessmenet 2026</a>
+                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Registering after you pass and admission </a>
+                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Overseas lawyer pathways and exemptions </a>
+                  </div>
+                  <div className='flex flex-col py-2 space-y-2'>
+                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>Prep Tools</p>
+                    <a href="/AboutUs/Mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Pricing & features</a>
+                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Sample MCQs</a>
+                  </div>
+                  <div className='flex flex-col py-2 space-y-2'>
+                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2 gap-3'>Get in Touch </p>
+                    <a href="/AboutUs/Mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-2 pl-2">Call us</a>
+                    <a href="/AboutUs/Howwesupport" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Email support </a>
+                    <a href="/AboutUs/Team" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Press and collaborations</a>
+                  </div>
+                </div>
+              </li>
+            <li><a href="/PathtoQualifications" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a></li>
+            <li><a href="#pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Pricing</a></li>
+            <li><a href="#contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Contact</a></li>
           </ul>
 
           {/* Desktop Buttons */}
@@ -64,7 +92,7 @@ export default function Navbar() {
             <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-slate-900 px-6 py-6 sm:max-w-sm text-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <img src={logo} alt="LawAngels" className="h-6 w-auto" />
+                  <img src={logo} alt="LawAngels" className="h-10 w-14 object-contain" />
                 </div>
 
                 {/* <-- Updated close button: use text-sky-400 so SVG (currentColor) isn't white --> */}
@@ -82,17 +110,52 @@ export default function Navbar() {
               </div>
 
               <div className="mt-6 flow-root">
-                <div className="space-y-2 py-6">
-                  <a href="#about" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">About Us</a>
-                  <a href="#courses" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">Courses</a>
-                  <a href="#pricing" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">Pricing</a>
-                  <a href="#contact" className="block rounded-lg px-3 py-2 text-base font-medium text-white/90 hover:bg-white/10 transition-colors">Contact</a>
+                <div className="space-y-6 py-6">
+                  {/* About Us Section */}
+                  <div className="space-y-2">
+                    <p className="px-3 text-base font-semibold text-sky-400">About Us</p>
+                    <div className="space-y-1">
+                      <a href="/AboutUs/Mission" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Our Mission</a>
+                      <a href="/AboutUs/Howwesupport" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How We Support</a>
+                      <a href="/AboutUs/Team" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Testimonials & reviews</a>
+                    </div>
+                  </div>
+
+                  {/* Path to Qualification Section */}
+                  <div className="space-y-2">
+                    <p className="px-3 text-base font-semibold text-sky-400">Path to Qualification</p>
+                    <div className="space-y-1">
+                      <a href="/PathtoQualifications" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How to qualify as a solicitor via the SQE Route</a>
+                      <a href="/Assessment-timeline" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Assessment time & key dates for SQE Assessment 2026</a>
+                      <a href="/Registration" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Registering after you pass and admission</a>
+                      <a href="/Overseas-pathways" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Overseas lawyer pathways and exemptions</a>
+                    </div>
+                  </div>
+
+                  {/* Prep Tools Section */}
+                  <div className="space-y-2">
+                    <p className="px-3 text-base font-semibold text-sky-400">Prep Tools</p>
+                    <div className="space-y-1">
+                      <a href="/pricing" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Pricing & features</a>
+                      <a href="/sample-mcqs" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Sample MCQs</a>
+                    </div>
+                  </div>
+
+                  {/* Get in Touch Section */}
+                  <div className="space-y-2">
+                    <p className="px-3 text-base font-semibold text-sky-400">Get in Touch</p>
+                    <div className="space-y-1">
+                      <a href="/contact" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Call us</a>
+                      <a href="/support" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Email support</a>
+                      <a href="/press" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Press and collaborations</a>
+                    </div>
+                  </div>
                 </div>
+
                 <div className="py-6 space-y-2">
-                  <button className="px-4 py-2 rounded-full bg-[#1A1D3E] text-sm text-white hover:bg-[#2C3170] transition-colors">
+                  <button className="w-full px-4 py-2 rounded-full bg-[#1A1D3E] text-sm text-white hover:bg-[#2C3170] transition-colors ring-1 ring-white/10">
                     Login
                   </button>
-
                   <button className="w-full px-4 py-2 rounded-full bg-sky-400 text-white hover:bg-sky-500 transition-colors">
                     Get started
                   </button>
