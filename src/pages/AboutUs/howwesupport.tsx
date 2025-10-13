@@ -110,7 +110,7 @@ export default function PathToQualification(){
             </div>
           </div>
 
-          <aside className='w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6'>
+          <aside className='w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6 mb-4'>
             <div className='w-full h-36 bg-gray-100 mb-4' />
             <p className='text-sm text-gray-700'>Subscribe for study planners, sample MCQs and exam tips.</p>
             <button className='w-full bg-orange-500 text-white rounded-lg py-2 mt-4'>Subscribe</button>
