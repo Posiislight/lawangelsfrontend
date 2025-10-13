@@ -25,7 +25,7 @@ export default function Features() {
     ];
 
     return (
-        <section className="py-20 bg-gray-50 overflow-hidden">
+        <section className="py-20 bg-gray-50 overflow-hidden px-6 md:px-0">
             <div className="mx-auto max-w-7xl px-0 lg:px-8">
                 {/* Centered heading */}
                 <div className="w-full flex justify-center">

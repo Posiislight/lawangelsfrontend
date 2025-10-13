@@ -1,10 +1,9 @@
-import {Link , useLocation} from 'react-router-dom'
+
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
 export default function About() {
-    const location = useLocation()
-    const pathnames = location.pathname.split('/').filter((x)=>x)
+    
     return (
       <>
   <div className='w-full font-worksans mx-auto md:min-h-screen'>
@@ -102,18 +101,10 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
             </div>
 
             {/* Mobile / small devices - simplified layout */}
-            <div className="md:hidden px-4 mt-20 md:mt-0">
+            <div className="md:hidden px-4 mt-20 md:mt-0 mx-2">
               <div className="bg-orange-500 rounded-2xl mt-8 p-5 shadow-md ">
                 <div className="text-sm text-white mb-2">
-                  {pathnames.map((name, index) => {
-                    const to = "/" + pathnames.slice(0, index + 1).join("/");
-                    const isLast = index === pathnames.length - 1;
-                    return isLast ? (
-                      <span key={to}>{name} &gt;</span>
-                    ) : (
-                      <Link to={to} key={to} className="opacity-90">{'>'} {name} </Link>
-                    );
-                  })}
+                  About Us {'>'}
                 </div>
                 <h2 className="text-xl font-semibold text-white">How we support your SQE1 Journey</h2>
               </div>
@@ -130,7 +121,7 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
                 <p className="text-sm mt-3">LAWANGELS offers tailored resources for diverse learners, law graduates tackling SQE1’s legal knowledge, non-lawyers mastering ethics, or overseas professionals navigating exemptions.</p>
               </div>
 
-              <aside className="w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6">
+              <aside className="w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6 mb-6">
                 <div className="w-full h-36 bg-gray-100 mb-4" />
                 <p className="text-sm text-gray-700">Subscribe to exclusive study planners, mock exams, and a network to guide you every step of the way!</p>
                 <button className="w-full bg-orange-500 text-white rounded-lg py-2 mt-4">Subscribe</button>

@@ -1,12 +1,12 @@
-import { Link, useLocation } from 'react-router-dom'
+
 import Navbar from '../../components/Navbar'
 import CTA from '../../components/CTA'
 import Footer from '../../components/Footer'
 
 
 export default function Pathtoqualify() {
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
+  
+  
 
   return (
     <>
@@ -148,19 +148,9 @@ export default function Pathtoqualify() {
 
         {/* Mobile Layout */}
         <div className="md:hidden px-4 mt-20">
-          <div className="bg-orange-500 rounded-2xl mt-8 p-5 shadow-md">
+          <div className="bg-[#0089FF] rounded-2xl mt-8 p-5 shadow-md">
             <div className="text-sm text-white mb-2">
-              {pathnames.map((name, index) => {
-                const to = "/" + pathnames.slice(0, index + 1).join("/");
-                const isLast = index === pathnames.length - 1;
-                return isLast ? (
-                  <span key={to}>{name}</span>
-                ) : (
-                  <Link to={to} key={to} className="opacity-90">
-                    {name} {'>'}
-                  </Link>
-                );
-              })}
+              Path to Qualification {'>'}
             </div>
             <h2 className="text-xl font-semibold text-white">How To Qualify As A Solicitor</h2>
           </div>
@@ -188,12 +178,12 @@ export default function Pathtoqualify() {
             </div>
           </div>
 
-          <aside className="w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6">
+          <aside className="w-full bg-white rounded-2xl border border-[#0089FF] shadow-lg p-4 mt-6 mb-4">
             <div className="w-full h-36 bg-gray-100 mb-4" />
             <p className="text-sm text-gray-700">
               Start your journey to becoming a solicitor with our comprehensive SQE preparation resources.
             </p>
-            <button className="w-full bg-orange-500 text-white rounded-lg py-2 mt-4">
+            <button className="w-full bg-[#0089FF] text-white rounded-lg py-2 mt-4">
               Subscribe
             </button>
           </aside>

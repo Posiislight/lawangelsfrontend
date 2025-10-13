@@ -4,7 +4,7 @@ import practiceimage from '../assets/practiceimg.webp';
 
 export default function FormulaSteps() {
   return (
-    <section className="bg-[#FFF7F0] py-14 md:py-20 font-worksans">
+    <section className="bg-[#FFF7F0] py-14 md:py-20 font-worksans md:mx-2 px-6 ">
       {/* Heading */}
       <div className="max-w-5xl mx-auto px-0 text-left lg:ml-52">
         <h2 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight">

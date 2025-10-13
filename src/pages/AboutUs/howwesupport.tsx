@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
@@ -81,30 +81,30 @@ export default function PathToQualification(){
         </div>
 
         {/* Mobile layout */}
-        <div className='md:hidden px-4 mt-16'>
+        <div className='md:hidden px-4 mt-20'>
           <div className='bg-orange-500 rounded-2xl mt-4 p-5 shadow-md'>
-            <div className='text-sm text-white mb-2'><Link to='/'> {'>'} Home</Link></div>
+            <div className='text-sm text-white mb-2'> About Us {'>'} </div>
             <h2 className='text-xl font-semibold text-white'>Path to Qualification</h2>
           </div>
 
-          <div className='max-w-[720px] mx-auto mt-6 text-sm'>
+          <div className='max-w-[720px] mx-auto mt-6 text-sm text-black'>
             <p>Below is a concise guide to qualifying as a solicitor via the SQE route.</p>
           </div>
 
-          <div className='max-w-[720px] mx-auto mt-6 space-y-6'>
+          <div className='max-w-[720px] mx-auto mt-6 space-y-6 text-black'>
             <div>
               <h4 className='font-semibold'>Step 1: Meet the Eligibility Requirements</h4>
               <p className='text-sm mt-2'>Check your prior qualifications and exemptions.</p>
             </div>
-            <div>
+            <div className='text-black'>
               <h4 className='font-semibold'>Step 2: Pass SQE1</h4>
               <p className='text-sm mt-2'>Master the multiple-choice legal knowledge assessments.</p>
             </div>
-            <div>
+            <div className='text-black'>
               <h4 className='font-semibold'>Step 3: Complete QWE</h4>
               <p className='text-sm mt-2'>Gain practice experience under qualified supervisors.</p>
             </div>
-            <div>
+            <div className='text-black'>
               <h4 className='font-semibold'>Step 4: Pass SQE2</h4>
               <p className='text-sm mt-2'>Showcase practical legal skills.</p>
             </div>
