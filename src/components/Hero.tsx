@@ -8,9 +8,13 @@ export default function Hero() {
             
             {/* Background Image */}
             <div 
-                className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+                className="absolute inset-0 bg-cover bg-[center_top_20%] bg-no-repeat"
                 style={{
-                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${bgImage}')`
+                    backgroundImage: `
+      linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+      linear-gradient(178.81deg, rgba(0,0,0,0) 43.95%, rgba(0,0,0,0.6) 87.92%),
+      url(${bgImage})
+    `
                 }}
             >
                 {/* Overlay for better text readability */}
@@ -18,15 +22,18 @@ export default function Hero() {
             </div>
             
             {/* Content */}
-            <div className="relative z-10 flex items-center justify-center h-full">
+            <div className="relative z-10 flex items-center justify-center h-full pt-[100px]">
                 <div className="w-full max-w-[1440px] mx-auto px-4">
-                    <div className=" max-w-5xl mx-auto text-center">
+                    <div className=" max-w-5xl mx-auto text-center bottom-10">
                         {/* Main Heading */}
-                        <h1 className="text-3xl font-worksans font-medium tracking-tight text-white text-center sm:text-4xl md:text-5xl lg:text-5xl">
-                            Your Journey to SQE Success
-                            <br />
-                             Starts Here
-                        </h1>
+                        <h1
+  className="font-worksans font-semibold text-[50px] leading-[100%] tracking-[-0.06em] text-center text-white mx-auto"
+>
+  Your Journey to SQE Success
+  <br />
+  Starts Here
+</h1>
+
                         
                         {/* Subtitle */}
                         <p className="font-worksans mt-6 text-base font-normal leading-7 text-gray-200 max-w-2xl text-center mx-auto sm:text-lg">

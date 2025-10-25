@@ -13,7 +13,7 @@ export default function About() {
             KEEP ORIGINAL LAYOUT (unchanged)
             ========================= */}
             <div className='hidden md:block'>
-            <div className='relative flex  bg-orange-500  max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-60 shadow-lg'>
+            <div className='relative flex  bg-[#1A1D3E]  max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-[184px] shadow-[-7px_9px_17.3px_2px_#44444447] '>
                 <div className='absolute left-4 top-3 font-normal text-white text-normal '>
                     About Us {'>'}
                 </div>
@@ -33,7 +33,7 @@ export default function About() {
         />
       </svg>
                 </div>
-                <div className='absolute left-4 bottom-3 font-medium text-white text-4xl'>Our Mission & Values</div>
+                <div className='absolute left-7 bottom-11 font-[500] text-white text-[40px]'>Our Mission & Values</div>
                 
             </div>
             <div className='text-lg  max-w-[1000px] mx-auto'>

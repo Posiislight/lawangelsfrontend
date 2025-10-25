@@ -15,17 +15,17 @@ export default function Pathtoqualify() {
         
         {/* Desktop/Tablet Layout */}
         <div className='hidden md:block'>
-          <div className='relative flex bg-[#0089FF] max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-60 shadow-lg'>
+          <div className='relative flex bg-[#1A1D3E] max-w-[1200px] mx-auto justify-center m-auto mt-28 rounded-2xl h-[184px] shadow-lg shadow-[-7px_9px_17.3px_2px_#44444447]'>
             <div className='absolute left-4 top-3 font-normal text-white text-normal'>
               Path to Qualification {'>'}
             </div>
-            <div className='absolute right-9 top-0 text-white my-auto'>
-              <svg width="220" height="220" viewBox="0 0 242 221" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className='absolute right-9 top-2 text-white my-auto'>
+              <svg width="80" height="80" viewBox="0 0 242 221" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M117.689 9.78197C123.922 -3.15436 142.721 -1.96727 147.277 11.6503L179.432 107.764C179.899 109.159 180.556 110.483 181.384 111.698L238.462 195.447C246.549 207.313 236.121 223 222.05 220.137L122.736 199.927C121.294 199.634 119.819 199.541 118.352 199.65L17.2848 207.207C2.96532 208.277 -5.40624 191.403 4.10899 180.649L71.2679 104.745C72.2427 103.643 73.0608 102.412 73.6993 101.087L117.689 9.78197Z" fill="white" fill-opacity="0.66"/>
 </svg>
 
             </div>
-            <div className='absolute left-4 bottom-5 font-medium text-white text-4xl'>How To Qualify as a solicitor via the SQE route</div>
+            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px]'>How To Qualify as a solicitor via the SQE route</div>
           </div>
 
           <div className='text-lg max-w-[1000px] mx-auto'>

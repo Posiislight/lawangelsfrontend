@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '../assets/lawangelslogo.png';
-
+import logotext from '../assets/logotext.png';
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -9,8 +9,9 @@ export default function Navbar() {
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex items-center justify-between rounded-full bg-[#1A1D3E] text-white shadow-lg ring-1 ring-white/10 px-4 h-[56px]">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <img src={logo} alt="LawAngels" className="h-12 w-16" />
+          <a href="/" className="flex items-center ">
+          <img src={logo} alt="logo" className='w-14' />
+          <img src={logotext} alt="logo" className='w-[93px] h-[20px] mt-2 -mx-2' />
           </a>
 
           {/* Desktop Navigation */}
