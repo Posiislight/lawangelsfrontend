@@ -16,38 +16,54 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex gap-x-8">
-            <li className="relative group ">
+            {/* About Us Dropdown */}
+            <li className="relative group">
               <a href="/about-us" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">About Us</a>
-                <div className='absolute flex flex-row gap-20 top-[40px] px-10 -left-80 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4 min-w-[600px] '>
-                  <div className='flex flex-col py-2 space-y-2'>
-                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>About Us</p>
-                    <a href="/about-us/mission" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Our Mission</a>
-                    <a href="/about-us/how-we-support" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How We Support</a>
-                    <a href="/about-us/testimonials" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Testimonials & reviews</a>
-                  </div>
-                  <div className='flex flex-col py-2 space-y-2'>
-                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>Path to Qualification</p>
-                    <a href="/path-to-qualification/sqe-route" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">How to qualify as a solicitor via the SQE Route</a>
-                    <a href="/path-to-qualification/assessment-dates" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Assessment time & key dates for SQE Assessment 2026</a>
-                    <a href="/path-to-qualification/registration" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Registering after you pass and admission </a>
-                    <a href="/path-to-qualification/overseas-pathways" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Overseas lawyer pathways and exemptions </a>
-                  </div>
-                  <div className='flex flex-col py-2 space-y-2'>
-                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2'>Prep Tools</p>
-                    <a href="/prep-tools/pricing" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Pricing & features</a>
-                    <a href="/prep-tools/sample-mcqs" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Sample MCQs</a>
-                  </div>
-                  <div className='flex flex-col py-2 space-y-2'>
-                    <p className='text-base text-[#1A1D3E] font-semibold whitespace-nowrap pl-2 gap-3'>Get in Touch </p>
-                    <a href="/contact/call-us" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-2 pl-2">Call us</a>
-                    <a href="/contact/support" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Email support </a>
-                    <a href="/contact/press" className="text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap py-1 pl-2">Press and collaborations</a>
-                  </div>
+              <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
+                <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
+                  <a href="/about-us/mission" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Our Mission</a>
+                  <a href="/about-us/how-we-support" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">How We Support</a>
+                  <a href="/about-us/testimonials" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Testimonials & reviews</a>
                 </div>
-              </li>
-            <li><a href="/blog" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a></li>
-            <li><a href="/pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Prep Tools</a></li>
-            <li><a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Get in Touch</a></li>
+              </div>
+            </li>
+
+            {/* Blog Dropdown with Path to Qualification as subheading */}
+            <li className="relative group">
+              <a href="/blog" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a>
+              <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
+                <div className='flex flex-col py-2 space-y-2 min-w-[350px]'>
+                  <p className='text-base text-[#1A1D3E] font-semibold px-2'>Path to Qualification</p>
+                  <a href="/path-to-qualification/sqe-route" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded ml-2">How to qualify via the SQE Route</a>
+                  <a href="/path-to-qualification/assessment-dates" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded ml-2">Assessment Dates for SQE 2026</a>
+                  <a href="/path-to-qualification/registration" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded ml-2">Registering & Admission</a>
+                  <a href="/path-to-qualification/overseas-pathways" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded ml-2">Overseas Lawyer Pathways</a>
+                </div>
+              </div>
+            </li>
+
+            {/* Prep Tools Dropdown */}
+            <li className="relative group">
+              <a href="/pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Prep Tools</a>
+              <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
+                <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
+                  <a href="/prep-tools/pricing" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Pricing & features</a>
+                  <a href="/prep-tools/sample-mcqs" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Sample MCQs</a>
+                </div>
+              </div>
+            </li>
+
+            {/* Get in Touch Dropdown */}
+            <li className="relative group">
+              <a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Get in Touch</a>
+              <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
+                <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
+                  <a href="/contact/call-us" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Call us</a>
+                  <a href="/contact/support" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Email support</a>
+                  <a href="/contact/press" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Press and collaborations</a>
+                </div>
+              </div>
+            </li>
           </ul>
 
           {/* Desktop Buttons */}
