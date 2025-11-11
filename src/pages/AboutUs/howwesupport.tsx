@@ -1,4 +1,4 @@
-
+import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
@@ -21,6 +21,20 @@ const testimonials = [
 ];
 
 export default function PathToQualification(){
+  const [openSections, setOpenSections] = useState({
+    tailored: true,
+    realistic: false,
+    expert: false,
+    affordable: false,
+  })
+
+  const toggleSection = (section: keyof typeof openSections) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
   return (
     <>
       <div className='w-full font-worksans mx-auto md:min-h-screen'>
@@ -51,31 +65,107 @@ export default function PathToQualification(){
 
           <div className='flex max-w-[1200px] mx-auto mt-10 mb-20 items-start gap-8'>
             <div className='w-9/12'>
-              <section className='mb-8 border-b-2 border-orange-500 pb-16'>
-                <h3 className='text-2xl font-medium mb-3'>Tailored Study Plans</h3>
-                <p className='text-base text-gray-700'>We create custom study schedules for your background; law grad, non-lawyer, or overseas professional. Our plans cover SQE1’s broad syllabus (contracts, torts, ethics) fitting full-time or part-time study.</p>
-              </section>
-              <section className='mb-8 border-b-2 border-orange-500 pb-16'>
-                <h3 className='text-2xl font-medium mb-3'>Realistic Mock Exams</h3>
-                <p className='text-base text-gray-700'>Our SQE1 multiple-choice questions and full-length mocks mimic the real exam, helping you master time management. AI-driven feedback pinpoints weaknesses like ethics or trusts. Join for unlimited mocks to boost confidence and pass rates.</p>
-              </section>
-              <section className='mb-8 border-b-2 border-orange-500 pb-16'>
-                <h3 className='text-2xl font-medium mb-3'>Expert Resources</h3>
-                <p className='text-sm text-gray-700'>Access concise video tutorials and flashcards for tricky topics. Our materials break down complex concepts, ensuring you apply knowledge practically, as SQE1 demands. Subscribe for tutorials and practice questions to stay exam-ready</p>
-              </section>
-              <section className='mb-8 border-b-2 border-orange-500 pb-16'>
-                <h3 className='text-2xl font-medium mb-3'>Affordable Prep & Funding</h3>
-                <p className='text-sm text-gray-700'>SQE1 costs (~£1,934) and prep (£1,500-£5,000) add up, but we keep it budget-friendly.</p>
-              </section>
+              <div className='mb-8 bg-white rounded-lg border border-gray-300'>
+                <button
+                  onClick={() => toggleSection('tailored')}
+                  className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                >
+                  <div className='flex items-center justify-between'>
+                    <h3 className='text-2xl font-bold'>Tailored Study Plans</h3>
+                    <span className='text-2xl font-bold text-gray-600 ml-4'>
+                      {openSections.tailored ? '−' : '+'}
+                    </span>
+                  </div>
+                  <p className='text-base text-gray-700 mt-2'>
+                    Custom study schedules for your background: law grad, non-lawyer, or overseas professional.
+                  </p>
+                </button>
+                {openSections.tailored && (
+                  <div className='p-4 pt-0'>
+                    <p className='text-base text-gray-700 mt-4'>
+                      We create custom study schedules for your background; law grad, non-lawyer, or overseas professional. Our plans cover SQE1's broad syllabus (contracts, torts, ethics) fitting full-time or part-time study.
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className='mb-8 bg-white rounded-lg border border-gray-300'>
+                <button
+                  onClick={() => toggleSection('realistic')}
+                  className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                >
+                  <div className='flex items-center justify-between'>
+                    <h3 className='text-2xl font-bold'>Realistic Mock Exams</h3>
+                    <span className='text-2xl font-bold text-gray-600 ml-4'>
+                      {openSections.realistic ? '−' : '+'}
+                    </span>
+                  </div>
+                  <p className='text-base text-gray-700 mt-2'>
+                    SQE1 multiple-choice questions and full-length mocks that mimic the real exam.
+                  </p>
+                </button>
+                {openSections.realistic && (
+                  <div className='p-4 pt-0'>
+                    <p className='text-base text-gray-700 mt-4'>
+                      Our SQE1 multiple-choice questions and full-length mocks mimic the real exam, helping you master time management. AI-driven feedback pinpoints weaknesses like ethics or trusts. Join for unlimited mocks to boost confidence and pass rates.
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className='mb-8 bg-white rounded-lg border border-gray-300'>
+                <button
+                  onClick={() => toggleSection('expert')}
+                  className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                >
+                  <div className='flex items-center justify-between'>
+                    <h3 className='text-2xl font-bold'>Expert Resources</h3>
+                    <span className='text-2xl font-bold text-gray-600 ml-4'>
+                      {openSections.expert ? '−' : '+'}
+                    </span>
+                  </div>
+                  <p className='text-base text-gray-700 mt-2'>
+                    Video tutorials and flashcards for tricky topics with practical application.
+                  </p>
+                </button>
+                {openSections.expert && (
+                  <div className='p-4 pt-0'>
+                    <p className='text-base text-gray-700 mt-4'>
+                      Access concise video tutorials and flashcards for tricky topics. Our materials break down complex concepts, ensuring you apply knowledge practically, as SQE1 demands. Subscribe for tutorials and practice questions to stay exam-ready
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className='mb-8 bg-white rounded-lg border border-gray-300'>
+                <button
+                  onClick={() => toggleSection('affordable')}
+                  className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                >
+                  <div className='flex items-center justify-between'>
+                    <h3 className='text-2xl font-bold'>Affordable Prep & Funding</h3>
+                    <span className='text-2xl font-bold text-gray-600 ml-4'>
+                      {openSections.affordable ? '−' : '+'}
+                    </span>
+                  </div>
+                  <p className='text-base text-gray-700 mt-2'>
+                    Budget-friendly SQE1 preparation resources and support.
+                  </p>
+                </button>
+                {openSections.affordable && (
+                  <div className='p-4 pt-0'>
+                    <p className='text-base text-gray-700 mt-4'>
+                      SQE1 costs (~£1,934) and prep (£1,500-£5,000) add up, but we keep it budget-friendly.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <aside className='w-3/12 bg-white rounded-2xl border border-orange-500 shadow-lg p-6 flex flex-col'>
+            <aside className='w-3/12 bg-white rounded-2xl border border-[#0089FF] shadow-lg p-6 flex flex-col'>
               <div className='w-full mb-5 overflow-hidden rounded-lg'>
                 <img src='#' alt='visual' className='w-full h-40 object-cover' />
               </div>
               <div className='text-sm text-gray-700 mb-5'>Subscribe for study planners, sample MCQs and exam tips.</div>
               <div className='w-full'>
-                <button className='w-full bg-orange-500 text-white rounded-lg py-2'>Subscribe</button>
+                <button className='w-full bg-[#0089FF] text-white rounded-lg py-2'>Subscribe</button>
               </div>
             </aside>
           </div>

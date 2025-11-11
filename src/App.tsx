@@ -3,6 +3,9 @@ import Home from './pages/Home'
 import Mission from './pages/AboutUs/Mission'
 import Howwesupport from './pages/AboutUs/howwesupport'
 import PathToQualification from './pages/Path to Qualification/Pathtoqualify'
+import AssessmentDates from './pages/Path to Qualification/AssessmentDates'
+import Registration from './pages/Path to Qualification/Registration'
+import OverseasPathways from './pages/Path to Qualification/OverseasPathways'
 
 function App() {
   return (
@@ -20,9 +23,9 @@ function App() {
       {/* Path to Qualification Section */}
       <Route path="/path-to-qualification">
         <Route path="sqe-route" element={<PathToQualification />} />
-        <Route path="assessment-dates" element={<PathToQualification />} />
-        <Route path="registration" element={<PathToQualification />} />
-        <Route path="overseas-pathways" element={<PathToQualification />} />
+        <Route path="assessment-dates" element={<AssessmentDates />} />
+        <Route path="registration" element={<Registration />} />
+        <Route path="overseas-pathways" element={<OverseasPathways />} />
       </Route>
 
       {/* Prep Tools Section */}
