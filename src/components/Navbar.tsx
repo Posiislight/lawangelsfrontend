@@ -46,8 +46,8 @@ export default function Navbar() {
                 </div>
               </li>
             <li><a href="/blog" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a></li>
-            <li><a href="/pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Pricing</a></li>
-            <li><a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Contact</a></li>
+            <li><a href="/pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Prep Tools</a></li>
+            <li><a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Get in Touch</a></li>
           </ul>
 
           {/* Desktop Buttons */}
