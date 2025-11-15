@@ -52,7 +52,7 @@ export default function PathToQualification(){
 </svg>
 
             </div>
-            <div className='absolute left-7 bottom-11 font-[500] text-white text-[40px]'>How We Support Your SQE1 Journey</div>
+            <div className='absolute left-7 bottom-11 font-[500] text-white text-[40px] font-crimson'>How We Support Your SQE1 Journey</div>
           </div>
 
           <div className='max-w-[1000px] mx-auto mt-10 text-lg'>
@@ -71,7 +71,7 @@ export default function PathToQualification(){
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Tailored Study Plans</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Tailored Study Plans</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.tailored ? '−' : '+'}
                     </span>
@@ -94,7 +94,7 @@ export default function PathToQualification(){
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Realistic Mock Exams</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Realistic Mock Exams</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.realistic ? '−' : '+'}
                     </span>
@@ -117,7 +117,7 @@ export default function PathToQualification(){
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Expert Resources</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Expert Resources</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.expert ? '−' : '+'}
                     </span>
@@ -140,7 +140,7 @@ export default function PathToQualification(){
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Affordable Prep & Funding</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Affordable Prep & Funding</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.affordable ? '−' : '+'}
                     </span>

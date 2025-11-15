@@ -21,7 +21,7 @@ export default function Footer() {
           {/* Overlay text */}
           <div className="absolute inset-0 flex items-center justify-center lg:justify-end lg:items-start px-6 pt-[130px]">
             <div className="max-w-md text-center lg:text-right lg:mt-20 lg:mr-40">
-              <span className="block font-medium text-[54px] sm:text-3xl lg:text-4xl text-[#2B3443] leading-tight">
+              <span className="block font-medium text-[54px] sm:text-3xl lg:text-4xl text-[#2B3443] leading-tight font-crimson">
                 Ready to Start Your
                 <span className="block">Legal Career?</span>
               </span>

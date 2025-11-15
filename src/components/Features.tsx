@@ -30,8 +30,8 @@ export default function Features() {
                 {/* Centered heading */}
                 <div className="w-full flex justify-center">
                     <div className="max-w-3xl px-2 text-center">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-worksans text-gray-900 mb-4 leading-tight">Everything You Need to Pass the SQE</h2>
-                        <p className="text-xl sm:text-2xl md:text-3xl text-sky-400 mb-8 font-medium">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-crimson text-gray-900 mb-4 leading-tight">Everything You Need to Pass the SQE</h2>
+                        <p className="text-xl sm:text-2xl md:text-3xl text-sky-400 mb-8 font-medium font-crimson">
                             All in One Place
                         </p>
                     </div>

@@ -27,7 +27,7 @@ export default function Hero() {
                     <div className=" max-w-5xl mx-auto text-center bottom-10">
                         {/* Main Heading */}
                         <h1
-  className="font-worksans font-semibold text-[50px] leading-[100%] tracking-[-0.06em] text-center text-white mx-auto"
+  className="font-crimson font-semibold text-[50px] leading-[100%] tracking-[-0.06em] text-center text-white mx-auto"
 >
   Your Journey to SQE Success
   <br />

@@ -35,7 +35,7 @@ export default function OverseasPathways() {
 <path d="M117.689 9.78197C123.922 -3.15436 142.721 -1.96727 147.277 11.6503L179.432 107.764C179.899 109.159 180.556 110.483 181.384 111.698L238.462 195.447C246.549 207.313 236.121 223 222.05 220.137L122.736 199.927C121.294 199.634 119.819 199.541 118.352 199.65L17.2848 207.207C2.96532 208.277 -5.40624 191.403 4.10899 180.649L71.2679 104.745C72.2427 103.643 73.0608 102.412 73.6993 101.087L117.689 9.78197Z" fill="white" fill-opacity="0.66"/>
 </svg>
             </div>
-            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px]'>Overseas Lawyer SQE2 Exemptions</div>
+            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px] font-crimson'>Overseas Lawyer SQE2 Exemptions</div>
           </div>
 
           <div className='text-lg max-w-[1000px] mx-auto'>
@@ -57,7 +57,7 @@ export default function OverseasPathways() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Understanding SQE2 and the Exemption Opportunity</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Understanding SQE2 and the Exemption Opportunity</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.understanding ? '−' : '+'}
                     </span>
@@ -90,13 +90,13 @@ export default function OverseasPathways() {
               </div>
 
               {/* Eligibility Accordion */}
-              <div className='mb-8 bg-white rounded-lg border border-gray-300'>
+              <div className='mb-8 bg-white rounded-lg border border-gray-300 '>
                 <button
                   onClick={() => toggleSection('eligibility')}
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Who Qualifies for an SQE2 Exemption?</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Who Qualifies for an SQE2 Exemption?</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.eligibility ? '−' : '+'}
                     </span>
@@ -136,7 +136,7 @@ export default function OverseasPathways() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>How to Apply for an SQE2 Exemption</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>How to Apply for an SQE2 Exemption</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.application ? '−' : '+'}
                     </span>
@@ -187,7 +187,7 @@ export default function OverseasPathways() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Costs and Funding for Exemption Applications</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Costs and Funding for Exemption Applications</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.costs ? '−' : '+'}
                     </span>
@@ -218,7 +218,7 @@ export default function OverseasPathways() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Complementary Steps to Qualification</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Complementary Steps to Qualification</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.complementary ? '−' : '+'}
                     </span>

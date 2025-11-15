@@ -7,10 +7,10 @@ export default function FormulaSteps() {
     <section className="bg-[#FFF7F0] py-14 md:py-20 font-worksans md:mx-2 px-6 ">
       {/* Heading */}
       <div className="max-w-5xl mx-auto px-0 text-left lg:ml-52">
-        <h2 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight">
+        <h2 className="text-3xl md:text-5xl font-semibold text-slate-800 leading-tight font-crimson">
           Our Formula to Passing in
         </h2>
-        <p className="text-3xl md:text-5xl font-semibold text-orange-500 mt-1">Flying Colors</p>
+        <p className="text-3xl md:text-5xl font-semibold text-orange-500 mt-1 font-crimson">Flying Colors</p>
         <p className="mt-6 max-w-3xl text-slate-700 text-base md:text-lg ">
           Dive into our learning modules crafted by seasoned solicitors. Complex rules are transformed into
           clear, concise breakdowns with animated explainers and bite-sized video lessons.
@@ -55,11 +55,11 @@ export default function FormulaSteps() {
               </svg>
             </div>
           </div>
-
+          
           {/* Steps copy (unchanged) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
             <div>
-              <h3 className="text-2xl md:text-3xl font-semibold text-slate-800">Master</h3>
+              <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 font-crimson">Master</h3>
               <p className="mt-4 text-slate-700">
                 Dive into our learning modules crafted by seasoned solicitors. Complex rules are transformed into clear,
                 concise breakdowns with animated explainers and bite-sized video lessons.
@@ -67,7 +67,7 @@ export default function FormulaSteps() {
             </div>
 
             <div>
-              <h3 className="text-2xl md:text-3xl font-semibold text-slate-800">Memorize</h3>
+              <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 font-crimson">Memorize</h3>
               <p className="mt-4 text-slate-700">
                 Solidify your understanding with flashcards that target the essentials, and never let them slip away.
                 Break out visually structured mind maps that connect legal principles across topics for full clarity and
@@ -76,7 +76,7 @@ export default function FormulaSteps() {
             </div>
 
             <div>
-              <h3 className="text-2xl md:text-3xl font-semibold text-slate-800">Maximize</h3>
+              <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 font-crimson">Maximize</h3>
               <p className="mt-4 text-slate-700">
                 Put your knowledge to the test with thousands of SQE-style MCQs and simulated exam experiences. Track your
                 progress against peers and build the confidence to ace the exam.

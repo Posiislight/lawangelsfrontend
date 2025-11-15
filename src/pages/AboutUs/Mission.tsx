@@ -33,7 +33,7 @@ export default function About() {
         />
       </svg>
                 </div>
-                <div className='absolute left-7 bottom-11 font-[500] text-white text-[40px]'>Our Mission & Values</div>
+                <div className='absolute left-7 bottom-11 font-[500] text-white text-[40px] font-crimson'>Our Mission & Values</div>
                 
             </div>
             <div className='text-lg  max-w-[1000px] mx-auto'>
@@ -106,7 +106,7 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
                 <div className="text-sm text-white mb-2">
                   About Us {'>'}
                 </div>
-                <h2 className="text-xl font-semibold text-white">How we support your SQE1 Journey</h2>
+                <h2 className="text-xl font-semibold text-white font-crimson">How we support your SQE1 Journey</h2>
               </div>
 
               <div className="max-w-[720px] mx-auto mt-6 text-sm">

@@ -22,7 +22,7 @@ export default function Testimonials() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center">
           <div className="text-sm text-gray-500">Our Testimonials</div>
-          <h2 className="mt-2 text-3xl md:text-5xl font-normal text-slate-800 leading-tight">
+          <h2 className="mt-2 text-3xl md:text-5xl font-normal text-slate-800 leading-tight font-crimson">
             Our users love the
             <br />
             results they get.

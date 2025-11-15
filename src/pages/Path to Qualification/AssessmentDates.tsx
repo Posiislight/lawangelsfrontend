@@ -34,7 +34,7 @@ export default function AssessmentDates() {
 <path d="M117.689 9.78197C123.922 -3.15436 142.721 -1.96727 147.277 11.6503L179.432 107.764C179.899 109.159 180.556 110.483 181.384 111.698L238.462 195.447C246.549 207.313 236.121 223 222.05 220.137L122.736 199.927C121.294 199.634 119.819 199.541 118.352 199.65L17.2848 207.207C2.96532 208.277 -5.40624 191.403 4.10899 180.649L71.2679 104.745C72.2427 103.643 73.0608 102.412 73.6993 101.087L117.689 9.78197Z" fill="white" fill-opacity="0.66"/>
 </svg>
             </div>
-            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px]'>Assessment Timeline & Key Dates for SQE 2026</div>
+            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px] font-crimson'>Assessment Timeline & Key Dates for SQE 2026</div>
           </div>
 
           <div className='text-lg max-w-[1000px] mx-auto'>
@@ -64,7 +64,7 @@ export default function AssessmentDates() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>January 2026 SQE1 Sitting</h3>
+                    <h3 className='text-2xl font-normal'>January 2026 SQE1 Sitting</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.january ? '−' : '+'}
                     </span>
@@ -101,7 +101,7 @@ export default function AssessmentDates() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>July 2026 SQE1 Sitting</h3>
+                    <h3 className='text-2xl font-normal'>July 2026 SQE1 Sitting</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.july ? '−' : '+'}
                     </span>
@@ -138,7 +138,7 @@ export default function AssessmentDates() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>General SQE1 Tips</h3>
+                    <h3 className='text-2xl font-normal'>General SQE1 Tips</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.tips ? '−' : '+'}
                     </span>
@@ -172,7 +172,7 @@ export default function AssessmentDates() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Key Milestones Beyond Assessments</h3>
+                    <h3 className='text-2xl font-normal'>Key Milestones Beyond Assessments</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSections.milestones ? '−' : '+'}
                     </span>

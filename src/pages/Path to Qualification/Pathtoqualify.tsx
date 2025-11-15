@@ -40,7 +40,7 @@ export default function Pathtoqualify() {
 </svg>
 
             </div>
-            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px]'>How To Qualify as a solicitor via the SQE route</div>
+            <div className='absolute left-4 bottom-10 font-[500] text-white text-[40px] font-crimson'>How To Qualify as a solicitor via the SQE route</div>
           </div>
 
           <div className='text-lg max-w-[1000px] mx-auto'>
@@ -62,7 +62,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Step 1: Meet the Eligibility Requirements</h3>
+                    <h3 className='text-2xl font-semibold font-crimson'>Step 1: Meet the Eligibility Requirements</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step1 ? '−' : '+'}
                     </span>
@@ -134,7 +134,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Step 3: Complete Qualifying Work Experience (QWE)</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Step 3: Complete Qualifying Work Experience (QWE)</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step3 ? '−' : '+'}
                     </span>
@@ -171,7 +171,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Step 4: Pass SQE2 - Showcase Your Practical Skills</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Step 4: Pass SQE2 - Showcase Your Practical Skills</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step4 ? '−' : '+'}
                     </span>
@@ -196,7 +196,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Step 5: Pass the Character and Suitability Check</h3>
+                    <h3 className='text-2xl font-normal font-crimson'>Step 5: Pass the Character and Suitability Check</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step5 ? '−' : '+'}
                     </span>
