@@ -157,7 +157,7 @@ export default function AssessmentDates() {
                     </p>
                     <ul className='text-base text-gray-700 mt-2 ml-6 space-y-2'>
                       <li>• Book as soon as the window opens to secure your preferred date and location</li>
-                      <li>• Start prep at least 3 months before your target sitting</li>
+                      <li>• Start prep at least 6 months before your target sitting</li>
                       <li>• Use our Law Angels mocks to practice under exam conditions</li>
                       <li>• Plan your QWE around exam dates for optimal balance</li>
                     </ul>

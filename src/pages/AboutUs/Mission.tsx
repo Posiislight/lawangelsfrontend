@@ -82,7 +82,7 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
       />
     </div>
 
-    {/* Middle: description — let this grow */}
+    {/* Middle: description - let this grow */}
     <div className="text-sm font-normal text-gray-700 mb-5">
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti saepe,
       sapiente maiores numquam consequuntur inventore molestias tempore sunt nesciunt.
@@ -111,7 +111,7 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
 
               <div className="max-w-[720px] mx-auto mt-6 text-sm">
                 <p>
-                  At LAWANGELS, we’re more than a platform for Solicitors Qualifying Examination (SQE) preparation — we’re your partner in turning your dream of becoming a solicitor in England and Wales.
+                  At LAWANGELS, we're more than a platform for Solicitors Qualifying Examination (SQE) preparation - we're your partner in turning your dream of becoming a solicitor in England and Wales.
                 </p>
               </div>
 

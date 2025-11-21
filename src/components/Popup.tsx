@@ -43,8 +43,8 @@ export default function Popup ({open , onClose}:PopupProps) {
 
                 {/* Red Badge for Date */}
                 <div className="absolute top-12 right-0 w-[174px] h-[92px] bg-[#FE5252] flex flex-col items-center justify-center gap-2 border-4 border-dashed border-[#E3E2E2]">
-                    <p className="font-crimson font-semibold text-lg leading-[27px] text-white text-center">Expires</p>
-                    <p className="font-dmSans font-medium text-base leading-[24px] text-white text-center">4th June 2026</p>
+                
+                    <p className="font-dmSans font-medium text-base leading-[24px] text-white text-center">Limited Time Offer</p>
                 </div>
 
                 {/* Close Button */}
@@ -73,7 +73,7 @@ export default function Popup ({open , onClose}:PopupProps) {
 
                             {/* Subtitle */}
                             <p className="w-full font-dmSans font-normal text-2xl leading-[31px] text-center text-white">
-                                Sign up today and enjoy 50% off your first subscription
+                                Sign up today and enjoy 50% off 
                             </p>
                         </div>
 

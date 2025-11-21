@@ -3,6 +3,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Scroll Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: slideUp 0.7s ease-out forwards;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif,'Work Sans';
   line-height: 1.5;

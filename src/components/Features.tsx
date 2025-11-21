@@ -40,7 +40,7 @@ export default function Features() {
                 {/* Features in rows (grid) */}
                 <div className="mx-auto grid grid-cols-1 md:grid-cols-4 gap-11">
                     {features.map((feature, index) => (
-                        <div key={index} className="flex flex-row items-start gap-4">
+                        <div key={index} className="flex flex-row items-start gap-4 p-4 rounded-lg transition-all duration-300 hover:bg-white hover:shadow-lg hover:scale-105 cursor-pointer">
                             
                             <div>
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -58,11 +58,11 @@ export default function Features() {
             </div>
 
             {/* Full-width mockup image */}
-            <div className="mt-12 relative w-screen left-1/2 -translate-x-1/2">
+            <div className="mt-12 relative w-screen left-1/2 -translate-x-1/2 overflow-hidden">
                 <img
                     src={featureimg}
                     alt="Platform preview"
-                    className="w-screen h-3/6 object-cover"
+                    className="w-screen h-3/6 object-cover transition-transform duration-500 hover:scale-110 cursor-pointer"
                 />
             </div>
         </section>

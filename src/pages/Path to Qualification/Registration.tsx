@@ -39,7 +39,7 @@ export default function Registration() {
 
           <div className='text-lg max-w-[1000px] mx-auto'>
             <p className='mt-10'>
-              Congratulations on conquering the Solicitors Qualifying Examination (SQE). Passing SQE1 and SQE2 is a huge milestone, but you're not quite a solicitor yet. The final steps—registering with the Solicitors Regulation Authority (SRA) and securing admission—require careful attention to detail to ensure a smooth transition into your legal career.
+              Congratulations on conquering the Solicitors Qualifying Examination (SQE). Passing SQE1 and SQE2 is a huge milestone, but you're not quite a solicitor yet. The final steps - registering with the Solicitors Regulation Authority (SRA) and securing admission - require careful attention to detail to ensure a smooth transition into your legal career.
             </p>
             <p className='mt-10'>
               These steps involve confirming your Qualifying Work Experience (QWE), passing the SRA's character and suitability check, and applying for admission. At LAWANGELS, we're here to guide you through this process with expert tips, checklists, and exclusive resources to streamline your journey.
@@ -182,7 +182,7 @@ export default function Registration() {
                 {openSteps.costs && (
                   <div className='p-4 pt-0'>
                     <p className='text-base text-gray-700 mt-4'>
-                      <b>QWE Confirmation:</b> Free, but ensure supervisors are accessible—delays can occur if they're unavailable.
+                      <b>QWE Confirmation:</b> Free, but ensure supervisors are accessible - delays can occur if they're unavailable.
                     </p>
                     <p className='text-base text-gray-700 mt-4'>
                       <b>Character and Suitability:</b> No separate fee, but complex cases may need legal advice.

@@ -93,7 +93,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-bold'>Step 2: Pass SQE1 – Master Your Legal Knowledge</h3>
+                    <h3 className='text-2xl font-semibold font-crimson'>Step 2: Pass SQE1 – Master Your Legal Knowledge</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step2 ? '−' : '+'}
                     </span>
@@ -104,9 +104,6 @@ export default function Pathtoqualify() {
                 </button>
                 {openSteps.step2 && (
                   <div className='p-4 pt-0'>
-                    <p className='text-base text-gray-700 mt-4'>
-                      SQE1 tests your "functioning legal knowledge" with multiple-choice questions (MCQs) that mimic real-world legal scenarios.
-                    </p>
                     <p className='text-base text-gray-700 mt-4'>
                       <b>What to Expect:</b> Two days, 360 MCQs (180 per day), covering 
                       topics like contract law, tort, ethics, and business law. 
@@ -134,7 +131,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-normal font-crimson'>Step 3: Complete Qualifying Work Experience (QWE)</h3>
+                    <h3 className='text-2xl font-semibold font-crimson'>Step 3: Complete Qualifying Work Experience (QWE)</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step3 ? '−' : '+'}
                     </span>
@@ -147,13 +144,6 @@ export default function Pathtoqualify() {
                   <div className='p-4 pt-0'>
                     <p className='text-base text-gray-700 mt-4'>
                       Say goodbye to training contracts. With QWE, you can gain two years of experience across up to four organizations and shape your own path.
-                    </p>
-                    <p className='text-base text-gray-700 mt-4'>
-                        <b>What Qualifies?:</b> Any role offering "real-life" legal work, 
-                        like paralegal jobs, law clinic volunteering, or 
-                        in-house legal tasks (even in non-legal companies). 
-                        It must develop SRA skills, like client communication or 
-                        at the end, no pre-approval needed
                     </p>
                     <p className='text-base text-gray-700 mt-4'>
                         <b>Flexibility:</b> Mix and match roles are allowed. For example, 
@@ -171,7 +161,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-normal font-crimson'>Step 4: Pass SQE2 - Showcase Your Practical Skills</h3>
+                    <h3 className='text-2xl font-semibold font-crimson'>Step 4: Pass SQE2 - Showcase Your Practical Skills</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step4 ? '−' : '+'}
                     </span>
@@ -196,7 +186,7 @@ export default function Pathtoqualify() {
                   className='w-full text-left p-4 cursor-pointer bg-white rounded-t-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
                 >
                   <div className='flex items-center justify-between'>
-                    <h3 className='text-2xl font-normal font-crimson'>Step 5: Pass the Character and Suitability Check</h3>
+                    <h3 className='text-2xl font-semibold font-crimson'>Step 5: Pass the Character and Suitability Check</h3>
                     <span className='text-2xl font-bold text-gray-600 ml-4'>
                       {openSteps.step5 ? '−' : '+'}
                     </span>

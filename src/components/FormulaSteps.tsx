@@ -25,9 +25,9 @@ export default function FormulaSteps() {
         <div className="hidden md:block">
           {/* Image row (unchanged) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <img src={learnimage} alt="Learn" className="w-full h-56 md:h-64 object-cover rounded-2xl shadow" />
-            <img src={reinforceimage} alt="Reinforce" className="w-full h-56 md:h-64 object-cover rounded-2xl shadow" />
-            <img src={practiceimage} alt="Practice" className="w-full h-56 md:h-64 object-cover rounded-2xl shadow" />
+            <img src={learnimage} alt="Learn" className="w-full h-56 md:h-64 object-cover rounded-2xl shadow transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
+            <img src={reinforceimage} alt="Reinforce" className="w-full h-56 md:h-64 object-cover rounded-2xl shadow transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
+            <img src={practiceimage} alt="Practice" className="w-full h-56 md:h-64 object-cover rounded-2xl shadow transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
 
           {/* Horizontal connector + markers */}
@@ -105,7 +105,7 @@ export default function FormulaSteps() {
             </p>
 
             {/* image AFTER the step copy */}
-            <img src={learnimage} alt="Learn" className="w-full h-56 object-cover rounded-2xl shadow mt-4" />
+            <img src={learnimage} alt="Learn" className="w-full h-56 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
 
           {/* Step 2 */}
@@ -120,7 +120,7 @@ export default function FormulaSteps() {
             </p>
 
             {/* image AFTER the step copy */}
-            <img src={reinforceimage} alt="Reinforce" className="w-full h-56 object-cover rounded-2xl shadow mt-4" />
+            <img src={reinforceimage} alt="Reinforce" className="w-full h-56 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
 
           {/* Step 3 */}
@@ -134,7 +134,7 @@ export default function FormulaSteps() {
             </p>
 
             {/* image AFTER the step copy */}
-            <img src={practiceimage} alt="Practice" className="w-full h-56 object-cover rounded-2xl shadow mt-4" />
+            <img src={practiceimage} alt="Practice" className="w-full h-56 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
         </div>
       </div>

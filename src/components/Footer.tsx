@@ -62,17 +62,17 @@ export default function Footer() {
             <div>
               <h4 className="text-blue-300 font-semibold mb-4 text-lg">Path to Qualification</h4>
               <ul className="space-y-3 text-sm ">
-                <li className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">
-                  How to qualify as a solicitor via the SQE Route
+                <li>
+                  <a href="/path-to-qualification/sqe-route" className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">How to qualify as a solicitor via the SQE Route</a>
                 </li>
-                <li className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">
-                  Assessment timeline & key dates for SQE Assessment 2026
+                <li>
+                  <a href="/path-to-qualification/assessment-dates" className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">Assessment timeline & key dates for SQE Assessment 2026</a>
                 </li>
-                <li className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">
-                  Registering after you pass and admission
+                <li>
+                  <a href="/path-to-qualification/registration" className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">Registering after you pass and admission</a>
                 </li>
-                <li className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">
-                  Overseas lawyer pathways and exemptions
+                <li>
+                  <a href="/path-to-qualification/overseas-pathways" className="text-gray-300 hover:text-white cursor-pointer break-normal leading-snug">Overseas lawyer pathways and exemptions</a>
                 </li>
               </ul>
             </div>
@@ -81,8 +81,12 @@ export default function Footer() {
             <div>
               <h4 className="text-blue-300 font-semibold mb-4 text-lg">Prep Tools</h4>
               <ul className="space-y-3 text-sm">
-                <li className="text-gray-300 hover:text-white cursor-pointer">Pricing & features</li>
-                <li className="text-gray-300 hover:text-white cursor-pointer">Sample MCQs</li>
+                <li>
+                  <a href="/prep-tools/pricing" className="text-gray-300 hover:text-white cursor-pointer">Pricing & features</a>
+                </li>
+                <li>
+                  <a href="/prep-tools/sample-mcqs" className="text-gray-300 hover:text-white cursor-pointer">Sample MCQs</a>
+                </li>
               </ul>
             </div>
 
@@ -90,9 +94,15 @@ export default function Footer() {
             <div>
               <h4 className="text-blue-300 font-semibold mb-4 text-lg">About Us</h4>
               <ul className="space-y-3 text-sm">
-                <li className="text-gray-300 hover:text-white cursor-pointer">Our mission & values</li>
-                <li className="text-gray-300 hover:text-white cursor-pointer">How we support you</li>
-                <li className="text-gray-300 hover:text-white cursor-pointer">Testimonials & reviews</li>
+                <li>
+                  <a href="/about-us/mission" className="text-gray-300 hover:text-white cursor-pointer">Our mission & values</a>
+                </li>
+                <li>
+                  <a href="/about-us/how-we-support" className="text-gray-300 hover:text-white cursor-pointer">How we support you</a>
+                </li>
+                <li>
+                  <a href="/about-us/testimonials" className="text-gray-300 hover:text-white cursor-pointer">Testimonials & reviews</a>
+                </li>
               </ul>
             </div>
 
@@ -100,9 +110,15 @@ export default function Footer() {
             <div>
               <h4 className="text-blue-300 font-semibold mb-4 text-lg">Get in Touch</h4>
               <ul className="space-y-3 text-sm">
-                <li className="text-gray-300 hover:text-white cursor-pointer">Call us</li>
-                <li className="text-gray-300 hover:text-white cursor-pointer">Email support</li>
-                <li className="text-gray-300 hover:text-white cursor-pointer">Press & collaborations</li>
+                <li>
+                  <a href="/contact/call-us" className="text-gray-300 hover:text-white cursor-pointer">Call us</a>
+                </li>
+                <li>
+                  <a href="/contact/support" className="text-gray-300 hover:text-white cursor-pointer">Email support</a>
+                </li>
+                <li>
+                  <a href="/contact/press" className="text-gray-300 hover:text-white cursor-pointer">Press & collaborations</a>
+                </li>
               </ul>
             </div>
 
@@ -148,8 +164,11 @@ export default function Footer() {
 
           {/* Bottom section */}
           <div className="flex justify-between items-center text-sm text-gray-400">
-            <div>
-              Terms & condition &nbsp;&nbsp; Privacy &nbsp;&nbsp; Cookies &nbsp;&nbsp; Complaints policy
+            <div className="space-x-4">
+              <a href="/terms" className="hover:text-white text-gray-400">Terms &amp; conditions</a>
+              <a href="/privacy" className="hover:text-white text-gray-400">Privacy</a>
+              <a href="/cookies" className="hover:text-white text-gray-400">Cookies</a>
+              <a href="/complaints" className="hover:text-white text-gray-400">Complaints policy</a>
             </div>
             <div>2025 Law Angels. All right reserved.</div>
           </div>
