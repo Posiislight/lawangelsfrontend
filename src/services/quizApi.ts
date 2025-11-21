@@ -45,6 +45,7 @@ export interface ExamAttempt {
   score: number | null;
   time_spent_seconds: number | null;
   speed_reader_enabled: boolean;
+  selected_questions?: number[];
 }
 
 export interface QuestionAnswer {
@@ -154,6 +155,10 @@ class QuizApiClient {
 
   async getExamQuestions(id: number): Promise<Question[]> {
     return this.request(`/exams/${id}/questions/`);
+  }
+
+  async getAttemptQuestions(attemptId: number): Promise<Question[]> {
+    return this.request(`/exam-attempts/${attemptId}/questions/`);
   }
 
   async getExamTimingConfig(): Promise<ExamTimingConfig> {

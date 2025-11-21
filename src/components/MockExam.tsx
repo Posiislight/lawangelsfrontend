@@ -46,11 +46,15 @@ export default function MockExam() {
       try {
         setState(prev => ({ ...prev, loading: true }))
         
-        // Load exam questions
-        const questions = await quizApi.getExamQuestions(1)
-        
         // Create new attempt
+        console.log('Creating exam attempt...')
         const attempt = await quizApi.startExam(1, false)
+        console.log('Attempt created:', attempt)
+        
+        // Load the 40 randomly selected questions for this attempt
+        console.log('Fetching questions for attempt:', attempt.id)
+        const questions = await quizApi.getAttemptQuestions(attempt.id)
+        console.log('Questions loaded:', questions.length)
         
         // Load timing config
         const config = await quizApi.getExamTimingConfig()
@@ -65,6 +69,7 @@ export default function MockExam() {
           speedReaderTime: config.default_speed_reader_seconds,
         }))
       } catch (error) {
+        console.error('Error initializing exam:', error)
         setState(prev => ({
           ...prev,
           loading: false,
@@ -467,8 +472,8 @@ export default function MockExam() {
               </button>
 
               <div className="flex items-center gap-2">
-                <div className="flex gap-2">
-                  {[...Array(Math.min(3, totalQuestions))].map((_, i) => (
+                <div className="flex gap-2 flex-wrap justify-center">
+                  {[...Array(totalQuestions)].map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setState(prev => ({ ...prev, currentQuestion: i }))}
@@ -483,9 +488,6 @@ export default function MockExam() {
                       {i + 1}
                     </button>
                   ))}
-                  {totalQuestions > 3 && (
-                    <span className="text-gray-400 px-2">...</span>
-                  )}
                 </div>
               </div>
 
