@@ -1,10 +1,39 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, FileText, BookOpen, CheckCircle, Zap } from 'lucide-react'
+import { quizApi } from '../services/quizApi'
 
 export default function MockTestStart() {
   const navigate = useNavigate()
   const [speedReaderEnabled, setSpeedReaderEnabled] = useState(false)
+  const [preloadingStatus, setPreloadingStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
+  const [preloadedAttemptId, setPreloadedAttemptId] = useState<number | null>(null)
+
+  // Start preloading questions when this page loads
+  useEffect(() => {
+    const preloadQuestions = async () => {
+      try {
+        setPreloadingStatus('loading')
+        console.log('MockTestStart: Starting question preload...')
+        
+        // Create exam attempt
+        const attempt = await quizApi.startExam(1, false)
+        console.log('MockTestStart: Exam attempt created:', attempt.id)
+        setPreloadedAttemptId(attempt.id)
+        
+        // Fetch the 40 randomly selected questions
+        const questions = await quizApi.getAttemptQuestions(attempt.id)
+        console.log('MockTestStart: Questions preloaded:', questions.length)
+        
+        setPreloadingStatus('ready')
+      } catch (error) {
+        console.error('MockTestStart: Error preloading questions:', error)
+        setPreloadingStatus('error')
+      }
+    }
+
+    preloadQuestions()
+  }, [])
 
   const handleStartTest = () => {
     console.log('Starting mock test with Speed Reader:', speedReaderEnabled)
