@@ -54,6 +54,16 @@ function App() {
           />
         </Route>
 
+        {/* Mock Test Start Route - Protected */}
+        <Route
+          path="/mock-test-start"
+          element={
+            <ProtectedRoute>
+              <MockTestStart />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Standalone Mock Exam Route */}
         <Route
           path="/mock-exam"

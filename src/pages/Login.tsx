@@ -38,8 +38,8 @@ export default function Login() {
 
     try {
       await login(formData.username, formData.password)
-      // Redirect to mock exam on successful login
-      navigate('/mock-exam')
+      // Redirect to mock test start page on successful login
+      navigate('/mock-test-start')
     } catch (err) {
       // Error is handled by context
     }

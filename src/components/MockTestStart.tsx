@@ -1,12 +1,15 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, FileText, BookOpen, CheckCircle, Zap } from 'lucide-react'
 
 export default function MockTestStart() {
+  const navigate = useNavigate()
   const [speedReaderEnabled, setSpeedReaderEnabled] = useState(false)
 
   const handleStartTest = () => {
     console.log('Starting mock test with Speed Reader:', speedReaderEnabled)
-    // Navigate to test page or start test logic
+    // Navigate to mock exam page
+    navigate('/mock-exam')
   }
 
   const instructions = [
