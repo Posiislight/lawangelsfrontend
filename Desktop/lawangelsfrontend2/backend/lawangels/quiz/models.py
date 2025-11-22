@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+import random
 
 
 class Exam(models.Model):
@@ -49,7 +50,7 @@ class Question(models.Model):
         ('hard', 'Hard'),
     ]
     
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='questions')
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='questions', db_index=True)
     question_number = models.IntegerField()
     text = models.TextField()
     explanation = models.TextField(help_text='Detailed explanation of the correct answer and why')
@@ -61,6 +62,9 @@ class Question(models.Model):
     class Meta:
         ordering = ['exam', 'question_number']
         unique_together = ['exam', 'question_number']
+        indexes = [
+            models.Index(fields=['exam', 'question_number']),
+        ]
 
     def __str__(self):
         return f"{self.exam.title} - Q{self.question_number}"
@@ -68,7 +72,7 @@ class Question(models.Model):
 
 class QuestionOption(models.Model):
     """Answer options for a question"""
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='options')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='options', db_index=True)
     label = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'), ('E', 'E')])
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -76,6 +80,9 @@ class QuestionOption(models.Model):
     class Meta:
         ordering = ['question', 'label']
         unique_together = ['question', 'label']
+        indexes = [
+            models.Index(fields=['question', 'label']),
+        ]
 
     def __str__(self):
         return f"Q{self.question.question_number} - {self.label}"
@@ -89,17 +96,23 @@ class ExamAttempt(models.Model):
         ('abandoned', 'Abandoned'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exam_attempts')
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='attempts')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exam_attempts', db_index=True)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='attempts', db_index=True)
     started_at = models.DateTimeField(auto_now_add=True)
     ended_at = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_progress')
     score = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     time_spent_seconds = models.IntegerField(default=0)
     speed_reader_enabled = models.BooleanField(default=False)
+    selected_questions = models.ManyToManyField(Question, related_name='attempted_in', blank=True)
 
     class Meta:
         ordering = ['-started_at']
+        indexes = [
+            models.Index(fields=['user', '-started_at']),
+            models.Index(fields=['exam', 'status']),
+            models.Index(fields=['user', 'status']),
+        ]
 
     def __str__(self):
         return f"{self.user.username} - {self.exam.title} ({self.status})"
@@ -110,7 +123,7 @@ class ExamAttempt(models.Model):
             return None
         
         total_correct = self.answers.filter(is_correct=True).count()
-        total_questions = self.exam.questions.count()
+        total_questions = self.selected_questions.count()
         
         if total_questions == 0:
             return 0
@@ -121,8 +134,8 @@ class ExamAttempt(models.Model):
 
 class QuestionAnswer(models.Model):
     """User's answer to a question"""
-    exam_attempt = models.ForeignKey(ExamAttempt, on_delete=models.CASCADE, related_name='answers')
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    exam_attempt = models.ForeignKey(ExamAttempt, on_delete=models.CASCADE, related_name='answers', db_index=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, db_index=True)
     selected_answer = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'), ('E', 'E')])
     is_correct = models.BooleanField()
     time_spent_seconds = models.IntegerField(default=0)
@@ -131,6 +144,10 @@ class QuestionAnswer(models.Model):
     class Meta:
         ordering = ['exam_attempt', 'question__question_number']
         unique_together = ['exam_attempt', 'question']
+        indexes = [
+            models.Index(fields=['exam_attempt', 'is_correct']),
+            models.Index(fields=['question', 'is_correct']),
+        ]
 
     def __str__(self):
         return f"{self.exam_attempt.user.username} - Q{self.question.question_number}"

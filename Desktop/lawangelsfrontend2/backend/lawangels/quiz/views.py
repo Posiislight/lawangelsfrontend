@@ -6,6 +6,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db import OperationalError, transaction
 import logging
+import random
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -14,11 +16,12 @@ from .models import (
 )
 from .serializers import (
     ExamSerializer, ExamDetailSerializer, QuestionDetailSerializer,
-    ExamAttemptCreateSerializer, ExamAttemptSerializer, ExamAttemptListSerializer,
-    ExamAttemptUpdateSerializer, QuestionAnswerSerializer, ExamTimingConfigSerializer,
-    CSVUploadSerializer
+    ExamAttemptCreateSerializer, ExamAttemptSerializer, ExamAttemptLightSerializer,
+    ExamAttemptListSerializer, ExamAttemptUpdateSerializer, QuestionAnswerSerializer,
+    ExamTimingConfigSerializer, CSVUploadSerializer
 )
 from .csv_parser import CSVQuestionParser
+from logging_utils import ViewLoggingMixin, log_queryset_access
 
 
 class ExamViewSet(viewsets.ReadOnlyModelViewSet):
@@ -33,6 +36,12 @@ class ExamViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ExamSerializer
     permission_classes = []
 
+    def get_queryset(self):
+        """Log queryset access"""
+        queryset = super().get_queryset()
+        log_queryset_access(queryset, 'LIST')
+        return queryset
+
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return ExamDetailSerializer
@@ -43,6 +52,7 @@ class ExamViewSet(viewsets.ReadOnlyModelViewSet):
         """Get all questions for an exam"""
         exam = self.get_object()
         questions = exam.questions.all()
+        log_queryset_access(questions, 'LIST')
         serializer = QuestionDetailSerializer(questions, many=True)
         return Response(serializer.data)
 
@@ -180,6 +190,7 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         """Filter by exam if exam_id is provided in query params"""
         queryset = super().get_queryset()
+        log_queryset_access(queryset, 'LIST')
         exam_id = self.request.query_params.get('exam_id')
         if exam_id:
             queryset = queryset.filter(exam_id=exam_id)
@@ -201,8 +212,13 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """Return only current user's attempts"""
-        return ExamAttempt.objects.filter(user=self.request.user).prefetch_related('answers__question')
+        """Return only current user's attempts with optimized queries"""
+        queryset = ExamAttempt.objects.filter(user=self.request.user).prefetch_related(
+            'answers__question',
+            'selected_questions__options'
+        ).select_related('exam')
+        log_queryset_access(queryset, 'LIST')
+        return queryset
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -214,7 +230,10 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         return ExamAttemptSerializer
 
     def create(self, request, *args, **kwargs):
-        """Create a new exam attempt"""
+        """Create a new exam attempt with detailed timing logs"""
+        total_start = time.time()
+        logger.info(f"[TIMING] === CREATE EXAM ATTEMPT START ===")
+        
         if not request.user.is_authenticated:
             logger.warning("Unauthenticated attempt to create exam attempt")
             return Response(
@@ -227,6 +246,8 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             )
         
         try:
+            # Step 1: Validate input
+            step_start = time.time()
             serializer = self.get_serializer(data=request.data)
             if not serializer.is_valid():
                 logger.warning(f"Invalid exam attempt data: {serializer.errors}")
@@ -238,30 +259,77 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                     },
                     status=status.HTTP_400_BAD_REQUEST
                 )
+            logger.info(f"[TIMING] [1] Validation: {(time.time() - step_start)*1000:.2f}ms")
             
             exam_id = serializer.validated_data['exam_id']
             
-            # Check if user already has an incomplete attempt for this exam
+            # Step 2: Check for existing attempt
+            step_start = time.time()
             existing_attempt = ExamAttempt.objects.filter(
                 user=request.user,
                 exam_id=exam_id,
                 status__in=['in_progress']
             ).first()
+            logger.info(f"[TIMING] [2] Check existing: {(time.time() - step_start)*1000:.2f}ms")
             
             if existing_attempt:
+                # If attempt exists but has no selected questions, populate them now
+                if existing_attempt.selected_questions.count() == 0:
+                    step_start = time.time()
+                    all_questions = list(Question.objects.filter(exam_id=exam_id).values_list('id', flat=True))
+                    num_questions = min(40, len(all_questions))
+                    selected_question_ids = random.sample(all_questions, num_questions)
+                    existing_attempt.selected_questions.set(selected_question_ids)
+                    logger.info(f"[TIMING] [3] Populate existing: {(time.time() - step_start)*1000:.2f}ms")
+                
                 logger.info(f"User {request.user.username} resuming existing attempt for exam {exam_id}")
                 response_serializer = ExamAttemptSerializer(existing_attempt)
                 return Response(response_serializer.data, status=status.HTTP_200_OK)
             
-            # Create new attempt
+            # Step 3: Create new attempt
+            step_start = time.time()
             attempt = ExamAttempt.objects.create(
                 user=request.user,
                 exam_id=exam_id,
                 speed_reader_enabled=serializer.validated_data.get('speed_reader_enabled', False)
             )
+            logger.info(f"[TIMING] [3] Create attempt DB: {(time.time() - step_start)*1000:.2f}ms")
             
-            logger.info(f"User {request.user.username} started new exam attempt {attempt.id} for exam {exam_id}")
-            response_serializer = ExamAttemptSerializer(attempt)
+            # Step 4: Fetch all questions (optimized query)
+            step_start = time.time()
+            all_questions = list(Question.objects.filter(exam_id=exam_id).values_list('id', flat=True))
+            logger.info(f"[TIMING] [4] Fetch all questions ({len(all_questions)} total): {(time.time() - step_start)*1000:.2f}ms")
+            
+            # Step 5: Random sample
+            step_start = time.time()
+            num_questions = min(40, len(all_questions))
+            selected_question_ids = random.sample(all_questions, num_questions)
+            logger.info(f"[TIMING] [5] Random sample {num_questions} questions: {(time.time() - step_start)*1000:.2f}ms")
+            
+            # Step 6: Bulk set relations (optimized - use through model directly)
+            step_start = time.time()
+            # Get the through model for the M2M relationship
+            through_model = ExamAttempt.selected_questions.through
+            
+            # Create through model instances for bulk insert
+            through_instances = [
+                through_model(examattempt_id=attempt.id, question_id=qid)
+                for qid in selected_question_ids
+            ]
+            
+            # Bulk create the relationships (much faster than .set())
+            through_model.objects.bulk_create(through_instances, ignore_conflicts=True)
+            logger.info(f"[TIMING] [6] Bulk set selected questions: {(time.time() - step_start)*1000:.2f}ms")
+            
+            # Step 7: Serialize response
+            step_start = time.time()
+            response_serializer = ExamAttemptLightSerializer(attempt)
+            logger.info(f"[TIMING] [7] Serialize response: {(time.time() - step_start)*1000:.2f}ms")
+            
+            total_time = (time.time() - total_start) * 1000
+            logger.info(f"[TIMING] === TOTAL TIME: {total_time:.2f}ms ===\n")
+            
+            logger.info(f"User {request.user.username} started new exam attempt {attempt.id} for exam {exam_id} with {num_questions} questions")
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error(f"Error creating exam attempt: {str(e)}")
@@ -291,7 +359,22 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         response_serializer = ExamAttemptSerializer(attempt)
         return Response(response_serializer.data)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def questions(self, request, pk=None):
+        """Get the 40 randomly selected questions for this attempt"""
+        try:
+            attempt = self.get_object()
+            # Get questions ordered by their position in the selected set
+            questions = attempt.selected_questions.all().order_by('id')
+            serializer = QuestionDetailSerializer(questions, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            logger.error(f"Error fetching attempt questions: {str(e)}")
+            return Response(
+                {'error': str(e), 'success': False},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def submit_answer(self, request, pk=None):
         """

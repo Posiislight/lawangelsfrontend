@@ -30,6 +30,15 @@ class QuestionListSerializer(serializers.ModelSerializer):
         fields = ['id', 'question_number', 'text', 'difficulty', 'options']
 
 
+class QuestionMinimalSerializer(serializers.ModelSerializer):
+    """Serializer for questions in exam attempts (minimal payload - no explanation)"""
+    options = QuestionOptionSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Question
+        fields = ['id', 'question_number', 'text', 'difficulty', 'options']
+
+
 class ExamSerializer(serializers.ModelSerializer):
     """Serializer for exam with all details"""
     questions_count = serializers.SerializerMethodField()
@@ -101,14 +110,32 @@ class ExamAttemptSerializer(serializers.ModelSerializer):
     """Serializer for exam attempt details"""
     exam = ExamSerializer(read_only=True)
     answers = QuestionAnswerDetailSerializer(many=True, read_only=True)
+    # Use minimal serializer (no explanations) for faster initial load
+    selected_questions_detail = QuestionMinimalSerializer(many=True, read_only=True, source='selected_questions')
+    selected_questions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta:
         model = ExamAttempt
         fields = [
             'id', 'exam', 'user', 'started_at', 'ended_at', 'status',
-            'score', 'time_spent_seconds', 'speed_reader_enabled', 'answers'
+            'score', 'time_spent_seconds', 'speed_reader_enabled', 'answers', 'selected_questions', 'selected_questions_detail'
         ]
         read_only_fields = ['user', 'started_at', 'ended_at', 'score']
+
+
+class ExamAttemptLightSerializer(serializers.ModelSerializer):
+    """Lightweight serializer for exam attempt creation (excludes nested data for speed)"""
+    exam = ExamSerializer(read_only=True)
+    selected_questions_detail = QuestionMinimalSerializer(many=True, read_only=True, source='selected_questions')
+    selected_questions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    
+    class Meta:
+        model = ExamAttempt
+        fields = [
+            'id', 'exam', 'started_at', 'status',
+            'time_spent_seconds', 'speed_reader_enabled', 'selected_questions', 'selected_questions_detail'
+        ]
+        read_only_fields = ['started_at', 'status']
 
 
 class ExamAttemptListSerializer(serializers.ModelSerializer):

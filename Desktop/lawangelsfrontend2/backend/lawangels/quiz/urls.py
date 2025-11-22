@@ -12,4 +12,5 @@ urlpatterns = [
     # Custom route to handle hyphenated submit-answer endpoint
     re_path(r'^exam-attempts/(?P<pk>[^/.]+)/submit-answer/$', views.ExamAttemptViewSet.as_view({'post': 'submit_answer'}), name='exam-attempt-submit-answer'),
     re_path(r'^exam-attempts/(?P<pk>[^/.]+)/review/$', views.ExamAttemptViewSet.as_view({'get': 'review'}), name='exam-attempt-review'),
+    re_path(r'^exam-attempts/(?P<pk>[^/.]+)/questions/$', views.ExamAttemptViewSet.as_view({'get': 'questions'}), name='exam-attempt-questions'),
 ]
