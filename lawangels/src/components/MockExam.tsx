@@ -182,7 +182,7 @@ export default function MockExam() {
     }
   }
 
-  const handleSubmitAnswer = async () => {
+  const _handleSubmitAnswer = async () => {
     if (!state.selectedAnswer || !state.attempt) return
 
     try {
@@ -477,7 +477,7 @@ export default function MockExam() {
               <div className="space-y-3 mb-8">
                 {question.options.map((option) => {
                   const isSelected = state.selectedAnswer === option.label
-                  const isCorrectOption = option.label === question.correct_answer
+                  const _isCorrectOption = option.label === question.correct_answer
                   const showCorrectHighlight = showFeedback && isSelected && isAnswerCorrect
                   const showIncorrectHighlight = showFeedback && isSelected && !isAnswerCorrect
 
