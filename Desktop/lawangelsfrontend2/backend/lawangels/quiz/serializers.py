@@ -85,19 +85,6 @@ class QuestionAnswerDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'question', 'selected_answer', 'is_correct', 'time_spent_seconds']
 
 
-class QuestionAnswerSubmitSerializer(serializers.ModelSerializer):
-    """Serializer for submit-answer response with full question details for immediate feedback display
-    
-    Returns answer data plus full question (including correct_answer and explanation)
-    so frontend can show feedback immediately with JavaScript (no extra API call needed)
-    """
-    question = QuestionForAttemptWithAnswersSerializer(read_only=True)
-    
-    class Meta:
-        model = QuestionAnswer
-        fields = ['id', 'exam_attempt', 'question', 'selected_answer', 'is_correct', 'time_spent_seconds']
-
-
 class ExamAttemptCreateSerializer(serializers.Serializer):
     """Serializer for creating a new exam attempt"""
     exam_id = serializers.IntegerField()
@@ -230,6 +217,19 @@ class QuestionForAttemptWithAnswersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['id', 'question_number', 'text', 'difficulty', 'correct_answer', 'explanation', 'options']
+
+
+class QuestionAnswerSubmitSerializer(serializers.ModelSerializer):
+    """Serializer for submit-answer response with full question details for immediate feedback display
+    
+    Returns answer data plus full question (including correct_answer and explanation)
+    so frontend can show feedback immediately with JavaScript (no extra API call needed)
+    """
+    question = QuestionForAttemptWithAnswersSerializer(read_only=True)
+    
+    class Meta:
+        model = QuestionAnswer
+        fields = ['id', 'exam_attempt', 'question', 'selected_answer', 'is_correct', 'time_spent_seconds']
 
 
 class CSVUploadSerializer(serializers.Serializer):
