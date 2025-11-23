@@ -1,4 +1,42 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+/**
+ * Smart Dynamic API Base URL Detection
+ * 
+ * Strategy:
+ * 1. Use VITE_API_URL environment variable if available (explicit control)
+ * 2. Auto-detect based on current hostname:
+ *    - localhost/127.0.0.1 → http://localhost:8000/api
+ *    - Vercel domain → https://quiz-backend.onrender.com/api
+ *    - Custom domain → use configured production URL
+ * 3. Fallback to production URL
+ */
+
+function getApiBaseUrl(): string {
+  // 1. Check for explicit environment variable (Vite env var has highest priority)
+  const envApiUrl = import.meta.env.VITE_API_URL;
+  if (envApiUrl) {
+    console.log('[QuizAPI] Using environment variable API URL:', envApiUrl);
+    return envApiUrl;
+  }
+
+  // 2. Auto-detect based on hostname
+  const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
+
+  // Development: localhost or 127.0.0.1
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    const devUrl = `http://localhost:8000/api`;
+    console.log('[QuizAPI] Development environment detected, using:', devUrl);
+    return devUrl;
+  }
+
+  // Production: Vercel deployment or custom domain
+  // All production deployments should use Render backend
+  const productionUrl = 'https://quiz-backend.onrender.com/api';
+  console.log('[QuizAPI] Production environment detected, using:', productionUrl);
+  return productionUrl;
+}
+
+const API_BASE_URL = getApiBaseUrl();
 
 // Types for API responses
 export interface Question {
@@ -88,7 +126,7 @@ let csrfTokenCached = false;
 async function fetchCsrfToken() {
   if (csrfTokenCached) return; // Only fetch once
   try {
-    await fetch('http://localhost:8000/api/auth/me/', { 
+    await fetch(`${API_BASE_URL}/auth/me/`, { 
       credentials: 'include',
       method: 'GET'
     })
@@ -104,6 +142,7 @@ class QuizApiClient {
 
   constructor(baseUrl: string = API_BASE_URL) {
     this.baseUrl = baseUrl;
+    console.log('[QuizAPI] Initialized with base URL:', this.baseUrl);
   }
 
   private async request(

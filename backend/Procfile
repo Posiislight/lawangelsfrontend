@@ -1,0 +1,5 @@
+# Render Procfile for Django deployment
+# Runs migrations and starts Gunicorn server
+
+release: cd lawangels && python manage.py migrate --noinput && python manage.py collectstatic --noinput
+web: cd lawangels && gunicorn lawangels.wsgi:application --config ../gunicorn_config.py
