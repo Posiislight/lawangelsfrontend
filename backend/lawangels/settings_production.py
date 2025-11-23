@@ -295,9 +295,9 @@ if not DEBUG:
 # LOGGING CONFIGURATION - PRODUCTION
 # ============================================================================
 
-# Logs directory
-LOGS_DIR = os.path.join(BASE_DIR, 'logs')
-os.makedirs(LOGS_DIR, exist_ok=True)
+# Use console logging (stdout/stderr) for production environments
+# Render captures all console output automatically
+# This avoids file system issues on ephemeral file systems
 
 LOGGING = {
     'version': 1,
@@ -318,38 +318,22 @@ LOGGING = {
         'console': {
             'level': 'INFO' if not DEBUG else 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGS_DIR, 'django.log'),
-            'maxBytes': 1024 * 1024 * 10,  # 10 MB
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
-        'request_file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGS_DIR, 'requests.log'),
-            'maxBytes': 1024 * 1024 * 10,  # 10 MB
-            'backupCount': 5,
             'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
         'quiz': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
             'propagate': False,
         },
         'quiz.requests': {
-            'handlers': ['console', 'request_file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
