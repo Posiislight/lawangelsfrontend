@@ -1,7 +1,7 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "react",
+  "framework": "react-router",
   "env": {
     "VITE_API_URL": "https://quiz-backend.onrender.com/api"
   },
