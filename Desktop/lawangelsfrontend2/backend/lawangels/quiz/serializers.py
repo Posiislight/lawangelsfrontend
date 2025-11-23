@@ -188,29 +188,11 @@ class ExamAttemptMinimalCreateSerializer(serializers.ModelSerializer):
 class QuestionForAttemptSerializer(serializers.ModelSerializer):
     """Optimized serializer for questions during exam attempt
     
-    Excludes correct_answer and explanation to:
-    - Reduce payload size from 77KB to ~20KB
-    - Avoid students seeing answers before submitting
-    - Speed up serialization significantly
-    """
-    options = QuestionOptionSerializer(many=True, read_only=True)
-    
-    class Meta:
-        model = Question
-        fields = ['id', 'question_number', 'text', 'difficulty', 'options']
-
-
-class QuestionForAttemptWithAnswersSerializer(serializers.ModelSerializer):
-    """Full question serializer with answers and explanations
-    
-    Used in:
-    - submit_answer response (to show feedback immediately)
-    - review mode (for complete answer details)
-    
-    Includes everything needed to display:
-    - Question text and options
-    - Correct answer and explanation
-    - For JavaScript show/hide of answers
+    NOW INCLUDES: correct_answer and explanation for immediate JS show/hide
+    - Still fast because it's done in one request (not multiple API calls)
+    - Frontend loads all data with quiz, then uses JavaScript to toggle visibility
+    - No waiting for additional API calls after submission
+    - Payload: ~40KB (acceptable for single load)
     """
     options = QuestionOptionSerializer(many=True, read_only=True)
     
@@ -225,7 +207,7 @@ class QuestionAnswerSubmitSerializer(serializers.ModelSerializer):
     Returns answer data plus full question (including correct_answer and explanation)
     so frontend can show feedback immediately with JavaScript (no extra API call needed)
     """
-    question = QuestionForAttemptWithAnswersSerializer(read_only=True)
+    question = QuestionForAttemptSerializer(read_only=True)
     
     class Meta:
         model = QuestionAnswer

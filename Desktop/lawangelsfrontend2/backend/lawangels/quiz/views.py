@@ -19,7 +19,7 @@ from .serializers import (
     ExamAttemptCreateSerializer, ExamAttemptSerializer, ExamAttemptLightSerializer,
     ExamAttemptListSerializer, ExamAttemptUpdateSerializer, QuestionAnswerSerializer,
     ExamTimingConfigSerializer, CSVUploadSerializer, ExamAttemptMinimalCreateSerializer,
-    QuestionForAttemptSerializer, QuestionForAttemptWithAnswersSerializer, QuestionAnswerSubmitSerializer
+    QuestionForAttemptSerializer, QuestionAnswerSubmitSerializer
 )
 from .csv_parser import CSVQuestionParser
 from logging_utils import ViewLoggingMixin, log_queryset_access
@@ -370,45 +370,31 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
     def questions(self, request, pk=None):
         """Get the 40 randomly selected questions for this attempt
         
-        Query parameters:
-        - include_answers: true/false (default: false) - Include correct_answer and explanation
+        Returns all question data including correct_answer and explanation
+        for frontend to show/hide with JavaScript (no additional API calls needed)
         
-        Performance optimization:
-        - Default (include_answers=false): Uses QuestionForAttemptSerializer
-          - Excludes correct_answer, explanation
-          - Payload: ~20KB, Time: 200-300ms
-        - With answers (include_answers=true): Uses QuestionForAttemptWithAnswersSerializer
-          - Includes correct_answer, explanation
-          - Payload: ~40KB, Time: 300-400ms
+        Performance:
+        - Fast single request: 300-400ms, ~40KB payload
+        - All data available for instant JS toggle of answers
+        - No waiting for additional API calls after submission
         """
         try:
             start_time = time.time()
-            include_answers = request.query_params.get('include_answers', 'false').lower() == 'true'
-            logger.info(f"[GET_QUESTIONS] Fetching questions for attempt {pk} by user {request.user.username} (include_answers={include_answers})")
+            logger.info(f"[GET_QUESTIONS] Fetching questions for attempt {pk} by user {request.user.username}")
             
             attempt = self.get_object()
             
-            # Load questions with necessary fields
-            if include_answers:
-                # Load all fields for full question details
-                questions = attempt.selected_questions.prefetch_related('options').order_by('id')
-            else:
-                # Load only necessary fields for fast initial load
-                questions = attempt.selected_questions.only(
-                    'id', 'question_number', 'text', 'difficulty'
-                ).prefetch_related('options').order_by('id')
-            
+            # Load questions with all fields for complete data
+            questions = attempt.selected_questions.prefetch_related('options').order_by('id')
             question_count = questions.count()
+            
             logger.info(f"[GET_QUESTIONS] Found {question_count} questions for attempt {pk}")
             
             fetch_time = time.time() - start_time
             start_time = time.time()
             
-            # Use appropriate serializer based on include_answers
-            if include_answers:
-                serializer = QuestionForAttemptWithAnswersSerializer(questions, many=True)
-            else:
-                serializer = QuestionForAttemptSerializer(questions, many=True)
+            # Use serializer that includes all question data (answers, explanations)
+            serializer = QuestionForAttemptSerializer(questions, many=True)
             
             serialization_time = time.time() - start_time
             response_data = serializer.data
@@ -417,7 +403,6 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             logger.info(
                 f"[GET_QUESTIONS_RESPONSE] Attempt {pk} - "
                 f"{question_count} questions | "
-                f"Mode: {'WITH_ANSWERS' if include_answers else 'NO_ANSWERS'} | "
                 f"Fetch: {fetch_time*1000:.2f}ms | "
                 f"Serialize: {serialization_time*1000:.2f}ms | "
                 f"Size: {response_size/1024:.2f}KB"
