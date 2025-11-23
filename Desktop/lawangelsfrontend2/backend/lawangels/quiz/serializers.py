@@ -77,27 +77,25 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
 
 
 class QuestionAnswerDetailSerializer(serializers.ModelSerializer):
-    """Serializer for answer review (includes correct answer, explanation, and all question details)"""
-    question_id = serializers.IntegerField(source='question.id', read_only=True)
-    question_number = serializers.IntegerField(source='question.question_number', read_only=True)
-    question_text = serializers.CharField(source='question.text', read_only=True)
-    correct_answer = serializers.CharField(source='question.correct_answer', read_only=True)
-    explanation = serializers.CharField(source='question.explanation', read_only=True)
-    options = serializers.SerializerMethodField()
-    difficulty = serializers.CharField(source='question.difficulty', read_only=True)
+    """Serializer for answer review (includes correct answer and full question details)"""
+    question = QuestionDetailSerializer(read_only=True)
     
     class Meta:
         model = QuestionAnswer
-        fields = [
-            'id', 'question_id', 'question_number', 'question_text', 
-            'selected_answer', 'correct_answer', 'explanation', 
-            'is_correct', 'time_spent_seconds', 'options', 'difficulty'
-        ]
+        fields = ['id', 'question', 'selected_answer', 'is_correct', 'time_spent_seconds']
+
+
+class QuestionAnswerSubmitSerializer(serializers.ModelSerializer):
+    """Serializer for submit-answer response with full question details for immediate feedback display
     
-    def get_options(self, obj):
-        """Get all question options"""
-        options = obj.question.options.all()
-        return QuestionOptionSerializer(options, many=True).data
+    Returns answer data plus full question (including correct_answer and explanation)
+    so frontend can show feedback immediately with JavaScript (no extra API call needed)
+    """
+    question = QuestionForAttemptWithAnswersSerializer(read_only=True)
+    
+    class Meta:
+        model = QuestionAnswer
+        fields = ['id', 'exam_attempt', 'question', 'selected_answer', 'is_correct', 'time_spent_seconds']
 
 
 class ExamAttemptCreateSerializer(serializers.Serializer):
@@ -122,7 +120,7 @@ class ExamAttemptCreateSerializer(serializers.Serializer):
 
 
 class ExamAttemptSerializer(serializers.ModelSerializer):
-    """Serializer for exam attempt details with answers and explanations included for review"""
+    """Serializer for exam attempt details"""
     exam = ExamSerializer(read_only=True)
     answers = QuestionAnswerDetailSerializer(many=True, read_only=True)
     # Use minimal serializer (no explanations) for faster initial load
@@ -213,6 +211,25 @@ class QuestionForAttemptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['id', 'question_number', 'text', 'difficulty', 'options']
+
+
+class QuestionForAttemptWithAnswersSerializer(serializers.ModelSerializer):
+    """Full question serializer with answers and explanations
+    
+    Used in:
+    - submit_answer response (to show feedback immediately)
+    - review mode (for complete answer details)
+    
+    Includes everything needed to display:
+    - Question text and options
+    - Correct answer and explanation
+    - For JavaScript show/hide of answers
+    """
+    options = QuestionOptionSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Question
+        fields = ['id', 'question_number', 'text', 'difficulty', 'correct_answer', 'explanation', 'options']
 
 
 class CSVUploadSerializer(serializers.Serializer):

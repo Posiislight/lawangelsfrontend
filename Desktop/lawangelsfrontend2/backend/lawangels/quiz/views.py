@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db import OperationalError, transaction
 import logging
-import random
 import time
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,8 @@ from .serializers import (
     ExamSerializer, ExamDetailSerializer, QuestionDetailSerializer,
     ExamAttemptCreateSerializer, ExamAttemptSerializer, ExamAttemptLightSerializer,
     ExamAttemptListSerializer, ExamAttemptUpdateSerializer, QuestionAnswerSerializer,
-    ExamTimingConfigSerializer, CSVUploadSerializer
+    ExamTimingConfigSerializer, CSVUploadSerializer, ExamAttemptMinimalCreateSerializer,
+    QuestionForAttemptSerializer, QuestionForAttemptWithAnswersSerializer, QuestionAnswerSubmitSerializer
 )
 from .csv_parser import CSVQuestionParser
 from logging_utils import ViewLoggingMixin, log_queryset_access
@@ -37,8 +38,8 @@ class ExamViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
 
     def get_queryset(self):
-        """Log queryset access"""
-        queryset = super().get_queryset()
+        """Log queryset access with optimized queries"""
+        queryset = super().get_queryset().prefetch_related('questions__options')
         log_queryset_access(queryset, 'LIST')
         return queryset
 
@@ -51,7 +52,7 @@ class ExamViewSet(viewsets.ReadOnlyModelViewSet):
     def questions(self, request, pk=None):
         """Get all questions for an exam"""
         exam = self.get_object()
-        questions = exam.questions.all()
+        questions = exam.questions.prefetch_related('options')
         log_queryset_access(questions, 'LIST')
         serializer = QuestionDetailSerializer(questions, many=True)
         return Response(serializer.data)
@@ -188,8 +189,8 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
 
     def get_queryset(self):
-        """Filter by exam if exam_id is provided in query params"""
-        queryset = super().get_queryset()
+        """Filter by exam if exam_id is provided in query params with optimized queries"""
+        queryset = super().get_queryset().prefetch_related('options')
         log_queryset_access(queryset, 'LIST')
         exam_id = self.request.query_params.get('exam_id')
         if exam_id:
@@ -222,7 +223,7 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'create':
-            return ExamAttemptCreateSerializer
+            return ExamAttemptCreateSerializer  # Input validation serializer
         elif self.action == 'list':
             return ExamAttemptListSerializer
         elif self.action in ['partial_update', 'update']:
@@ -230,7 +231,12 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         return ExamAttemptSerializer
 
     def create(self, request, *args, **kwargs):
-        """Create a new exam attempt with detailed timing logs"""
+        """Create a new exam attempt with optimized performance
+        
+        Performance targets:
+        - Total time: 500-800ms (down from 21s)
+        - Database queries: 5-10 (down from 88)
+        """
         total_start = time.time()
         logger.info(f"[TIMING] === CREATE EXAM ATTEMPT START ===")
         
@@ -248,7 +254,7 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         try:
             # Step 1: Validate input
             step_start = time.time()
-            serializer = self.get_serializer(data=request.data)
+            serializer = self.get_serializer(data=request.data, context={'request': request})
             if not serializer.is_valid():
                 logger.warning(f"Invalid exam attempt data: {serializer.errors}")
                 return Response(
@@ -263,12 +269,13 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             
             exam_id = serializer.validated_data['exam_id']
             
-            # Step 2: Check for existing attempt
+            # Step 2: Check for existing attempt with optimized query
             step_start = time.time()
-            existing_attempt = ExamAttempt.objects.filter(
+            # Use select_related to avoid extra query, change to single status check
+            existing_attempt = ExamAttempt.objects.select_related('exam').filter(
                 user=request.user,
                 exam_id=exam_id,
-                status__in=['in_progress']
+                status='in_progress'  # Single value, no list
             ).first()
             logger.info(f"[TIMING] [2] Check existing: {(time.time() - step_start)*1000:.2f}ms")
             
@@ -276,14 +283,15 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                 # If attempt exists but has no selected questions, populate them now
                 if existing_attempt.selected_questions.count() == 0:
                     step_start = time.time()
-                    all_questions = list(Question.objects.filter(exam_id=exam_id).values_list('id', flat=True))
-                    num_questions = min(40, len(all_questions))
-                    selected_question_ids = random.sample(all_questions, num_questions)
+                    selected_question_ids = list(Question.objects.filter(
+                        exam_id=exam_id
+                    ).order_by('?')[:40].values_list('id', flat=True))
                     existing_attempt.selected_questions.set(selected_question_ids)
                     logger.info(f"[TIMING] [3] Populate existing: {(time.time() - step_start)*1000:.2f}ms")
                 
                 logger.info(f"User {request.user.username} resuming existing attempt for exam {exam_id}")
-                response_serializer = ExamAttemptSerializer(existing_attempt)
+                # Use minimal serializer for faster response
+                response_serializer = ExamAttemptMinimalCreateSerializer(existing_attempt)
                 return Response(response_serializer.data, status=status.HTTP_200_OK)
             
             # Step 3: Create new attempt
@@ -295,18 +303,15 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             )
             logger.info(f"[TIMING] [3] Create attempt DB: {(time.time() - step_start)*1000:.2f}ms")
             
-            # Step 4: Fetch all questions (optimized query)
+            # Step 4: Direct database sampling (much faster than fetching all then sampling)
             step_start = time.time()
-            all_questions = list(Question.objects.filter(exam_id=exam_id).values_list('id', flat=True))
-            logger.info(f"[TIMING] [4] Fetch all questions ({len(all_questions)} total): {(time.time() - step_start)*1000:.2f}ms")
+            selected_question_ids = list(Question.objects.filter(
+                exam_id=exam_id
+            ).order_by('?')[:40].values_list('id', flat=True))
+            num_questions = len(selected_question_ids)
+            logger.info(f"[TIMING] [4] Direct DB sample {num_questions} questions: {(time.time() - step_start)*1000:.2f}ms")
             
-            # Step 5: Random sample
-            step_start = time.time()
-            num_questions = min(40, len(all_questions))
-            selected_question_ids = random.sample(all_questions, num_questions)
-            logger.info(f"[TIMING] [5] Random sample {num_questions} questions: {(time.time() - step_start)*1000:.2f}ms")
-            
-            # Step 6: Bulk set relations (optimized - use through model directly)
+            # Step 5: Bulk set relations (optimized - use through model directly)
             step_start = time.time()
             # Get the through model for the M2M relationship
             through_model = ExamAttempt.selected_questions.through
@@ -319,12 +324,14 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             
             # Bulk create the relationships (much faster than .set())
             through_model.objects.bulk_create(through_instances, ignore_conflicts=True)
-            logger.info(f"[TIMING] [6] Bulk set selected questions: {(time.time() - step_start)*1000:.2f}ms")
+            logger.info(f"[TIMING] [5] Bulk set selected questions: {(time.time() - step_start)*1000:.2f}ms")
             
-            # Step 7: Serialize response
+            # Step 6: Serialize response with minimal serializer (no nested questions)
             step_start = time.time()
-            response_serializer = ExamAttemptLightSerializer(attempt)
-            logger.info(f"[TIMING] [7] Serialize response: {(time.time() - step_start)*1000:.2f}ms")
+            # Fetch attempt with only needed relations for minimal serializer
+            attempt = ExamAttempt.objects.select_related('exam').get(id=attempt.id)
+            response_serializer = ExamAttemptMinimalCreateSerializer(attempt)
+            logger.info(f"[TIMING] [6] Serialize response: {(time.time() - step_start)*1000:.2f}ms")
             
             total_time = (time.time() - total_start) * 1000
             logger.info(f"[TIMING] === TOTAL TIME: {total_time:.2f}ms ===\n")
@@ -361,13 +368,62 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
     def questions(self, request, pk=None):
-        """Get the 40 randomly selected questions for this attempt"""
+        """Get the 40 randomly selected questions for this attempt
+        
+        Query parameters:
+        - include_answers: true/false (default: false) - Include correct_answer and explanation
+        
+        Performance optimization:
+        - Default (include_answers=false): Uses QuestionForAttemptSerializer
+          - Excludes correct_answer, explanation
+          - Payload: ~20KB, Time: 200-300ms
+        - With answers (include_answers=true): Uses QuestionForAttemptWithAnswersSerializer
+          - Includes correct_answer, explanation
+          - Payload: ~40KB, Time: 300-400ms
+        """
         try:
+            start_time = time.time()
+            include_answers = request.query_params.get('include_answers', 'false').lower() == 'true'
+            logger.info(f"[GET_QUESTIONS] Fetching questions for attempt {pk} by user {request.user.username} (include_answers={include_answers})")
+            
             attempt = self.get_object()
-            # Get questions ordered by their position in the selected set
-            questions = attempt.selected_questions.all().order_by('id')
-            serializer = QuestionDetailSerializer(questions, many=True)
-            return Response(serializer.data)
+            
+            # Load questions with necessary fields
+            if include_answers:
+                # Load all fields for full question details
+                questions = attempt.selected_questions.prefetch_related('options').order_by('id')
+            else:
+                # Load only necessary fields for fast initial load
+                questions = attempt.selected_questions.only(
+                    'id', 'question_number', 'text', 'difficulty'
+                ).prefetch_related('options').order_by('id')
+            
+            question_count = questions.count()
+            logger.info(f"[GET_QUESTIONS] Found {question_count} questions for attempt {pk}")
+            
+            fetch_time = time.time() - start_time
+            start_time = time.time()
+            
+            # Use appropriate serializer based on include_answers
+            if include_answers:
+                serializer = QuestionForAttemptWithAnswersSerializer(questions, many=True)
+            else:
+                serializer = QuestionForAttemptSerializer(questions, many=True)
+            
+            serialization_time = time.time() - start_time
+            response_data = serializer.data
+            response_size = len(json.dumps(response_data).encode('utf-8'))
+            
+            logger.info(
+                f"[GET_QUESTIONS_RESPONSE] Attempt {pk} - "
+                f"{question_count} questions | "
+                f"Mode: {'WITH_ANSWERS' if include_answers else 'NO_ANSWERS'} | "
+                f"Fetch: {fetch_time*1000:.2f}ms | "
+                f"Serialize: {serialization_time*1000:.2f}ms | "
+                f"Size: {response_size/1024:.2f}KB"
+            )
+            
+            return Response(response_data)
         except Exception as e:
             logger.error(f"Error fetching attempt questions: {str(e)}")
             return Response(
@@ -439,7 +495,12 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             )
             
             logger.info(f"Answer submitted for question {question_id} in attempt {attempt.id}")
-            serializer = QuestionAnswerSerializer(answer)
+            
+            # Refresh answer to include full question data
+            answer = QuestionAnswer.objects.select_related('question').get(id=answer.id)
+            
+            # Use submit serializer that includes full question with answers
+            serializer = QuestionAnswerSubmitSerializer(answer)
             return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
         except OperationalError as e:
             logger.error(f"Database connection error submitting answer: {str(e)}")
@@ -458,6 +519,9 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
     def review(self, request, pk=None):
         """Get exam review with all answers and explanations"""
         try:
+            start_time = time.time()
+            logger.info(f"[GET_REVIEW] Fetching review for attempt {pk} by user {request.user.username}")
+            
             # Check if user owns this attempt
             try:
                 attempt = self.get_object()
@@ -476,9 +540,34 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_404_NOT_FOUND
                     )
             
-            logger.info(f"Review requested for attempt {attempt.id}")
+            logger.info(f"[GET_REVIEW] Review data: Attempt {attempt.id} | Status: {attempt.status} | Score: {attempt.score}")
+            
+            fetch_time = time.time() - start_time
+            start_time = time.time()
+            
+            # Refresh attempt with optimized queries to get answers and questions efficiently
+            attempt = ExamAttempt.objects.select_related(
+                'user', 'exam'
+            ).prefetch_related(
+                'selected_questions__options',
+                'answers__question__options'
+            ).get(id=attempt.id)
+            
             serializer = ExamAttemptSerializer(attempt)
-            return Response(serializer.data)
+            response_data = serializer.data
+            
+            serialization_time = time.time() - start_time
+            response_size = len(json.dumps(response_data).encode('utf-8'))
+            
+            logger.info(
+                f"[GET_REVIEW_RESPONSE] Attempt {attempt.id} - "
+                f"Fetch: {fetch_time*1000:.2f}ms | "
+                f"Serialize: {serialization_time*1000:.2f}ms | "
+                f"Size: {response_size/1024:.2f}KB | "
+                f"Answers: {attempt.answers.count()}"
+            )
+            
+            return Response(response_data)
         except Exception as e:
             logger.error(f"Error retrieving review: {str(e)}")
             return Response(
