@@ -20,7 +20,6 @@ function getApiBaseUrl(): string {
 
   // 2. Auto-detect based on hostname
   const hostname = window.location.hostname;
-  const protocol = window.location.protocol;
 
   // Development: localhost or 127.0.0.1
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
@@ -156,9 +155,9 @@ class QuizApiClient {
       await fetchCsrfToken();
       
       const csrfToken = getCsrfToken();
-      const headers: HeadersInit = {
+      const headers: Record<string, string> = {
         'Content-Type': 'application/json',
-        ...(options.headers || {}),
+        ...(options.headers as Record<string, string> || {}),
       };
       
       // Add CSRF token for non-GET requests
