@@ -7,6 +7,8 @@ export interface Question {
   text: string;
   difficulty: 'easy' | 'medium' | 'hard';
   options: QuestionOption[];
+  explanation: string;
+  correct_answer: string;
 }
 
 export interface QuestionDetail extends Question {

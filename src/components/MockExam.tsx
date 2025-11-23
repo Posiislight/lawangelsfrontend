@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Clock, Zap, ChevronLeft, ChevronRight, Loader } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { Question, ExamAttempt } from '../services/quizApi'
 
-type AnswerState = 'unanswered' | 'selected' | 'submitted' | 'correct' | 'incorrect'
+type AnswerState = 'unanswered' | 'answered' | 'navigated'
 
 interface ExamState {
   loading: boolean
-  isSubmitting: boolean
   error: string | null
   examId: number
   attemptId: number | null
@@ -18,14 +17,13 @@ interface ExamState {
   currentQuestion: number
   selectedAnswer: string | null
   answerState: AnswerState
-  answeredQuestions: Record<number, { answer: string; isCorrect: boolean; explanation?: string; correctAnswer?: string }>
+  answeredQuestions: Record<number, { answer: string; isCorrect: boolean }>
   speedReaderTime: number
 }
 
 export default function MockExam() {
   const [state, setState] = useState<ExamState>({
     loading: true,
-    isSubmitting: false,
     error: null,
     examId: 1,
     attemptId: null,
@@ -39,6 +37,9 @@ export default function MockExam() {
     answeredQuestions: {},
     speedReaderTime: 70,
   })
+
+  // Track which answers have been submitted to backend to avoid duplicates
+  const submittedAnswersRef = useRef<Set<number>>(new Set())
 
   // Initialize exam and create attempt
   useEffect(() => {
@@ -97,7 +98,7 @@ export default function MockExam() {
 
   // Speed reader auto-advance effect
   useEffect(() => {
-    if (!state.speedReaderEnabled || state.questions.length === 0) return
+    if (!state.speedReaderEnabled || state.questions.length === 0 || state.answerState === 'unanswered') return
 
     const speedTimer = setInterval(() => {
       setState(prev => {
@@ -122,7 +123,7 @@ export default function MockExam() {
     }, 1000)
 
     return () => clearInterval(speedTimer)
-  }, [state.speedReaderEnabled, state.currentQuestion, state.questions.length])
+  }, [state.speedReaderEnabled, state.currentQuestion, state.questions.length, state.answerState])
 
   // Format time as HH:MM:SS
   const formatTime = (seconds: number) => {
@@ -133,50 +134,74 @@ export default function MockExam() {
   }
 
   const handleSelectAnswer = (label: string) => {
-    if (state.answerState === 'unanswered' || state.answerState === 'selected') {
-      setState(prev => ({
-        ...prev,
-        selectedAnswer: label,
-        answerState: 'selected',
-      }))
+    // Only allow selecting if haven't answered yet
+    if (state.answerState === 'unanswered') {
+      const question = state.questions[state.currentQuestion]
+      const isCorrect = label === question.correct_answer
+
+      setState(prev => {
+        const updatedAnswers = { ...prev.answeredQuestions }
+        updatedAnswers[prev.currentQuestion] = {
+          answer: label,
+          isCorrect: isCorrect,
+        }
+
+        return {
+          ...prev,
+          selectedAnswer: label,
+          answerState: 'answered',
+          answeredQuestions: updatedAnswers,
+        }
+      })
+
+      // Fire-and-forget: Send to backend (don't wait for response)
+      if (state.attempt && !submittedAnswersRef.current.has(state.currentQuestion)) {
+        submittedAnswersRef.current.add(state.currentQuestion)
+        
+        fetch(`http://localhost:8000/api/exam-attempts/${state.attempt.id}/submit-answer/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question_id: question.id,
+            selected_answer: label,
+            time_spent_seconds: 10,
+          }),
+          credentials: 'include',
+        }).catch(error => console.warn('Background answer submission failed:', error))
+      }
     }
   }
 
   const handleSubmitAnswer = async () => {
     if (!state.selectedAnswer || !state.attempt) return
 
-    setState(prev => ({ ...prev, isSubmitting: true }))
-
     try {
       const question = state.questions[state.currentQuestion]
       
-      // Parallelize: submit answer AND fetch question details at the same time
-      const [answerResponse, questionDetail] = await Promise.all([
-        quizApi.submitAnswer(
-          state.attempt.id,
-          question.id,
-          state.selectedAnswer,
-          10 // Default 10 seconds per question
-        ),
-        quizApi.getQuestion(question.id)
-      ])
+      // Submit answer to record in database (async, but don't wait for response)
+      quizApi.submitAnswer(
+        state.attempt.id,
+        question.id,
+        state.selectedAnswer,
+        10 // Default 10 seconds per question
+      ).catch(error => {
+        console.error('Error recording answer:', error)
+      })
 
-      const isCorrect = answerResponse.is_correct || false
+      // Check if answer is correct using loaded question data
+      const isCorrect = state.selectedAnswer === question.correct_answer
 
       setState(prev => {
         const updatedAnswers = { ...prev.answeredQuestions }
         updatedAnswers[prev.currentQuestion] = {
           answer: state.selectedAnswer!,
           isCorrect: isCorrect,
-          explanation: questionDetail.explanation,
-          correctAnswer: questionDetail.correct_answer,
         }
         
         return {
           ...prev,
-          isSubmitting: false,
-          answerState: isCorrect ? 'correct' : 'incorrect',
           answeredQuestions: updatedAnswers,
+          answerState: 'answered',
         }
       })
     } catch (error) {
@@ -190,7 +215,6 @@ export default function MockExam() {
       
       setState(prev => ({ 
         ...prev, 
-        isSubmitting: false,
         error: errorMsg 
       }))
     }
@@ -217,7 +241,7 @@ export default function MockExam() {
         ...prev,
         currentQuestion: prevQuestion,
         selectedAnswer: savedAnswer?.answer || null,
-        answerState: savedAnswer ? 'submitted' : 'unanswered',
+        answerState: savedAnswer ? 'navigated' : 'unanswered',
       }))
     }
   }
@@ -257,10 +281,8 @@ export default function MockExam() {
   const answeredCount = Object.keys(state.answeredQuestions).length
   const progressPercentage = (answeredCount / totalQuestions) * 100
 
-  const showCorrectAnswer = state.answerState === 'correct'
-  const showIncorrectAnswer = state.answerState === 'incorrect'
-  const showSubmitButton = state.answerState === 'unanswered' || state.answerState === 'selected'
-  const showNextButton = state.answerState === 'correct' || state.answerState === 'incorrect'
+  const showFeedback = state.answerState === 'answered' || state.answerState === 'navigated'
+  const isAnswerCorrect = state.answeredQuestions[state.currentQuestion]?.isCorrect
 
   return (
     <div className="min-h-screen bg-[#FFFFFF]">
@@ -345,10 +367,9 @@ export default function MockExam() {
               <div className="space-y-3 mb-8">
                 {question.options.map((option) => {
                   const isSelected = state.selectedAnswer === option.label
-                  const savedAnswer = state.answeredQuestions[state.currentQuestion]
-                  const isCorrect = option.label === savedAnswer?.answer && savedAnswer?.isCorrect
-                  const showCorrectHighlight = showCorrectAnswer && isCorrect
-                  const showIncorrectHighlight = showIncorrectAnswer && isSelected && !isCorrect
+                  const isCorrectOption = option.label === question.correct_answer
+                  const showCorrectHighlight = showFeedback && isSelected && isAnswerCorrect
+                  const showIncorrectHighlight = showFeedback && isSelected && !isAnswerCorrect
 
                   return (
                     <div key={option.label}>
@@ -358,10 +379,10 @@ export default function MockExam() {
                             ? 'bg-[#ECFDF5] border-[#10B981]'
                             : showIncorrectHighlight
                             ? 'bg-[#FEF2F2] border-[#EF4444]'
-                            : isSelected
+                            : isSelected && state.answerState !== 'unanswered'
                             ? 'bg-[#EFF6FF] border-[#3B82F6]'
                             : 'bg-white border-[#E2E8F0] hover:border-[#CAD5E2]'
-                        } ${state.answerState !== 'unanswered' && state.answerState !== 'selected' ? 'cursor-not-allowed' : ''}`}
+                        } ${state.answerState !== 'unanswered' ? 'cursor-not-allowed' : ''}`}
                       >
                         <input
                           type="radio"
@@ -369,7 +390,7 @@ export default function MockExam() {
                           value={option.label}
                           checked={isSelected}
                           onChange={() => handleSelectAnswer(option.label)}
-                          disabled={state.answerState !== 'unanswered' && state.answerState !== 'selected'}
+                          disabled={state.answerState !== 'unanswered'}
                           className="w-4 h-4"
                         />
                         <span className="text-sm font-medium text-[#314158] min-w-6">{option.label}</span>
@@ -377,7 +398,7 @@ export default function MockExam() {
                       </label>
 
                       {/* Feedback shown under selected option */}
-                      {isSelected && showCorrectAnswer && (
+                      {isSelected && showFeedback && isAnswerCorrect && (
                         <div className="bg-[#ECFDF5] border-2 border-[#10B981] rounded-xl p-6 mt-3 mb-3">
                           <div className="flex gap-3 mb-4">
                             <div className="text-[#10B981] text-2xl">✓</div>
@@ -386,13 +407,13 @@ export default function MockExam() {
                           <div>
                             <p className="text-sm font-medium text-[#059669] mb-2">Explanation:</p>
                             <p className="text-sm text-[#047857]">
-                              {savedAnswer?.explanation}
+                              {question.explanation}
                             </p>
                           </div>
                         </div>
                       )}
 
-                      {isSelected && showIncorrectAnswer && (
+                      {isSelected && showFeedback && !isAnswerCorrect && (
                         <div className="bg-[#FEF2F2] border-2 border-[#EF4444] rounded-xl p-6 mt-3 mb-3">
                           <div className="flex gap-3 mb-4">
                             <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#EF4444] text-white text-lg font-bold flex-shrink-0">
@@ -400,13 +421,13 @@ export default function MockExam() {
                             </div>
                             <div>
                               <h3 className="text-base font-semibold text-[#DC2626]">Incorrect</h3>
-                              <p className="text-sm text-[#EF4444]">The correct answer is {savedAnswer?.correctAnswer}</p>
+                              <p className="text-sm text-[#EF4444]">The correct answer is {question.correct_answer}</p>
                             </div>
                           </div>
                           <div className="ml-9">
                             <p className="text-sm font-medium text-[#DC2626] mb-3">Explanation:</p>
                             <p className="text-sm text-[#7F1D1D] leading-relaxed">
-                              {savedAnswer?.explanation}
+                              {question.explanation}
                             </p>
                           </div>
                         </div>
@@ -416,28 +437,9 @@ export default function MockExam() {
                 })}
               </div>
 
-              {/* Submit/Next Button */}
-              <div className="flex justify-center items-center gap-3">
-                {showSubmitButton && (
-                  <>
-                    <button
-                      onClick={handleSubmitAnswer}
-                      disabled={!state.selectedAnswer || state.isSubmitting}
-                      className={`px-8 py-3 rounded-lg font-medium transition ${
-                        state.selectedAnswer && !state.isSubmitting
-                          ? 'bg-[#0F172B] text-white hover:bg-[#1a1f3a]'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      }`}
-                    >
-                      Submit Answer
-                    </button>
-                    {state.isSubmitting && (
-                      <Loader size={24} className="text-[#E17100] animate-spin" />
-                    )}
-                  </>
-                )}
-
-                {showNextButton && (
+              {/* Next Button Only */}
+              <div className="flex justify-center">
+                {state.answerState !== 'unanswered' && (
                   <button
                     onClick={handleNextQuestion}
                     disabled={state.currentQuestion >= totalQuestions - 1}
