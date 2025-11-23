@@ -11,6 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lawangels.settings')
+# Use environment variable to switch between settings files
+# Default to development settings, but allow production to override
+settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'lawangels.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_wsgi_application()
