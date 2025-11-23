@@ -6,29 +6,21 @@ import { quizApi } from '../services/quizApi'
 export default function MockTestStart() {
   const navigate = useNavigate()
   const [speedReaderEnabled, setSpeedReaderEnabled] = useState(false)
-  const [preloadingStatus, setPreloadingStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
-  const [preloadedAttemptId, setPreloadedAttemptId] = useState<number | null>(null)
 
-  // Start preloading questions when this page loads
+  // Silently preload questions in background
   useEffect(() => {
     const preloadQuestions = async () => {
       try {
-        setPreloadingStatus('loading')
-        console.log('MockTestStart: Starting question preload...')
-        
+        console.log('Preloading questions in background...')
         // Create exam attempt
         const attempt = await quizApi.startExam(1, false)
-        console.log('MockTestStart: Exam attempt created:', attempt.id)
-        setPreloadedAttemptId(attempt.id)
+        console.log('Exam attempt created:', attempt.id)
         
-        // Fetch the 40 randomly selected questions
+        // Fetch the questions for this attempt
         const questions = await quizApi.getAttemptQuestions(attempt.id)
-        console.log('MockTestStart: Questions preloaded:', questions.length)
-        
-        setPreloadingStatus('ready')
+        console.log('Questions preloaded:', questions.length, 'questions')
       } catch (error) {
-        console.error('MockTestStart: Error preloading questions:', error)
-        setPreloadingStatus('error')
+        console.error('Background preload failed (non-critical):', error)
       }
     }
 
