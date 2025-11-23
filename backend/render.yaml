@@ -9,7 +9,7 @@ services:
     buildCommand: pip install -r requirements.txt
     
     # Start command
-    startCommand: cd lawangels && gunicorn lawangels.wsgi:application --config ../gunicorn_config.py
+    startCommand: gunicorn lawangels.lawangels.wsgi:application --config gunicorn_config.py
     
     # Environment variables (add these in Render dashboard)
     envVars:
