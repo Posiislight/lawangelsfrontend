@@ -9,6 +9,7 @@ import Registration from './pages/Path to Qualification/Registration'
 import OverseasPathways from './pages/Path to Qualification/OverseasPathways'
 import MockTestStart from './components/MockTestStart'
 import MockExam from './components/MockExam'
+import Results from './pages/Results'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -70,6 +71,16 @@ function App() {
           element={
             <ProtectedRoute>
               <MockExam />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Results Route */}
+        <Route
+          path="/results/:attemptId"
+          element={
+            <ProtectedRoute>
+              <Results />
             </ProtectedRoute>
           }
         />

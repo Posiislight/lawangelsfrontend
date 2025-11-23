@@ -368,8 +368,15 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         
         # Calculate score if exam is being completed
         if attempt.status == 'completed':
+            from django.utils import timezone
+            attempt.ended_at = timezone.now()
             attempt.score = attempt.calculate_score()
             attempt.save()
+        
+        # Refresh with full serializer to include exam, answers, etc.
+        attempt = ExamAttempt.objects.select_related('exam', 'user').prefetch_related(
+            'answers__question__options', 'selected_questions__options'
+        ).get(id=attempt.id)
         
         response_serializer = ExamAttemptSerializer(attempt)
         return Response(response_serializer.data)

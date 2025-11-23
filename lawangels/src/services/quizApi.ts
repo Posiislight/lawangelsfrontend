@@ -40,7 +40,8 @@ export interface ExamDetail extends Exam {
 
 export interface ExamAttempt {
   id: number;
-  exam_id: number;
+  exam_id?: number;
+  exam?: Exam;
   status: 'in_progress' | 'completed' | 'abandoned';
   started_at: string;
   ended_at: string | null;
@@ -48,6 +49,7 @@ export interface ExamAttempt {
   time_spent_seconds: number | null;
   speed_reader_enabled: boolean;
   selected_questions?: number[];
+  answers?: Array<QuestionAnswer & { question: Question }>;
 }
 
 export interface QuestionAnswer {
@@ -224,10 +226,7 @@ class QuizApiClient {
     });
   }
 
-  async getReview(attemptId: number): Promise<{
-    attempt: ExamAttempt;
-    answers: Array<QuestionAnswer & { question: QuestionDetail }>;
-  }> {
+  async getReview(attemptId: number): Promise<ExamAttempt> {
     return this.request(`/exam-attempts/${attemptId}/review/`);
   }
 }

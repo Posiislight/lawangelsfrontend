@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, Zap, ChevronLeft, ChevronRight, Loader } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { Question, ExamAttempt } from '../services/quizApi'
@@ -22,6 +23,7 @@ interface ExamState {
 }
 
 export default function MockExam() {
+  const navigate = useNavigate()
   const [state, setState] = useState<ExamState>({
     loading: true,
     error: null,
@@ -244,6 +246,48 @@ export default function MockExam() {
         answerState: savedAnswer ? 'navigated' : 'unanswered',
       }))
     }
+  }
+
+  const handleFinishExam = async () => {
+    if (!state.attempt) {
+      console.error('No attempt data available')
+      return
+    }
+
+    try {
+      console.log(`Finishing exam attempt ${state.attempt.id}...`)
+      
+      // End the exam attempt
+      const completedAttempt = await quizApi.endExam(state.attempt.id)
+      console.log('Exam completed:', completedAttempt)
+
+      if (!completedAttempt.id) {
+        throw new Error('No attempt ID in response')
+      }
+
+      console.log(`Navigating to results page: /results/${completedAttempt.id}`)
+      // Navigate to results page
+      navigate(`/results/${completedAttempt.id}`)
+    } catch (error) {
+      console.error('Error finishing exam:', error)
+      const errorMsg = error instanceof Error ? error.message : 'Failed to finish exam'
+      alert(`Failed to finish exam: ${errorMsg}`)
+    }
+  }
+
+  const handleConfirmFinish = () => {
+    const answeredCount = Object.keys(state.answeredQuestions).length
+    const totalQuestions = state.questions.length
+    
+    if (answeredCount < totalQuestions) {
+      const unanswered = totalQuestions - answeredCount
+      const confirmed = window.confirm(
+        `You have ${unanswered} unanswered question(s). Are you sure you want to finish the exam?`
+      )
+      if (!confirmed) return
+    }
+
+    handleFinishExam()
   }
 
   if (state.loading) {
@@ -508,11 +552,21 @@ export default function MockExam() {
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full bg-[#E2E8F0] rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-[#E2E8F0] rounded-full h-2 overflow-hidden mb-4">
               <div
                 className="bg-[#E17100] h-full transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
               />
+            </div>
+
+            {/* Finish Exam Button */}
+            <div className="flex justify-center">
+              <button
+                onClick={handleConfirmFinish}
+                className="px-8 py-3 bg-[#10B981] text-white rounded-lg font-medium hover:bg-[#059669] transition shadow-lg"
+              >
+                Finish Exam
+              </button>
             </div>
           </div>
         </div>
