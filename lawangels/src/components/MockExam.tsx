@@ -5,9 +5,11 @@ import { quizApi } from '../services/quizApi'
 import type { Question, ExamAttempt } from '../services/quizApi'
 
 type AnswerState = 'unanswered' | 'answered' | 'navigated'
+type LoadingStep = 'initializing' | 'creating-attempt' | 'loading-questions' | 'loading-config' | 'ready'
 
 interface ExamState {
   loading: boolean
+  loadingStep: LoadingStep
   error: string | null
   examId: number
   attemptId: number | null
@@ -26,6 +28,7 @@ export default function MockExam() {
   const navigate = useNavigate()
   const [state, setState] = useState<ExamState>({
     loading: true,
+    loadingStep: 'initializing',
     error: null,
     examId: 1,
     attemptId: null,
@@ -47,17 +50,21 @@ export default function MockExam() {
   useEffect(() => {
     const initializeExam = async () => {
       try {
-        setState(prev => ({ ...prev, loading: true }))
+        setState(prev => ({ ...prev, loading: true, loadingStep: 'creating-attempt' }))
         
         // Create new attempt
         console.log('Creating exam attempt...')
         const attempt = await quizApi.startExam(1, false)
         console.log('Attempt created:', attempt)
         
+        setState(prev => ({ ...prev, loadingStep: 'loading-questions' }))
+        
         // Load the 40 randomly selected questions for this attempt
         console.log('Fetching questions for attempt:', attempt.id)
         const questions = await quizApi.getAttemptQuestions(attempt.id)
         console.log('Questions loaded:', questions.length)
+        
+        setState(prev => ({ ...prev, loadingStep: 'loading-config' }))
         
         // Load timing config
         const config = await quizApi.getExamTimingConfig()
@@ -65,6 +72,7 @@ export default function MockExam() {
         setState(prev => ({
           ...prev,
           loading: false,
+          loadingStep: 'ready',
           questions: questions,
           attempt: attempt,
           attemptId: attempt.id,
@@ -291,11 +299,69 @@ export default function MockExam() {
   }
 
   if (state.loading) {
+    const steps: { step: LoadingStep; label: string; description: string }[] = [
+      { step: 'creating-attempt', label: 'Initializing', description: 'Creating your exam session' },
+      { step: 'loading-questions', label: 'Loading Questions', description: 'Fetching your 40 questions' },
+      { step: 'loading-config', label: 'Preparing Timer', description: 'Setting up exam timer' },
+    ]
+
+    const currentStepIndex = steps.findIndex(s => s.step === state.loadingStep)
+    const completedSteps = Math.max(0, currentStepIndex)
+
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FFFFFF]">
-        <div className="flex flex-col items-center gap-4">
-          <Loader size={48} className="text-[#E17100] animate-spin" />
-          <p className="text-[#314158] font-medium">Loading exam...</p>
+        <div className="flex flex-col items-center gap-8 max-w-md">
+          {/* Animated Logo */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#E17100] to-[#FE9A00] flex items-center justify-center animate-pulse">
+              <Loader size={32} className="text-white animate-spin" />
+            </div>
+            <p className="text-[#1D293D] font-bold text-lg">Law Angels Quiz</p>
+          </div>
+
+          {/* Steps Progress */}
+          <div className="w-full space-y-3">
+            {steps.map((item, index) => {
+              const isCompleted = index < completedSteps
+              const isActive = index === currentStepIndex
+
+              return (
+                <div key={item.step} className="flex items-start gap-3">
+                  <div
+                    className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-medium text-sm transition-all ${
+                      isCompleted
+                        ? 'bg-[#10B981] text-white'
+                        : isActive
+                        ? 'bg-[#E17100] text-white ring-2 ring-[#E17100] ring-offset-2'
+                        : 'bg-[#E2E8F0] text-[#64748B]'
+                    }`}
+                  >
+                    {isCompleted ? '✓' : index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <p
+                      className={`font-medium transition-colors ${
+                        isActive ? 'text-[#E17100]' : isCompleted ? 'text-[#10B981]' : 'text-[#314158]'
+                      }`}
+                    >
+                      {item.label}
+                    </p>
+                    <p className="text-sm text-[#64748B]">{item.description}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full">
+            <div className="h-1 bg-[#E2E8F0] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-[#E17100] to-[#FE9A00] transition-all duration-500"
+                style={{ width: `${((completedSteps + 1) / steps.length) * 100}%` }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     )

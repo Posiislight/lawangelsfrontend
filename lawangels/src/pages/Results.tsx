@@ -13,13 +13,28 @@ interface TopicResult {
   icon: string
 }
 
+interface AnswerWithQuestion extends QuestionAnswer {
+  question: {
+    id: number
+    text: string
+    question_number: number
+    difficulty: string
+    correct_answer: string
+    explanation: string
+    options: Array<{
+      label: string
+      text: string
+    }>
+  }
+}
+
 export default function Results() {
   const { attemptId } = useParams<{ attemptId: string }>()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [attempt, setAttempt] = useState<ExamAttempt | null>(null)
-  const [answers, setAnswers] = useState<(QuestionAnswer & { question: any })[]>([])
+  const [answers, setAnswers] = useState<AnswerWithQuestion[]>([])
   const [topicResults, setTopicResults] = useState<TopicResult[]>([])
 
   useEffect(() => {
@@ -45,17 +60,20 @@ export default function Results() {
           const reviewData = await quizApi.getReview(attemptIdNum)
           console.log('Review data received:', reviewData)
 
-          // The backend returns ExamAttemptSerializer which has 'answers' directly
-          // Map to the expected structure
-          const attemptData = reviewData as any
-          setAttempt(attemptData)
+          setAttempt(reviewData)
 
-          // Answers are nested in the attempt object
-          const answersData = attemptData.answers || []
+          // Answers are in reviewData.answers
+          const answersData = (reviewData.answers || []) as AnswerWithQuestion[]
           console.log('Answers data:', answersData)
+          
+          // Validate answers have the expected structure
+          if (answersData.length > 0) {
+            console.log('First answer structure:', answersData[0])
+          }
+          
           setAnswers(answersData)
 
-          // Group results by topic (derived from question difficulty or text patterns)
+          // Group results by topic
           const topicMap = groupByTopic(answersData)
           setTopicResults(Array.from(topicMap.values()))
 
@@ -82,9 +100,7 @@ export default function Results() {
   }, [attemptId])
 
   // Group answers by topic based on question categorization
-  const groupByTopic = (
-    answers: (QuestionAnswer & { question: any })[]
-  ): Map<string, TopicResult> => {
+  const groupByTopic = (answers: AnswerWithQuestion[]): Map<string, TopicResult> => {
     const topicMap = new Map<string, TopicResult>()
     const topicColors: { [key: string]: { color: string; icon: string } } = {
       'Contract Law': { color: 'bg-blue-100', icon: '📋' },
@@ -101,8 +117,9 @@ export default function Results() {
 
     // Extract topic from question text or use a default categorization
     answers.forEach((answer) => {
-      // Try to extract topic from question text or use difficulty as fallback
-      let topic = extractTopic(answer.question?.text || '')
+      // Safely extract topic from question text
+      const questionText = answer.question?.text || ''
+      let topic = extractTopic(questionText)
 
       if (!topicMap.has(topic)) {
         const colorInfo = topicColors[topic] || {
@@ -313,47 +330,50 @@ export default function Results() {
               <h2 className="text-2xl font-bold text-[#1D293D]">Topic Breakdown</h2>
             </div>
 
-            <div className="space-y-4">
-              {topicResults.map((topic, index) => (
-                <div key={index} className="border border-[#E2E8F0] rounded-lg p-4 hover:shadow-md transition">
-                  {/* Topic Header */}
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{topic.icon}</span>
-                      <div>
-                        <h3 className="font-semibold text-[#1D293D]">{topic.topic}</h3>
-                        <p className="text-sm text-[#64748B]">
-                          {topic.correct} of {topic.total} correct
+            {topicResults.length === 0 ? (
+              <p className="text-[#64748B]">No topic data available</p>
+            ) : (
+              <div className="space-y-4">
+                {topicResults.map((topic, index) => (
+                  <div key={index} className="border border-[#E2E8F0] rounded-lg p-4 hover:shadow-md transition">
+                    {/* Topic Header */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{topic.icon}</span>
+                        <div>
+                          <h3 className="font-semibold text-[#1D293D]">{topic.topic}</h3>
+                          <p className="text-sm text-[#64748B]">
+                            {topic.correct} of {topic.total} correct
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p
+                          className={`text-2xl font-bold ${
+                            topic.percentage >= 70 ? 'text-[#10B981]' : 'text-[#EF4444]'
+                          }`}
+                        >
+                          {topic.percentage}%
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p
-                        className={`text-2xl font-bold ${
-                          topic.percentage >= 70 ? 'text-[#10B981]' : 'text-[#EF4444]'
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-[#E2E8F0] rounded-full h-3 overflow-hidden">
+                      <div
+                        className={`h-full transition-all duration-500 ${
+                          topic.percentage >= 70 ? 'bg-[#10B981]' : 'bg-[#EF4444]'
                         }`}
-                      >
-                        {topic.percentage}%
-                      </p>
+                        style={{ width: `${topic.percentage}%` }}
+                      />
                     </div>
                   </div>
-
-                  {/* Progress Bar */}
-                  <div className="w-full bg-[#E2E8F0] rounded-full h-3 overflow-hidden">
-                    <div
-                      className={`h-full transition-all duration-500 ${
-                        topic.percentage >= 70 ? 'bg-[#10B981]' : 'bg-[#EF4444]'
-                      }`}
-                      style={{ width: `${topic.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Action Buttons */}
-          
         </div>
       </main>
     </div>
