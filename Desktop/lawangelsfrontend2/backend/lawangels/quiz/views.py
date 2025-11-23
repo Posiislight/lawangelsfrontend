@@ -7,7 +7,6 @@ from django.shortcuts import get_object_or_404
 from django.db import OperationalError, transaction
 import logging
 import time
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +22,15 @@ from .serializers import (
 )
 from .csv_parser import CSVQuestionParser
 from logging_utils import ViewLoggingMixin, log_queryset_access
+
+
+def get_response_size_kb(data):
+    """Calculate response size efficiently without full JSON serialization"""
+    try:
+        # Estimate based on string length (much faster than json.dumps)
+        return len(str(data).encode('utf-8')) / 1024
+    except:
+        return 0
 
 
 class ExamViewSet(viewsets.ReadOnlyModelViewSet):
@@ -380,35 +388,32 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         """
         try:
             start_time = time.time()
-            logger.info(f"[GET_QUESTIONS] Fetching questions for attempt {pk} by user {request.user.username}")
-            
             attempt = self.get_object()
             
             # Load questions with all fields for complete data
             questions = attempt.selected_questions.prefetch_related('options').order_by('id')
             question_count = questions.count()
             
-            logger.info(f"[GET_QUESTIONS] Found {question_count} questions for attempt {pk}")
-            
-            fetch_time = time.time() - start_time
+            fetch_time = (time.time() - start_time) * 1000
             start_time = time.time()
             
             # Use serializer that includes all question data (answers, explanations)
             serializer = QuestionForAttemptSerializer(questions, many=True)
             
-            serialization_time = time.time() - start_time
-            response_data = serializer.data
-            response_size = len(json.dumps(response_data).encode('utf-8'))
+            serialization_time = (time.time() - start_time) * 1000
             
-            logger.info(
-                f"[GET_QUESTIONS_RESPONSE] Attempt {pk} - "
-                f"{question_count} questions | "
-                f"Fetch: {fetch_time*1000:.2f}ms | "
-                f"Serialize: {serialization_time*1000:.2f}ms | "
-                f"Size: {response_size/1024:.2f}KB"
-            )
+            # Only log detailed metrics in DEBUG mode (production performance)
+            if logger.isEnabledFor(logging.DEBUG):
+                response_size = get_response_size_kb(serializer.data)
+                logger.debug(
+                    f"[GET_QUESTIONS] Attempt {pk} - "
+                    f"{question_count} questions | "
+                    f"Fetch: {fetch_time:.2f}ms | "
+                    f"Serialize: {serialization_time:.2f}ms | "
+                    f"Size: {response_size:.2f}KB"
+                )
             
-            return Response(response_data)
+            return Response(serializer.data)
         except Exception as e:
             logger.error(f"Error fetching attempt questions: {str(e)}")
             return Response(
@@ -505,7 +510,6 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         """Get exam review with all answers and explanations"""
         try:
             start_time = time.time()
-            logger.info(f"[GET_REVIEW] Fetching review for attempt {pk} by user {request.user.username}")
             
             # Check if user owns this attempt
             try:
@@ -525,9 +529,7 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_404_NOT_FOUND
                     )
             
-            logger.info(f"[GET_REVIEW] Review data: Attempt {attempt.id} | Status: {attempt.status} | Score: {attempt.score}")
-            
-            fetch_time = time.time() - start_time
+            fetch_time = (time.time() - start_time) * 1000
             start_time = time.time()
             
             # Refresh attempt with optimized queries to get answers and questions efficiently
@@ -539,20 +541,20 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             ).get(id=attempt.id)
             
             serializer = ExamAttemptSerializer(attempt)
-            response_data = serializer.data
+            serialization_time = (time.time() - start_time) * 1000
             
-            serialization_time = time.time() - start_time
-            response_size = len(json.dumps(response_data).encode('utf-8'))
+            # Only log detailed metrics in DEBUG mode (production performance)
+            if logger.isEnabledFor(logging.DEBUG):
+                response_size = get_response_size_kb(serializer.data)
+                logger.debug(
+                    f"[GET_REVIEW] Attempt {attempt.id} - "
+                    f"Fetch: {fetch_time:.2f}ms | "
+                    f"Serialize: {serialization_time:.2f}ms | "
+                    f"Size: {response_size:.2f}KB | "
+                    f"Answers: {attempt.answers.count()}"
+                )
             
-            logger.info(
-                f"[GET_REVIEW_RESPONSE] Attempt {attempt.id} - "
-                f"Fetch: {fetch_time*1000:.2f}ms | "
-                f"Serialize: {serialization_time*1000:.2f}ms | "
-                f"Size: {response_size/1024:.2f}KB | "
-                f"Answers: {attempt.answers.count()}"
-            )
-            
-            return Response(response_data)
+            return Response(serializer.data)
         except Exception as e:
             logger.error(f"Error retrieving review: {str(e)}")
             return Response(
