@@ -5,7 +5,7 @@ import { quizApi } from '../services/quizApi'
 
 export default function MockTestStart() {
   const navigate = useNavigate()
-  const [_speedReaderEnabled, _setSpeedReaderEnabled] = useState(false)
+  const [speedReaderEnabled, _setSpeedReaderEnabled] = useState(false)
 
   // Silently preload questions in background
   useEffect(() => {

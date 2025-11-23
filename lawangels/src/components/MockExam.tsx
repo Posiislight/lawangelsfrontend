@@ -182,54 +182,6 @@ export default function MockExam() {
     }
   }
 
-  const _handleSubmitAnswer = async () => {
-    if (!state.selectedAnswer || !state.attempt) return
-
-    try {
-      const question = state.questions[state.currentQuestion]
-      
-      // Submit answer to record in database (async, but don't wait for response)
-      quizApi.submitAnswer(
-        state.attempt.id,
-        question.id,
-        state.selectedAnswer,
-        10 // Default 10 seconds per question
-      ).catch(error => {
-        console.error('Error recording answer:', error)
-      })
-
-      // Check if answer is correct using loaded question data
-      const isCorrect = state.selectedAnswer === question.correct_answer
-
-      setState(prev => {
-        const updatedAnswers = { ...prev.answeredQuestions }
-        updatedAnswers[prev.currentQuestion] = {
-          answer: state.selectedAnswer!,
-          isCorrect: isCorrect,
-        }
-        
-        return {
-          ...prev,
-          answeredQuestions: updatedAnswers,
-          answerState: 'answered',
-        }
-      })
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : 'Failed to submit answer';
-      console.error('Error submitting answer:', error);
-      
-      // Check if it's a permission issue
-      if (errorMsg.includes('403') || errorMsg.includes('permission')) {
-        alert('Your session has expired or you do not have access to this exam attempt. Please refresh the page and start a new attempt.');
-      }
-      
-      setState(prev => ({ 
-        ...prev, 
-        error: errorMsg 
-      }))
-    }
-  }
-
   const handleNextQuestion = () => {
     if (state.currentQuestion < state.questions.length - 1) {
       setState(prev => ({
@@ -477,7 +429,6 @@ export default function MockExam() {
               <div className="space-y-3 mb-8">
                 {question.options.map((option) => {
                   const isSelected = state.selectedAnswer === option.label
-                  const _isCorrectOption = option.label === question.correct_answer
                   const showCorrectHighlight = showFeedback && isSelected && isAnswerCorrect
                   const showIncorrectHighlight = showFeedback && isSelected && !isAnswerCorrect
 
