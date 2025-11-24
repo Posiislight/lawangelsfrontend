@@ -2,4 +2,4 @@
 # Runs migrations and starts Gunicorn server
 
 release: cd lawangels && python manage.py migrate --noinput && python manage.py collectstatic --noinput
-web: gunicorn lawangels.lawangels.wsgi:application --config gunicorn_config.py
+web: cd lawangels && gunicorn lawangels.wsgi:application --bind 0.0.0.0:$PORT --config ../gunicorn_config.py
