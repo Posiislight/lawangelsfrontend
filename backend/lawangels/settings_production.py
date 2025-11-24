@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Allowed hosts - can be set via environment variable or use defaults
-ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', 'quiz-backend.onrender.com,localhost,127.0.0.1')
+ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', 'lawangelsfrontend.onrender.com,localhost,127.0.0.1')
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 
 # ============================================================================
@@ -40,8 +40,8 @@ ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 # ============================================================================
 
 # Frontend URLs - set via environment variables for flexibility
-FRONTEND_URL_PRODUCTION = os.getenv('FRONTEND_URL_PRODUCTION', 'https://lawangelsfrontend-wy6w.vercel.app')
-FRONTEND_URL_STAGING = os.getenv('FRONTEND_URL_STAGING', 'https://lawangelsfrontend-staging.vercel.app')
+FRONTEND_URL_PRODUCTION = os.getenv('FRONTEND_URL_PRODUCTION', 'https://www.lawangelsuk.com')
+FRONTEND_URL_STAGING = os.getenv('FRONTEND_URL_STAGING', 'https://lawangelsfrontend-wy6w.vercel.app')
 FRONTEND_URL_DEVELOPMENT = os.getenv('FRONTEND_URL_DEVELOPMENT', 'http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000')
 
 # Build CORS allowed origins - all frontend URLs combined
@@ -57,18 +57,17 @@ if DEBUG:
 
 # CSRF trusted origins - same as CORS for simplicity
 CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
-
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF Configuration - Allow cross-domain requests with credentials
 CSRF_COOKIE_SECURE = not DEBUG  # HTTPS only in production
 CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access for API requests
-CSRF_COOKIE_SAMESITE = 'Lax'  # Allow requests from cross-site frontend
+CSRF_COOKIE_SAMESITE = 'None' # Allow requests from cross-site frontend
 
 # Session cookies - secure in production
 SESSION_COOKIE_SECURE = not DEBUG  # HTTPS only in production
 SESSION_COOKIE_HTTPONLY = True  # Never expose to JavaScript
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'None'
 
 # ============================================================================
 # DATABASE - SUPABASE POSTGRESQL
@@ -168,6 +167,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',  # Added token-based authentication
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Added JWT-based authentication
     ],
 }
 
@@ -185,6 +186,7 @@ INSTALLED_APPS = [
     
     # Third-party
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     
     # Local
