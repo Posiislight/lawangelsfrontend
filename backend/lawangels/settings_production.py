@@ -110,10 +110,7 @@ else:
             'CONN_HEALTH_CHECKS': True,
             'OPTIONS': {
                 'sslmode': 'require',
-                'connect_timeout': 30,
-                'keepalives': 1,
-                'keepalives_idle': 30,
-                'statement_timeout': 30000,  # 30 seconds
+            
             }
         }
     }
