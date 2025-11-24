@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env file
-load_dotenv(BASE_DIR.parent / '.env')
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -102,8 +102,8 @@ INSTALLED_APPS = [
     'corsheaders',
     
     # Local
-    'lawangels.quiz',
-    'lawangels.auth_app',
+    'quiz',
+    'auth_app',
 ]
 
 MIDDLEWARE = [
@@ -115,8 +115,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'lawangels.middleware.RequestTimingMiddleware',
-    'lawangels.logging_utils.DetailedRequestLoggingMiddleware',  # Add request/response logging
+    'middleware.RequestTimingMiddleware',
+    'logging_utils.DetailedRequestLoggingMiddleware',  # Add request/response logging
 ]
 
 ROOT_URLCONF = 'lawangels.urls'

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AuthAppConfig(AppConfig):
+class QuizConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'lawangels.auth_app'
+    name = 'quiz'
