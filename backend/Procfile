@@ -1,5 +1,4 @@
 # Render Procfile for Django deployment
 # Runs migrations and starts Gunicorn server
-
 release: python manage.py migrate --noinput && python manage.py collectstatic --noinput
-web: gunicorn lawangels.wsgi:application --bind 0.0.0.0:$PORT --config gunicorn_config.py
+web: gunicorn lawangels.wsgi:application --bind 0.0.0.0:$PORT
