@@ -52,23 +52,79 @@ export default function MockExam() {
       try {
         setState(prev => ({ ...prev, loading: true, loadingStep: 'creating-attempt' }))
         
+        // Retrieve CSRF token from cookies
+        const csrfToken = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('csrftoken='))
+          ?.split('=')[1]
+
+        if (!csrfToken) {
+          throw new Error('CSRF token is missing. Ensure the user is authenticated and the CSRF cookie is set.')
+        }
+
         // Create new attempt
         console.log('Creating exam attempt...')
-        const attempt = await quizApi.startExam(1, false)
+        const attempt = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/start/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+          credentials: 'include',
+          body: JSON.stringify({ exam_id: 1, is_mock: false }),
+        }).then(res => {
+          if (!res.ok) {
+            if (res.status === 401) {
+              throw new Error('Authentication credentials are missing or invalid.')
+            }
+            throw new Error(`Failed to create exam attempt. Status: ${res.status}`)
+          }
+          return res.json()
+        })
+
         console.log('Attempt created:', attempt)
-        
         setState(prev => ({ ...prev, loadingStep: 'loading-questions' }))
         
         // Load the 40 randomly selected questions for this attempt
         console.log('Fetching questions for attempt:', attempt.id)
-        const questions = await quizApi.getAttemptQuestions(attempt.id)
+        const questions = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/${attempt.id}/questions/`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+          credentials: 'include',
+        }).then(res => {
+          if (!res.ok) {
+            if (res.status === 401) {
+              throw new Error('Authentication credentials are missing or invalid while fetching questions.')
+            }
+            throw new Error(`Failed to fetch questions. Status: ${res.status}`)
+          }
+          return res.json()
+        })
+
         console.log('Questions loaded:', questions.length)
-        
         setState(prev => ({ ...prev, loadingStep: 'loading-config' }))
         
         // Load timing config
-        const config = await quizApi.getExamTimingConfig()
-        
+        const config = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-timing-config/`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+          credentials: 'include',
+        }).then(res => {
+          if (!res.ok) {
+            if (res.status === 401) {
+              throw new Error('Authentication credentials are missing or invalid while fetching exam timing config.')
+            }
+            throw new Error(`Failed to fetch exam timing config. Status: ${res.status}`)
+          }
+          return res.json()
+        })
+
         setState(prev => ({
           ...prev,
           loading: false,
@@ -168,7 +224,7 @@ export default function MockExam() {
       if (state.attempt && !submittedAnswersRef.current.has(state.currentQuestion)) {
         submittedAnswersRef.current.add(state.currentQuestion)
         
-        fetch(`http://localhost:8000/api/exam-attempts/${state.attempt.id}/submit-answer/`, {
+        fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/${state.attempt.id}/submit-answer/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
