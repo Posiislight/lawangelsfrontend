@@ -2,7 +2,8 @@ Django==5.2.8
 djangorestframework==3.14.0
 django-cors-headers==4.3.1
 python-decouple==3.8
-psycopg2-binary==2.9.9
+# Use modern psycopg (psycopg3) with binary wheel for compatibility with newer Pythons
+psycopg[binary]
 
 # Production dependencies
 gunicorn==21.2.0
