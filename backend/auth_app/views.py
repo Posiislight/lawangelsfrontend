@@ -3,10 +3,22 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    """
+    GET /api/csrf/ -> sets the csrftoken cookie and returns token
+    Explicitly sets the CSRF cookie even for anonymous users
+    """
+    return JsonResponse({'csrfToken': get_token(request)})
 
 
 class AuthViewSet(viewsets.ViewSet):
