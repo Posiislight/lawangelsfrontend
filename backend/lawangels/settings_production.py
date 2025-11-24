@@ -191,8 +191,8 @@ INSTALLED_APPS = [
     'corsheaders',
     
     # Local
-    'lawangels.quiz',
-    'lawangels.auth_app',
+    'quiz',
+    'auth_app',
 ]
 
 MIDDLEWARE = [
