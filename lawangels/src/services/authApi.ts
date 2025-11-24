@@ -1,7 +1,8 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 
-const API_BASE_URL = 'http://localhost:8000/api'
+// Dynamic API URL: use environment variable in production, otherwise localhost for dev
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
 // Create axios instance with credentials
 const apiClient: AxiosInstance = axios.create({
@@ -32,7 +33,7 @@ function getCsrfToken(): string | null {
 // Fetch CSRF token from Django
 async function fetchCsrfToken() {
   try {
-    await axios.get('http://localhost:8000/api/auth/me/', { withCredentials: true })
+    await axios.get(`${API_BASE_URL}/auth/me/`, { withCredentials: true })
   } catch {
     // This will set the CSRF cookie even if the user is not authenticated
   }
