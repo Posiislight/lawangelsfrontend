@@ -192,6 +192,7 @@ INSTALLED_APPS = [
     
     # Local
     'lawangels.quiz',
+    'lawangels',
     'lawangels.auth_app',
 ]
 
