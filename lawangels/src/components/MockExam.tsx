@@ -62,6 +62,9 @@ export default function MockExam() {
           throw new Error('CSRF token is missing. Ensure the user is authenticated and the CSRF cookie is set.')
         }
 
+        // Retrieve auth token from localStorage or cookies
+        const token = localStorage.getItem('authToken')
+
         // Create new attempt
         console.log('Creating exam attempt...')
         const attempt = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/start/`, {
@@ -69,6 +72,7 @@ export default function MockExam() {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           credentials: 'include',
           body: JSON.stringify({ exam_id: 1, is_mock: false }),
@@ -92,6 +96,7 @@ export default function MockExam() {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           credentials: 'include',
         }).then(res => {
@@ -113,6 +118,7 @@ export default function MockExam() {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           credentials: 'include',
         }).then(res => {
