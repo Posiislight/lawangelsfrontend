@@ -116,7 +116,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'lawangels.middleware.RequestTimingMiddleware',
-    'logging_utils.DetailedRequestLoggingMiddleware',  # Add request/response logging
+    'lawangels.logging_utils.DetailedRequestLoggingMiddleware',  # Add request/response logging
 ]
 
 ROOT_URLCONF = 'lawangels.urls'
