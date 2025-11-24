@@ -119,7 +119,7 @@ MIDDLEWARE = [
     'lawangels.logging_utils.DetailedRequestLoggingMiddleware',  # Add request/response logging
 ]
 
-ROOT_URLCONF = 'lawangels.urls'
+ROOT_URLCONF = 'lawangels.lawangels.urls'
 
 TEMPLATES = [
     {
