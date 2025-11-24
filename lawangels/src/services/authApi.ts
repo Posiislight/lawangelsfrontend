@@ -2,14 +2,22 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 
 // Dynamic API URL: use environment variable in production, otherwise localhost for dev
-const API_BASE_URL = import.meta.env.VITE_API_URL
+// In production, VITE_API_URL is set to https://quiz-backend.onrender.com/api
+// In development, auto-detect based on localhost
+function getApiBaseUrl(): string {
+  const envApiUrl = import.meta.env.VITE_API_URL
+  if (envApiUrl) {
+    console.log('[AuthAPI] Using environment variable API URL:', envApiUrl)
+    return envApiUrl
+  }
 
-// Debug logging
-if (import.meta.env.VITE_API_URL) {
-  console.log('[AuthAPI] Using environment variable API URL:', import.meta.env.VITE_API_URL)
-} else {
-  console.log('[AuthAPI] Using default localhost API URL:', API_BASE_URL)
+  // Development: use localhost with /api path
+  const devUrl = 'http://localhost:8000/api'
+  console.log('[AuthAPI] Using default localhost API URL:', devUrl)
+  return devUrl
 }
+
+const API_BASE_URL = getApiBaseUrl()
 console.log('[AuthAPI] Initialized with base URL:', API_BASE_URL)
 
 // Create axios instance with credentials
@@ -41,7 +49,8 @@ function getCsrfToken(): string | null {
 // Fetch CSRF token from Django
 async function fetchCsrfToken() {
   try {
-    await axios.get(`${API_BASE_URL}/auth/me/`, { withCredentials: true })
+    // Use relative path since apiClient has baseURL set
+    await apiClient.get('auth/me/')
   } catch {
     // This will set the CSRF cookie even if the user is not authenticated
   }
@@ -80,7 +89,7 @@ export const authApi = {
     try {
       await fetchCsrfToken()
       const response = await apiClient.post(
-        '/auth/register/',
+        'auth/register/',
         {
           username,
           email,
@@ -101,7 +110,7 @@ export const authApi = {
     try {
       await fetchCsrfToken()
       const response = await apiClient.post(
-        '/auth/login/',
+        'auth/login/',
         {
           username,
           password,
@@ -116,7 +125,7 @@ export const authApi = {
 
   async logout() {
     try {
-      const response = await apiClient.post('/auth/logout/', {})
+      const response = await apiClient.post('auth/logout/', {})
       return response.data
     } catch (error: any) {
       console.error('Logout error:', error)
@@ -126,7 +135,7 @@ export const authApi = {
 
   async getCurrentUser() {
     try {
-      const response = await apiClient.get('/auth/me/')
+      const response = await apiClient.get('auth/me/')
       return response.data
     } catch (error) {
       console.warn('Could not fetch current user:', error)
