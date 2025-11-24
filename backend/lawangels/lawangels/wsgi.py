@@ -16,7 +16,7 @@ from django.core.wsgi import get_wsgi_application
 # Otherwise default to development settings
 if os.getenv('DATABASE_URL') and not os.getenv('DJANGO_SETTINGS_MODULE'):
     # Running on Render with DATABASE_URL set - use production settings
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lawangels.settings_production')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings_production')
 else:
     # Use explicit env var or fall back to development settings
     settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'lawangels.settings')
