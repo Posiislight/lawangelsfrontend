@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, Zap, ChevronLeft, ChevronRight, Loader } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
+import { fetchCsrfToken } from '../api/client'
 import type { Question, ExamAttempt } from '../services/quizApi'
 
 type AnswerState = 'unanswered' | 'answered' | 'navigated'
@@ -52,22 +53,20 @@ export default function MockExam() {
       try {
         setState(prev => ({ ...prev, loading: true, loadingStep: 'creating-attempt' }))
         
-        // Retrieve CSRF token from cookies
-        const csrfToken = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('csrftoken='))
-          ?.split('=')[1]
+        // Fetch CSRF token from the backend endpoint
+        const csrfToken = await fetchCsrfToken()
 
         if (!csrfToken) {
-          throw new Error('CSRF token is missing. Ensure the user is authenticated and the CSRF cookie is set.')
+          throw new Error('CSRF token is missing. Ensure the CSRF endpoint is accessible.')
         }
 
-        // Retrieve auth token from localStorage or cookies
+        // Retrieve auth token from localStorage
         const token = localStorage.getItem('authToken')
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
         // Create new attempt
         console.log('Creating exam attempt...')
-        const attempt = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/start/`, {
+        const attempt = await fetch(`${apiBaseUrl}/exam-attempts/start/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -91,7 +90,7 @@ export default function MockExam() {
         
         // Load the 40 randomly selected questions for this attempt
         console.log('Fetching questions for attempt:', attempt.id)
-        const questions = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/${attempt.id}/questions/`, {
+        const questions = await fetch(`${apiBaseUrl}/exam-attempts/${attempt.id}/questions/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -113,7 +112,7 @@ export default function MockExam() {
         setState(prev => ({ ...prev, loadingStep: 'loading-config' }))
         
         // Load timing config
-        const config = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-timing-config/`, {
+        const config = await fetch(`${apiBaseUrl}/exam-timing-config/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
