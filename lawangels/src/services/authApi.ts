@@ -4,6 +4,14 @@ import type { AxiosInstance } from 'axios'
 // Dynamic API URL: use environment variable in production, otherwise localhost for dev
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
+// Debug logging
+if (import.meta.env.VITE_API_URL) {
+  console.log('[AuthAPI] Using environment variable API URL:', import.meta.env.VITE_API_URL)
+} else {
+  console.log('[AuthAPI] Using default localhost API URL:', API_BASE_URL)
+}
+console.log('[AuthAPI] Initialized with base URL:', API_BASE_URL)
+
 // Create axios instance with credentials
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
