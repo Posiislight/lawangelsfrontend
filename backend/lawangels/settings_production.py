@@ -210,7 +210,7 @@ MIDDLEWARE = [
     'lawangels.logging_utils.DetailedRequestLoggingMiddleware',
 ]
 
-ROOT_URLCONF = 'lawangels.lawangels.urls'
+ROOT_URLCONF = 'lawangels.urls'
 
 TEMPLATES = [
     {

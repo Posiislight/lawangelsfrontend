@@ -2,7 +2,7 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 
 // Dynamic API URL: use environment variable in production, otherwise localhost for dev
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 // Debug logging
 if (import.meta.env.VITE_API_URL) {
