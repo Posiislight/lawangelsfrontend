@@ -41,6 +41,7 @@ ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 
 # Frontend URLs - set via environment variables for flexibility
 FRONTEND_URL_PRODUCTION = os.getenv('FRONTEND_URL_PRODUCTION', 'https://www.lawangelsuk.com')
+FRONTEND_URL_PROD_ALT = os.getenv('FRONTEND_URL_PROD_ALT', 'https://lawangelsuk.com')
 FRONTEND_URL_STAGING = os.getenv('FRONTEND_URL_STAGING', 'https://lawangelsfrontend-wy6w.vercel.app')
 FRONTEND_URL_DEVELOPMENT = os.getenv('FRONTEND_URL_DEVELOPMENT', 'http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000')
 
@@ -56,8 +57,16 @@ if DEBUG:
     CORS_ALLOWED_ORIGINS.extend(dev_urls)
 
 # CSRF trusted origins - same as CORS for simplicity
-CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.lawangelsuk.com",
+    "https://lawangelsuk.com",
+    "https://api.lawangelsuk.com",
+    "https://lawangelsfrontend-wy6w.vercel.app"
+]
 CORS_ALLOW_CREDENTIALS = True
+
+CSRF_COOKIE_DOMAIN = ".lawangelsuk.com"
+SESSION_COOKIE_DOMAIN = ".lawangelsuk.com"
 
 # CSRF Configuration - Allow cross-domain requests with credentials
 CSRF_COOKIE_SECURE = not DEBUG  # HTTPS only in production
@@ -196,8 +205,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # WhiteNoise for static files in production
-    'whitenoise.middleware.WhiteNoiseMiddleware' if not DEBUG else 'django.contrib.staticfiles.finders.FileSystemFinder',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
