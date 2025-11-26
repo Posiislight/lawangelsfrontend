@@ -117,6 +117,11 @@ function getCsrfToken(): string | null {
       }
     }
   }
+  if (cookieValue) {
+    console.debug('[QuizAPI] CSRF token found in cookies:', cookieValue.substring(0, 10) + '...')
+  } else {
+    console.debug('[QuizAPI] No CSRF token found in cookies')
+  }
   return cookieValue
 }
 
@@ -125,16 +130,23 @@ let csrfTokenCached = false;
 async function fetchCsrfToken() {
   if (csrfTokenCached) return; // Only fetch once
   try {
-    await fetch(`${API_BASE_URL}/auth/me/`, { 
+    console.debug('[QuizAPI] Attempting to fetch CSRF token from /auth/me/')
+    const response = await fetch(`${API_BASE_URL}/auth/me/`, { 
       credentials: 'include',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       }
     })
+    if (response.ok) {
+      console.debug('[QuizAPI] CSRF token fetch successful (200)')
+    } else {
+      console.debug('[QuizAPI] CSRF token fetch returned status:', response.status)
+    }
     csrfTokenCached = true;
   } catch (error) {
-    console.warn('Could not fetch CSRF token:', error)
+    console.warn('[QuizAPI] Could not fetch CSRF token:', error)
+    csrfTokenCached = true; // Mark as cached even on error to avoid retrying
   }
 }
 
