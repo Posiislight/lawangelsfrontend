@@ -86,6 +86,9 @@ SESSION_COOKIE_SECURE = not DEBUG  # HTTPS only in production
 SESSION_COOKIE_HTTPONLY = True  # Never expose to JavaScript
 SESSION_COOKIE_SAMESITE = 'None'
 
+# CSRF Token Failure View - return 403 with detail message
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
+
 # ============================================================================
 # DATABASE - SUPABASE POSTGRESQL
 # ============================================================================

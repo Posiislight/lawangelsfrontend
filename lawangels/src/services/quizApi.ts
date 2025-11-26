@@ -127,7 +127,10 @@ async function fetchCsrfToken() {
   try {
     await fetch(`${API_BASE_URL}/auth/me/`, { 
       credentials: 'include',
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
     csrfTokenCached = true;
   } catch (error) {
