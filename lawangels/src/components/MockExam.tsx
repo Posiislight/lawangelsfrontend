@@ -112,7 +112,7 @@ export default function MockExam() {
         setState(prev => ({ ...prev, loadingStep: 'loading-config' }))
         
         // Load timing config
-        const config = await fetch(`${apiBaseUrl}/exam-timing-config/`, {
+        const config = await fetch(`${apiBaseUrl}/exams/config/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

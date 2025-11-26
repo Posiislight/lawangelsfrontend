@@ -89,6 +89,7 @@ class ExamAttemptCreateSerializer(serializers.Serializer):
     """Serializer for creating a new exam attempt"""
     exam_id = serializers.IntegerField()
     speed_reader_enabled = serializers.BooleanField(default=False)
+    is_mock = serializers.BooleanField(default=False, required=False)
     
     def validate_exam_id(self, value):
         if not Exam.objects.filter(id=value).exists():

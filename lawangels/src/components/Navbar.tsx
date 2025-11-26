@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/lawangelslogo.png';
 import logotext from '../assets/logotext.png';
 export default function Navbar() {
@@ -9,10 +10,10 @@ export default function Navbar() {
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex items-center justify-between rounded-full bg-[#1A1D3E] text-white shadow-lg ring-1 ring-white/10 px-4 h-[56px]">
           {/* Logo */}
-          <a href="/" className="flex items-center ">
+          <Link to="/" className="flex items-center ">
           <img src={logo} alt="logo" className='w-14' />
           <img src={logotext} alt="logo" className='w-[93px] h-[20px] mt-2 -mx-2' />
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex gap-x-8">
@@ -68,12 +69,12 @@ export default function Navbar() {
 
           {/* Desktop Buttons */}
           <div className="hidden lg:flex items-center gap-x-3">
-            <button className="px-4 py-2 rounded-full text-sm bg-[#1A1D3E] text-white/80 hover:text-white ">
+            <Link to="/login" className="px-4 py-2 rounded-full text-sm bg-[#1A1D3E] text-white/80 hover:text-white transition-colors">
               Login
-            </button>
-            <button className="px-4 py-2 rounded-full bg-sky-400 text-white text-sm hover:bg-sky-500 transition-colors">
+            </Link>
+            <Link to="/register" className="px-4 py-2 rounded-full bg-sky-400 text-white text-sm hover:bg-sky-500 transition-colors">
               Get started
-            </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -108,9 +109,9 @@ export default function Navbar() {
             <div className="fixed inset-0 bg-black/40" onClick={() => setMobileMenuOpen(false)} />
             <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-slate-900 px-6 py-6 sm:max-w-sm text-white">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2">
                   <img src={logo} alt="LawAngels" className="h-10 w-14 object-contain" />
-                </div>
+                </Link>
 
                 {/* <-- Updated close button: use text-sky-400 so SVG (currentColor) isn't white --> */}
                 <button
@@ -170,12 +171,12 @@ export default function Navbar() {
                 </div>
 
                 <div className="py-6 space-y-2">
-                  <button className="w-full px-4 py-2 rounded-full bg-[#1A1D3E] text-sm text-white hover:bg-[#2C3170] transition-colors ring-1 ring-white/10">
+                  <Link to="/login" className="block w-full px-4 py-2 rounded-full bg-[#1A1D3E] text-sm text-white hover:bg-[#2C3170] transition-colors ring-1 ring-white/10 text-center">
                     Login
-                  </button>
-                  <button className="w-full px-4 py-2 rounded-full bg-sky-400 text-white hover:bg-sky-500 transition-colors">
+                  </Link>
+                  <Link to="/register" className="block w-full px-4 py-2 rounded-full bg-sky-400 text-white hover:bg-sky-500 transition-colors text-center">
                     Get started
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

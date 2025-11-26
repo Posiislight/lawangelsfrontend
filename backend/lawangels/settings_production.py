@@ -39,34 +39,42 @@ ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 # FRONTEND CONFIGURATION - DYNAMIC CORS SETUP
 # ============================================================================
 
-# Frontend URLs - set via environment variables for flexibility
-FRONTEND_URL_PRODUCTION = os.getenv('FRONTEND_URL_PRODUCTION', 'https://www.lawangelsuk.com')
-FRONTEND_URL_PROD_ALT = os.getenv('FRONTEND_URL_PROD_ALT', 'https://lawangelsuk.com')
-FRONTEND_URL_STAGING = os.getenv('FRONTEND_URL_STAGING', 'https://lawangelsfrontend-wy6w.vercel.app')
-FRONTEND_URL_DEVELOPMENT = os.getenv('FRONTEND_URL_DEVELOPMENT', 'http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000')
+# Allow all origins (CORS is configured to accept requests from any origin)
+CORS_ALLOW_ALL_ORIGINS = True
 
-# Build CORS allowed origins - all frontend URLs combined
-CORS_ALLOWED_ORIGINS = [
-    FRONTEND_URL_PRODUCTION,
-    FRONTEND_URL_STAGING,
-]
-
-# Add development URLs if in DEBUG mode
-if DEBUG:
-    dev_urls = [url.strip() for url in FRONTEND_URL_DEVELOPMENT.split(',')]
-    CORS_ALLOWED_ORIGINS.extend(dev_urls)
+# Commented out: Previous CORS configuration with specific origins
+# # Frontend URLs - set via environment variables for flexibility
+# FRONTEND_URL_PRODUCTION = os.getenv('FRONTEND_URL_PRODUCTION', 'https://www.lawangelsuk.com')
+# FRONTEND_URL_PROD_ALT = os.getenv('FRONTEND_URL_PROD_ALT', 'https://lawangelsuk.com')
+# FRONTEND_URL_STAGING = os.getenv('FRONTEND_URL_STAGING', 'https://lawangelsfrontend-wy6w.vercel.app')
+# FRONTEND_URL_DEVELOPMENT = os.getenv('FRONTEND_URL_DEVELOPMENT', 'http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000')
+# 
+# # Build CORS allowed origins - all frontend URLs combined
+# CORS_ALLOWED_ORIGINS = [
+#     FRONTEND_URL_PRODUCTION,
+#     FRONTEND_URL_STAGING,
+# ]
+# 
+# # Add development URLs if in DEBUG mode
+# if DEBUG:
+#     dev_urls = [url.strip() for url in FRONTEND_URL_DEVELOPMENT.split(',')]
+#     CORS_ALLOWED_ORIGINS.extend(dev_urls)
 
 # CSRF trusted origins - same as CORS for simplicity
 CSRF_TRUSTED_ORIGINS = [
     "https://www.lawangelsuk.com",
     "https://lawangelsuk.com",
     "https://api.lawangelsuk.com",
-    "https://lawangelsfrontend-wy6w.vercel.app"
+    "https://lawangelsfrontend-wy6w.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_COOKIE_DOMAIN = ".lawangelsuk.com"
-SESSION_COOKIE_DOMAIN = ".lawangelsuk.com"
+CSRF_COOKIE_DOMAIN = None
+SESSION_COOKIE_DOMAIN = None
 
 # CSRF Configuration - Allow cross-domain requests with credentials
 CSRF_COOKIE_SECURE = not DEBUG  # HTTPS only in production
