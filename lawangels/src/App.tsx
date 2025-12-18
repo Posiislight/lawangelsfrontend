@@ -10,6 +10,7 @@ import OverseasPathways from './pages/Path to Qualification/OverseasPathways'
 import MockTestStart from './components/MockTestStart'
 import MockExam from './components/MockExam'
 import Results from './pages/Results'
+import Pricing from './pages/Pricing'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -43,7 +44,7 @@ function App() {
 
         {/* Prep Tools Section */}
         <Route path="/prep-tools">
-          <Route path="pricing" element={<Home />} /> {/* TODO: Create Pricing component */}
+          <Route path="pricing" element={<Pricing />} />
           <Route path="sample-mcqs" element={<Home />} /> {/* TODO: Create SampleMCQs component */}
           <Route path="mock-test" element={<MockTestStart />} />
           <Route
@@ -95,7 +96,7 @@ function App() {
 
         {/* Main Navigation Items */}
         <Route path="/blog" element={<Home />} /> {/* TODO: Create Blog component */}
-        <Route path="/pricing" element={<Home />} /> {/* TODO: Create Pricing component */}
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Home />} /> {/* TODO: Create Contact component */}
       </Routes>
     </AuthProvider>
