@@ -59,8 +59,7 @@ export default function Navbar() {
               <a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Get in Touch</a>
               <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
                 <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
-                  <a href="/contact/call-us" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Call us</a>
-                  <a href="/contact/support" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Email support</a>
+                  <a href="/contact/call-us" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Contact Us</a>
                   <a href="/contact/press" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Press and collaborations</a>
                 </div>
               </div>

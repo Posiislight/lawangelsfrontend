@@ -13,6 +13,7 @@ import Results from './pages/Results'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Contact from './pages/Contact'
 
 function App() {
   return (
@@ -87,7 +88,7 @@ function App() {
 
         {/* Contact Section */}
         <Route path="/contact">
-          <Route path="call-us" element={<Home />} /> {/* TODO: Create Contact components */}
+          <Route path="call-us" element={<Contact />} /> {/* TODO: Create Contact components */}
           <Route path="support" element={<Home />} />
           <Route path="press" element={<Home />} />
         </Route>
