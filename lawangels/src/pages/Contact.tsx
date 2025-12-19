@@ -56,11 +56,9 @@ export default function Contact() {
             
             <div className="max-w-2xl mx-auto space-y-4 text-gray-600 dark:text-gray-400">
               <p>
-                Whether you have any ideas to improve our studio, feedback or issues, let us know!
+                Whether you have any ideas , feedback or issues, let us know!
               </p>
-              <p>
-                By the way, we're always looking for people to join our studio. Want to get involved? Pop us an email.
-              </p>
+
             </div>
 
             {/* Email Contact */}
@@ -70,7 +68,7 @@ export default function Contact() {
                 href="mailto:hello@lawangelsuk.com"
                 className="text-lg font-bold text-gray-900 dark:text-white hover:text-sky-400 transition-colors"
               >
-                hello@lawangelsuk.com
+                support@lawangelsuk.com
               </a>
             </div>
           </div>

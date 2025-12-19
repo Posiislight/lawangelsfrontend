@@ -111,13 +111,7 @@ export default function Footer() {
               <h4 className="text-blue-300 font-semibold mb-4 text-lg">Get in Touch</h4>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <a href="/contact/call-us" className="text-gray-300 hover:text-white cursor-pointer">Call us</a>
-                </li>
-                <li>
-                  <a href="/contact/support" className="text-gray-300 hover:text-white cursor-pointer">Email support</a>
-                </li>
-                <li>
-                  <a href="/contact/press" className="text-gray-300 hover:text-white cursor-pointer">Press & collaborations</a>
+                  <a href="/contact/call-us" className="text-gray-300 hover:text-white cursor-pointer">Contact Us</a>
                 </li>
               </ul>
             </div>
@@ -170,7 +164,7 @@ export default function Footer() {
               <a href="/cookies" className="hover:text-white text-gray-400">Cookies</a>
               <a href="/complaints" className="hover:text-white text-gray-400">Complaints policy</a>
             </div>
-            <div>2025 Law Angels. All right reserved.</div>
+            <div>&copy; 2025 Law Angels. All right reserved.</div>
           </div>
         </div>
       </footer>
