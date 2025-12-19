@@ -94,14 +94,6 @@ export default function Pricing() {
     },
   ]
 
-  const logos = [
-    { name: 'LexCorp', icon: 'balance' },
-    { name: 'Justitia', icon: 'gavel' },
-    { name: 'ShieldLaw', icon: 'verified_user' },
-    { name: 'Pearson & Co', icon: 'corporate_fare' },
-    { name: 'Global Legal', icon: 'account_balance' },
-  ]
-
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 font-worksans">
       <Navbar />
