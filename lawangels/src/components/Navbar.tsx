@@ -10,7 +10,7 @@ export default function Navbar() {
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="flex items-center justify-between rounded-full bg-[#1A1D3E] text-white shadow-lg ring-1 ring-white/10 px-4 h-[56px]">
           {/* Logo */}
-          <Link to="/" className="flex items-center ">
+          <Link to="/" className="flex items-center " onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <img src={logo} alt="logo" className='w-14' />
           <img src={logotext} alt="logo" className='w-[93px] h-[20px] mt-2 -mx-2' />
           </Link>
@@ -107,7 +107,7 @@ export default function Navbar() {
             <div className="fixed inset-0 bg-black/40" onClick={() => setMobileMenuOpen(false)} />
             <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-slate-900 px-6 py-6 sm:max-w-sm text-white">
               <div className="flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                   <img src={logo} alt="LawAngels" className="h-10 w-14 object-contain" />
                 </Link>
 

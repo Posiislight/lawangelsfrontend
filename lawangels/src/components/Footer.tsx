@@ -2,6 +2,7 @@ import manpicture from '../assets/omoooo.jpg';
 import logo from '../assets/lawangelslogo.png';
 import logotext from '../assets/logotext.png';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -46,14 +47,14 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-16">
           {/* Logo and brand section */}
           <div className="flex items-center mb-12">
-            <div className="flex items-center ">
+            <Link to="/" className="flex items-center cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <div className="w-20 h-16 -ml-2">
                 <img src={logo} alt="Law Angels logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <img src={logotext} alt="Law Angels" className="h-12 -ml-4 -mb-2" />
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Navigation columns */}

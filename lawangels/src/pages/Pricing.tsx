@@ -3,75 +3,31 @@ import Footer from '../components/Footer'
 
 export default function Pricing() {
 
-  const plans = [
+  const featureDetails = [
     {
-      name: '1 Month',
-      description: 'Perfect for getting started',
-      price: '$29',
-      period: '/month',
-      isPrimary: false,
-      buttonText: 'Subscribe Now',
-      buttonStyle: 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white',
-      features: [
-        'Expert-Led Video Lessons',
-        'Comprehensive Practice Questions',
-        'Personalised Study Plans',
-        '24/7 Access, Anywhere',
-      ],
+      title: 'Angel AI Tutor',
+      icon: 'psychology',
+      description: 'Your personal legal revision assistant, available 24/7 to answer questions, clarify case law, and explain complex principles instantly.',
     },
     {
-      name: '3 Months',
-      description: 'Great savings for your commitment',
-      price: '$72',
-      originalPrice: '$87',
-      period: '/3 months',
-      discount: '17% off',
-      isPrimary: true,
-      buttonText: 'Subscribe Now',
-      buttonStyle: 'bg-blue-600 hover:bg-blue-700 text-white',
-      features: [
-        'Expert-Led Video Lessons',
-        'Comprehensive Practice Questions',
-        'Personalised Study Plans',
-        '24/7 Access, Anywhere',
-      ],
+      title: 'Progress Tracker & Study Reports',
+      icon: 'monitoring',
+      description: 'Visual dashboards that track your performance over time, generating detailed reports to help you focus on areas that need improvement.',
     },
     {
-      name: '6 Months',
-      description: 'Maximum value for your dedication',
-      price: '$126',
-      originalPrice: '$174',
-      period: '/6 months',
-      discount: '28% off',
-      isPrimary: false,
-      buttonText: 'Subscribe Now',
-      buttonStyle: 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white',
-      features: [
-        'Expert-Led Video Lessons',
-        'Comprehensive Practice Questions',
-        'Personalised Study Plans',
-        '24/7 Access, Anywhere',
-      ],
-    },
-  ]
-
-  const comparisonFeatures = [
-    {
-      category: 'Core Learning Features',
-      items: [
-        { name: 'Expert-Led Video Lessons', oneMonth: true, threeMonths: true, sixMonths: true },
-        { name: 'Comprehensive Practice Questions', oneMonth: true, threeMonths: true, sixMonths: true },
-        { name: 'Personalised Study Plans', oneMonth: true, threeMonths: true, sixMonths: true },
-        { name: '24/7 Access, Anywhere', oneMonth: true, threeMonths: true, sixMonths: true },
-      ],
+      title: 'Graphic Reminders',
+      icon: 'notifications_active',
+      description: 'Stay organized with smart, visual notifications that keep your revision schedule on track and ensure you never miss a study session.',
     },
     {
-      category: 'Commitment Benefits',
-      items: [
-        { name: 'Savings', oneMonth: 'Standard', threeMonths: '17% off', sixMonths: '28% off' },
-        { name: 'Flexible Access Duration', oneMonth: '1 Month', threeMonths: '3 Months', sixMonths: '6 Months' },
-        { name: 'Renewal Required', oneMonth: 'Yes', threeMonths: 'Yes', sixMonths: 'Yes' },
-      ],
+      title: 'Study Plans',
+      icon: 'calendar_month',
+      description: 'Get personalized, structured revision timetables tailored to your exam dates, ensuring comprehensive coverage of all legal topics.',
+    },
+    {
+      title: 'SQE Tips',
+      icon: 'school',
+      description: 'Expert strategies and practical tips designed specifically for the Solicitors Qualifying Examination to maximize your passing potential.',
     },
   ]
 
@@ -95,151 +51,62 @@ export default function Pricing() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 font-worksans">
+    <div className="min-h-screen bg-[#f6f7f8] dark:bg-[#101822] font-worksans">
       <Navbar />
       
-      <main className="w-full flex flex-col items-center mt-16">
+      <main className="w-full flex flex-col items-center justify-center mt-16">
         {/* Hero Section */}
-        <section className="w-full max-w-7xl px-4 py-16 flex flex-col items-center text-center">
+        <section className="w-full max-w-6xl px-4 py-8 flex flex-col items-center text-center">
           <div className="flex flex-col gap-4 max-w-2xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-              Flexible Subscription Plans for Your Learning Journey
+            <h1 className="text-[#111418] dark:text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em]">
+              One Plan, Total Access
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400 font-normal leading-normal">
-              Choose the subscription length that works best for you. The longer you commit, the more you save!
+            <p className="text-[#617289] dark:text-gray-400 text-lg font-normal leading-normal">
+              We believe in making legal education accessible. No hidden fees, no tiers.
             </p>
           </div>
         </section>
 
-        {/* Pricing Cards */}
-        <section className="w-full max-w-7xl px-4 pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {plans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative flex flex-col gap-6 rounded-xl border bg-white dark:bg-gray-800 p-6 lg:p-8 transition-all ${
-                  plan.isPrimary
-                    ? 'border-2 border-blue-600 shadow-xl shadow-blue-600/10 md:scale-105 z-10'
-                    : 'border border-gray-200 dark:border-gray-700 hover:border-blue-600/50'
-                }`}
-              >
-                {plan.isPrimary && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    Most Popular
-                  </div>
-                )}
-
-                {plan.discount && (
-                  <div className="absolute -top-3 right-6 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {plan.discount}
-                  </div>
-                )}
-
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{plan.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{plan.description}</p>
-                  <div className="mt-4 flex items-baseline gap-2 text-gray-900 dark:text-white">
-                    <span className={`text-4xl font-black leading-tight ${plan.isPrimary ? 'text-blue-600' : ''}`}>
-                      {plan.price}
-                    </span>
-                    {plan.originalPrice && (
-                      <span className="text-base font-bold text-gray-400 line-through">{plan.originalPrice}</span>
-                    )}
-                  </div>
-                  {plan.period && <span className="text-sm font-bold text-gray-600 dark:text-gray-400">{plan.period}</span>}
-                </div>
-
-                <button className={`w-full cursor-pointer items-center justify-center rounded-lg h-12 ${plan.buttonStyle} text-sm font-bold transition-colors`}>
-                  {plan.buttonText}
-                </button>
-
-                <div className="flex flex-col gap-3">
-                  {plan.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex gap-3 text-sm text-gray-900 dark:text-gray-300">
-                      <span className="material-symbols-outlined text-blue-600 text-[20px]">check</span>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
+        {/* Pricing Card */}
+        <section className="w-full max-w-6xl px-4 pb-16">
+          <div className="rounded-3xl bg-white dark:bg-[#1A2633] shadow-[0_4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-[#f0f2f4] dark:border-[#2A3645] overflow-hidden flex flex-col md:flex-row transition-all hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+            {/* Left Side - Plan Details */}
+            <div className="w-full md:w-5/12 lg:w-4/12 bg-[#f8fafc] dark:bg-[#15202b] p-8 lg:p-12 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-[#f0f2f4] dark:border-[#2A3645] relative">
+              <div className="absolute top-0 left-0 w-full h-1 bg-[#136dec]"></div>
+              <h3 className="text-2xl font-bold text-[#111418] dark:text-white mb-2">Yearly Plan</h3>
+              <div className="flex items-baseline justify-center my-6 text-[#111418] dark:text-white">
+                <span className="text-5xl font-black">£0</span>
+                <span className="text-xl text-[#617289] dark:text-gray-400 ml-2 font-medium">/ year</span>
               </div>
-            ))}
-          </div>
-        </section>
+              <p className="text-[#617289] dark:text-gray-400 mb-8 max-w-[240px] text-sm leading-relaxed">
+                Unlock the full potential of your revision with complete access to all features.
+              </p>
+              <button className="w-full max-w-[240px] cursor-pointer flex items-center justify-center rounded-lg h-12 bg-[#136dec] hover:bg-[#0e5bc4] text-white text-base font-bold transition-all shadow-lg shadow-[#136dec]/20 group">
+                Get Started
+                <span className="material-symbols-outlined ml-2 text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+              </button>
+              <p className="text-xs text-[#617289] dark:text-gray-500 mt-4 font-medium">Free forever. No credit card required.</p>
+            </div>
 
-        {/* Feature Comparison Table */}
-        <section className="w-full max-w-7xl px-4 py-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Compare Features</h2>
-            <p className="text-gray-600 dark:text-gray-400">Detailed breakdown of what's included in each plan.</p>
-          </div>
-
-          <div className="w-full overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
-            <table className="w-full min-w-[800px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                  <th className="p-4 text-left font-bold text-gray-900 dark:text-white w-1/3 sticky left-0 bg-gray-50 dark:bg-gray-900 z-10">
-                    Features
-                  </th>
-                  <th className="p-4 text-center font-bold text-gray-900 dark:text-white w-1/5">1 Month</th>
-                  <th className="p-4 text-center font-bold text-blue-600 w-1/5">3 Months</th>
-                  <th className="p-4 text-center font-bold text-gray-900 dark:text-white w-1/5">6 Months</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {comparisonFeatures.map((section, sIdx) => (
-                  <>
-                    <tr key={`section-${sIdx}`}>
-                      <td
-                        colSpan={4}
-                        className="p-3 bg-gray-100 dark:bg-gray-900 font-bold text-xs uppercase tracking-wider text-gray-600 dark:text-gray-300 sticky left-0 z-10"
-                      >
-                        {section.category}
-                      </td>
-                    </tr>
-                    {section.items.map((item, iIdx) => (
-                      <tr key={iIdx} className="group hover:bg-gray-50 dark:hover:bg-gray-700/30">
-                        <td className="p-4 text-gray-900 dark:text-gray-300 sticky left-0 bg-white dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-700/30 z-10">
-                          {item.name}
-                        </td>
-                        <td className="p-4 text-center">
-                          {typeof item.oneMonth === 'boolean' ? (
-                            item.oneMonth ? (
-                              <span className="material-symbols-outlined text-blue-600 inline-block">check</span>
-                            ) : (
-                              <span className="material-symbols-outlined text-gray-400 inline-block">remove</span>
-                            )
-                          ) : (
-                            <span className="text-gray-600 dark:text-gray-400">{item.oneMonth}</span>
-                          )}
-                        </td>
-                        <td className="p-4 text-center">
-                          {typeof item.threeMonths === 'boolean' ? (
-                            item.threeMonths ? (
-                              <span className="material-symbols-outlined text-blue-600 font-bold inline-block">check</span>
-                            ) : (
-                              <span className="material-symbols-outlined text-gray-400 inline-block">remove</span>
-                            )
-                          ) : (
-                            <span className="text-gray-900 dark:text-white font-medium">{item.threeMonths}</span>
-                          )}
-                        </td>
-                        <td className="p-4 text-center">
-                          {typeof item.sixMonths === 'boolean' ? (
-                            item.sixMonths ? (
-                              <span className="material-symbols-outlined text-blue-600 font-bold inline-block">check</span>
-                            ) : (
-                              <span className="material-symbols-outlined text-gray-400 inline-block">remove</span>
-                            )
-                          ) : (
-                            <span className="text-gray-900 dark:text-white font-medium">{item.sixMonths}</span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </>
+            {/* Right Side - Features */}
+            <div className="w-full md:w-7/12 lg:w-8/12 p-8 lg:p-12">
+              <h4 className="text-xl font-bold text-[#111418] dark:text-white mb-8 border-b border-[#f0f2f4] dark:border-[#2A3645] pb-4">Included Features</h4>
+              <div className="flex flex-col gap-8">
+                {featureDetails.map((feature, idx) => (
+                  <div key={idx} className="flex gap-5 items-start">
+                    <div className="w-12 h-12 rounded-xl bg-[#136dec]/10 flex items-center justify-center shrink-0 mt-1">
+                      <span className="material-symbols-outlined text-[#136dec] text-2xl">{feature.icon}</span>
+                    </div>
+                    <div>
+                      <h5 className="text-lg font-bold text-[#111418] dark:text-white">{feature.title}</h5>
+                      <p className="text-[#617289] dark:text-gray-400 text-sm mt-2 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </div>
         </section>
 
