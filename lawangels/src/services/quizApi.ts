@@ -29,8 +29,8 @@ function getApiBaseUrl(): string {
   }
 
   // Production: Vercel deployment or custom domain
-  // All production deployments should use Render backend
-  const productionUrl = 'https://quiz-backend.onrender.com/api';
+  // All production deployments should use Law Angels UK API
+  const productionUrl = 'https://api.lawangelsuk.com/api';
   console.log('[QuizAPI] Production environment detected, using:', productionUrl);
   return productionUrl;
 }

@@ -39,7 +39,20 @@ export default function Testimonials() {
     content: '',
   })
 
-  const API_BASE_URL = 'http://127.0.0.1:8000/api' // Update with your backend URL
+  // Dynamic API URL - uses environment variable or auto-detects based on hostname
+  const API_BASE_URL = (() => {
+    const envApiUrl = import.meta.env.VITE_API_URL
+    if (envApiUrl) {
+      return envApiUrl
+    }
+    
+    const hostname = window.location.hostname
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'http://localhost:8000/api'
+    }
+    
+    return 'https://api.lawangelsuk.com/api'
+  })()
 
   // Fetch reviews and summary on component mount
   useEffect(() => {
