@@ -6,6 +6,7 @@ router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
 router.register(r'questions', views.QuestionViewSet, basename='question')
 router.register(r'exam-attempts', views.ExamAttemptViewSet, basename='exam-attempt')
+router.register(r'reviews', views.ReviewViewSet, basename='review')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)

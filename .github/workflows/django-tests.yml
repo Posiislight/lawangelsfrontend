@@ -36,7 +36,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.13'
+        python-version: '3.12'
     
     - name: Install dependencies
       run: |
@@ -49,20 +49,27 @@ jobs:
         cd backend
         python manage.py check
       env:
-        DJANGO_SETTINGS_MODULE: lawangels.settings
+        DJANGO_SETTINGS_MODULE: lawangels.settings_production
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        SECRET_KEY: 'test-key-not-for-production'
+        ALLOWED_HOSTS: 'localhost,127.0.0.1'
     
     - name: Run migrations
       run: |
         cd backend
-        python manage.py migrate --run-syncdb
+        python manage.py migrate
       env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         DJANGO_SETTINGS_MODULE: lawangels.settings_production
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        SECRET_KEY: 'test-key-not-for-production'
+        ALLOWED_HOSTS: 'localhost,127.0.0.1'
     
-    - name: Collect static files
+    - name: Run tests
       run: |
         cd backend
-        python manage.py collectstatic --noinput
+        python manage.py test
       env:
-        DJANGO_SETTINGS_MODULE: lawangels.settings
-        DEBUG: 'False'
+        DJANGO_SETTINGS_MODULE: lawangels.settings_production
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        SECRET_KEY: 'test-key-not-for-production'
+        ALLOWED_HOSTS: 'localhost,127.0.0.1'

@@ -19,7 +19,7 @@ export default function Navbar() {
           <ul className="hidden lg:flex gap-x-8">
             {/* About Us Dropdown */}
             <li className="relative group">
-              <a href="/about-us" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">About Us</a>
+              <span className="text-sm text-white/80 group-hover:text-[#0089FF] transition-colors cursor-default">About Us</span>
               <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
                 <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
                   <a href="/about-us/mission" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Our Mission</a>
@@ -31,7 +31,7 @@ export default function Navbar() {
 
             {/* Blog Dropdown with Path to Qualification as subheading */}
             <li className="relative group">
-              <a href="/blog" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Blog</a>
+              <span className="text-sm text-white/80 group-hover:text-[#0089FF] transition-colors cursor-default">Blog</span>
               <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
                 <div className='flex flex-col py-2 space-y-2 min-w-[350px]'>
                   <p className='text-base text-[#1A1D3E] font-semibold px-2'>Path to Qualification</p>
@@ -45,7 +45,7 @@ export default function Navbar() {
 
             {/* Prep Tools Dropdown */}
             <li className="relative group">
-              <a href="/pricing" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Prep Tools</a>
+              <span className="text-sm text-white/80 group-hover:text-[#0089FF] transition-colors cursor-default">Prep Tools</span>
               <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
                 <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
                   <a href="/prep-tools/pricing" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Pricing & features</a>
@@ -56,11 +56,10 @@ export default function Navbar() {
 
             {/* Get in Touch Dropdown */}
             <li className="relative group">
-              <a href="/contact" className="text-sm text-white/80 hover:text-[#0089FF] transition-colors">Get in Touch</a>
+              <span className="text-sm text-white/80 group-hover:text-[#0089FF] transition-colors cursor-default">Get in Touch</span>
               <div className='absolute top-[40px] left-0 bg-white/80 backdrop-blur-sm rounded-xl mt-5 shadow-lg group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50 p-4'>
                 <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
                   <a href="/contact/call-us" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Contact Us</a>
-                  <a href="/contact/press" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Press and collaborations</a>
                 </div>
               </div>
             </li>

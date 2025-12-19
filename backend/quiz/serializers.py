@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Exam, Question, QuestionOption, ExamAttempt, 
-    QuestionAnswer, ExamTimingConfig
+    QuestionAnswer, ExamTimingConfig, Review
 )
 
 
@@ -231,3 +231,39 @@ class CSVUploadSerializer(serializers.Serializer):
         if value.size > 5 * 1024 * 1024:  # 5MB max
             raise serializers.ValidationError("File size must be less than 5MB")
         return value
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    """Serializer for reviews and testimonials"""
+    days_ago = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Review
+        fields = [
+            'id', 'name', 'role', 'rating', 'title', 'content',
+            'helpful_count', 'created_at', 'days_ago', 'is_approved'
+        ]
+        read_only_fields = ['id', 'created_at', 'helpful_count', 'is_approved']
+    
+    def get_days_ago(self, obj):
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
+        delta = now - obj.created_at
+        days = delta.days
+        if days == 0:
+            return "Today"
+        elif days == 1:
+            return "1d"
+        else:
+            return f"{days}d"
+
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating reviews"""
+    class Meta:
+        model = Review
+        fields = ['name', 'role', 'rating', 'title', 'content']
+    
+    def create(self, validated_data):
+        review = Review.objects.create(**validated_data)
+        return review

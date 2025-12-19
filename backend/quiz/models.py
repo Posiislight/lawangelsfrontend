@@ -170,3 +170,32 @@ class ExamTimingConfig(models.Model):
 
     class Meta:
         verbose_name_plural = "Exam Timing Config"
+
+
+class Review(models.Model):
+    """User reviews and testimonials"""
+    RATING_CHOICES = [
+        (1, '1 Star'),
+        (2, '2 Stars'),
+        (3, '3 Stars'),
+        (4, '4 Stars'),
+        (5, '5 Stars'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='reviews')
+    name = models.CharField(max_length=200)
+    role = models.CharField(max_length=200)
+    rating = models.IntegerField(choices=RATING_CHOICES, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    title = models.CharField(max_length=500)
+    content = models.TextField()
+    helpful_count = models.IntegerField(default=0)
+    is_approved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name_plural = "Reviews"
+
+    def __str__(self):
+        return f"{self.name} - {self.rating} Stars"

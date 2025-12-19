@@ -11,14 +11,14 @@ import time
 logger = logging.getLogger(__name__)
 
 from .models import (
-    Exam, Question, QuestionOption, ExamAttempt, QuestionAnswer, ExamTimingConfig
+    Exam, Question, QuestionOption, ExamAttempt, QuestionAnswer, ExamTimingConfig, Review
 )
 from .serializers import (
     ExamSerializer, ExamDetailSerializer, QuestionDetailSerializer,
     ExamAttemptCreateSerializer, ExamAttemptSerializer, ExamAttemptLightSerializer,
     ExamAttemptListSerializer, ExamAttemptUpdateSerializer, QuestionAnswerSerializer,
     ExamTimingConfigSerializer, CSVUploadSerializer, ExamAttemptMinimalCreateSerializer,
-    QuestionForAttemptSerializer, QuestionAnswerSubmitSerializer
+    QuestionForAttemptSerializer, QuestionAnswerSubmitSerializer, ReviewSerializer, ReviewCreateSerializer
 )
 from .csv_parser import CSVQuestionParser
 from logging_utils import ViewLoggingMixin, log_queryset_access
@@ -568,3 +568,107 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                 {'error': str(e), 'success': False, 'message': 'Error retrieving review'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for Review/Testimonials
+    Endpoints:
+    - GET /reviews/ - List all approved reviews
+    - POST /reviews/ - Create a new review
+    - GET /reviews/{id}/ - Retrieve a specific review
+    - POST /reviews/{id}/helpful/ - Mark review as helpful
+    """
+    queryset = Review.objects.filter(is_approved=True).order_by('-created_at')
+    permission_classes = [AllowAny]
+    
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return ReviewCreateSerializer
+        return ReviewSerializer
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Allow admin to see unapproved reviews
+        if self.request.user and self.request.user.is_staff:
+            queryset = Review.objects.all().order_by('-created_at')
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        """List all approved reviews with optional filtering"""
+        sort_by = request.query_params.get('sort_by', 'relevant')
+        
+        queryset = self.get_queryset()
+        
+        if sort_by == 'recent':
+            queryset = queryset.order_by('-created_at')
+        else:  # Default to most relevant (by helpful count, then recent)
+            queryset = queryset.order_by('-helpful_count', '-created_at')
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request, *args, **kwargs):
+        """Create a new review"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user if request.user.is_authenticated else None)
+        
+        return Response(
+            {
+                'message': 'Review submitted successfully! It will appear after admin approval.',
+                'data': ReviewSerializer(serializer.instance).data
+            },
+            status=status.HTTP_201_CREATED
+        )
+    
+    @action(detail=True, methods=['post'])
+    def helpful(self, request, pk=None):
+        """Mark a review as helpful"""
+        review = self.get_object()
+        review.helpful_count += 1
+        review.save()
+        
+        serializer = self.get_serializer(review)
+        return Response(
+            {
+                'message': 'Thank you for finding this review helpful!',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+    
+    @action(detail=False, methods=['get'])
+    def summary(self, request):
+        """Get review summary statistics"""
+        queryset = self.get_queryset()
+        
+        reviews_count = queryset.count()
+        
+        # Calculate average rating
+        from django.db.models import Avg, Count
+        rating_stats = queryset.aggregate(
+            avg_rating=Avg('rating'),
+            total_reviews=Count('id')
+        )
+        
+        # Get rating distribution
+        rating_distribution = {}
+        for i in range(1, 6):
+            count = queryset.filter(rating=i).count()
+            percentage = (count / reviews_count * 100) if reviews_count > 0 else 0
+            rating_distribution[str(i)] = {
+                'count': count,
+                'percentage': round(percentage, 1)
+            }
+        
+        return Response({
+            'average_rating': round(rating_stats['avg_rating'], 1) if rating_stats['avg_rating'] else 0,
+            'total_reviews': reviews_count,
+            'rating_distribution': rating_distribution
+        })

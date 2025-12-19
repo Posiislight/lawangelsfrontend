@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Exam, Question, QuestionOption, ExamAttempt,
-    QuestionAnswer, ExamTimingConfig
+    QuestionAnswer, ExamTimingConfig, Review
 )
 
 
@@ -98,10 +98,38 @@ class QuestionAnswerAdmin(admin.ModelAdmin):
 class ExamTimingConfigAdmin(admin.ModelAdmin):
     list_display = ['default_duration_minutes', 'default_speed_reader_seconds', 'allow_custom_timing']
 
-    def has_add_permission(self, request):
-        """Allow only one config"""
-        return not ExamTimingConfig.objects.exists()
 
-    def has_delete_permission(self, request, obj=None):
-        """Prevent deletion"""
-        return False
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['name', 'role', 'rating', 'title', 'is_approved', 'helpful_count', 'created_at']
+    list_filter = ['is_approved', 'rating', 'created_at']
+    search_fields = ['name', 'title', 'content', 'role']
+    readonly_fields = ['created_at', 'updated_at', 'helpful_count']
+    fieldsets = (
+        ('Review Details', {
+            'fields': ('user', 'name', 'role')
+        }),
+        ('Content', {
+            'fields': ('rating', 'title', 'content')
+        }),
+        ('Status', {
+            'fields': ('is_approved', 'helpful_count')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    actions = ['approve_reviews', 'reject_reviews']
+
+    def approve_reviews(self, request, queryset):
+        """Action to approve selected reviews"""
+        updated = queryset.update(is_approved=True)
+        self.message_user(request, f'{updated} review(s) approved.')
+    approve_reviews.short_description = 'Approve selected reviews'
+
+    def reject_reviews(self, request, queryset):
+        """Action to reject selected reviews (mark as not approved)"""
+        updated = queryset.update(is_approved=False)
+        self.message_user(request, f'{updated} review(s) rejected.')
+    reject_reviews.short_description = 'Reject selected reviews'
