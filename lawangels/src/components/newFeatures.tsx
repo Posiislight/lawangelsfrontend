@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import helix from '../assets/Helix.png'
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 type Feature = { title: string; desc: string; icon: React.ReactNode }
 
@@ -94,7 +95,8 @@ export default function NewFeatures() {
         style={{ backgroundImage: `url(${helix})` }}
       />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-8 py-20">
+      {/* Desktop Design - Hidden on mobile */}
+      <div className="hidden md:block relative z-10 max-w-7xl mx-auto px-8 py-20">
         {/* Header Section */}
         <div className="flex justify-between items-start mb-16">
           <div className="flex-1">
@@ -160,6 +162,82 @@ export default function NewFeatures() {
         {/* Features Grid */}
         <div className="grid grid-cols-3 gap-20">
           {featuresToShow.map((feature, idx) => renderFeature(feature, idx))}
+        </div>
+      </div>
+
+      {/* Mobile Design - Hidden on md and up */}
+      <div className="md:hidden relative z-10 w-full px-4 pt-12 pb-8">
+        {/* Header Section */}
+        <div className="mb-10">
+          <h3 
+            style={{
+              fontFamily: 'Work Sans',
+              fontWeight: 400,
+              fontSize: '16px',
+              lineHeight: '140%',
+              letterSpacing: '-0.5%',
+            }}
+            className="text-white mb-3"
+          >
+            Our Features
+          </h3>
+          <h1
+            style={{
+              fontFamily: 'crimson',
+              fontWeight: 500,
+              fontSize: '28px',
+              lineHeight: '110%',
+              letterSpacing: '-2%',
+            }}
+            className="text-white mb-3"
+          >
+            Power your SQE Success
+          </h1>
+          <h2
+            style={{
+              fontFamily: 'Work Sans',
+              fontWeight: 400,
+              fontSize: '14px',
+              lineHeight: '140%',
+              letterSpacing: '-0.5%',
+            }}
+            className="text-gray-300"
+          >
+            Everything you need to master the Solicitors Qualifying Examination
+          </h2>
+        </div>
+
+        {/* Toggle Buttons */}
+        <div className="flex gap-3 mb-8">
+          <button 
+              onClick={() => setShowNew(false)}
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg ${!showNew ? 'bg-white' : 'bg-[#383D67]'}`}
+              aria-label="Show original features">
+              <svg width="24" height="24" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.9062 26.0218C15.1144 25.8153 15.2797 25.5696 15.3925 25.2989C15.5052 25.0282 15.5633 24.7378 15.5633 24.4446C15.5633 24.1513 15.5052 23.861 15.3925 23.5903C15.2797 23.3196 15.1144 23.0739 14.9062 22.8674L7.57557 15.5589L24.4361 15.5589C25.0252 15.5589 25.5902 15.3249 26.0068 14.9083C26.4234 14.4917 26.6575 13.9267 26.6575 13.3375C26.6575 12.7484 26.4234 12.1834 26.0068 11.7668C25.5902 11.3502 25.0252 11.1161 24.4361 11.1161L7.57557 11.1161L14.9062 3.8077C15.3245 3.3894 15.5595 2.82206 15.5595 2.2305C15.5595 1.63893 15.3245 1.0716 14.9062 0.653298C14.4879 0.234998 13.9206 0 13.329 0C12.7375 0 12.1701 0.234998 11.7518 0.653298L0.644775 11.7603C0.442537 11.9716 0.284004 12.2207 0.178278 12.4934C0.0607529 12.7593 4.76837e-05 13.0468 4.76837e-05 13.3375C4.76837e-05 13.6283 0.0607529 13.9158 0.178278 14.1817C0.284004 14.4544 0.442537 14.7035 0.644775 14.9147L11.7518 26.0218C11.9583 26.23 12.204 26.3953 12.4747 26.508C12.7454 26.6208 13.0358 26.6789 13.329 26.6789C13.6223 26.6789 13.9126 26.6208 14.1833 26.508C14.454 26.3953 14.6997 26.23 14.9062 26.0218Z" fill={!showNew ? '#000' : '#CCCCCC'}/>
+              </svg>
+            </button>
+          <button 
+              onClick={() => setShowNew(true)}
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg ${showNew ? 'bg-white' : 'bg-[#383D67]'}`}
+              aria-label="Show new features">
+              <svg width="24" height="24" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.7513 0.657173C11.543 0.863684 11.3778 1.10937 11.265 1.38007C11.1522 1.65077 11.0942 1.94112 11.0942 2.23437C11.0942 2.52762 11.1522 2.81798 11.265 3.08867C11.3778 3.35937 11.543 3.60506 11.7513 3.81157L19.0819 11.12L2.22141 11.12C1.63225 11.12 1.06723 11.354 0.650636 11.7706C0.234041 12.1872 0 12.7523 0 13.3414C0 13.9306 0.234041 14.4956 0.650636 14.9122C1.06723 15.3288 1.63225 15.5628 2.22141 15.5628L19.0819 15.5628L11.7513 22.8713C11.333 23.2896 11.098 23.8569 11.098 24.4485C11.098 25.04 11.333 25.6074 11.7513 26.0257C12.1696 26.444 12.7369 26.679 13.3285 26.679C13.92 26.679 14.4874 26.444 14.9057 26.0257L26.0127 14.9186C26.2149 14.7073 26.3735 14.4582 26.4792 14.1855C26.5967 13.9196 26.6574 13.6321 26.6574 13.3414C26.6574 13.0507 26.5967 12.7632 26.4792 12.4973C26.3735 12.2246 26.2149 11.9755 26.0127 11.7642L14.9057 0.657173C14.6991 0.448965 14.4535 0.283701 14.1828 0.170923C13.9121 0.0581455 13.6217 8.2016e-05 13.3285 8.2016e-05C13.0352 8.2016e-05 12.7449 0.0581455 12.4742 0.170923C12.2035 0.283701 11.9578 0.448965 11.7513 0.657173Z" fill={showNew ? '#000' : '#CCCCCC'}/>
+              </svg>
+            </button>
+        </div>
+
+        {/* Features Stack */}
+        <div className="space-y-6">
+          {featuresToShow.map((feature, idx) => (
+            <div key={idx} className="bg-[#FFFFFF1A] backdrop-blur-[40px] p-5 rounded-lg">
+              <div className="mb-3">
+                {feature.icon}
+              </div>
+              <h3 className="text-white text-lg font-medium mb-2 font-crimson">{feature.title}</h3>
+              <p className="text-gray-300 text-sm font-normal">{feature.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
