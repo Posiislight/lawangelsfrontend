@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { AlertCircle } from 'lucide-react'
+import logo from '../assets/lawangelslogo.png'
+import logotext from '../assets/logotext.png'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -46,16 +48,20 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F172B] to-[#1D293D] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 font-worksans">
+      <div className="w-full max-w-xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Law Angels</h1>
-          <p className="text-[#CAD5E2]">Welcome back</p>
+        <div className="text-center mb-12 mt-10">
+          <div className="flex items-center justify-center gap-1 mb-4">
+            <img src={logo} alt="Law Angels" className="h-12 w-20 -mr-4" />
+            <img src={logotext} alt="Law Angels" className="h-8 mt-2" />
+          </div>
+          <h1 className="text-3xl font-medium text-[#111418] mb-2">Create your account</h1>
+          <p className="text-[#617289] text-base">Start your journey to becoming a qualified solicitor</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-8 -mt-4">
           {(error || validationError) && (
             <div className="mb-6 flex items-start gap-3 bg-red-50 border border-red-200 rounded-lg p-4">
               <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
@@ -64,26 +70,39 @@ export default function Login() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Username */}
+            {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-[#314158] mb-2">
-                Username
+              <label className="block text-sm font-medium text-[#111418] mb-2">
+                Full Name
               </label>
               <input
                 type="text"
+                placeholder="Konrad Tibert"
+                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] text-base bg-[#f8f9fa]"
+                disabled={isLoading}
+              />
+            </div>
+
+            {/* Email Address */}
+            <div>
+              <label className="block text-sm font-medium text-[#111418] mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100] text-base"
-                placeholder="Enter your username"
+                placeholder="konrde@example.com"
+                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] text-base bg-[#f8f9fa]"
                 disabled={isLoading}
-                autoComplete="username"
+                autoComplete="email"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-[#314158] mb-2">
+              <label className="block text-sm font-medium text-[#111418] mb-2">
                 Password
               </label>
               <input
@@ -91,40 +110,56 @@ export default function Login() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100] text-base"
-                placeholder="Enter your password"
+                placeholder="Create a strong password"
+                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] text-base bg-[#f8f9fa]"
                 disabled={isLoading}
-                autoComplete="current-password"
+                autoComplete="new-password"
               />
+              <p className="text-xs text-[#617289] mt-2">Minimum 8 characters</p>
             </div>
 
-            {/* Submit Button */}
+            {/* Continue Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[#E17100] to-[#FE9A00] text-white font-semibold py-3 rounded-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+              className="w-full bg-[#0AB5FF] hover:bg-[#0077DD] text-white font-semibold py-3 rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed mt-8 flex items-center justify-center gap-2"
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? 'Creating account...' : 'Continue'}
+              {!isLoading && (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              )}
             </button>
           </form>
 
-          {/* Register Link */}
-          <p className="text-center text-[#314158] mt-6">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-[#E17100] font-semibold hover:underline">
-              Create one here
-            </Link>
-          </p>
+          {/* Divider */}
+          <div className="my-6 flex items-center gap-3">
+            <div className="flex-1 border-t border-[#E2E8F0]"></div>
+            <span className="text-sm text-[#617289]">Or continue with</span>
+            <div className="flex-1 border-t border-[#E2E8F0]"></div>
+          </div>
+
+          {/* Google Button */}
+          <button
+            type="button"
+            className="w-full border border-[#E2E8F0] text-[#111418] font-semibold py-3 rounded-lg hover:bg-[#f8f9fa] transition flex items-center justify-center gap-2"
+            disabled={isLoading}
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <text x="0" y="20" className="text-2xl">G</text>
+            </svg>
+            <span>Continue with Google</span>
+          </button>
         </div>
 
-        {/* Demo Credentials */}
-        <div className="mt-8 text-center">
-          <p className="text-[#CAD5E2] text-sm mb-3">Demo Credentials:</p>
-          <div className="bg-[#1D293D] rounded-lg p-4 text-left text-xs text-[#CAD5E2] space-y-1">
-            <p>Username: <span className="text-[#FE9A00]">testuser</span></p>
-            <p>Password: <span className="text-[#FE9A00]">testpass123</span></p>
-          </div>
-        </div>
+        {/* Sign In Link */}
+        <p className="text-center text-[#617289] mt-6 text-sm mb-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-[#089AD9] font-normal hover:underline">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   )
