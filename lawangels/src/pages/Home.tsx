@@ -7,6 +7,7 @@ import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
 import NewFeatures from '../components/newFeatures';
 import Popup from '../components/Popup';
+
 import { useEffect, useState} from 'react';
 
 // Scroll animation hook
@@ -69,6 +70,7 @@ export default function Home() {
             <div data-scroll className="opacity-0 translate-y-10 transition-all duration-700 ease-out data-[animate]:opacity-100 data-[animate]:translate-y-0">
               <Testimonials />
             </div>
+            
             <Footer />
         </>
     )

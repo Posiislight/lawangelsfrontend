@@ -7,6 +7,69 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <>
+      {/* Mobile view */}
+      <section className="md:hidden text-white font-worksans z-0 bg-[#1a1a18]">
+        <div className="w-full flex flex-col items-center px-5 py-12 gap-8">
+          {/* Logo section */}
+          <Link to="/" className="flex flex-col items-center cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="w-16 h-16 mb-3">
+              <img src={logo} alt="Law Angels logo" className="w-full h-full object-contain" />
+            </div>
+            <div>
+              <img src={logotext} alt="Law Angels" className="h-8 object-contain" />
+            </div>
+          </Link>
+
+          {/* Navigation links - stacked vertically centered */}
+          <div className="flex flex-col items-center gap-6 text-center">
+            <a href="/path-to-qualification/sqe-route" className="text-[#5DB2FF] hover:text-white cursor-pointer text-sm">Path to Qualification</a>
+            <a href="/prep-tools/pricing" className="text-[#5DB2FF] hover:text-white cursor-pointer text-sm">Prep Tools</a>
+            <a href="/about-us/mission" className="text-[#5DB2FF] hover:text-white cursor-pointer text-sm">About Us</a>
+            <a href="/contact/call-us" className="text-[#5DB2FF] hover:text-white cursor-pointer text-sm">Get in Touch</a>
+            <a href="#" className="text-[#5DB2FF] hover:text-white cursor-pointer text-sm">Stay Connected</a>
+          </div>
+
+          {/* Social icons */}
+          <div className="flex justify-center gap-4">
+            {/* Facebook */}
+            <a href="#" className="text-white hover:text-blue-300 transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 4.99 3.66 9.12 8.44 9.93v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22C18.34 21.19 22 17.06 22 12.07z" />
+              </svg>
+            </a>
+
+            {/* Instagram */}
+            <a href="#" className="text-white hover:text-blue-300 transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="3.5" />
+                <path d="M17.5 6.5h.01" />
+              </svg>
+            </a>
+
+            {/* Twitter */}
+            <a href="#" className="text-white hover:text-blue-300 transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23 4.5c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.4 1.7-2.4-.7.4-1.6.6-2.5.9C19.2 2.9 18 2.5 16.7 2.5c-2.2 0-3.9 1.9-3.3 4.1-3-.2-5.6-1.6-7.3-3.8-1 1.7-.6 4.1 1 5.3-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.7 3.4 4.1-.6.2-1.2.2-1.8.1.5 1.6 2 2.8 3.8 2.8C8.7 17.8 6 18.6 3.2 18.1c2 1.2 4.4 1.9 6.9 1.9 8.3 0 12.9-6.9 12.9-12.9v-.6c.9-.6 1.6-1.4 2.2-2.3-.8.4-1.6.6-2.5.8z" />
+              </svg>
+            </a>
+
+            {/* LinkedIn */}
+            <a href="#" className="text-white hover:text-blue-300 transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.08 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8h4.55v13H.22zM8.98 8h4.37v1.8h.1c.61-1.2 2.1-2.5 4.34-2.5 4.64 0 5.5 3.06 5.5 7.04V21h-4.55v-6.3c0-1.5 0-3.4-2.09-3.4-2.1 0-2.42 1.64-2.42 3.32V21H8.98V8z" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Divider */}
+          <div className="w-full h-px bg-gray-600"></div>
+
+          {/* Copyright text */}
+          <div className="text-white text-sm text-center">2024 MyKaban. All right reserved.</div>
+        </div>
+      </section>
+
       {/* Desktop/tablet styling */}
       <section className="hidden md:block text-white font-worksans z-0">
         <div className="w-full relative overflow-hidden">
@@ -43,7 +106,7 @@ export default function Footer() {
       </section>
 
       {/* Footer Section */}
-      <footer className="bg-black text-white font-worksans rounded-t-[40px] w-full relative z-20 -mt-10 shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
+      <footer className="hidden md:block bg-black text-white font-worksans rounded-t-[40px] w-full relative z-20 -mt-10 shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
         <div className="max-w-7xl mx-auto px-6 py-16">
           {/* Logo and brand section */}
           <div className="flex items-center mb-12">
