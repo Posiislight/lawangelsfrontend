@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Contact from './pages/Contact'
+import Setup from './pages/Setup'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         {/* Auth Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/setup" element={<Setup />} />
 
         {/* Home */}
         <Route path="/" element={<Home />} />
