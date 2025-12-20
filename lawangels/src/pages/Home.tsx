@@ -54,7 +54,7 @@ export default function Home() {
     return (
         <>
             <Navbar/>
-            <Popup open={popupOpen} onClose={closePopUp} />
+            {/* <Popup open={popupOpen} onClose={closePopUp} /> */}
             <div data-scroll className="opacity-0 translate-y-10 transition-all duration-700 ease-out data-[animate]:opacity-100 data-[animate]:translate-y-0">
               <Hero />
             </div>

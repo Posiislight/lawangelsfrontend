@@ -86,7 +86,7 @@ export default function Footer() {
           <div className="w-full h-px bg-gray-600"></div>
 
           {/* Copyright text */}
-          <div className="text-white text-sm text-center">2024 MyKaban. All right reserved.</div>
+          <div className="text-white text-sm text-center">&copy; 2025 Law Angels. All right reserved.</div>
         </div>
       </section>
 
