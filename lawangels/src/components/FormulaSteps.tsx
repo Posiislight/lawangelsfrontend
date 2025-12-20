@@ -90,51 +90,35 @@ export default function FormulaSteps() {
             Each step: Title -> Text -> Image (image AFTER step)
             Vertical connector + markers
             ========================= */}
-        <div className="md:hidden relative mt-4">
-          {/* Vertical connector line running down the left of the steps */}
-          <div className="absolute top-6 bottom-6 " aria-hidden="true" />
-
-          {/* Step 1 */}
-          <div className="relative  pb-12 border-b-4 border-orange-400 ">
-            
-
-            <h3 className="text-2xl font-semibold text-slate-800">Master</h3>
-            <p className="mt-2 text-slate-700">
-              Dive into our learning modules crafted by seasoned solicitors. Complex rules are transformed into clear,
-              concise breakdowns with animated explainers and bite-sized video lessons.
+        <div className="md:hidden">
+          {/* Step 1: Master */}
+          <div className="pb-8">
+            <h3 className="text-2xl font-semibold text-orange-500 font-crimson mb-3">Master</h3>
+            <p className="mt-2 text-slate-700 text-base leading-relaxed">
+              Build your foundation with our comprehensive notes and graphic explainers that simplify complex legal principles into clear, digestible insights. Dive into tutorial videos designed to make tricky concepts easy to understand.
             </p>
-
             {/* image AFTER the step copy */}
-            <img src={learnimage} alt="Learn" className="w-full h-56 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
+            <img src={learnimage} alt="Learn" className="w-full h-48 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
 
-          {/* Step 2 */}
-          <div className="relative pb-12 pt-12 border-b-4 border-orange-400">
-            
-
-            <h3 className="text-2xl font-semibold text-slate-800 ">Memorize</h3>
-            <p className="mt-2 text-slate-700">
-              Solidify your understanding with flashcards that target the essentials, and never let them slip away.
-              Break out visually structured mind maps that connect legal principles across topics for full clarity and
-              retention.
+          {/* Step 2: Memorize */}
+          <div className="pb-8">
+            <h3 className="text-2xl font-semibold text-orange-500 font-crimson mb-3">Memorize</h3>
+            <p className="mt-2 text-slate-700 text-base leading-relaxed">
+              Lock in the essentials with flashcards and quizzes that sharpen recall. Follow a structured study plan that keeps you consistent and ensures no topic slips through the cracks.
             </p>
-
             {/* image AFTER the step copy */}
-            <img src={reinforceimage} alt="Reinforce" className="w-full h-56 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
+            <img src={reinforceimage} alt="Reinforce" className="w-full h-48 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
 
-          {/* Step 3 */}
-          <div className="relative pb-6 pt-6 ">
-            
-
-            <h3 className="text-2xl font-semibold text-slate-800">Maximize</h3>
-            <p className="mt-2 text-slate-700">
-              Put your knowledge to the test with thousands of SQE-style MCQs and simulated exam experiences. Track your
-              progress against peers and build the confidence to ace the exam.
+          {/* Step 3: Maximize */}
+          <div className="pb-8">
+            <h3 className="text-2xl font-semibold text-orange-500 font-crimson mb-3">Maximize</h3>
+            <p className="mt-2 text-slate-700 text-base leading-relaxed">
+              Challenge yourself with mock exams and smart tracking tools that replicate the real SQE. Use the built-in speed-reader to boost your pace, master timing, and walk into exam day 100% ready.
             </p>
-
             {/* image AFTER the step copy */}
-            <img src={practiceimage} alt="Practice" className="w-full h-56 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
+            <img src={practiceimage} alt="Practice" className="w-full h-48 object-cover rounded-2xl shadow mt-4 transition-transform duration-300 hover:scale-110 hover:shadow-lg cursor-pointer" />
           </div>
         </div>
       </div>
