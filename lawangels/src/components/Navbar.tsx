@@ -6,8 +6,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-4 left-0 right-0 z-40 font-worksans">
-      <div className="max-w-[1200px] mx-auto px-4">
+    <nav className="fixed top-4 left-0 right-0 z-40 font-worksans w-full">
+      <div className="w-full h-full px-4 md:max-w-[1200px] md:mx-auto">
         <div className="flex items-center justify-between rounded-full bg-[#1A1D3E] text-white shadow-lg ring-1 ring-white/10 px-4 h-[56px]">
           {/* Logo */}
           <Link to="/" className="flex items-center " onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
