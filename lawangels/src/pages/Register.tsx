@@ -1,19 +1,17 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { AlertCircle, CheckCircle } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
+import logo from '../assets/lawangelslogo.png'
+import logotext from '../assets/logotext.png'
 
 export default function Register() {
   const navigate = useNavigate()
-  const { register, isLoading, error, clearError } = useAuth()
-  const [success, setSuccess] = useState(false)
+  const { login, isLoading, error, clearError } = useAuth()
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    fullName: '',
     email: '',
-    username: '',
     password: '',
-    confirmPassword: '',
   })
   const [validationError, setValidationError] = useState('')
 
@@ -32,79 +30,47 @@ export default function Register() {
     setValidationError('')
 
     // Validation
-    if (!formData.firstName.trim()) {
-      setValidationError('First name is required')
-      return
-    }
-    if (!formData.lastName.trim()) {
-      setValidationError('Last name is required')
+    if (!formData.fullName.trim()) {
+      setValidationError('Full name is required')
       return
     }
     if (!formData.email.trim()) {
       setValidationError('Email is required')
       return
     }
-    if (!formData.username.trim()) {
-      setValidationError('Username is required')
+    if (!formData.password.trim()) {
+      setValidationError('Password is required')
       return
     }
-    if (formData.password.length < 6) {
-      setValidationError('Password must be at least 6 characters')
-      return
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setValidationError('Passwords do not match')
+    if (formData.password.length < 8) {
+      setValidationError('Password must be at least 8 characters')
       return
     }
 
     try {
-      await register(
-        formData.username,
-        formData.email,
-        formData.password,
-        formData.confirmPassword,
-        formData.firstName,
-        formData.lastName
-      )
-      setSuccess(true)
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        username: '',
-        password: '',
-        confirmPassword: '',
-      })
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        navigate('/login')
-      }, 2000)
+      await login(formData.email, formData.password)
+      // Redirect to setup page after registration
+      navigate('/setup')
     } catch (err) {
       // Error is handled by context
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F172B] to-[#1D293D] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 font-worksans">
+      <div className="w-full max-w-2xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Law Angels</h1>
-          <p className="text-[#CAD5E2]">Create your account</p>
+        <div className="text-center mb-12 mt-8">
+          <div className="flex items-center justify-center gap-1 mb-4">
+            <img src={logo} alt="Law Angels" className="h-12 w-20 -mr-4" />
+            <img src={logotext} alt="Law Angels" className="h-8 mt-2" />
+          </div>
+          <h1 className="text-3xl font-medium text-[#111418] mb-2">Create your account</h1>
+          <p className="text-[#617289] text-base">Start your journey to becoming a qualified solicitor</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          {success && (
-            <div className="mb-6 flex items-start gap-3 bg-green-50 border border-green-200 rounded-lg p-4">
-              <CheckCircle size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-green-900">Registration successful!</p>
-                <p className="text-sm text-green-800">Redirecting to login...</p>
-              </div>
-            </div>
-          )}
-
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-8">
           {(error || validationError) && (
             <div className="mb-6 flex items-start gap-3 bg-red-50 border border-red-200 rounded-lg p-4">
               <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
@@ -112,44 +78,26 @@ export default function Register() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* First Name & Last Name Row */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-[#314158] mb-2">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100]"
-                  placeholder="John"
-                  disabled={isLoading}
-                  autoComplete="given-name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#314158] mb-2">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100]"
-                  placeholder="Doe"
-                  disabled={isLoading}
-                  autoComplete="family-name"
-                />
-              </div>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Full Name */}
+            <div>
+              <label className="block text-sm font-medium text-[#111418] mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Konrad Tibert"
+                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] text-base"
+                disabled={isLoading}
+              />
             </div>
 
-            {/* Email */}
+            {/* Email Address */}
             <div>
-              <label className="block text-sm font-medium text-[#314158] mb-2">
+              <label className="block text-sm font-medium text-[#111418] mb-2">
                 Email Address
               </label>
               <input
@@ -157,33 +105,16 @@ export default function Register() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100]"
-                placeholder="john@example.com"
+                placeholder="your@email.com"
+                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] text-base"
                 disabled={isLoading}
                 autoComplete="email"
               />
             </div>
 
-            {/* Username */}
-            <div>
-              <label className="block text-sm font-medium text-[#314158] mb-2">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100]"
-                placeholder="john_doe"
-                disabled={isLoading}
-                autoComplete="username"
-              />
-            </div>
-
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-[#314158] mb-2">
+              <label className="block text-sm font-medium text-[#111418] mb-2">
                 Password
               </label>
               <input
@@ -191,49 +122,60 @@ export default function Register() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100]"
-                placeholder="••••••••"
+                placeholder="Create a strong password"
+                className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] text-base"
                 disabled={isLoading}
                 autoComplete="new-password"
               />
-              <p className="text-xs text-[#45556C] mt-1">At least 6 characters</p>
+              <p className="text-xs text-[#617289] mt-2">Minimum 8 characters</p>
             </div>
 
-            {/* Confirm Password */}
-            <div>
-              <label className="block text-sm font-medium text-[#314158] mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E17100]"
-                placeholder="••••••••"
-                disabled={isLoading}
-                autoComplete="new-password"
-              />
-            </div>
-
-            {/* Submit Button */}
+            {/* Continue Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[#0F172B] to-[#1a1f3a] text-white font-semibold py-3 rounded-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#0089FF] hover:bg-[#0077DD] disabled:bg-[#0089FF]/50 text-white font-semibold py-3 rounded-full transition mt-6 flex items-center justify-center gap-2"
             >
-              {isLoading ? 'Creating Account...' : 'Create Account'}
+              {isLoading ? 'Creating account...' : 'Continue'}
+              {!isLoading && (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              )}
+            </button>
+
+            {/* Divider */}
+            <div className="relative mt-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[#E2E8F0]"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-[#617289]">Or continue with</span>
+              </div>
+            </div>
+
+            {/* Google Button */}
+            <button
+              type="button"
+              className="w-full border border-[#E2E8F0] hover:bg-[#f8f9fa] text-[#111418] font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <text x="8" y="18" fontSize="12" fill="currentColor" fontWeight="bold">
+                  G
+                </text>
+              </svg>
+              Google
             </button>
           </form>
-
-          {/* Login Link */}
-          <p className="text-center text-[#314158] mt-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-[#E17100] font-semibold hover:underline">
-              Login here
-            </Link>
-          </p>
         </div>
+
+        {/* Sign In Link */}
+        <p className="text-center text-[#617289] mt-6 text-sm">
+          Already have an account?{' '}
+          <Link to="/login" className="text-[#0089FF] hover:underline font-semibold">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   )
