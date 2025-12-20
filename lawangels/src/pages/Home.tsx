@@ -6,9 +6,8 @@ import FormulaSteps from '../components/FormulaSteps';
 import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
 import NewFeatures from '../components/newFeatures';
-import Popup from '../components/Popup';
 
-import { useEffect, useState} from 'react';
+import { useEffect } from 'react';
 
 // Scroll animation hook
 const useScrollAnimation = () => {
@@ -38,19 +37,7 @@ const useScrollAnimation = () => {
 };
 
 export default function Home() {
-    const [popupOpen, setShowPopUp] = useState(false);
     useScrollAnimation();
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowPopUp(true);
-        }, 20000);
-        return () => clearTimeout(timer);
-    }, []);
-
-    function closePopUp() {
-        setShowPopUp(false);
-    }
     return (
         <>
             <Navbar/>

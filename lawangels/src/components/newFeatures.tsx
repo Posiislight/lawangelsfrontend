@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import helix from '../assets/Helix.png'
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
 
 type Feature = { title: string; desc: string; icon: React.ReactNode }
 
