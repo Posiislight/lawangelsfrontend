@@ -9,6 +9,26 @@ export default function Footer() {
     <>
       {/* Mobile view */}
       <section className="md:hidden text-white font-worksans z-0 bg-[#1a1a18]">
+        {/* CTA Section for mobile */}
+        <div className="w-full relative px-5 py-16 min-h-[500px] flex flex-col justify-center" style={{ backgroundImage: `url(${manpicture})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          {/* Dark overlay */}
+          
+          
+          {/* Content */}
+          <div className="relative z-10 flex flex-col items-start mb-20">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 font-crimson leading-tight">
+              Ready to Start Your Legal Career?
+            </h2>
+            <p className="text-gray-700 text-sm mb-6 leading-relaxed">
+              Don't leave your success to chance. Get structured guidance, comprehensive resources, and the confidence to ace your SQE exams on your first try.
+            </p>
+            <button className="bg-[#0AB5FF] hover:bg-cyan-600 text-white px-6 py-3 rounded-full font-semibold transition-colors">
+              Start your Journey
+            </button>
+          </div>
+        </div>
+
+        {/* Footer content */}
         <div className="w-full flex flex-col items-center px-5 py-12 gap-8">
           {/* Logo section */}
           <Link to="/" className="flex flex-col items-center cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -96,7 +116,7 @@ export default function Footer() {
                 on your first try.
               </span>
               <div className="flex justify-center lg:justify-end">
-                <button className="bg-[#415DF0] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full mt-6 font-semibold hover:scale-105 duration-300">
+                <button className="bg-[#0AB5FF] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full mt-6 font-semibold hover:scale-105 duration-300">
                   Start your Journey
                 </button>
               </div>
