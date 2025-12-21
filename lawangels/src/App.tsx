@@ -17,6 +17,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Contact from './pages/Contact'
 import Setup from './pages/Setup'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 function App() {
   return (
@@ -101,6 +102,7 @@ function App() {
         <Route path="/blog" element={<Home />} /> {/* TODO: Create Blog component */}
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Home />} /> {/* TODO: Create Contact component */}
+        <Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
     </AuthProvider>
   )
