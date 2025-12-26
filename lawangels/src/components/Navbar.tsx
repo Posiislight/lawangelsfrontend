@@ -162,8 +162,6 @@ export default function Navbar() {
                     <p className="px-3 text-base font-semibold text-sky-400">Get in Touch</p>
                     <div className="space-y-1">
                       <a href="/contact/call-us" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Call us</a>
-                      <a href="/contact/support" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Email support</a>
-                      <a href="/contact/press" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Press and collaborations</a>
                     </div>
                   </div>
                 </div>

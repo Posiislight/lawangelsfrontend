@@ -1,7 +1,6 @@
 
 import { useState } from 'react'
 import Navbar from '../../components/Navbar'
-import CTA from '../../components/CTA'
 import Footer from '../../components/Footer'
 
 
@@ -235,7 +234,7 @@ export default function Pathtoqualify() {
 
         {/* Mobile Layout */}
         <div className="md:hidden px-4 mt-20">
-          <div className="bg-[#0089FF] rounded-2xl mt-8 p-5 shadow-md">
+          <div className="bg-[#1A1D3E] rounded-2xl mt-8 p-5 shadow-md">
             <div className="text-sm text-white mb-2">
               Path to Qualification {'>'}
             </div>
@@ -372,7 +371,6 @@ export default function Pathtoqualify() {
             </button>
           </aside>
         </div>
-        <CTA />
         <Footer />
       </div>
     </>

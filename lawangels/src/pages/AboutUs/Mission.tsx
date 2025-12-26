@@ -102,7 +102,7 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
 
             {/* Mobile / small devices - simplified layout */}
             <div className="md:hidden px-4 mt-20 md:mt-0 mx-2">
-              <div className="bg-orange-500 rounded-2xl mt-8 p-5 shadow-md ">
+              <div className="bg-[#1A1D3E] rounded-2xl mt-8 p-5 shadow-md ">
                 <div className="text-sm text-white mb-2">
                   About Us {'>'}
                 </div>

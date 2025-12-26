@@ -10,12 +10,12 @@ export default function Footer() {
       {/* Mobile view */}
       <section className="md:hidden text-white font-worksans z-0 bg-[#1a1a18]">
         {/* CTA Section for mobile */}
-        <div className="w-full relative px-5 py-16 min-h-[500px] flex flex-col justify-center" style={{ backgroundImage: `url(${manpicture})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="w-full relative px-10 py-16 min-h-[500px] flex flex-col justify-center" style={{ backgroundImage: `url(${manpicture})`, backgroundSize: 'cover', backgroundPosition: 'bottom left' }}>
           {/* Dark overlay */}
           
           
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-start mb-20">
+          <div className="relative z-10 flex flex-col items-start mb-40">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 font-crimson leading-tight">
               Ready to Start Your Legal Career?
             </h2>
@@ -245,8 +245,6 @@ export default function Footer() {
             <div className="space-x-4">
               <a href="/terms" className="hover:text-white text-gray-400">Terms &amp; conditions</a>
               <a href="/privacy" className="hover:text-white text-gray-400">Privacy</a>
-              <a href="/cookies" className="hover:text-white text-gray-400">Cookies</a>
-              <a href="/complaints" className="hover:text-white text-gray-400">Complaints policy</a>
             </div>
             <div>&copy; 2025 Law Angels. All right reserved.</div>
           </div>

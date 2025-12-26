@@ -173,7 +173,7 @@ export default function PathToQualification(){
 
         {/* Mobile layout */}
         <div className='md:hidden px-4 mt-20'>
-          <div className='bg-orange-500 rounded-2xl mt-4 p-5 shadow-md'>
+          <div className='bg-[#1A1D3E] rounded-2xl mt-4 p-5 shadow-md'>
             <div className='text-sm text-white mb-2'> About Us {'>'} </div>
             <h2 className='text-xl font-semibold text-white'>Path to Qualification</h2>
           </div>
