@@ -2,7 +2,8 @@ import { useAuth } from '../contexts/AuthContext'
 import { BookOpen, Clock, TrendingUp, Home, BarChart3, HelpCircle, Menu, X, Bell, HelpCircle as QuestionIcon, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Target, CheckCircle, Calendar, Trophy, Lock } from 'lucide-react'
 import { useState } from 'react'
 import logo from '../assets/lawangelslogo.png'
-import logotext from '../assets/logotext.png';
+import logotext from '../assets/logotext.png'
+import ProgressTracker from '../components/ProgressTracker';
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -184,10 +185,10 @@ export default function Dashboard() {
         </div>
 
         {/* Tab Switch */}
-        <div className="px-2 pt-2 pb-2 border-gray-800 flex gap-3 rounded-lg bg-gray-200  w-max ml-8 mt-4">
+        <div className="px-1 pt-1 pb-1 border-gray-800 flex gap-2 rounded-lg bg-gray-200  w-max ml-8 mt-4">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`pb-3 px-3 font-medium transition-colors focus:outline-none border-none ${
+            className={`pb-2 px-2 text-sm font-medium transition-colors focus:outline-none border-none ${
               activeTab === 'overview'
                 ? 'text-gray-500 hover:text-gray-700'
                 : 'text-gray-900 bg-gray-200 rounded-t-lg'
@@ -197,7 +198,7 @@ export default function Dashboard() {
           </button>
           <button
             onClick={() => setActiveTab('tracker')}
-            className={`pb-3 px-2 font-medium transition-colors focus:outline-none border-none ${
+            className={`pb-2 px-2 text-sm font-medium transition-colors focus:outline-none border-none ${
               activeTab === 'tracker'
                 ? 'text-gray-500 hover:text-gray-700'
                 : 'text-gray-900 bg-gray-200 rounded-t-lg'
@@ -209,6 +210,8 @@ export default function Dashboard() {
 
         {/* Page Content */}
         <div className="p-8">
+          {activeTab === 'overview' ? (
+            <>
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
@@ -536,6 +539,10 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+            </>
+          ) : (
+            <ProgressTracker />
+          )}
         </div>
       </div>
     </div>
