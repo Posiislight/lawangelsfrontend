@@ -1,23 +1,13 @@
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
-import { BookOpen, Clock, Award, TrendingUp, LogOut, Settings, Home, BarChart3, Users, HelpCircle, Menu, X, Bell, HelpCircle as QuestionIcon, Book, Video, Grid, Brain, FileText, Bot, Lightbulb } from 'lucide-react'
+import { BookOpen, Clock, TrendingUp, Home, BarChart3, HelpCircle, Menu, X, Bell, HelpCircle as QuestionIcon, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Target, CheckCircle, Calendar, Trophy, Lock } from 'lucide-react'
 import { useState } from 'react'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png';
 
 export default function Dashboard() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(true)
-
-  const handleLogout = async () => {
-    try {
-      await logout()
-      navigate('/login')
-    } catch (err) {
-      console.error('Logout failed:', err)
-    }
-  }
+  const [activeTab, setActiveTab] = useState('overview')
 
   // Mock user stats
   const userStats = {
@@ -30,68 +20,58 @@ export default function Dashboard() {
     lastActive: '2 hours ago',
   }
 
-  const courses = [
-    {
-      id: 1,
-      title: 'Press FLK 2',
-      progress: 65,
-      hours: 12,
-      status: 'in-progress',
-    },
-    {
-      id: 2,
-      title: 'SQE1 - Practice Questions',
-      progress: 0,
-      hours: 0,
-      status: 'not-started',
-    },
-    {
-      id: 3,
-      title: 'Fundamentals of Law',
-      progress: 100,
-      hours: 10,
-      status: 'completed',
-    },
-  ]
-
   const learningModes = [
     {
       title: 'Start Reading',
-      description: 'Our most comprehensive study materials',
+      description: 'Dive into comprehensive study materials and textbooks',
       icon: '📖',
+      bgColor: 'bg-blue-100 border-blue-200',
     },
     {
       title: 'Watch Videos',
-      description: 'Learn from expert-led video walkthroughs',
+      description: 'Learn from expert-led video tutorials and walkthroughs',
       icon: '🎥',
+      bgColor: 'bg-purple-100 border-purple-200',
     },
     {
       title: 'Practice Questions',
-      description: 'Test your knowledge with quizzes',
+      description: 'Test your knowledge with quizzes and mock examinations',
       icon: '✓',
+      bgColor: 'bg-green-100 border-green-200',
     },
   ]
 
-  const gettingStartedTips = [
+  const quickStats = [
     {
-      title: 'Complete Your Profile',
-      description: 'Add a profile picture and bio',
-      icon: '👤',
+      title: "Today's Goal",
+      value: '2/3',
+      unit: 'hours',
+      subtitle: '1 hour remaining',
+      icon: Target,
+      iconColor: 'text-orange-600',
+      progress: 66,
+      color: 'orange',
+      
     },
     {
-      title: 'Set a Study Schedule',
-      description: 'Allocate dedicated study hours daily',
-      icon: '⏰',
+      title: 'Completed This Week',
+      value: '18',
+      unit: 'lessons',
+      subtitle: '+3 from last week',
+      icon: CheckCircle,
+      iconColor: 'text-green-600',
+      color: 'green',
+      
     },
     {
-      title: 'Join the Community',
-      description: 'Check discussions to see progress',
-      icon: '👥',
-    },
-    {
-      title: 'Track Your Progress',
-      description: 'Review your performance metrics',
-      icon: '📊',
+      title: 'Next Mock Exam',
+      value: '2',
+      unit: 'days',
+      subtitle: 'Property Law - Full Mock',
+      icon: Calendar,
+      iconColor: 'text-red-600',
+      color: 'red',
+      
     },
   ]
 
@@ -168,14 +148,29 @@ export default function Dashboard() {
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
+          <div className="flex items-center justify-between gap-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl font-normal text-gray-900">
                 Welcome {user?.first_name || 'Konrad'}! 👋
               </h1>
               <p className="text-gray-600">Keep up the momentum!</p>
             </div>
+
+            {/* Search Bar - Centered */}
+            <div className="flex-1 flex justify-center">
+              <div className="relative w-80">
+                <input
+                  type="text"
+                  placeholder="Search courses, topics..."
+                  className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                />
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+
             <div className="flex items-center gap-4">
               <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell className="w-6 h-6" />
@@ -186,18 +181,30 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          
-          {/* Search Bar */}
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search topics, lessons, or resources..."
-              className="w-full px-4 py-3 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-            />
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
+        </div>
+
+        {/* Tab Switch */}
+        <div className="px-2 pt-2 pb-2 border-gray-800 flex gap-3 rounded-lg bg-gray-200  w-max ml-8 mt-4">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`pb-3 px-3 font-medium transition-colors focus:outline-none border-none ${
+              activeTab === 'overview'
+                ? 'text-gray-500 hover:text-gray-700'
+                : 'text-gray-900 bg-gray-200 rounded-t-lg'
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('tracker')}
+            className={`pb-3 px-2 font-medium transition-colors focus:outline-none border-none ${
+              activeTab === 'tracker'
+                ? 'text-gray-500 hover:text-gray-700'
+                : 'text-gray-900 bg-gray-200 rounded-t-lg'
+            }`}
+          >
+            Progress Tracker
+          </button>
         </div>
 
         {/* Page Content */}
@@ -205,190 +212,327 @@ export default function Dashboard() {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
-              label="Courses Completed"
+              label="Overall Progress"
               value={userStats.coursesCompleted}
-              icon={<Award className="w-6 h-6 text-yellow-600" />}
+              icon={<Trophy className="w-6 h-6 text-yellow-600" />}
               bgColor="bg-yellow-100"
+              feedback='+12% this week'
             />
             <StatCard
-              label="In Progress"
+              label="Quiz Accuracy"
               value={userStats.coursesEnrolled - userStats.coursesCompleted}
-              icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
+              icon={<Target className="w-6 h-6 text-blue-600" />}
               bgColor="bg-blue-100"
+              feedback='+8% improvement'
             />
             <StatCard
-              label="Total Hours"
+              label="Study Time"
               value={`${userStats.totalHours}h`}
               icon={<Clock className="w-6 h-6 text-purple-600" />}
               bgColor="bg-purple-100"
+              feedback='This month'
             />
             <StatCard
-              label="Study Streak"
+              label="Weekly Streak"
               value={`${userStats.currentStreak} days`}
               icon={<TrendingUp className="w-6 h-6 text-orange-600" />}
               bgColor="bg-orange-100"
+              feedback='keep it up'
             />
           </div>
 
           {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column (2 cols on desktop) */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Courses Section */}
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Your Courses</h2>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                    View All →
-                  </button>
-                </div>
+          {/* Choose Your Learning Mode (large cards) */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-normal text-black mb-1">Choose Your Learning Mode</h2>
+            <p className="text-gray-500 mb-6">Select how you'd like to study today</p>
 
-                <div className="space-y-4">
-                  {courses.map((course) => (
-                    <div
-                      key={course.id}
-                      className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer"
-                    >
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{course.title}</h3>
-                          <p className="text-sm text-gray-600">{course.hours} hours</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {learningModes.map((mode, idx) => (
+                <div key={idx} className={`relative rounded-2xl p-8 border ${mode.bgColor}`}> 
+                  <div className="absolute left-8 top-1/4 -translate-y-1/2 text-6xl font-extrabold text-gray-400 opacity-60 select-none">{`0${idx + 1}`}</div>
+                  <div className="flex flex-col h-full relative z-10">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-normal text-gray-900 mb-2 pt-20">{mode.title}</h3>
+                      <p className="text-sm text-gray-600 mb-6">{mode.description}</p>
+                    </div>
+                    <div className="mt-auto">
+                      <button className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center gap-2 bg-transparent">
+                        <span className="text-2xl">→</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          
+          {/* Quick Stats Cards */}
+          <div className="mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {quickStats.map((stat, idx) => {
+                const IconComponent = stat.icon
+                return (
+                  <div key={idx} className="rounded-lg p-6 border border-gray-200">
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <IconComponent className={`w-6 h-6 ${stat.iconColor} flex-shrink-0 mt-1`} />
+                      <div className="flex flex-col items-start flex-1">
+                        <div className="text-left">
+                          <p className="text-sm text-gray-600 mb-2">{stat.title}</p>
                         </div>
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            course.status === 'completed'
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-blue-100 text-blue-700'
-                          }`}
-                        >
-                          {course.status === 'completed' ? 'Completed' : 'In Progress'}
-                        </span>
+                        <div className="flex items-baseline gap-2 mt-2">
+                          <span className="text-2xl font-normal text-gray-900">{stat.value}</span>
+                          <span className="text-2xl font-normal text-gray-900">{stat.unit}</span>
+                        </div>
+                        <div className="text-left mt-4">
+                          <p className="text-xs text-gray-500 mb-2">{stat.subtitle}</p>
+                        </div>
                       </div>
+                    </div>
+                    {stat.progress && (
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
                           className={`h-2 rounded-full transition-all ${
-                            course.status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
+                            stat.color === 'orange' ? 'bg-orange-500' : stat.color === 'green' ? 'bg-green-500' : 'bg-red-500'
                           }`}
-                          style={{ width: `${course.progress}%` }}
+                          style={{ width: `${stat.progress}%` }}
                         />
                       </div>
-                      <p className="text-xs text-gray-600 mt-2">{course.progress}% complete</p>
-                    </div>
-                  ))}
-                </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          {/* Pick Up Where You Left Off */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-normal text-black mb-1">Pick Up Where You Left Off</h2>
+            <p className="text-gray-600 text-sm mb-6">Continue your learning journey across reading, videos, and practice</p>
 
-                <button className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
-                  Continue Learning
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Reading Card */}
+              <div className="rounded-lg p-6 border-t-4 border-t-blue-500 border border-blue-600 bg-white">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">READING</span>
+                  <span className="text-xs text-gray-500">Chapter 4 of 24</span>
+                </div>
+                <h3 className="text-sm text-gray-600 mb-1">Constitutional Law</h3>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Parliamentary Sovereignty</h4>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm text-gray-600">12 hrs left</span>
+                  <span className="text-sm font-semibold text-gray-900">67%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                  <div className="h-2 rounded-full bg-blue-500" style={{ width: '67%' }} />
+                </div>
+                <button className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                  Continue learning <span>→</span>
                 </button>
               </div>
 
-              {/* Learning Modes */}
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">How to learn</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {learningModes.map((mode, idx) => (
-                    <button
-                      key={idx}
-                      className="p-6 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all text-left"
-                    >
-                      <div className="text-4xl mb-3">{mode.icon}</div>
-                      <h3 className="font-semibold text-gray-900 mb-2">{mode.title}</h3>
-                      <p className="text-sm text-gray-600">{mode.description}</p>
-                    </button>
-                  ))}
+              {/* Watching Card */}
+              <div className="rounded-lg p-6 border-t-4 border-t-purple-500 border border-purple-500 bg-white">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold text-purple-600 uppercase tracking-wide">WATCHING</span>
+                  <span className="text-xs text-gray-500">Video 3 of 8</span>
                 </div>
+                <h3 className="text-sm text-gray-600 mb-1">Contract Law</h3>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Consideration in Contracts</h4>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm text-gray-600">15.20 remaining</span>
+                  <span className="text-sm font-semibold text-gray-900">45%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                  <div className="h-2 rounded-full bg-purple-500" style={{ width: '45%' }} />
+                </div>
+                <button className="text-purple-600 hover:text-purple-700 font-medium text-sm inline-flex items-center gap-1">
+                  Continue learning <span>→</span>
+                </button>
               </div>
 
-              {/* Recommendations */}
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Recommended for you</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {['Constitutional Law', 'Criminal Law', 'Property Law'].map((course, idx) => (
-                    <button
-                      key={idx}
-                      className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left"
-                    >
-                      <h3 className="font-semibold text-gray-900 mb-2">{course}</h3>
-                      <p className="text-sm text-gray-600 mb-3">Recommended based on your progress</p>
-                      <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                        Enroll →
-                      </button>
-                    </button>
-                  ))}
+              {/* Practicing Card */}
+              <div className="rounded-lg p-6 border-t-4 border-t-green-500 border border-green-500 bg-white">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold text-green-600 uppercase tracking-wide">PRACTICING</span>
+                  <span className="text-xs text-gray-500">Question 16 of 20</span>
                 </div>
-              </div>
-
-              {/* Getting Started Tips */}
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Getting started tips</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {gettingStartedTips.map((tip, idx) => (
-                    <div key={idx} className="flex gap-4">
-                      <div className="text-3xl flex-shrink-0">{tip.icon}</div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{tip.title}</h3>
-                        <p className="text-sm text-gray-600">{tip.description}</p>
-                      </div>
-                    </div>
-                  ))}
+                <h3 className="text-sm text-gray-600 mb-1">Property Law</h3>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Land Registration</h4>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm text-gray-600">4 questions left</span>
+                  <span className="text-sm font-semibold text-gray-900">80%</span>
                 </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                  <div className="h-2 rounded-full bg-green-500" style={{ width: '80%' }} />
+                </div>
+                <button className="text-green-600 hover:text-green-700 font-medium text-sm inline-flex items-center gap-1">
+                  Continue learning <span>→</span>
+                </button>
               </div>
             </div>
+          </div>
 
-            {/* Right Column */}
-            <div className="space-y-6">
-              {/* Progress Card */}
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-4">Overall Progress</h3>
-                <div className="relative w-32 h-32 mx-auto mb-4">
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="none"
-                      stroke="#e5e7eb"
-                      strokeWidth="8"
-                    />
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="none"
-                      stroke="#3b82f6"
-                      strokeWidth="8"
-                      strokeDasharray={`${3.14 * 100 * (userStats.progressPercentage / 100)} ${3.14 * 100}`}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">{userStats.progressPercentage}%</span>
-                  </div>
-                </div>
-                <p className="text-center text-sm text-gray-600">Keep going! You're making progress.</p>
+          {/* Your Courses */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6 rounded-lg">
+              <div>
+                <h2 className="text-2xl font-normal text-black">Your Courses</h2>
+                <p className="text-gray-600 text-sm">Each course includes reading materials, video tutorials, and practice questions</p>
               </div>
+              <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+                View all →
+              </button>
+            </div>
 
-              {/* Average Score */}
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-gray-900">Average Score</h3>
-                  <span className="text-2xl font-bold text-green-600">{userStats.averageScore}</span>
-                </div>
-                <p className="text-sm text-gray-600">Great progress! Keep studying.</p>
-              </div>
-
-              {/* AI Tutor CTA */}
-              <div className="bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg p-6 text-white">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Constitutional and Administrative Law */}
+              <div className="rounded-3xl p-4 border border-gray-200 bg-white relative">
                 <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">Need help?</h3>
-                    <p className="text-sm opacity-90">Chat with Angel AI</p>
-                  </div>
-                  <span className="text-3xl">🤖</span>
+                  <h3 className="font-normal text-gray-900">Constitutional and<br/>Administrative Law</h3>
                 </div>
-                <button className="w-full bg-white text-orange-600 hover:bg-gray-100 font-semibold py-2 rounded-lg transition-colors">
-                  Chat with Angel AI →
-                </button>
+                <span className="absolute top-0 right-0 bg-[#0AB5FF] text-white text-xs font-semibold px-3 py-1 rounded-bl-lg rounded-tr-lg">Active</span>
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Overall Progress</span>
+                    <span className="text-sm font-semibold text-gray-900">67%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '67%' }} />
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p className="text-gray-600 font-medium mb-3">Learning Content</p>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Book className="w-5 h-5 text-blue-600" />
+                    <span>Reading</span>
+                    <span className="ml-auto font-semibold">16/24</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Video className="w-5 h-5 text-purple-600" />
+                    <span>Videos</span>
+                    <span className="ml-auto font-semibold">12/18</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <span>Practice</span>
+                    <span className="ml-auto font-semibold">80/120</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contract Law */}
+              <div className="rounded-lg p-6 border border-gray-200 bg-white">
+                <h3 className="font-normal text-gray-900 mb-4">Contract Law</h3>
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Overall Progress</span>
+                    <span className="text-sm font-semibold text-gray-900">45%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '45%' }} />
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p className="text-gray-600 font-medium mb-3">Learning Content</p>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Book className="w-5 h-5 text-blue-600" />
+                    <span>Reading</span>
+                    <span className="ml-auto font-semibold">14/32</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Video className="w-5 h-5 text-purple-600" />
+                    <span>Videos</span>
+                    <span className="ml-auto font-semibold">11/24</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <span>Practice</span>
+                    <span className="ml-auto font-semibold">81/180</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Property Law */}
+              <div className="rounded-3xl p-4 border border-gray-200 bg-white">
+                <h3 className="font-normal text-gray-900 mb-4">Property Law</h3>
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Overall Progress</span>
+                    <span className="text-sm font-semibold text-gray-900">80%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '80%' }} />
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p className="text-gray-600 font-medium mb-3">Learning Content</p>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Book className="w-5 h-5 text-blue-600" />
+                    <span>Reading</span>
+                    <span className="ml-auto font-semibold">16/20</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Video className="w-5 h-5 text-purple-600" />
+                    <span>Videos</span>
+                    <span className="ml-auto font-semibold">12/15</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <span>Practice</span>
+                    <span className="ml-auto font-semibold">112/140</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Criminal Law */}
+              <div className="rounded-3xl p-4 border border-gray-200 bg-white">
+                <h3 className="font-normal text-gray-900 mb-4">Criminal Law</h3>
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Overall Progress</span>
+                    <span className="text-sm font-semibold text-gray-900">23%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '23%' }} />
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p className="text-gray-600 font-medium mb-3">Learning Content</p>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Book className="w-5 h-5 text-blue-600" />
+                    <span>Reading</span>
+                    <span className="ml-auto font-semibold">6/28</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Video className="w-5 h-5 text-purple-600" />
+                    <span>Videos</span>
+                    <span className="ml-auto font-semibold">5/21</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <span>Practice</span>
+                    <span className="ml-auto font-semibold">37/160</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tort Law - Locked */}
+              <div className="rounded-3xl p-4 border border-gray-200 bg-gray-50">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="font-normal text-gray-900">Tort Law</h3>
+                  <Lock className="w-5 h-5 text-gray-400" />
+                </div>
+                <p className="text-sm text-gray-500">Complete previous courses to unlock</p>
+              </div>
+
+              {/* Equity and Trusts - Locked */}
+              <div className="rounded-3xl p-4 border border-gray-200 bg-gray-50">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="font-normal text-gray-900">Equity and Trusts</h3>
+                  <Lock className="w-5 h-5 text-gray-400" />
+                </div>
+                <p className="text-sm text-gray-500">Complete previous courses to unlock</p>
               </div>
             </div>
           </div>
@@ -403,19 +547,24 @@ function StatCard({
   value,
   icon,
   bgColor,
+  feedback
 }: {
   label: string
   value: string | number
   icon: React.ReactNode
   bgColor: string
+  feedback: string 
+
 }) {
+  const feedbackColor = feedback.toString().startsWith('+') ? 'text-green-600' : feedback.toString().startsWith('-') ? 'text-red-600' : 'text-gray-600'
   return (
     <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
       <div className={`w-12 h-12 ${bgColor} rounded-lg flex items-center justify-center mb-4`}>
         {icon}
       </div>
-      <p className="text-gray-600 text-sm mb-1">{label}</p>
-      <p className="text-3xl font-bold text-gray-900">{value}</p>
+      <p className="text-3xl font-normal text-gray-900 mb-2">{value}</p>
+      <p className="text-gray-600 text-sm mb-2">{label}</p>
+      <p className={`text-sm ${feedbackColor} mb-2`}>{feedback}</p>
     </div>
   )
 }
