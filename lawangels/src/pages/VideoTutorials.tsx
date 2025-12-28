@@ -175,17 +175,29 @@ export default function VideoTutorials() {
             <Link to="/video-tutorials" className="block">
               <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" active={true} open={sidebarOpen} />
             </Link>
-            <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
-            <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
-            <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
+            <Link to="/flashcards" className="block">
+              <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
+            </Link>
+            <Link to="/quizzes" className="block">
+              <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
+            </Link>
+            <Link to="/mock-questions" className="block">
+              <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
+            </Link>
           </div>
 
           {/* Learning Tools */}
           {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Tools</p>}
           <div className="space-y-2">
-            <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" open={sidebarOpen} />
-            <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" open={sidebarOpen} />
-            <NavItem icon={<Clock className="w-5 h-5" />} label="Key Timeframes" open={sidebarOpen} />
+            <Link to="/angel-ai" className="block">
+              <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" open={sidebarOpen} />
+            </Link>
+            <Link to="/sqe-tips" className="block">
+              <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" open={sidebarOpen} />
+            </Link>
+            <Link to="/key-timeframes" className="block">
+              <NavItem icon={<Clock className="w-5 h-5" />} label="Key Timeframes" open={sidebarOpen} />
+            </Link>
           </div>
         </nav>
 
