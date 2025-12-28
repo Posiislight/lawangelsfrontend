@@ -122,13 +122,6 @@ export default function Practice() {
     }
   }
 
-  const getStatusDisplay = (status: string, attempted: number, questions: number) => {
-    if (status === 'locked') return { text: 'Locked', icon: Lock, color: 'text-gray-400' }
-    if (status === 'completed') return { text: 'Completed', icon: CheckCircle, color: 'text-green-600' }
-    if (status === 'in-progress') return { text: `${attempted}/${questions}`, icon: null, color: 'text-blue-600' }
-    return { text: 'Start', icon: null, color: 'text-gray-600' }
-  }
-
   return (
     <div className="flex h-screen bg-gray-50 font-worksans">
       {/* Sidebar */}

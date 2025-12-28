@@ -1,7 +1,22 @@
+import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
 export default function OurJourney() {
+  const [openSections, setOpenSections] = useState({
+    community: false,
+    designed: false,
+    features: false,
+    platform: false,
+  })
+
+  const toggleSection = (section: keyof typeof openSections) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
   return (
     <>
       <div className='w-full font-worksans mx-auto md:min-h-screen'>
@@ -128,7 +143,7 @@ export default function OurJourney() {
             <p>At Law Angels, we believe that no one should walk the SQE journey alone.</p>
           </div>
 
-          <div className='max-w-[720px] mx-auto mt-6 space-y-6 text-black'>
+          <div className='max-w-[720px] mx-auto mt-6 space-y-4'>
             <div>
               <p className='text-sm'>
                 Becoming a solicitor is not just an academic challenge, it's an emotional one. It requires resilience, confidence, and the reassurance that someone genuinely cares about your success. That belief sits at the heart of everything we do.
@@ -138,44 +153,133 @@ export default function OurJourney() {
               </p>
             </div>
 
-            <div>
-              <h4 className='font-semibold text-sm mb-2'>A Community That Truly Cares</h4>
-              <p className='text-sm'>
-                Our students often tell us the same thing: "I felt supported." Candidates consistently speak about the sincerity, care, and personal attention they experience on our platform.
-              </p>
+            <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+              <button
+                onClick={() => toggleSection('community')}
+                className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+              >
+                <div className='flex items-center justify-between'>
+                  <h4 className='font-semibold text-sm'>A Community That Truly Cares</h4>
+                  <span className='text-lg font-bold text-gray-600'>
+                    {openSections.community ? '−' : '+'}
+                  </span>
+                </div>
+              </button>
+              {openSections.community && (
+                <div className='p-4 pt-0'>
+                  <p className='text-sm text-gray-700 mt-4'>
+                    Our students often tell us the same thing: "I felt supported." Candidates consistently speak about the sincerity, care, and personal attention they experience on our platform. That matters to us because success is not just about passing exams, it's about feeling confident, seen, and believed in along the way. At Law Angels, you are never just a number. Your struggles matter, your success matters.
+                  </p>
+                </div>
+              )}
             </div>
 
-            <div>
-              <h4 className='font-semibold text-sm mb-2'>Designed With Your Success in Mind</h4>
-              <p className='text-sm'>
-                Every feature on our platform has been thoughtfully created to support different learning styles, build confidence, and help you progress at a pace that works for you.
-              </p>
+            <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+              <button
+                onClick={() => toggleSection('designed')}
+                className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+              >
+                <div className='flex items-center justify-between'>
+                  <h4 className='font-semibold text-sm'>Designed With Your Success in Mind</h4>
+                  <span className='text-lg font-bold text-gray-600'>
+                    {openSections.designed ? '−' : '+'}
+                  </span>
+                </div>
+              </button>
+              {openSections.designed && (
+                <div className='p-4 pt-0'>
+                  <p className='text-sm text-gray-700 mt-4'>
+                    Every feature on our platform has been thoughtfully created to support different learning styles, build confidence, and help you progress at a pace that works for you. We focus not only on what you need to learn, but how you learn best.
+                  </p>
+                </div>
+              )}
             </div>
 
-            <div>
-              <h4 className='font-semibold text-sm mb-3'>Features That Power Your SQE Success:</h4>
-              <ul className='text-sm space-y-1'>
-                <li>• Comprehensive textbooks with integrated audio readers</li>
-                <li>• Clear, concise summary notes</li>
-                <li>• Professionally designed, high-quality flashcards</li>
-                <li>• 40 full mock exams with speed reader functionality</li>
-                <li>• Progress tracker and detailed study reports</li>
-                <li>• 1,000+ animated practice questions</li>
-                <li>• 100+ Tutorial videos</li>
-                <li>• Personalised study plans</li>
-                <li>• Practical SQE tips and guidance</li>
-                <li>• Angel AI Tutor (support when you need it most)</li>
-              </ul>
+            <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+              <button
+                onClick={() => toggleSection('features')}
+                className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+              >
+                <div className='flex items-center justify-between'>
+                  <h4 className='font-semibold text-sm'>Features That Power Your SQE Success</h4>
+                  <span className='text-lg font-bold text-gray-600'>
+                    {openSections.features ? '−' : '+'}
+                  </span>
+                </div>
+              </button>
+              {openSections.features && (
+                <div className='p-4 pt-0'>
+                  <ul className='text-sm space-y-2 mt-4'>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Comprehensive textbooks with integrated audio readers</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Clear, concise summary notes</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Professionally designed, high-quality flashcards</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>40 full mock exams with speed reader functionality</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Progress tracker and detailed study reports</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>1,000+ animated practice questions</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>100+ Tutorial videos</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Personalised study plans</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Practical SQE tips and guidance</span>
+                    </li>
+                    <li className='flex items-start'>
+                      <span className='mr-3'>•</span>
+                      <span>Angel AI Tutor (support when you need it most)</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
 
-            <div>
-              <h4 className='font-semibold text-sm mb-2'>More Than a Platform</h4>
-              <p className='text-sm'>
-                Law Angels is more than a course provider. It is a place where ambition is nurtured, confidence is built, and futures are shaped with care.
-              </p>
-              <p className='text-sm mt-3 font-semibold'>
-                Because at Law Angels, your success is personal.
-              </p>
+            <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+              <button
+                onClick={() => toggleSection('platform')}
+                className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+              >
+                <div className='flex items-center justify-between'>
+                  <h4 className='font-semibold text-sm'>More Than a Platform</h4>
+                  <span className='text-lg font-bold text-gray-600'>
+                    {openSections.platform ? '−' : '+'}
+                  </span>
+                </div>
+              </button>
+              {openSections.platform && (
+                <div className='p-4 pt-0'>
+                  <p className='text-sm text-gray-700 mt-4'>
+                    Law Angels is more than a course provider. It is a place where ambition is nurtured, confidence is built, and futures are shaped with care. We are deeply invested in the people who trust us with their SQE journey, and we take that responsibility seriously.
+                  </p>
+                  <p className='text-sm text-gray-700 mt-3'>
+                    When you join Law Angels, you're not just preparing for an exam, you're joining a community that believes in you, supports you, and walks beside you until success is achieved.
+                  </p>
+                  <p className='text-sm font-semibold text-gray-700 mt-3'>
+                    Because at Law Angels, your success is personal.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

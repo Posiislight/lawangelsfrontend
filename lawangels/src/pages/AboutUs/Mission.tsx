@@ -1,9 +1,23 @@
 
+import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
 export default function About() {
-    
+    const [openSections, setOpenSections] = useState({
+      mission: true,
+      inclusivity: false,
+      excellence: false,
+      innovation: false,
+    })
+
+    const toggleSection = (section: keyof typeof openSections) => {
+      setOpenSections(prev => ({
+        ...prev,
+        [section]: !prev[section]
+      }))
+    }
+
     return (
       <>
   <div className='w-full font-worksans mx-auto md:min-h-screen'>
@@ -110,16 +124,84 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
                 </p>
               </div>
 
-              <div className="max-w-[720px] mx-auto mt-6 text-sm space-y-4">
-                <div>
-                  <p className="font-semibold">Our Mission</p>
-                  <p className="text-sm mt-3">Our mission is to make the SQE journey inclusive, achievable, and empowering for everyone, whether you're a law graduate, a career changer, or an overseas lawyer. With the SQE's flexible yet challenging path featuring rigorous exams and Qualifying Work Experience (QWE), we're here to provide affordable, high-quality resources and a supportive community to ensure your success.</p>
-                  <p className="text-sm mt-3">Designed to remain timeless, our commitment adapts to the evolving SRA framework, helping you qualify no matter when you start.</p>
-                  <p className="text-sm mt-3">Our mission is rooted in democratizing access to the legal profession. We believe anyone with the drive to become a solicitor should have the tools to succeed, regardless of background.</p>
-                  <p className="text-sm mt-3">Inclusivity is at the heart of LAWANGELS. We embrace aspiring solicitors from all walks of life, ensuring resources meet your unique needs. Our jurisdiction-specific guides help overseas lawyers to secure exemptions.</p>
-                  <p className="text-sm mt-3">LAWANGELS offers tailored resources for diverse learners, law graduates tackling SQE1's legal knowledge, non-lawyers mastering ethics, or overseas professionals navigating exemptions. We aim to inspire confidence, preparing you not just to pass exams but to thrive as an ethical, capable solicitor.</p>
-                  <p className="text-sm mt-3">Excellence drives everything we do. Our resources are crafted to mirror SRA standards, updated annually to stay cutting-edge. We're committed to delivering tools that maximize your pass chances and prepare you for real-world practice. Subscribe for our textbooks, mock exams and video tutorials, designed to keep you ahead.</p>
-                  <p className="text-sm mt-3">Innovation sets LAWANGELS apart. Our tools LAW ANGEL AI keep your preparation modern and accessible. Join LAWANGELS for cutting-edge resources and SRA update alerts, ensuring your prep stays future-proof. LAWANGELS is your SQE success partner, delivering tailored prep, community support, and timeless resources. Subscribe to LAWANGELS for tools to make you a solicitor.</p>
+              <div className="max-w-[720px] mx-auto mt-6 space-y-4">
+                <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+                  <button
+                    onClick={() => toggleSection('mission')}
+                    className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                  >
+                    <div className='flex items-center justify-between'>
+                      <h4 className='font-semibold text-sm'>Our Mission</h4>
+                      <span className='text-lg font-bold text-gray-600'>
+                        {openSections.mission ? '−' : '+'}
+                      </span>
+                    </div>
+                  </button>
+                  {openSections.mission && (
+                    <div className='p-4 pt-0'>
+                      <p className="text-sm text-gray-700 mt-4">Our mission is to make the SQE journey inclusive, achievable, and empowering for everyone, whether you're a law graduate, a career changer, or an overseas lawyer. With the SQE's flexible yet challenging path featuring rigorous exams and Qualifying Work Experience (QWE), we're here to provide affordable, high-quality resources and a supportive community to ensure your success.</p>
+                      <p className="text-sm text-gray-700 mt-3">Designed to remain timeless, our commitment adapts to the evolving SRA framework, helping you qualify no matter when you start.</p>
+                      <p className="text-sm text-gray-700 mt-3">Our mission is rooted in democratizing access to the legal profession. We believe anyone with the drive to become a solicitor should have the tools to succeed, regardless of background.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+                  <button
+                    onClick={() => toggleSection('inclusivity')}
+                    className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                  >
+                    <div className='flex items-center justify-between'>
+                      <h4 className='font-semibold text-sm'>Inclusivity at Heart</h4>
+                      <span className='text-lg font-bold text-gray-600'>
+                        {openSections.inclusivity ? '−' : '+'}
+                      </span>
+                    </div>
+                  </button>
+                  {openSections.inclusivity && (
+                    <div className='p-4 pt-0'>
+                      <p className="text-sm text-gray-700 mt-4">Inclusivity is at the heart of LAWANGELS. We embrace aspiring solicitors from all walks of life, ensuring resources meet your unique needs. Our jurisdiction-specific guides help overseas lawyers to secure exemptions.</p>
+                      <p className="text-sm text-gray-700 mt-3">LAWANGELS offers tailored resources for diverse learners, law graduates tackling SQE1's legal knowledge, non-lawyers mastering ethics, or overseas professionals navigating exemptions. We aim to inspire confidence, preparing you not just to pass exams but to thrive as an ethical, capable solicitor.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+                  <button
+                    onClick={() => toggleSection('excellence')}
+                    className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                  >
+                    <div className='flex items-center justify-between'>
+                      <h4 className='font-semibold text-sm'>Excellence</h4>
+                      <span className='text-lg font-bold text-gray-600'>
+                        {openSections.excellence ? '−' : '+'}
+                      </span>
+                    </div>
+                  </button>
+                  {openSections.excellence && (
+                    <div className='p-4 pt-0'>
+                      <p className="text-sm text-gray-700 mt-4">Excellence drives everything we do. Our resources are crafted to mirror SRA standards, updated annually to stay cutting-edge. We're committed to delivering tools that maximize your pass chances and prepare you for real-world practice. Subscribe for our textbooks, mock exams and video tutorials, designed to keep you ahead.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className='mb-4 bg-white rounded-lg border border-gray-300'>
+                  <button
+                    onClick={() => toggleSection('innovation')}
+                    className='w-full text-left p-4 cursor-pointer bg-white rounded-lg border-0 outline-none focus:outline-none focus:ring-0 focus:border-0'
+                  >
+                    <div className='flex items-center justify-between'>
+                      <h4 className='font-semibold text-sm'>Innovation & Future-Proof</h4>
+                      <span className='text-lg font-bold text-gray-600'>
+                        {openSections.innovation ? '−' : '+'}
+                      </span>
+                    </div>
+                  </button>
+                  {openSections.innovation && (
+                    <div className='p-4 pt-0'>
+                      <p className="text-sm text-gray-700 mt-4">Innovation sets LAWANGELS apart. Our tools LAW ANGEL AI keep your preparation modern and accessible. Join LAWANGELS for cutting-edge resources and SRA update alerts, ensuring your prep stays future-proof. LAWANGELS is your SQE success partner, delivering tailored prep, community support, and timeless resources. Subscribe to LAWANGELS for tools to make you a solicitor.</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
