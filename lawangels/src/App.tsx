@@ -23,6 +23,8 @@ import MyCourses from './pages/MyCourses'
 import Progress from './pages/Progress'
 import Practice from './pages/Practice'
 import Textbook from './pages/Textbook'
+import PracticeQuestions from './pages/PracticeQuestions'
+import VideoTutorials from './pages/VideoTutorials'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -81,6 +83,26 @@ function App() {
           element={
             <ProtectedRoute>
               <Textbook />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Practice Questions - Protected */}
+        <Route
+          path="/practice-questions"
+          element={
+            <ProtectedRoute>
+              <PracticeQuestions />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Video Tutorials - Protected */}
+        <Route
+          path="/video-tutorials"
+          element={
+            <ProtectedRoute>
+              <VideoTutorials />
             </ProtectedRoute>
           }
         />

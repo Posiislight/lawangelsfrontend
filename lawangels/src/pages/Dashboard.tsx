@@ -122,8 +122,12 @@ export default function Dashboard() {
             <Link to="/textbook" className="block">
               <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" open={sidebarOpen} />
             </Link>
-            <NavItem icon={<QuestionIcon className="w-5 h-5" />} label="Practice Questions" open={sidebarOpen} />
-            <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" open={sidebarOpen} />
+            <Link to="/practice-questions" className="block">
+              <NavItem icon={<QuestionIcon className="w-5 h-5" />} label="Practice Questions" open={sidebarOpen} />
+            </Link>
+            <Link to="/video-tutorials" className="block">
+              <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" open={sidebarOpen} />
+            </Link>
             <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
             <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
             <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
