@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { BookOpen, Menu, X, Bell, Home, BarChart3, HelpCircle, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Clock, ArrowRight, ChevronRight, PlayCircle, Bookmark } from 'lucide-react'
+import { BookOpen, Menu, X, Bell, Home, BarChart3, HelpCircle, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Clock, ArrowRight, ChevronRight, PlayCircle, Bookmark, Landmark } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
@@ -85,7 +85,7 @@ export default function VideoTutorials() {
       duration: '45:30',
       watched: '2 hours ago',
       progress: 100,
-      thumbnail: '📚',
+      icon: BookOpen,
       instructor: 'Dr. Margaret Thompson',
       color: 'blue',
     },
@@ -95,7 +95,7 @@ export default function VideoTutorials() {
       duration: '38:15',
       watched: '1 day ago',
       progress: 65,
-      thumbnail: '📖',
+      icon: FileText,
       instructor: 'Prof. James Mitchell',
       color: 'purple',
     },
@@ -105,7 +105,7 @@ export default function VideoTutorials() {
       duration: '42:00',
       watched: '3 hours ago',
       progress: 100,
-      thumbnail: '🏠',
+      icon: Home,
       instructor: 'Dr. Sarah Williams',
       color: 'green',
     },
@@ -253,11 +253,12 @@ export default function VideoTutorials() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               {recentlyWatched.map((video, idx) => {
                 const color = colorMap[video.color as keyof typeof colorMap]
+                const IconComponent = video.icon
                 
                 return (
                   <div key={idx} className={`rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer`}>
-                    <div className={`relative h-40 ${color.bg} flex items-center justify-center text-5xl`}>
-                      {video.thumbnail}
+                    <div className={`relative h-40 ${color.bg} flex items-center justify-center`}>
+                      <IconComponent className="w-16 h-16 text-gray-400" />
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                         <PlayCircle className="w-12 h-12 text-white" />
                       </div>
