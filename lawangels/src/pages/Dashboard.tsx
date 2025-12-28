@@ -110,8 +110,12 @@ export default function Dashboard() {
             <Link to="/my-courses" className="block">
               <NavItem icon={<BookOpen className="w-5 h-5" />} label="My Courses" open={sidebarOpen} />
             </Link>
-            <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" open={sidebarOpen} />
-            <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" open={sidebarOpen} />
+            <Link to="/progress" className="block">
+              <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" open={sidebarOpen} />
+            </Link>
+            <Link to="/practice" className="block">
+              <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" open={sidebarOpen} />
+            </Link>
           </div>          {/* Community */}
           {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Modes</p>}
           <div className="space-y-2">

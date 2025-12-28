@@ -20,6 +20,8 @@ import Contact from './pages/Contact'
 import Setup from './pages/Setup'
 import Dashboard from './pages/Dashboard'
 import MyCourses from './pages/MyCourses'
+import Progress from './pages/Progress'
+import Practice from './pages/Practice'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -48,6 +50,26 @@ function App() {
           element={
             <ProtectedRoute>
               <MyCourses />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Progress - Protected */}
+        <Route
+          path="/progress"
+          element={
+            <ProtectedRoute>
+              <Progress />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Practice - Protected */}
+        <Route
+          path="/practice"
+          element={
+            <ProtectedRoute>
+              <Practice />
             </ProtectedRoute>
           }
         />
