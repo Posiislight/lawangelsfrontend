@@ -25,6 +25,7 @@ import Practice from './pages/Practice'
 import Textbook from './pages/Textbook'
 import PracticeQuestions from './pages/PracticeQuestions'
 import VideoTutorials from './pages/VideoTutorials'
+import Flashcards from './pages/Flashcards'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -103,6 +104,16 @@ function App() {
           element={
             <ProtectedRoute>
               <VideoTutorials />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Flashcards - Protected */}
+        <Route
+          path="/flashcards"
+          element={
+            <ProtectedRoute>
+              <Flashcards />
             </ProtectedRoute>
           }
         />
