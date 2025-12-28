@@ -1,6 +1,7 @@
 import { useAuth } from '../contexts/AuthContext'
 import { BookOpen, Clock, TrendingUp, Home, BarChart3, HelpCircle, Menu, X, Bell, HelpCircle as QuestionIcon, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Target, CheckCircle, Calendar, Trophy, Lock } from 'lucide-react'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
 import ProgressTracker from '../components/ProgressTracker';
@@ -106,7 +107,9 @@ export default function Dashboard() {
           {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">My Learning</p>}
           <div className="space-y-2">
             <NavItem icon={<Home className="w-5 h-5" />} label="Home" active={true} open={sidebarOpen} />
-            <NavItem icon={<BookOpen className="w-5 h-5" />} label="My Courses" open={sidebarOpen} />
+            <Link to="/my-courses" className="block">
+              <NavItem icon={<BookOpen className="w-5 h-5" />} label="My Courses" open={sidebarOpen} />
+            </Link>
             <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" open={sidebarOpen} />
             <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" open={sidebarOpen} />
           </div>          {/* Community */}

@@ -19,6 +19,7 @@ import Register from './pages/Register'
 import Contact from './pages/Contact'
 import Setup from './pages/Setup'
 import Dashboard from './pages/Dashboard'
+import MyCourses from './pages/MyCourses'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -37,6 +38,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* My Courses - Protected */}
+        <Route
+          path="/my-courses"
+          element={
+            <ProtectedRoute>
+              <MyCourses />
             </ProtectedRoute>
           }
         />
