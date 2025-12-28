@@ -119,7 +119,9 @@ export default function Dashboard() {
           </div>          {/* Community */}
           {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Modes</p>}
           <div className="space-y-2">
-            <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" open={sidebarOpen} />
+            <Link to="/textbook" className="block">
+              <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" open={sidebarOpen} />
+            </Link>
             <NavItem icon={<QuestionIcon className="w-5 h-5" />} label="Practice Questions" open={sidebarOpen} />
             <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" open={sidebarOpen} />
             <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />

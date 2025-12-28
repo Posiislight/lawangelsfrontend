@@ -22,6 +22,7 @@ import Dashboard from './pages/Dashboard'
 import MyCourses from './pages/MyCourses'
 import Progress from './pages/Progress'
 import Practice from './pages/Practice'
+import Textbook from './pages/Textbook'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -70,6 +71,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Practice />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Textbook - Protected */}
+        <Route
+          path="/textbook"
+          element={
+            <ProtectedRoute>
+              <Textbook />
             </ProtectedRoute>
           }
         />
