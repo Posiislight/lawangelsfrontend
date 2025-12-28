@@ -4,7 +4,7 @@ export default function Features() {
     const features = [
         {
             title: "Expert-Led Video Lessons",
-            description: "Learn from experienced UK solicitors and educators who break down complex legal concepts into practical, easy-to-grasp lessons.",
+            description: "Learn from educators who break down complex legal concepts into practical, easy-to-grasp lessons.",
             icon: (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="20" cy="20" r="20" fill="#25A9E0"/>

@@ -7,47 +7,55 @@ export default function Pricing() {
     {
       title: 'Angel AI Tutor',
       icon: 'psychology',
-      description: 'Your personal legal revision assistant, available 24/7 to answer questions, clarify case law, and explain complex principles instantly.',
+      description: 'Meet your 24/7 legal study companion; ready to explain, quiz, and coach you through every topic.',
+    },
+    {
+      title: 'Comprehensive Textbook with Audio Reader',
+      icon: 'book',
+      description: "Read your notes or let the audio reader do the work while you're on the go.",
+    },
+    {
+      title: '40 Mock Exams',
+      icon: 'assessment',
+      description: 'Prepare for the SQE with mock questions, a speed reading tool, and a timer for focus.',
+    },
+    {
+      title: 'Video Tutorials',
+      icon: 'play_circle',
+      description: 'Learn from expert-led video tutorials that break down complex legal concepts into easy-to-follow lessons.',
+    },
+    {
+      title: 'Summary Notes',
+      icon: 'note',
+      description: 'Exam focused summaries that save you time and sharpen your understanding.',
+    },
+    {
+      title: 'Flashcards',
+      icon: 'layers',
+      description: 'Revise smarter with high-quality flashcards that lock key legal concepts into memory.',
+    },
+    
+    {
+      title: 'Quizzes (1,500+ Questions)',
+      icon: 'quiz',
+      description: 'Challenge yourself with interactive quizzes that make learning fast, fun, and unforgettable.',
     },
     {
       title: 'Progress Tracker & Study Reports',
-      icon: 'monitoring',
-      description: 'Visual dashboards that track your performance over time, generating detailed reports to help you focus on areas that need improvement.',
-    },
-    {
-      title: 'Graphic Reminders',
-      icon: 'notifications_active',
-      description: 'Stay organized with smart, visual notifications that keep your revision schedule on track and ensure you never miss a study session.',
-    },
-    {
-      title: 'Study Plans',
-      icon: 'calendar_month',
-      description: 'Get personalized, structured revision timetables tailored to your exam dates, ensuring comprehensive coverage of all legal topics.',
+      icon: 'trending_up',
+      description: 'Track your scores, monitor your study hours, and see how close you are to your goals.',
     },
     {
       title: 'SQE Tips',
       icon: 'school',
-      description: 'Expert strategies and practical tips designed specifically for the Solicitors Qualifying Examination to maximize your passing potential.',
-    },
-  ]
-
-  const faqs = [
-    {
-      question: 'Can I upgrade my subscription later?',
-      answer: 'Yes, you can upgrade to a longer subscription plan at any time. The additional cost will be prorated based on your remaining time.',
+      description: 'Unlock exclusive insights and proven strategies to help you approach every SQE question with confidence.',
     },
     {
-      question: 'What happens after my subscription expires?',
-      answer: 'After your subscription period ends, you can renew at the same plan level or upgrade to a longer commitment. Your progress and study data are always saved.',
+      title: 'Graphic Reminders',
+      icon: 'layers',
+      description: 'Remember more with visual memory aids that turn complicated ideas into simple, easy-to-grasp graphics.',
     },
-    {
-      question: 'How do the discounts work?',
-      answer: 'Our 3-month plan saves you 17% compared to monthly billing, and the 6-month plan saves you 28%. These discounts reward your commitment to your SQE preparation.',
-    },
-    {
-      question: 'Do I get a refund if I cancel early?',
-      answer: 'Subscriptions are non-refundable, but you retain full access to your account until your subscription period ends. Please contact support to discuss your situation.',
-    },
+    
   ]
 
   return (
@@ -107,29 +115,6 @@ export default function Pricing() {
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="w-full max-w-3xl px-4 pb-20">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            Frequently Asked Questions
-          </h2>
-          <div className="flex flex-col gap-4">
-            {faqs.map((faq, idx) => (
-              <details
-                key={idx}
-                className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 cursor-pointer"
-              >
-                <summary className="flex items-center justify-between font-bold text-gray-900 dark:text-white text-lg">
-                  {faq.question}
-                  <span className="material-symbols-outlined transition-transform group-open:rotate-180">
-                    expand_more
-                  </span>
-                </summary>
-                <p className="mt-4 text-gray-600 dark:text-gray-400 text-base leading-relaxed">{faq.answer}</p>
-              </details>
-            ))}
           </div>
         </section>
       </main>

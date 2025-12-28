@@ -55,7 +55,7 @@ export default function About() {
     <p className="text-base mt-7">Designed to remain timeless, 
       our commitment adapts to the evolving SRA framework, 
       helping you qualify no matter when you start. </p>
-    <p className='text-base mt-7 pb-7 border-b-2 border-orange-500'>Our mission is rooted in democratizing access to the legal profession.
+    <p className='text-base mt-7 pb-7 border-b-2 border-[#0089FF]'>Our mission is rooted in democratizing access to the legal profession.
     We believe anyone with the drive to become a solicitor should have the tools to succeed,
     regardless of background</p>
     <p className='text-base mt-7'>Inclusivity is at the heart of LAWANGELS. We embrace aspiring solicitors from all walks of life, ensuring resources meet your unique needs. Our jurisdiction-specific guides help overseas lawyers  to secure exemptions.</p>
@@ -71,26 +71,21 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
   </div>
 
   {/* Sidebar card that matches left column height */}
-  
-  <aside className="w-3/12 bg-white rounded-2xl border border-orange-500 shadow-lg p-6 flex flex-col">
+
+  <aside className="w-3/12 bg-white rounded-2xl border border-[#0089FF] shadow-lg p-6 flex flex-col">
     {/* Top: image / visual */}
     <div className="w-full mb-5">
-      <img
-        src="#"
-        alt="visual"
-        className="w-full h-40 object-cover rounded-lg"
-      />
+      
     </div>
 
     {/* Middle: description - let this grow */}
     <div className="text-sm font-normal text-gray-700 mb-5">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti saepe,
-      sapiente maiores numquam consequuntur inventore molestias tempore sunt nesciunt.
+      Subscribe for exclusive study planners, mock exams, and a network to guide you every step of the way!
     </div>
 
     {/* Bottom: CTA */}
     <div className="w-full">
-      <button className="w-full bg-orange-500 text-white rounded-lg py-2">
+      <button className="w-full bg-[#0089FF] text-white rounded-lg py-2">
         Subscribe
       </button>
     </div>
@@ -106,25 +101,31 @@ LAWANGELS is your SQE success partner, delivering tailored prep, community suppo
                 <div className="text-sm text-white mb-2">
                   About Us {'>'}
                 </div>
-                <h2 className="text-xl font-semibold text-white font-crimson">How we support your SQE1 Journey</h2>
+                <h2 className="text-xl font-semibold text-white font-crimson">Our Mission & Values</h2>
               </div>
 
               <div className="max-w-[720px] mx-auto mt-6 text-sm">
                 <p>
-                  At LAWANGELS, we're more than a platform for Solicitors Qualifying Examination (SQE) preparation - we're your partner in turning your dream of becoming a solicitor in England and Wales.
+                  At LAWANGELS, we're more than a platform for Solicitors Qualifying Examination (SQE) preparation, we're your partner in turning your dream of becoming a solicitor in England and Wales into reality.
                 </p>
               </div>
 
-              <div className="max-w-[720px] mx-auto mt-6">
-                <h3 className="text-lg font-semibold">Our Mission</h3>
-                <p className="text-sm mt-3">Our mission is to make the SQE journey inclusive, achievable, and empowering for everyone, whether you’re a law graduate, a career changer, or an overseas lawyer.</p>
-                <p className="text-sm mt-3">LAWANGELS offers tailored resources for diverse learners, law graduates tackling SQE1’s legal knowledge, non-lawyers mastering ethics, or overseas professionals navigating exemptions.</p>
+              <div className="max-w-[720px] mx-auto mt-6 text-sm space-y-4">
+                <div>
+                  <p className="font-semibold">Our Mission</p>
+                  <p className="text-sm mt-3">Our mission is to make the SQE journey inclusive, achievable, and empowering for everyone, whether you're a law graduate, a career changer, or an overseas lawyer. With the SQE's flexible yet challenging path featuring rigorous exams and Qualifying Work Experience (QWE), we're here to provide affordable, high-quality resources and a supportive community to ensure your success.</p>
+                  <p className="text-sm mt-3">Designed to remain timeless, our commitment adapts to the evolving SRA framework, helping you qualify no matter when you start.</p>
+                  <p className="text-sm mt-3">Our mission is rooted in democratizing access to the legal profession. We believe anyone with the drive to become a solicitor should have the tools to succeed, regardless of background.</p>
+                  <p className="text-sm mt-3">Inclusivity is at the heart of LAWANGELS. We embrace aspiring solicitors from all walks of life, ensuring resources meet your unique needs. Our jurisdiction-specific guides help overseas lawyers to secure exemptions.</p>
+                  <p className="text-sm mt-3">LAWANGELS offers tailored resources for diverse learners, law graduates tackling SQE1's legal knowledge, non-lawyers mastering ethics, or overseas professionals navigating exemptions. We aim to inspire confidence, preparing you not just to pass exams but to thrive as an ethical, capable solicitor.</p>
+                  <p className="text-sm mt-3">Excellence drives everything we do. Our resources are crafted to mirror SRA standards, updated annually to stay cutting-edge. We're committed to delivering tools that maximize your pass chances and prepare you for real-world practice. Subscribe for our textbooks, mock exams and video tutorials, designed to keep you ahead.</p>
+                  <p className="text-sm mt-3">Innovation sets LAWANGELS apart. Our tools LAW ANGEL AI keep your preparation modern and accessible. Join LAWANGELS for cutting-edge resources and SRA update alerts, ensuring your prep stays future-proof. LAWANGELS is your SQE success partner, delivering tailored prep, community support, and timeless resources. Subscribe to LAWANGELS for tools to make you a solicitor.</p>
+                </div>
               </div>
 
-              <aside className="w-full bg-white rounded-2xl border border-orange-500 shadow-lg p-4 mt-6 mb-6">
-                <div className="w-full h-36 bg-gray-100 mb-4" />
-                <p className="text-sm text-gray-700">Subscribe to exclusive study planners, mock exams, and a network to guide you every step of the way!</p>
-                <button className="w-full bg-orange-500 text-white rounded-lg py-2 mt-4">Subscribe</button>
+              <aside className="w-full bg-white rounded-2xl border border-[#0089FF] shadow-lg p-4 mt-6 mb-6">
+                <p className="text-sm text-gray-700">Subscribe for exclusive study planners, mock exams, and a network to guide you every step of the way!</p>
+                <button className="w-full bg-[#0089FF] text-white rounded-lg py-2 mt-4">Subscribe</button>
               </aside>
             </div>
         <Footer />

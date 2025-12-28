@@ -68,7 +68,7 @@ export default function Contact() {
                 href="mailto:hello@lawangelsuk.com"
                 className="text-lg font-bold text-gray-900 dark:text-white hover:text-sky-400 transition-colors"
               >
-                support@lawangelsuk.com
+                contact@lawangelsuk.com
               </a>
             </div>
           </div>

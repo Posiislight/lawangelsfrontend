@@ -1,18 +1,18 @@
 const testimonials = [
   {
-    quote: 'An outstanding online learning platform with exceptional courses to prepare you for the SQE exam. The structured approach and comprehensive materials made all the difference in my success.',
-    name: 'Brian Russell',
-    role: 'Simon Burn Solicitors',
+    quote: 'Law Angels offered excellent value for my money. The amount of content and support included made it far more affordable than I expected.',
+    name: 'Emily Carter',
+    role: 'SQE Candidate, UK',
   },
   {
-    quote: 'Law Angels transformed my exam preparation. The interactive lessons and practice questions are incredibly helpful, and the support team is always available when you need guidance.',
-    name: 'Sarah Mitchell',
-    role: 'Taylor & Associates Legal',
+    quote: 'The strength of Law Angels lies in its attention to detail. The summaries, flashcards, and AI tutor helped reinforce learning without unnecessary complexity',
+    name: 'Mei Lin Tan',
+    role: 'Trainee Solicitor',
   },
   {
-    quote: 'I was overwhelmed preparing for the SQE, but this platform broke everything down into manageable modules. The quality of content and expert instructors gave me the confidence to excel.',
-    name: 'James Thompson',
-    role: 'Corporate Law Partners',
+    quote: 'After failing my first attempt, my confidence was quite low. Law Angels helped me slow down and rebuild properly. The explanations, study plan, and consistent practice tools helped me understand why I was getting things wrong. It helped me believe I could pass again',
+    name: 'Daniel Brooks',
+    role: 'SQE Resit Candidate',
   },
 ];
 

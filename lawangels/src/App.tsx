@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import Home from './pages/Home'
 import Mission from './pages/AboutUs/Mission'
 import Howwesupport from './pages/AboutUs/howwesupport'
+import OurJourney from './pages/AboutUs/OurJourney'
 import Testimonials from './pages/Testimonials'
 import PathToQualification from './pages/Path to Qualification/Pathtoqualify'
 import AssessmentDates from './pages/Path to Qualification/AssessmentDates'
@@ -47,6 +48,7 @@ function App() {
         <Route path="/about-us">
           <Route path="mission" element={<Mission />} />
           <Route path="how-we-support" element={<Howwesupport />} />
+          <Route path="who-we-are" element={<OurJourney />} />
           <Route path="testimonials" element={<Testimonials />} />
         </Route>
 

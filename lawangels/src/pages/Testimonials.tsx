@@ -344,9 +344,6 @@ export default function Testimonials() {
                       {/* Header */}
                       <div className="flex justify-between items-start mb-4">
                         {renderStars(review.rating)}
-                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-2 py-1 rounded">
-                          {review.daysAgo ? `${review.daysAgo}d ago` : 'Recently'}
-                        </span>
                       </div>
 
                       {/* Title */}

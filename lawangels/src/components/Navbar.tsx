@@ -24,6 +24,7 @@ export default function Navbar() {
                 <div className='flex flex-col py-2 space-y-2 min-w-[250px]'>
                   <a href="/about-us/mission" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Our Mission</a>
                   <a href="/about-us/how-we-support" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">How We Support</a>
+                  <a href="/about-us/who-we-are" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Who We Are</a>
                   <a href="/about-us/testimonials" className="text-sm text-gray-700 hover:bg-gray-100 py-1 px-2 rounded">Testimonials & reviews</a>
                 </div>
               </div>
@@ -133,6 +134,7 @@ export default function Navbar() {
                     <div className="space-y-1">
                       <a href="/about-us/mission" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Our Mission</a>
                       <a href="/about-us/how-we-support" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">How We Support</a>
+                      <a href="/about-us/who-we-are" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Who We Are</a>
                       <a href="/about-us/testimonials" className="block px-3 py-1 text-sm text-white/80 hover:bg-white/10 transition-colors rounded-lg">Testimonials & reviews</a>
                     </div>
                   </div>

@@ -232,12 +232,6 @@ export default function OverseasPathways() {
                       Even with an SQE2 exemption, you'll need to complete:
                     </p>
                     <p className='text-base text-gray-700 mt-4'>
-                      <b>SQE1 (If Not Exempt):</b> Tests legal knowledge across all major practice areas. SQE1 is often required for civil law lawyers or those seeking additional validation. It involves two days of multiple-choice questions testing functioning legal knowledge.
-                    </p>
-                    <p className='text-base text-gray-700 mt-4'>
-                      <b>Qualifying Work Experience (QWE):</b> Two years of hands-on legal work demonstrating real-world skills. QWE can be completed before, during, or after exams and can span multiple organizations or jurisdictions.
-                    </p>
-                    <p className='text-base text-gray-700 mt-4'>
                       <b>Character and Suitability Check:</b> The SRA's ethical review, requiring disclosures of any issues. This applies to all candidates, regardless of exemptions, ensuring professional standards.
                     </p>
                     <p className='text-base text-gray-700 mt-4'>
@@ -250,13 +244,6 @@ export default function OverseasPathways() {
 
             {/* Sidebar */}
             <aside className="w-3/12 bg-white rounded-2xl border border-[#0089FF] shadow-lg p-6 flex flex-col">
-              <div className="w-full mb-5">
-                <img
-                  src="#"
-                  alt="visual"
-                  className="w-full h-40 object-cover rounded-lg"
-                />
-              </div>
               <div className="text-sm font-normal text-gray-700 mb-5">
                 Navigating the overseas lawyer pathway to qualification? Subscribe to get expert guidance on SQE exemptions, application strategies, and exclusive resources tailored for international lawyers.
               </div>
@@ -418,7 +405,7 @@ export default function OverseasPathways() {
           </div>
 
           <aside className="w-full bg-white rounded-2xl border border-[#0089FF] shadow-lg p-4 mt-6 mb-4">
-            <div className="w-full h-36 bg-gray-100 mb-4" />
+            
             <p className="text-sm text-gray-700">
               Expert guidance on SQE exemptions and application strategies for international lawyers.
             </p>

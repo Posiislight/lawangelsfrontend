@@ -361,7 +361,6 @@ export default function TermsAndConditions() {
                 {openSections.part2s2 && (
                   <div className='p-4 pt-0'>
                     <ul className='list-decimal list-inside text-base text-gray-700 mt-4 space-y-3'>
-                      <li>You may return faulty products at our expense.</li>
                       <li>You may exercise the right to cancel within 14 days of receipt, but return postage is usually at your cost unless the product is faulty.</li>
                       <li>Refunds are processed within 10 business days of receipt of returned goods in resaleable condition.</li>
                       <li>Deductions may apply for damage caused during handling.</li>

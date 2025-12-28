@@ -56,11 +56,11 @@ const iconProgress = (
 )
 
 const originalFeatures: Feature[] = [
-  { title: 'Comprehensive Audio Reader', desc: "Read your notes or let the audio reader do the work while you're on the go.", icon: iconBooks },
+  { title: 'Comprehensive Textbook with Audio Reader', desc: "Read your notes or let the audio reader do the work while you're on the go.", icon: iconBooks },
   { title: 'Summary Notes', desc: 'Exam focused summaries that save you time and sharpen your understanding.', icon: iconNotes },
   { title: 'Flashcards', desc: 'Revise smarter with high-quality flashcards that lock key legal concepts into memory.', icon: iconFlashcards },
   { title: '40 Mock Exams', desc: 'Prepare for the SQE with mock questions, a speed reading tool, and a timer for focus.', icon: iconMock },
-  { title: 'Quizzes (1,000+ Questions)', desc: 'Challenge yourself with interactive quizzes that make learning fast, fun, and unforgettable.', icon: iconQuiz },
+  { title: 'Quizzes (1,500+ Questions)', desc: 'Challenge yourself with interactive quizzes that make learning fast, fun, and unforgettable.', icon: iconQuiz },
   { title: 'Progress Tracker & Study Reports', desc: 'Track your scores, monitor your study hours, and see how close you are to your goals.', icon: iconProgress },
 ]
 

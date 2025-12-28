@@ -38,7 +38,7 @@ export default function Registration() {
 
           <div className='text-lg max-w-[1000px] mx-auto'>
             <p className='mt-10'>
-              Congratulations on conquering the Solicitors Qualifying Examination (SQE). Passing SQE1 and SQE2 is a huge milestone, but you're not quite a solicitor yet. The final steps - registering with the Solicitors Regulation Authority (SRA) and securing admission - require careful attention to detail to ensure a smooth transition into your legal career.
+              Congratulations on conquering the Solicitors Qualifying Examination (SQE). Passing SQE1 and SQE2 is a huge milestone, but you're not quite a solicitor yet. The final steps,registering with the Solicitors Regulation Authority (SRA) and securing admission - require careful attention to detail to ensure a smooth transition into your legal career.
             </p>
             <p className='mt-10'>
               These steps involve confirming your Qualifying Work Experience (QWE), passing the SRA's character and suitability check, and applying for admission. At LAWANGELS, we're here to guide you through this process with expert tips, checklists, and exclusive resources to streamline your journey.
@@ -180,9 +180,7 @@ export default function Registration() {
                 </button>
                 {openSteps.costs && (
                   <div className='p-4 pt-0'>
-                    <p className='text-base text-gray-700 mt-4'>
-                      <b>QWE Confirmation:</b> Free, but ensure supervisors are accessible - delays can occur if they're unavailable.
-                    </p>
+                    
                     <p className='text-base text-gray-700 mt-4'>
                       <b>Character and Suitability:</b> No separate fee, but complex cases may need legal advice.
                     </p>
@@ -205,13 +203,6 @@ export default function Registration() {
 
             {/* Sidebar */}
             <aside className="w-3/12 bg-white rounded-2xl border border-[#0089FF] shadow-lg p-6 flex flex-col">
-              <div className="w-full mb-5">
-                <img
-                  src="#"
-                  alt="visual"
-                  className="w-full h-40 object-cover rounded-lg"
-                />
-              </div>
               <div className="text-sm font-normal text-gray-700 mb-5">
                 Navigate your final steps to becoming a solicitor with confidence. Subscribe to get exclusive resources, SRA announcements, and guidance from recent qualifiers.
               </div>
@@ -346,7 +337,6 @@ export default function Registration() {
           </div>
 
           <aside className="w-full bg-white rounded-2xl border border-[#0089FF] shadow-lg p-4 mt-6 mb-4">
-            <div className="w-full h-36 bg-gray-100 mb-4" />
             <p className="text-sm text-gray-700">
               Navigate your final steps to becoming a solicitor with exclusive resources and SRA guidance.
             </p>
