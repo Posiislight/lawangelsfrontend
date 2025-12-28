@@ -28,6 +28,9 @@ import VideoTutorials from './pages/VideoTutorials'
 import Flashcards from './pages/Flashcards'
 import Quizzes from './pages/Quizzes'
 import MockQuestions from './pages/MockQuestions'
+import AngelAI from './pages/AngelAI'
+import SQETips from './pages/SQETips'
+import KeyTimeframes from './pages/KeyTimeframes'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -136,6 +139,36 @@ function App() {
           element={
             <ProtectedRoute>
               <MockQuestions />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Angel AI - Protected */}
+        <Route
+          path="/angel-ai"
+          element={
+            <ProtectedRoute>
+              <AngelAI />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* SQE Tips - Protected */}
+        <Route
+          path="/sqe-tips"
+          element={
+            <ProtectedRoute>
+              <SQETips />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Key Timeframes - Protected */}
+        <Route
+          path="/key-timeframes"
+          element={
+            <ProtectedRoute>
+              <KeyTimeframes />
             </ProtectedRoute>
           }
         />
