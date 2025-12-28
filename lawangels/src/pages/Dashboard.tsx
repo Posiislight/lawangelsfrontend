@@ -131,7 +131,9 @@ export default function Dashboard() {
             <Link to="/flashcards" className="block">
               <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
             </Link>
-            <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
+            <Link to="/quizzes" className="block">
+              <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
+            </Link>
             <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
           </div>
 

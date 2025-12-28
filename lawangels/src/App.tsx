@@ -26,6 +26,7 @@ import Textbook from './pages/Textbook'
 import PracticeQuestions from './pages/PracticeQuestions'
 import VideoTutorials from './pages/VideoTutorials'
 import Flashcards from './pages/Flashcards'
+import Quizzes from './pages/Quizzes'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -114,6 +115,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Flashcards />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Quizzes - Protected */}
+        <Route
+          path="/quizzes"
+          element={
+            <ProtectedRoute>
+              <Quizzes />
             </ProtectedRoute>
           }
         />
