@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import businesslawimg from '../assets/BUSINESS LAW.jpg';
-import disputeresolutionimg from '../assets/DISPUTE RESOLUTION.jpg';
-import trustlawimgs from '../assets/TRUST LAW.jpg';
-import WillSimg from '../assets/WillS.jpg';
 import Dashboardcut from '../assets/Law Angelscut.jpg';
 
 export default function Features() {
@@ -12,9 +9,6 @@ export default function Features() {
     const slideImages = [
         Dashboardcut,
         businesslawimg,
-        disputeresolutionimg,
-        WillSimg,
-        trustlawimgs,
     ];
 
     // Auto-advance slides every 4 seconds
@@ -130,7 +124,6 @@ export default function Features() {
                                     key={index} 
                                     className="flex-shrink-0 w-80 flex flex-col items-center gap-4 p-6 rounded-lg bg-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
                                 >
-                                    <div className="flex-shrink-0">{feature.icon}</div>
                                     <div className="text-center">
                                         <h3 className="text-lg font-semibold text-gray-900 mb-2">
                                             {feature.title}
