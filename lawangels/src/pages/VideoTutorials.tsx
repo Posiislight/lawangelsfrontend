@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { BookOpen, Menu, X, Bell, Home, BarChart3, HelpCircle, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Clock, ArrowRight, ChevronRight, PlayCircle, Bookmark, Landmark } from 'lucide-react'
+import { BookOpen, Menu, X, Bell, Home, BarChart3, HelpCircle, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Clock, ArrowRight, PlayCircle, Bookmark } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'

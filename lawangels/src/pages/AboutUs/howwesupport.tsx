@@ -2,24 +2,6 @@ import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
-const testimonials = [
-  {
-    quote: 'Custom Tools:',
-    name: 'Planners and mocks for all backgrounds',
-    role: 'Simon Burn Solicitors',
-  },
-  {
-    quote: 'Cost:',
-    name: 'Our pricing is affordable',
-    role: 'Simon Burn Solicitors',
-  },
-  {
-    quote: 'Timeless Resources:',
-    name: 'Updated for SRA changes',
-    role: 'Simon Burn Solicitors',
-  },
-];
-
 export default function PathToQualification(){
   const [openSections, setOpenSections] = useState({
     tailored: true,

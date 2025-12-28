@@ -319,7 +319,6 @@ export default function Practice() {
           <div className="space-y-4">
             {filteredQuestions.map((question) => {
               const colors = getDifficultyColor(question.difficulty)
-              const status = getStatusDisplay(question.status, question.attempted, question.questions)
 
               return (
                 <div key={question.id} className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
