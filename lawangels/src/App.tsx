@@ -27,6 +27,7 @@ import PracticeQuestions from './pages/PracticeQuestions'
 import VideoTutorials from './pages/VideoTutorials'
 import Flashcards from './pages/Flashcards'
 import Quizzes from './pages/Quizzes'
+import MockQuestions from './pages/MockQuestions'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 
@@ -125,6 +126,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Quizzes />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Mock Questions - Protected */}
+        <Route
+          path="/mock-questions"
+          element={
+            <ProtectedRoute>
+              <MockQuestions />
             </ProtectedRoute>
           }
         />

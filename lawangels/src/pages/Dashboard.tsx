@@ -134,7 +134,9 @@ export default function Dashboard() {
             <Link to="/quizzes" className="block">
               <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
             </Link>
-            <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
+            <Link to="/mock-questions" className="block">
+              <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
+            </Link>
           </div>
 
           {/* Learning Tools */}
