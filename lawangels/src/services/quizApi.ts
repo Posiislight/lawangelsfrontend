@@ -43,6 +43,7 @@ export interface Question {
   question_number: number;
   text: string;
   difficulty: 'easy' | 'medium' | 'hard';
+  topic: string;
   options: QuestionOption[];
   explanation: string;
   correct_answer: string;

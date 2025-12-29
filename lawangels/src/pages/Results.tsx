@@ -1,17 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Loader, BarChart3 } from 'lucide-react'
+import { Home, RefreshCw, ChevronDown, ChevronUp, Loader } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { ExamAttempt, QuestionAnswer } from '../services/quizApi'
-
-interface TopicResult {
-  topic: string
-  correct: number
-  total: number
-  percentage: number
-  color: string
-  icon: string
-}
 
 interface AnswerWithQuestion extends QuestionAnswer {
   question: {
@@ -19,6 +10,7 @@ interface AnswerWithQuestion extends QuestionAnswer {
     text: string
     question_number: number
     difficulty: string
+    topic: string  // Used for topic analytics - kept for future breakdown feature
     correct_answer: string
     explanation: string
     options: Array<{
@@ -28,6 +20,8 @@ interface AnswerWithQuestion extends QuestionAnswer {
   }
 }
 
+type AnswerFilter = 'all' | 'wrong' | 'right'
+
 export default function Results() {
   const { attemptId } = useParams<{ attemptId: string }>()
   const navigate = useNavigate()
@@ -35,7 +29,8 @@ export default function Results() {
   const [error, setError] = useState<string | null>(null)
   const [attempt, setAttempt] = useState<ExamAttempt | null>(null)
   const [answers, setAnswers] = useState<AnswerWithQuestion[]>([])
-  const [topicResults, setTopicResults] = useState<TopicResult[]>([])
+  const [filter, setFilter] = useState<AnswerFilter>('all')
+  const [expandedQuestions, setExpandedQuestions] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -47,7 +42,6 @@ export default function Results() {
 
         setLoading(true)
         const attemptIdNum = parseInt(attemptId, 10)
-        console.log(`Fetching results for attempt: ${attemptIdNum}`)
 
         if (isNaN(attemptIdNum)) {
           setError('Invalid attempt ID format')
@@ -55,43 +49,13 @@ export default function Results() {
           return
         }
 
-        try {
-          // Fetch the review data which includes attempt and answers
-          const reviewData = await quizApi.getReview(attemptIdNum)
-          console.log('Review data received:', reviewData)
-
-          setAttempt(reviewData)
-
-          // Answers are in reviewData.answers
-          const answersData = (reviewData.answers || []) as AnswerWithQuestion[]
-          console.log('Answers data:', answersData)
-          
-          // Validate answers have the expected structure
-          if (answersData.length > 0) {
-            console.log('First answer structure:', answersData[0])
-          }
-          
-          setAnswers(answersData)
-
-          // Group results by topic
-          const topicMap = groupByTopic(answersData)
-          setTopicResults(Array.from(topicMap.values()))
-
-          setLoading(false)
-        } catch (apiError) {
-          console.error('API Error fetching results:', apiError)
-          const errorMsg =
-            apiError instanceof Error
-              ? apiError.message
-              : 'Failed to load results from API'
-          setError(errorMsg)
-          setLoading(false)
-        }
-      } catch (error) {
-        console.error('Error fetching results:', error)
-        const errorMessage = error instanceof Error ? error.message : 'Failed to load results'
-        console.error('Full error:', errorMessage)
-        setError(errorMessage)
+        const reviewData = await quizApi.getReview(attemptIdNum)
+        setAttempt(reviewData)
+        setAnswers((reviewData.answers || []) as AnswerWithQuestion[])
+        setLoading(false)
+      } catch (err) {
+        console.error('Error fetching results:', err)
+        setError(err instanceof Error ? err.message : 'Failed to load results')
         setLoading(false)
       }
     }
@@ -99,126 +63,24 @@ export default function Results() {
     fetchResults()
   }, [attemptId])
 
-  // Group answers by topic based on question categorization
-  const groupByTopic = (answers: AnswerWithQuestion[]): Map<string, TopicResult> => {
-    const topicMap = new Map<string, TopicResult>()
-    const topicColors: { [key: string]: { color: string; icon: string } } = {
-      'Contract Law': { color: 'bg-blue-100', icon: '📋' },
-      'Criminal Law': { color: 'bg-green-100', icon: '⚖️' },
-      'Property Law': { color: 'bg-purple-100', icon: '🏠' },
-      'Family Law': { color: 'bg-red-100', icon: '👨‍👩‍👧' },
-      'Land Law': { color: 'bg-yellow-100', icon: '📍' },
-      'Trusts': { color: 'bg-indigo-100', icon: '🎁' },
-      'Commercial Law': { color: 'bg-orange-100', icon: '💼' },
-      'Tax Law': { color: 'bg-teal-100', icon: '💰' },
-      'Professional Conduct': { color: 'bg-pink-100', icon: '⭐' },
-      'Wills & Administration': { color: 'bg-gray-100', icon: '📜' },
-    }
-
-    // Extract topic from question text or use a default categorization
-    answers.forEach((answer) => {
-      // Safely extract topic from question text
-      const questionText = answer.question?.text || ''
-      let topic = extractTopic(questionText)
-
-      if (!topicMap.has(topic)) {
-        const colorInfo = topicColors[topic] || {
-          color: 'bg-slate-100',
-          icon: '❓',
-        }
-        topicMap.set(topic, {
-          topic,
-          correct: 0,
-          total: 0,
-          percentage: 0,
-          color: colorInfo.color,
-          icon: colorInfo.icon,
-        })
+  const toggleQuestion = (questionId: number) => {
+    setExpandedQuestions(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(questionId)) {
+        newSet.delete(questionId)
+      } else {
+        newSet.add(questionId)
       }
-
-      const topicResult = topicMap.get(topic)!
-      topicResult.total += 1
-      if (answer.is_correct) {
-        topicResult.correct += 1
-      }
-      topicResult.percentage = Math.round((topicResult.correct / topicResult.total) * 100)
+      return newSet
     })
-
-    return topicMap
-  }
-
-  // Extract topic from question text based on keywords
-  const extractTopic = (questionText: string): string => {
-    const lowerText = questionText.toLowerCase()
-
-    // Topic detection based on keywords
-    if (
-      lowerText.includes('contract') ||
-      lowerText.includes('agreement') ||
-      lowerText.includes('offer') ||
-      lowerText.includes('acceptance')
-    ) {
-      return 'Contract Law'
-    } else if (
-      lowerText.includes('criminal') ||
-      lowerText.includes('crime') ||
-      lowerText.includes('offence') ||
-      lowerText.includes('guilty')
-    ) {
-      return 'Criminal Law'
-    } else if (
-      lowerText.includes('property') ||
-      lowerText.includes('estate') ||
-      lowerText.includes('tenancy') ||
-      lowerText.includes('lease')
-    ) {
-      return 'Property Law'
-    } else if (
-      lowerText.includes('family') ||
-      lowerText.includes('divorce') ||
-      lowerText.includes('marriage') ||
-      lowerText.includes('custody')
-    ) {
-      return 'Family Law'
-    } else if (
-      lowerText.includes('land') ||
-      lowerText.includes('title') ||
-      lowerText.includes('registration')
-    ) {
-      return 'Land Law'
-    } else if (
-      lowerText.includes('trust') ||
-      lowerText.includes('trustee') ||
-      lowerText.includes('beneficiary')
-    ) {
-      return 'Trusts'
-    } else if (
-      lowerText.includes('commercial') ||
-      lowerText.includes('business') ||
-      lowerText.includes('company')
-    ) {
-      return 'Commercial Law'
-    } else if (lowerText.includes('tax') || lowerText.includes('income')) {
-      return 'Tax Law'
-    } else if (lowerText.includes('professional') || lowerText.includes('conduct')) {
-      return 'Professional Conduct'
-    } else if (
-      lowerText.includes('will') ||
-      lowerText.includes('administration') ||
-      lowerText.includes('estate')
-    ) {
-      return 'Wills & Administration'
-    }
-
-    return 'General Knowledge'
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FFFFFF]">
+      <div className="min-h-screen flex items-center justify-center bg-[#0F172B]">
         <div className="flex flex-col items-center gap-4">
-          <Loader size={48} className="text-[#E17100] animate-spin" />
-          <p className="text-[#314158] font-medium">Loading results...</p>
+          <Loader size={48} className="text-[#00BCD4] animate-spin" />
+          <p className="text-white font-medium">Loading results...</p>
         </div>
       </div>
     )
@@ -226,13 +88,13 @@ export default function Results() {
 
   if (error || !attempt) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FFFFFF]">
-        <div className="bg-[#FEF2F2] border-2 border-[#EF4444] rounded-xl p-8 max-w-md">
-          <h2 className="text-xl font-semibold text-[#DC2626] mb-2">Error Loading Results</h2>
-          <p className="text-[#7F1D1D] mb-6">{error || 'Unable to load results'}</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#0F172B]">
+        <div className="bg-red-500/10 border-2 border-red-500 rounded-xl p-8 max-w-md">
+          <h2 className="text-xl font-semibold text-red-400 mb-2">Error Loading Results</h2>
+          <p className="text-red-300 mb-6">{error || 'Unable to load results'}</p>
           <button
             onClick={() => navigate('/profile')}
-            className="px-6 py-2 bg-[#0F172B] text-white rounded-lg hover:bg-[#1a1f3a] transition"
+            className="px-6 py-2 bg-white text-[#0F172B] rounded-lg hover:bg-gray-100 transition font-medium"
           >
             Back to Profile
           </button>
@@ -241,139 +103,387 @@ export default function Results() {
     )
   }
 
-  // Use actual number of questions attempted, not total exam questions
+  // Calculate stats
   const totalQuestions = answers.length
-  const correctAnswers = answers.filter((a) => a.is_correct).length
+  const correctAnswers = answers.filter(a => a.is_correct).length
+  const incorrectAnswers = totalQuestions - correctAnswers
   const scorePercentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0
-  const passed = scorePercentage >= (attempt.exam?.passing_score_percentage || 70)
+
+  // Calculate time
+  const totalTimeSeconds = attempt.time_spent_seconds || answers.reduce((sum, a) => sum + (a.time_spent_seconds || 0), 0)
+  const avgTimePerQuestion = totalQuestions > 0 ? Math.round(totalTimeSeconds / totalQuestions) : 0
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}m ${secs}s`
+  }
+
+  // Get motivational message based on score
+  const getMotivationalContent = () => {
+    if (scorePercentage >= 80) {
+      return {
+        icon: '🏆',
+        title: 'Excellent Work!',
+        message: "You're ready for the exam. Keep up the great work!",
+        bgColor: 'bg-gradient-to-br from-green-50 to-emerald-50',
+        borderColor: 'border-green-200'
+      }
+    } else if (scorePercentage >= 60) {
+      return {
+        icon: '📈',
+        title: 'Good Progress!',
+        message: 'You\'re on the right track. Review the explanations for missed questions.',
+        bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50',
+        borderColor: 'border-blue-200'
+      }
+    } else {
+      return {
+        icon: '📊',
+        title: 'Keep Going!',
+        message: 'Everyone starts somewhere. Review the explanations and practice more.',
+        bgColor: 'bg-gradient-to-br from-orange-50 to-amber-50',
+        borderColor: 'border-orange-200'
+      }
+    }
+  }
+
+  const motivational = getMotivationalContent()
+
+  // Filter answers
+  const filteredAnswers = answers.filter(answer => {
+    if (filter === 'all') return true
+    if (filter === 'wrong') return !answer.is_correct
+    if (filter === 'right') return answer.is_correct
+    return true
+  })
+
+  // Get message for current filter
+  const getFilterMessage = () => {
+    if (filter === 'wrong' && incorrectAnswers === 0) {
+      return "Perfect! No incorrect answers to show."
+    }
+    if (filter === 'right' && correctAnswers === 0) {
+      return "No correct answers yet. Keep practicing!"
+    }
+    if (filter === 'wrong') {
+      return `Focus on these ${incorrectAnswers} questions you got wrong.`
+    }
+    if (filter === 'right') {
+      return `Nice work! You got ${correctAnswers} questions right.`
+    }
+    return `Showing all ${totalQuestions} questions. Click any question to see details.`
+  }
+
+  // Calculate stroke dashoffset for circular progress
+  const radius = 60
+  const circumference = 2 * Math.PI * radius
+  const strokeDashoffset = circumference - (scorePercentage / 100) * circumference
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF]">
+    <div className="min-h-screen bg-[#0F172B]">
       {/* Header */}
-      <header className="bg-[#0F172B] border-b border-[#1D293D] shadow-lg sticky top-0 z-40">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate('/profile')}
-              className="flex items-center gap-3 text-[#CAD5E2] hover:text-white transition"
-            >
-              <ArrowLeft size={16} />
-              <span className="text-sm font-medium">Back to Profile</span>
-            </button>
-            <div className="bg-[#E17100] text-white px-4 py-2 rounded-lg text-xs font-medium">
-              Results: {attempt.exam?.title || 'Mock Test'}
-            </div>
-            <div className="w-24"></div>
-          </div>
+      <header className="bg-[#0F172B] border-b border-[#1E293B] py-4 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-xl font-semibold text-white text-center">Your Results</h1>
+          <p className="text-gray-400 text-sm text-center mt-1">Here's how you did on this practice test</p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 py-8">
-        <div className="max-w-5xl mx-auto">
-          {/* Score Card */}
-          <div
-            className={`rounded-2xl shadow-lg p-8 mb-8 border-2 ${
-              passed
-                ? 'bg-gradient-to-br from-[#ECFDF5] to-[#F0FDF4] border-[#10B981]'
-                : 'bg-gradient-to-br from-[#FEF2F2] to-[#FEFCE8] border-[#EF4444]'
-            }`}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {/* Large Score */}
-              <div className="md:col-span-2 flex flex-col justify-center">
-                <p className={`text-sm font-medium mb-2 ${passed ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
-                  YOUR SCORE
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className={`text-6xl font-bold ${
-                      passed ? 'text-[#10B981]' : 'text-[#EF4444]'
-                    }`}
-                  >
-                    {scorePercentage}%
-                  </span>
-                  <span className={`text-2xl font-semibold ${passed ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
-                    {passed ? 'Passed' : 'Failed'}
-                  </span>
-                </div>
+      <main className="px-4 py-6 max-w-4xl mx-auto space-y-6">
+        {/* Score Card */}
+        <div className={`${motivational.bgColor} ${motivational.borderColor} border rounded-2xl p-6`}>
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            {/* Circular Score */}
+            <div className="relative">
+              <svg width="150" height="150" className="transform -rotate-90">
+                <circle
+                  cx="75"
+                  cy="75"
+                  r={radius}
+                  stroke="#E5E7EB"
+                  strokeWidth="12"
+                  fill="none"
+                />
+                <circle
+                  cx="75"
+                  cy="75"
+                  r={radius}
+                  stroke={scorePercentage >= 70 ? '#F97316' : '#EF4444'}
+                  strokeWidth="12"
+                  fill="none"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                  strokeLinecap="round"
+                  className="transition-all duration-1000 ease-out"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className={`text-4xl font-bold ${scorePercentage >= 70 ? 'text-orange-500' : 'text-red-500'}`}>
+                  {scorePercentage}%
+                </span>
+                <span className="text-gray-500 text-sm">Overall Score</span>
               </div>
+            </div>
 
-              {/* Stats Grid */}
-              <div className="md:col-span-2 grid grid-cols-2 gap-4">
-                <div className="bg-white rounded-lg p-4 border border-[#E2E8F0]">
-                  <p className="text-xs text-[#64748B] font-medium mb-1">Total Questions</p>
-                  <p className="text-2xl font-bold text-[#1D293D]">{totalQuestions}</p>
+            {/* Motivational Message */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                  <span className="text-xl">{motivational.icon}</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 border border-[#E2E8F0]">
-                  <p className="text-xs text-[#64748B] font-medium mb-1">Correct Answers</p>
-                  <p className="text-2xl font-bold text-[#10B981]">{correctAnswers}</p>
-                </div>
-                <div className="bg-white rounded-lg p-4 border border-[#E2E8F0]">
-                  <p className="text-xs text-[#64748B] font-medium mb-1">Incorrect Answers</p>
-                  <p className="text-2xl font-bold text-[#EF4444]">{totalQuestions - correctAnswers}</p>
-                </div>
-                <div className="bg-white rounded-lg p-4 border border-[#E2E8F0]">
-                  <p className="text-xs text-[#64748B] font-medium mb-1">Pass Required</p>
-                  <p className="text-2xl font-bold text-[#314158]">
-                    {attempt.exam?.passing_score_percentage || 70}%
-                  </p>
-                </div>
+                <h2 className="text-xl font-semibold text-gray-900">{motivational.title}</h2>
               </div>
+              <p className="text-gray-600">{motivational.message}</p>
             </div>
           </div>
 
-          {/* Topic Breakdown */}
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <BarChart3 size={24} className="text-[#E17100]" />
-              <h2 className="text-2xl font-bold text-[#1D293D]">Topic Breakdown</h2>
+          {/* Stats Row */}
+          <div className="grid grid-cols-3 gap-4 mt-6">
+            <div className="bg-white rounded-xl p-4 text-center shadow-sm">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <span className="text-green-600 text-xs">✓</span>
+                </div>
+                <span className="text-gray-500 text-sm">Correct</span>
+              </div>
+              <p className="text-2xl font-bold text-green-600">{correctAnswers}</p>
             </div>
+            <div className="bg-white rounded-xl p-4 text-center shadow-sm">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+                  <span className="text-red-600 text-xs">✕</span>
+                </div>
+                <span className="text-gray-500 text-sm">Incorrect</span>
+              </div>
+              <p className="text-2xl font-bold text-red-500">{incorrectAnswers}</p>
+            </div>
+            <div className="bg-white rounded-xl p-4 text-center shadow-sm">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span className="text-blue-600 text-xs">⏱</span>
+                </div>
+                <span className="text-gray-500 text-sm">Time</span>
+              </div>
+              <p className="text-2xl font-bold text-blue-600">{formatTime(totalTimeSeconds)}</p>
+            </div>
+          </div>
+        </div>
 
-            {topicResults.length === 0 ? (
-              <p className="text-[#64748B]">No topic data available</p>
+        {/* Performance Analytics */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <span className="text-indigo-600">📊</span>
+            </div>
+            <h2 className="text-lg font-semibold text-gray-900">Performance Analytics</h2>
+          </div>
+
+          {/* Accuracy Bar */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">Accuracy Rate</span>
+              <span className={`text-sm font-medium px-2 py-0.5 rounded ${scorePercentage >= 70 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                }`}>
+                {scorePercentage}%
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${scorePercentage >= 70 ? 'bg-gradient-to-r from-green-400 to-green-600' : 'bg-gradient-to-r from-red-400 to-red-600'
+                  }`}
+                style={{ width: `${scorePercentage}%` }}
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {correctAnswers} out of {totalQuestions} questions answered correctly
+            </p>
+          </div>
+
+          {/* Time Stats */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="bg-gray-50 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-gray-600 text-xs">⏱</span>
+                </div>
+                <span className="text-gray-500 text-sm">Total Time Spent</span>
+              </div>
+              <p className="text-xl font-bold text-gray-900">{formatTime(totalTimeSeconds)}</p>
+              <p className="text-xs text-gray-500">For {totalQuestions} questions</p>
+            </div>
+            <div className="bg-gray-50 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
+                  <span className="text-orange-600 text-xs">⌛</span>
+                </div>
+                <span className="text-gray-500 text-sm">Avg. Time/Question</span>
+              </div>
+              <p className="text-xl font-bold text-gray-900">{formatTime(avgTimePerQuestion)}</p>
+              <p className="text-xs text-gray-500">Pacing indicator</p>
+            </div>
+          </div>
+
+          {/* Questions Completed Badge */}
+          <div className="bg-green-50 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <span className="text-green-600">✓</span>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Questions Completed</p>
+                <p className="text-sm text-gray-500">All questions answered</p>
+              </div>
+            </div>
+            <div className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+              {totalQuestions}/{totalQuestions}
+            </div>
+          </div>
+        </div>
+
+        {/* Review Your Answers */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Review Your Answers</h2>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setFilter('all')}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${filter === 'all' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+              >
+                All ({totalQuestions})
+              </button>
+              <button
+                onClick={() => setFilter('wrong')}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${filter === 'wrong' ? 'bg-red-500 text-white' : 'bg-red-50 text-red-600 hover:bg-red-100'
+                  }`}
+              >
+                Wrong ({incorrectAnswers})
+              </button>
+              <button
+                onClick={() => setFilter('right')}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${filter === 'right' ? 'bg-green-500 text-white' : 'bg-green-50 text-green-600 hover:bg-green-100'
+                  }`}
+              >
+                Right ({correctAnswers})
+              </button>
+            </div>
+          </div>
+
+          {/* Filter Message */}
+          <div className={`mb-4 p-3 rounded-lg text-sm ${filter === 'wrong' ? 'bg-red-50 text-red-700' :
+            filter === 'right' ? 'bg-green-50 text-green-700' :
+              'bg-blue-50 text-blue-700'
+            }`}>
+            {getFilterMessage()}
+          </div>
+
+          {/* Questions List */}
+          <div className="space-y-3">
+            {filteredAnswers.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-gray-400 text-xl">
+                    {filter === 'wrong' ? '✓' : '✕'}
+                  </span>
+                </div>
+                <p className="text-gray-500">
+                  {filter === 'wrong' ? 'No incorrect answers to show.' : 'No correct answers yet. Keep practicing!'}
+                </p>
+              </div>
             ) : (
-              <div className="space-y-4">
-                {topicResults.map((topic, index) => (
-                  <div key={index} className="border border-[#E2E8F0] rounded-lg p-4 hover:shadow-md transition">
-                    {/* Topic Header */}
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{topic.icon}</span>
-                        <div>
-                          <h3 className="font-semibold text-[#1D293D]">{topic.topic}</h3>
-                          <p className="text-sm text-[#64748B]">
-                            {topic.correct} of {topic.total} correct
-                          </p>
-                        </div>
+              filteredAnswers.map((answer, index) => (
+                <div
+                  key={answer.id || index}
+                  className={`border rounded-xl overflow-hidden transition ${answer.is_correct ? 'border-green-200 bg-green-50/50' : 'border-red-200 bg-red-50/50'
+                    }`}
+                >
+                  {/* Question Header */}
+                  <button
+                    onClick={() => toggleQuestion(answer.question?.id || index)}
+                    className="w-full flex items-center justify-between p-4 hover:bg-white/50 transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${answer.is_correct ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                        }`}>
+                        {answer.is_correct ? '✓' : '✕'}
                       </div>
-                      <div className="text-right">
-                        <p
-                          className={`text-2xl font-bold ${
-                            topic.percentage >= 70 ? 'text-[#10B981]' : 'text-[#EF4444]'
-                          }`}
-                        >
-                          {topic.percentage}%
+                      <div className="text-left">
+                        <p className="font-medium text-gray-900">Question {answer.question?.question_number || index + 1}</p>
+                        <p className={`text-sm ${answer.is_correct ? 'text-green-600' : 'text-red-600'}`}>
+                          {answer.is_correct ? '✓ Correct' : '✕ Incorrect'}
                         </p>
                       </div>
                     </div>
+                    {expandedQuestions.has(answer.question?.id || index) ? (
+                      <ChevronUp className="w-5 h-5 text-gray-400" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                    )}
+                  </button>
 
-                    {/* Progress Bar */}
-                    <div className="w-full bg-[#E2E8F0] rounded-full h-3 overflow-hidden">
-                      <div
-                        className={`h-full transition-all duration-500 ${
-                          topic.percentage >= 70 ? 'bg-[#10B981]' : 'bg-[#EF4444]'
-                        }`}
-                        style={{ width: `${topic.percentage}%` }}
-                      />
+                  {/* Expanded Content */}
+                  {expandedQuestions.has(answer.question?.id || index) && (
+                    <div className="px-4 pb-4 border-t border-gray-100">
+                      <div className="pt-4">
+                        <p className="text-gray-700 mb-4">{answer.question?.text}</p>
+
+                        {/* Options */}
+                        <div className="space-y-2 mb-4">
+                          {answer.question?.options?.map((option) => (
+                            <div
+                              key={option.label}
+                              className={`p-3 rounded-lg border ${option.label === answer.question?.correct_answer
+                                ? 'bg-green-100 border-green-300 text-green-800'
+                                : option.label === answer.selected_answer && !answer.is_correct
+                                  ? 'bg-red-100 border-red-300 text-red-800'
+                                  : 'bg-gray-50 border-gray-200 text-gray-600'
+                                }`}
+                            >
+                              <span className="font-medium">{option.label}.</span> {option.text}
+                              {option.label === answer.question?.correct_answer && (
+                                <span className="ml-2 text-green-600 font-medium">✓ Correct</span>
+                              )}
+                              {option.label === answer.selected_answer && option.label !== answer.question?.correct_answer && (
+                                <span className="ml-2 text-red-600 font-medium">✕ Your answer</span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Explanation */}
+                        {answer.question?.explanation && (
+                          <div className="bg-blue-50 p-4 rounded-lg">
+                            <p className="text-sm font-medium text-blue-800 mb-1">Explanation</p>
+                            <p className="text-sm text-blue-700">{answer.question.explanation}</p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              ))
             )}
           </div>
+        </div>
 
-          {/* Action Buttons */}
+        {/* Action Buttons */}
+        <div className="flex gap-4">
+          <button
+            onClick={() => navigate('/profile')}
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"
+          >
+            <Home className="w-5 h-5" />
+            Back to Profile
+          </button>
+          <button
+            onClick={() => navigate(`/mock-questions`)}
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
+          >
+            <RefreshCw className="w-5 h-5" />
+            Retake Test
+          </button>
         </div>
       </main>
     </div>

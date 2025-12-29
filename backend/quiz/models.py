@@ -50,11 +50,23 @@ class Question(models.Model):
         ('hard', 'Hard'),
     ]
     
+    TOPIC_CHOICES = [
+        ('taxation', 'Taxation'),
+        ('criminal_law', 'Criminal Law'),
+        ('criminal_practice', 'Criminal Practice'),
+        ('land_law', 'Land Law'),
+        ('solicitors_accounts', 'Solicitors Accounts'),
+        ('professional_ethics', 'Professional Ethics'),
+        ('trusts', 'Trusts'),
+        ('wills', 'Wills'),
+    ]
+    
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='questions', db_index=True)
     question_number = models.IntegerField()
     text = models.TextField()
     explanation = models.TextField(help_text='Detailed explanation of the correct answer and why')
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='medium')
+    topic = models.CharField(max_length=50, choices=TOPIC_CHOICES, default='criminal_law', db_index=True)
     correct_answer = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'), ('E', 'E')])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

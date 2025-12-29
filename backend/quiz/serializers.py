@@ -18,7 +18,7 @@ class QuestionDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Question
-        fields = ['id', 'question_number', 'text', 'explanation', 'difficulty', 'correct_answer', 'options']
+        fields = ['id', 'question_number', 'text', 'explanation', 'difficulty', 'topic', 'correct_answer', 'options']
 
 
 class QuestionListSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class QuestionMinimalSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Question
-        fields = ['id', 'question_number', 'text', 'difficulty', 'options']
+        fields = ['id', 'question_number', 'text', 'difficulty', 'topic', 'options']
 
 
 class ExamSerializer(serializers.ModelSerializer):
@@ -199,7 +199,7 @@ class QuestionForAttemptSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Question
-        fields = ['id', 'question_number', 'text', 'difficulty', 'correct_answer', 'explanation', 'options']
+        fields = ['id', 'question_number', 'text', 'difficulty', 'topic', 'correct_answer', 'explanation', 'options']
 
 
 class QuestionAnswerSubmitSerializer(serializers.ModelSerializer):

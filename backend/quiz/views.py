@@ -238,6 +238,51 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             return ExamAttemptUpdateSerializer
         return ExamAttemptSerializer
 
+    def _select_balanced_questions(self, exam_id, target_count=60):
+        """
+        Select questions with equal distribution across topics.
+        If a topic has fewer questions than needed, take all and distribute remainder.
+        """
+        import random
+        from collections import defaultdict
+        
+        # Get all questions grouped by topic
+        questions_by_topic = defaultdict(list)
+        all_questions = Question.objects.filter(exam_id=exam_id).values_list('id', 'topic')
+        
+        for q_id, topic in all_questions:
+            questions_by_topic[topic].append(q_id)
+        
+        if not questions_by_topic:
+            # Fallback: if no topics, just random select
+            return list(Question.objects.filter(exam_id=exam_id).order_by('?')[:target_count].values_list('id', flat=True))
+        
+        # Calculate questions per topic
+        num_topics = len(questions_by_topic)
+        questions_per_topic = target_count // num_topics
+        remainder = target_count % num_topics
+        
+        selected_ids = []
+        topics_with_extra = random.sample(list(questions_by_topic.keys()), min(remainder, num_topics))
+        
+        for topic, question_ids in questions_by_topic.items():
+            # Determine how many to take from this topic
+            to_take = questions_per_topic
+            if topic in topics_with_extra:
+                to_take += 1
+            
+            # Shuffle and take
+            random.shuffle(question_ids)
+            selected_ids.extend(question_ids[:to_take])
+        
+        # If we still need more (some topics had fewer questions), fill from remaining
+        if len(selected_ids) < target_count:
+            all_available = [q_id for ids in questions_by_topic.values() for q_id in ids if q_id not in selected_ids]
+            random.shuffle(all_available)
+            selected_ids.extend(all_available[:target_count - len(selected_ids)])
+        
+        return selected_ids
+
     def create(self, request, *args, **kwargs):
         """Create a new exam attempt with optimized performance
         
@@ -291,11 +336,9 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                 # If attempt exists but has no selected questions, populate them now
                 if existing_attempt.selected_questions.count() == 0:
                     step_start = time.time()
-                    selected_question_ids = list(Question.objects.filter(
-                        exam_id=exam_id
-                    ).order_by('?')[:40].values_list('id', flat=True))
+                    selected_question_ids = self._select_balanced_questions(exam_id, target_count=60)
                     existing_attempt.selected_questions.set(selected_question_ids)
-                    logger.info(f"[TIMING] [3] Populate existing: {(time.time() - step_start)*1000:.2f}ms")
+                    logger.info(f"[TIMING] [3] Populate existing with balanced questions: {(time.time() - step_start)*1000:.2f}ms")
                 
                 logger.info(f"User {request.user.username} resuming existing attempt for exam {exam_id}")
                 # Use minimal serializer for faster response
@@ -311,13 +354,11 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             )
             logger.info(f"[TIMING] [3] Create attempt DB: {(time.time() - step_start)*1000:.2f}ms")
             
-            # Step 4: Direct database sampling (much faster than fetching all then sampling)
+            # Step 4: Select 60 questions with equal topic distribution
             step_start = time.time()
-            selected_question_ids = list(Question.objects.filter(
-                exam_id=exam_id
-            ).order_by('?')[:40].values_list('id', flat=True))
+            selected_question_ids = self._select_balanced_questions(exam_id, target_count=60)
             num_questions = len(selected_question_ids)
-            logger.info(f"[TIMING] [4] Direct DB sample {num_questions} questions: {(time.time() - step_start)*1000:.2f}ms")
+            logger.info(f"[TIMING] [4] Balanced topic sample {num_questions} questions: {(time.time() - step_start)*1000:.2f}ms")
             
             # Step 5: Bulk set relations (optimized - use through model directly)
             step_start = time.time()
