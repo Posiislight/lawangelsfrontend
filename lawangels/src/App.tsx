@@ -22,7 +22,6 @@ import MyCourses from './pages/MyCourses'
 import Progress from './pages/Progress'
 import Practice from './pages/Practice'
 import Textbook from './pages/Textbook'
-import PracticeQuestions from './pages/PracticeQuestions'
 import VideoTutorials from './pages/VideoTutorials'
 import Flashcards from './pages/Flashcards'
 import Quizzes from './pages/Quizzes'
@@ -95,15 +94,7 @@ function App() {
             }
           />
 
-          {/* Practice Questions - Protected */}
-          <Route
-            path="/practice-questions"
-            element={
-              <ProtectedRoute>
-                <PracticeQuestions />
-              </ProtectedRoute>
-            }
-          />
+
 
           {/* Video Tutorials - Protected */}
           <Route

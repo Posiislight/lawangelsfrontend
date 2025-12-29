@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { BookOpen, Clock, Home, BarChart3, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, HelpCircle as QuestionIcon } from 'lucide-react'
+import { BookOpen, Clock, Home, BarChart3, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
@@ -58,9 +58,6 @@ export default function Sidebar() {
         <div className="space-y-2">
           <Link to="/textbook" className="block">
             <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" active={isActive('/textbook')} open={sidebarOpen} />
-          </Link>
-          <Link to="/practice-questions" className="block">
-            <NavItem icon={<QuestionIcon className="w-5 h-5" />} label="Practice Questions" active={isActive('/practice-questions')} open={sidebarOpen} />
           </Link>
           <Link to="/video-tutorials" className="block">
             <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" active={isActive('/video-tutorials')} open={sidebarOpen} />
@@ -123,8 +120,8 @@ function NavItem({
   return (
     <button
       className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${active
-          ? 'bg-blue-50 text-blue-600 font-semibold'
-          : 'text-gray-700 hover:bg-gray-100'
+        ? 'bg-blue-50 text-blue-600 font-semibold'
+        : 'text-gray-700 hover:bg-gray-100'
         } ${open ? '' : 'justify-center'}`}
     >
       <span className="flex-shrink-0">{icon}</span>
