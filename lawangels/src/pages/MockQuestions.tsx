@@ -1,138 +1,165 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, ArrowRight, Target, CheckCircle, TrendingUp, Clock } from 'lucide-react'
+import { Bell, ArrowRight, Target, CheckCircle, TrendingUp, Clock, Loader2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
+import MockTestStart from '../components/MockTestStart'
+import MockExamCustomization, { type PracticeMode } from '../components/MockExamCustomization'
+import MockExam from '../components/MockExam'
+import { quizApi, type Exam, type ExamAttempt } from '../services/quizApi'
+import { dashboardApi, type UserStats } from '../services/dashboardApi'
+
+type ViewState = 'list' | 'start' | 'customize' | 'exam'
+
+interface MockExamWithStats extends Exam {
+  attemptsTaken: number
+  averageScore: number
+  bestScore: number
+  lastAttempt: string
+  color: string
+}
+
+interface ExamSettings {
+  practiceMode: PracticeMode
+  extraTimeEnabled: boolean
+}
 
 export default function MockQuestions() {
   const { user } = useAuth()
+  const [isLoading, setIsLoading] = useState(true)
+  const [mockExams, setMockExams] = useState<MockExamWithStats[]>([])
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
 
-  const mockExams = [
-    {
-      title: 'Constitutional Law Full Mock',
-      course: 'Constitutional Law',
-      questions: 100,
-      duration: '3 hours',
-      passScore: 70,
-      yourBestScore: 76,
-      attemptsTaken: 3,
-      averageScore: 74,
-      difficulty: 'Exam Level',
-      lastAttempt: '5 days ago',
-      topics: ['Parliamentary Sovereignty', 'Judicial Review', 'Rule of Law', 'Constitutional Reform', 'Separation of Powers'],
-      color: 'blue',
-    },
-    {
-      title: 'Contract Law Mock Exam',
-      course: 'Contract Law',
-      questions: 95,
-      duration: '2.5 hours',
-      passScore: 70,
-      yourBestScore: 68,
-      attemptsTaken: 2,
-      averageScore: 66,
-      difficulty: 'Exam Level',
-      lastAttempt: '2 weeks ago',
-      topics: ['Formation', 'Terms & Conditions', 'Consideration', 'Breach', 'Remedies'],
-      color: 'purple',
-    },
-    {
-      title: 'Property Law Full Mock',
-      course: 'Property Law',
-      questions: 98,
-      duration: '3 hours',
-      passScore: 70,
-      yourBestScore: 84,
-      attemptsTaken: 4,
-      averageScore: 81,
-      difficulty: 'Exam Level',
-      lastAttempt: '1 day ago',
-      topics: ['Land Registration', 'Leasehold & Freehold', 'Co-ownership', 'Mortgages', 'Easements'],
-      color: 'green',
-    },
-    {
-      title: 'Criminal Law Mock Exam',
-      course: 'Criminal Law',
-      questions: 105,
-      duration: '3 hours',
-      passScore: 70,
-      yourBestScore: 62,
-      attemptsTaken: 1,
-      averageScore: 62,
-      difficulty: 'Exam Level',
-      lastAttempt: '3 weeks ago',
-      topics: ['Actus Reus', 'Mens Rea', 'Defences', 'Homicide', 'Theft', 'Sentencing'],
-      color: 'red',
-    },
-    {
-      title: 'Tort Law Full Mock',
-      course: 'Tort Law',
-      questions: 92,
-      duration: '2.5 hours',
-      passScore: 70,
-      yourBestScore: 0,
-      attemptsTaken: 0,
-      averageScore: 0,
-      difficulty: 'Exam Level',
-      lastAttempt: 'Not attempted',
-      topics: ['Negligence', 'Defamation', 'Trespass', 'Nuisance', 'Strict Liability'],
-      color: 'yellow',
-    },
-    {
-      title: 'Equity and Trusts Mock',
-      course: 'Equity and Trusts',
-      questions: 96,
-      duration: '3 hours',
-      passScore: 70,
-      yourBestScore: 0,
-      attemptsTaken: 0,
-      averageScore: 0,
-      difficulty: 'Exam Level',
-      lastAttempt: 'Not attempted',
-      topics: ['Trust Creation', 'Beneficiaries', 'Breach of Trust', 'Remedies', 'Equitable Relief'],
-      color: 'indigo',
-    },
-  ]
+  // Flow state
+  const [currentView, setCurrentView] = useState<ViewState>('list')
+  const [selectedExam, setSelectedExam] = useState<MockExamWithStats | null>(null)
+  const [examSettings, setExamSettings] = useState<ExamSettings>({
+    practiceMode: 'real-exam',
+    extraTimeEnabled: false,
+  })
 
-  const recentAttempts = [
-    {
-      title: 'Property Law Full Mock',
-      course: 'Property Law',
-      score: 84,
-      maxScore: 100,
-      passed: true,
-      passScore: 70,
-      questionsCorrect: 82,
-      totalQuestions: 98,
-      completedAt: '1 day ago',
-      duration: '2h 58m',
-      color: 'green',
-    },
-    {
-      title: 'Constitutional Law Full Mock',
-      course: 'Constitutional Law',
-      score: 76,
-      maxScore: 100,
-      passed: true,
-      passScore: 70,
-      questionsCorrect: 76,
-      totalQuestions: 100,
-      completedAt: '5 days ago',
-      duration: '3h 12m',
-      color: 'blue',
-    },
-    {
-      title: 'Criminal Law Mock Exam',
-      course: 'Criminal Law',
-      score: 62,
-      maxScore: 100,
-      passed: false,
-      passScore: 70,
-      questionsCorrect: 65,
-      totalQuestions: 105,
-      completedAt: '3 weeks ago',
-      duration: '2h 45m',
-      color: 'red',
-    },
-  ]
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+
+        // Fetch exams first - this should always work
+        let exams: Exam[] = []
+        try {
+          exams = await quizApi.getExams()
+          console.log('[MockQuestions] Fetched exams:', exams.length)
+        } catch (examError) {
+          console.error('[MockQuestions] Error fetching exams:', examError)
+          // If exams fail, we can't continue
+          setIsLoading(false)
+          return
+        }
+
+        // Fetch attempts and stats - these may fail if not authenticated
+        let attempts: ExamAttempt[] = []
+        let stats: UserStats | null = null
+
+        try {
+          attempts = await quizApi.getAttempts()
+          console.log('[MockQuestions] Fetched attempts:', attempts.length)
+        } catch (attemptError) {
+          console.warn('[MockQuestions] Could not fetch attempts (user may not be logged in):', attemptError)
+          // Continue without attempts
+        }
+
+        try {
+          stats = await dashboardApi.getUserStats()
+          console.log('[MockQuestions] Fetched user stats')
+        } catch (statsError) {
+          console.warn('[MockQuestions] Could not fetch user stats:', statsError)
+          // Continue without stats
+        }
+
+        setUserStats(stats)
+
+        // Create a map of exam attempts
+        const attemptsByExam = new Map<number, ExamAttempt[]>()
+        attempts.forEach(attempt => {
+          const examId = attempt.exam_id || attempt.exam?.id
+          if (examId) {
+            if (!attemptsByExam.has(examId)) {
+              attemptsByExam.set(examId, [])
+            }
+            attemptsByExam.get(examId)!.push(attempt)
+          }
+        })
+
+        // Enrich exams with attempt stats
+        const colors = ['blue', 'purple', 'green', 'red', 'yellow', 'indigo']
+        const enrichedExams: MockExamWithStats[] = exams.map((exam, idx) => {
+          const examAttempts = attemptsByExam.get(exam.id) || []
+          const completedAttempts = examAttempts.filter(a => a.status === 'completed')
+          const scores = completedAttempts
+            .map(a => a.score)
+            .filter((s): s is number => s !== null)
+
+          // Get latest attempt
+          const sortedAttempts = [...completedAttempts].sort(
+            (a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
+          )
+          const lastAttemptDate = sortedAttempts.length > 0
+            ? formatRelativeTime(sortedAttempts[0].started_at)
+            : 'Not attempted'
+
+          return {
+            ...exam,
+            attemptsTaken: completedAttempts.length,
+            averageScore: scores.length > 0
+              ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+              : 0,
+            bestScore: scores.length > 0 ? Math.max(...scores) : 0,
+            lastAttempt: lastAttemptDate,
+            color: colors[idx % colors.length],
+          }
+        })
+
+        setMockExams(enrichedExams)
+        console.log('[MockQuestions] Set enrichedExams:', enrichedExams.length)
+      } catch (error) {
+        console.error('Error fetching mock exams:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const formatSubjectName = (subject: string): string => {
+    const subjectNames: Record<string, string> = {
+      'land_law': 'Land Law',
+      'trusts': 'Trusts & Equity',
+      'property': 'Property Transactions',
+      'criminal': 'Criminal Law',
+      'commercial': 'Commercial Law',
+      'tax': 'Tax Law',
+      'professional': 'Professional Conduct',
+      'wills': 'Wills & Administration',
+      'mixed': 'Mixed',
+    }
+    return subjectNames[subject] || subject
+  }
+
+  const formatRelativeTime = (dateString: string): string => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMins / 60)
+    const diffDays = Math.floor(diffHours / 24)
+    const diffWeeks = Math.floor(diffDays / 7)
+
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins} minutes ago`
+    if (diffHours < 24) return `${diffHours} hours ago`
+    if (diffDays < 7) return `${diffDays} days ago`
+    if (diffWeeks < 4) return `${diffWeeks} weeks ago`
+    return date.toLocaleDateString()
+  }
 
   const colorMap = {
     blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', accent: 'bg-blue-500' },
@@ -143,6 +170,64 @@ export default function MockQuestions() {
     indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-600', accent: 'bg-indigo-500' },
   }
 
+  // Handle exam selection and navigation
+  const handleStartExam = (exam: MockExamWithStats) => {
+    setSelectedExam(exam)
+    setCurrentView('start')
+  }
+
+  const handleContinueToCustomize = () => {
+    setCurrentView('customize')
+  }
+
+  const handleContinueToExam = (settings: ExamSettings) => {
+    setExamSettings(settings)
+    setCurrentView('exam')
+  }
+
+  const handleBackToList = () => {
+    setSelectedExam(null)
+    setCurrentView('list')
+  }
+
+  const handleBackToStart = () => {
+    setCurrentView('start')
+  }
+
+  // Render MockTestStart view
+  if (currentView === 'start' && selectedExam) {
+    return (
+      <MockTestStart
+        exam={selectedExam}
+        onContinue={handleContinueToCustomize}
+        onBack={handleBackToList}
+      />
+    )
+  }
+
+  // Render MockExamCustomization view
+  if (currentView === 'customize' && selectedExam) {
+    return (
+      <MockExamCustomization
+        exam={selectedExam}
+        onContinue={handleContinueToExam}
+        onBack={handleBackToStart}
+      />
+    )
+  }
+
+  // Render MockExam view
+  if (currentView === 'exam' && selectedExam) {
+    return (
+      <MockExam
+        examId={selectedExam.id}
+        practiceMode={examSettings.practiceMode}
+        extraTimeEnabled={examSettings.extraTimeEnabled}
+      />
+    )
+  }
+
+  // Render list view (default)
   return (
     <DashboardLayout>
       {/* Header */}
@@ -182,215 +267,177 @@ export default function MockQuestions() {
 
       {/* Page Content */}
       <div className="p-8">
-        {/* Recent Attempts Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-normal text-black mb-1">Recent Attempts</h2>
-          <p className="text-gray-600 text-sm mb-6">Review your latest mock exam performance</p>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            <span className="ml-2 text-gray-600">Loading mock exams...</span>
+          </div>
+        ) : (
+          <>
+            {/* All Mock Exams Section */}
+            <div>
+              <h2 className="text-2xl font-normal text-black mb-1">All Mock Exams</h2>
+              <p className="text-gray-600 text-sm mb-6">Take full-length mock exams to prepare for the SQE assessment</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {recentAttempts.map((attempt, idx) => {
-              const color = colorMap[attempt.color as keyof typeof colorMap]
+              {mockExams.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {mockExams.map((exam) => {
+                    const color = colorMap[exam.color as keyof typeof colorMap]
 
-              return (
-                <div key={idx} className={`rounded-lg p-6 border border-gray-200 ${color.bg} hover:shadow-md transition-shadow cursor-pointer`}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className={`font-semibold ${color.text} text-sm uppercase tracking-wide mb-2`}>Mock Exam</h3>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-1">{attempt.title}</h4>
-                      <p className="text-sm text-gray-600">{attempt.course}</p>
-                    </div>
-                    {attempt.passed ? (
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
-                        <span className="text-green-600 font-bold">✓</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100">
-                        <span className="text-red-600 font-bold">✕</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-semibold text-gray-900">{attempt.score}/{attempt.maxScore}</span>
-                      <span className={`text-sm font-semibold ${attempt.passed ? 'text-green-600' : 'text-red-600'}`}>
-                        {attempt.passed ? 'PASSED' : 'FAILED'}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    return (
                       <div
-                        className={`h-2 rounded-full ${color.accent}`}
-                        style={{ width: `${(attempt.score / attempt.maxScore) * 100}%` }}
-                      />
+                        key={exam.id}
+                        className="rounded-xl border-t-4 border-t-blue-500 overflow-hidden transition-all bg-white border border-gray-200 hover:shadow-lg cursor-pointer"
+                        onClick={() => handleStartExam(exam)}
+                      >
+                        <div className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <p className={`text-xs font-semibold uppercase tracking-wide ${color.text} mb-2`}>
+                                {formatSubjectName(exam.subject)}
+                              </p>
+                              <h3 className="text-lg font-semibold text-gray-900 mb-1">{exam.title}</h3>
+                            </div>
+                          </div>
+
+                          <div className="space-y-4 mb-6">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">Questions</span>
+                              <span className="font-semibold text-gray-900">{exam.total_questions}</span>
+                            </div>
+
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">Duration</span>
+                              <span className="font-semibold text-gray-900">{exam.duration_minutes} mins</span>
+                            </div>
+
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">Pass Score</span>
+                              <span className="font-semibold text-gray-900">{exam.passing_score_percentage}%</span>
+                            </div>
+
+                            {exam.attemptsTaken > 0 && (
+                              <>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                  <div
+                                    className={`h-2 rounded-full ${color.accent}`}
+                                    style={{ width: `${exam.bestScore}%` }}
+                                  />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                  <div className="bg-gray-50 rounded-lg p-3">
+                                    <p className="text-xs text-gray-600 mb-1">Best Score</p>
+                                    <p className="text-lg font-semibold text-gray-900">{exam.bestScore}%</p>
+                                  </div>
+                                  <div className="bg-gray-50 rounded-lg p-3">
+                                    <p className="text-xs text-gray-600 mb-1">Avg Score</p>
+                                    <p className="text-lg font-semibold text-gray-900">{exam.averageScore}%</p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center justify-between text-sm">
+                                  <span className="text-gray-600">Attempts</span>
+                                  <span className="font-semibold text-gray-900">{exam.attemptsTaken}</span>
+                                </div>
+                              </>
+                            )}
+
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">Last Attempt</span>
+                              <span className="font-semibold text-gray-900">{exam.lastAttempt}</span>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleStartExam(exam)
+                            }}
+                            className={`w-full ${color.accent} text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
+                          >
+                            {exam.attemptsTaken > 0 ? 'Retake Exam' : 'Start Exam'}
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="bg-white rounded-lg p-8 border border-gray-200 text-center">
+                  <p className="text-gray-600 mb-4">No mock exams available yet</p>
+                  <p className="text-sm text-gray-500">Check back later for new exams</p>
+                </div>
+              )}
+            </div>
+
+            {/* Exam Preparation Stats */}
+            <div className="mt-12">
+              <h2 className="text-2xl font-normal text-black mb-6">Your Mock Exam Stats</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Target className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Exams Completed</p>
+                      <p className="text-2xl font-semibold text-gray-900">{userStats?.completedExams || 0}</p>
                     </div>
                   </div>
+                  <p className="text-xs text-gray-600">Total attempts</p>
+                </div>
 
-                  <p className="text-xs text-gray-500">
-                    {attempt.questionsCorrect}/{attempt.totalQuestions} correct • {attempt.duration} • {attempt.completedAt}
+                <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Pass Rate</p>
+                      <p className="text-2xl font-semibold text-gray-900">{userStats?.passRate || 0}%</p>
+                    </div>
+                  </div>
+                  <p className={`text-xs ${userStats?.passRate && userStats.passRate >= 70 ? 'text-green-600' : 'text-gray-600'} font-medium`}>
+                    {userStats?.passRate && userStats.passRate >= 70 ? 'Above threshold!' : 'Keep practicing'}
                   </p>
                 </div>
-              )
-            })}
-          </div>
-        </div>
 
-        {/* All Mock Exams Section */}
-        <div>
-          <h2 className="text-2xl font-normal text-black mb-1">All Mock Exams</h2>
-          <p className="text-gray-600 text-sm mb-6">Take full-length mock exams to prepare for the SQE assessment</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockExams.map((exam, idx) => {
-              const color = colorMap[exam.color as keyof typeof colorMap]
-              const passPercentage = exam.attemptsTaken > 0 ? Math.round((exam.yourBestScore / 100) * 100) : 0
-
-              return (
-                <div
-                  key={idx}
-                  className="rounded-xl border-t-4 border-t-blue-500 overflow-hidden transition-all bg-white border border-gray-200 hover:shadow-lg cursor-pointer"
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <p className={`text-xs font-semibold uppercase tracking-wide ${color.text} mb-2`}>
-                          {exam.course}
-                        </p>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">{exam.title}</h3>
-                      </div>
+                <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <TrendingUp className="w-6 h-6 text-purple-600" />
                     </div>
-
-                    <div className="space-y-4 mb-6">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Questions</span>
-                        <span className="font-semibold text-gray-900">{exam.questions}</span>
-                      </div>
-
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Duration</span>
-                        <span className="font-semibold text-gray-900">{exam.duration}</span>
-                      </div>
-
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Pass Score</span>
-                        <span className="font-semibold text-gray-900">{exam.passScore}%</span>
-                      </div>
-
-                      {exam.attemptsTaken > 0 && (
-                        <>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className={`h-2 rounded-full ${color.accent}`}
-                              style={{ width: `${passPercentage}%` }}
-                            />
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-3">
-                            <div className="bg-gray-50 rounded-lg p-3">
-                              <p className="text-xs text-gray-600 mb-1">Best Score</p>
-                              <p className="text-lg font-semibold text-gray-900">{exam.yourBestScore}%</p>
-                            </div>
-                            <div className="bg-gray-50 rounded-lg p-3">
-                              <p className="text-xs text-gray-600 mb-1">Avg Score</p>
-                              <p className="text-lg font-semibold text-gray-900">{exam.averageScore}%</p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-600">Attempts</span>
-                            <span className="font-semibold text-gray-900">{exam.attemptsTaken}</span>
-                          </div>
-                        </>
-                      )}
-
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Last Attempt</span>
-                        <span className="font-semibold text-gray-900">{exam.lastAttempt}</span>
-                      </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Avg Score</p>
+                      <p className="text-2xl font-semibold text-gray-900">{userStats?.averageScore || 0}%</p>
                     </div>
-
-                    <div className="mb-6">
-                      <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Topics Covered</p>
-                      <div className="flex flex-wrap gap-2">
-                        {exam.topics.map((topic, tidx) => (
-                          <span
-                            key={tidx}
-                            className={`text-xs px-3 py-1 rounded-full ${color.bg} ${color.text} font-medium`}
-                          >
-                            {topic}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <button className={`w-full ${color.accent} text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}>
-                      {exam.attemptsTaken > 0 ? 'Retake Exam' : 'Start Exam'}
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
                   </div>
+                  <p className="text-xs text-gray-600">Across all exams</p>
                 </div>
-              )
-            })}
-          </div>
-        </div>
 
-        {/* Exam Preparation Stats */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-normal text-black mb-6">Your Mock Exam Stats</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Target className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Exams Completed</p>
-                  <p className="text-2xl font-semibold text-gray-900">10</p>
+                <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Hours Studied</p>
+                      <p className="text-2xl font-semibold text-gray-900">
+                        {userStats?.totalTimeSpentMinutes
+                          ? `${Math.round(userStats.totalTimeSpentMinutes / 60)}h`
+                          : '0h'}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-600">Mock exam time</p>
                 </div>
               </div>
-              <p className="text-xs text-gray-600">Total attempts</p>
             </div>
-
-            <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Pass Rate</p>
-                  <p className="text-2xl font-semibold text-gray-900">70%</p>
-                </div>
-              </div>
-              <p className="text-xs text-green-600 font-medium">7 out of 10 passed</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Avg Score</p>
-                  <p className="text-2xl font-semibold text-gray-900">73%</p>
-                </div>
-              </div>
-              <p className="text-xs text-gray-600">Across all exams</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-orange-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Hours Studied</p>
-                  <p className="text-2xl font-semibold text-gray-900">28h</p>
-                </div>
-              </div>
-              <p className="text-xs text-gray-600">Mock exam time</p>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </DashboardLayout>
   )

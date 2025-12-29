@@ -131,7 +131,7 @@ async function fetchCsrfToken() {
   if (csrfTokenCached) return; // Only fetch once
   try {
     console.debug('[QuizAPI] Attempting to fetch CSRF token from /auth/me/')
-    const response = await fetch(`${API_BASE_URL}/auth/me/`, { 
+    const response = await fetch(`${API_BASE_URL}/auth/me/`, {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -165,16 +165,16 @@ class QuizApiClient {
   ): Promise<any> {
     try {
       const url = `${this.baseUrl}${endpoint}`;
-      
+
       // Fetch CSRF token if needed (only once)
       await fetchCsrfToken();
-      
+
       const csrfToken = getCsrfToken();
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
         ...(options.headers as Record<string, string> || {}),
       };
-      
+
       // Add CSRF token for non-GET requests
       if (options.method && options.method !== 'GET' && csrfToken) {
         headers['X-CSRFToken'] = csrfToken;
@@ -203,7 +203,13 @@ class QuizApiClient {
 
   // Exams
   async getExams(): Promise<Exam[]> {
-    return this.request('/exams/');
+    const response = await this.request('/exams/');
+    // Handle paginated response from Django REST Framework
+    if (response && typeof response === 'object' && 'results' in response) {
+      return response.results as Exam[];
+    }
+    // If not paginated (direct array), return as-is
+    return response as Exam[];
   }
 
   async getExam(id: number): Promise<ExamDetail> {
@@ -251,7 +257,13 @@ class QuizApiClient {
   }
 
   async getAttempts(): Promise<ExamAttempt[]> {
-    return this.request('/exam-attempts/');
+    const response = await this.request('/exam-attempts/');
+    // Handle paginated response from Django REST Framework
+    if (response && typeof response === 'object' && 'results' in response) {
+      return response.results as ExamAttempt[];
+    }
+    // If not paginated (direct array), return as-is
+    return response as ExamAttempt[];
   }
 
   async submitAnswer(

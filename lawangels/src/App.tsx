@@ -10,8 +10,6 @@ import PathToQualification from './pages/Path to Qualification/Pathtoqualify'
 import AssessmentDates from './pages/Path to Qualification/AssessmentDates'
 import Registration from './pages/Path to Qualification/Registration'
 import OverseasPathways from './pages/Path to Qualification/OverseasPathways'
-import MockTestStart from './components/MockTestStart'
-import MockExam from './components/MockExam'
 import Results from './pages/Results'
 import Pricing from './pages/Pricing'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -198,36 +196,8 @@ function App() {
           <Route path="/prep-tools">
             <Route path="pricing" element={<Pricing />} />
             <Route path="sample-mcqs" element={<Home />} /> {/* TODO: Create SampleMCQs component */}
-            <Route path="mock-test" element={<MockTestStart />} />
-            <Route
-              path="mock-exam"
-              element={
-                <ProtectedRoute>
-                  <MockExam />
-                </ProtectedRoute>
-              }
-            />
           </Route>
 
-          {/* Mock Test Start Route - Protected */}
-          <Route
-            path="/mock-test-start"
-            element={
-              <ProtectedRoute>
-                <MockTestStart />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Standalone Mock Exam Route */}
-          <Route
-            path="/mock-exam"
-            element={
-              <ProtectedRoute>
-                <MockExam />
-              </ProtectedRoute>
-            }
-          />
 
           {/* Results Route */}
           <Route

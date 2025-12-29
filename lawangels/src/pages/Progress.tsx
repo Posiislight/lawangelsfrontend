@@ -1,77 +1,128 @@
-import { BarChart3 } from 'lucide-react'
-import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import DashboardLayout from '../components/DashboardLayout'
+import { dashboardApi, type UserStats, type ProgressData } from '../services/dashboardApi'
 
-interface CourseProgress {
+
+interface ExamProgress {
   id: number
   title: string
   progress: number
   completed: number
   total: number
-  category: string
+  subject: string
   lastAccessed: string
+  score: number | null
 }
 
 export default function Progress() {
   const { user } = useAuth()
+  const [isLoading, setIsLoading] = useState(true)
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
+  const [examProgress, setExamProgress] = useState<ExamProgress[]>([])
+  const [progressBySubject, setProgressBySubject] = useState<ProgressData[]>([])
 
-  const courseProgress: CourseProgress[] = [
-    {
-      id: 1,
-      title: 'Constitutional and Administrative Law',
-      progress: 67,
-      completed: 16,
-      total: 24,
-      category: 'Reading',
-      lastAccessed: '2 hours ago',
-    },
-    {
-      id: 2,
-      title: 'Contract Law',
-      progress: 45,
-      completed: 14,
-      total: 32,
-      category: 'Reading',
-      lastAccessed: '1 day ago',
-    },
-    {
-      id: 3,
-      title: 'Property Law',
-      progress: 80,
-      completed: 16,
-      total: 20,
-      category: 'Videos',
-      lastAccessed: '3 hours ago',
-    },
-    {
-      id: 4,
-      title: 'Criminal Law',
-      progress: 92,
-      completed: 22,
-      total: 22,
-      category: 'Practice',
-      lastAccessed: '5 days ago',
-    },
-  ]
+  useEffect(() => {
+    const fetchProgressData = async () => {
+      try {
+        setIsLoading(true)
+        const [stats, attempts, subjects] = await Promise.all([
+          dashboardApi.getUserStats(),
+          dashboardApi.getExamAttemptsWithDetails(),
+          dashboardApi.getProgressBySubject(),
+        ])
 
-  const overallStats = {
-    totalProgress: 71,
-    completedCourses: 1,
-    activeCourses: 3,
-    lockedCourses: 2,
-    totalHours: 24,
-    averageTimePerDay: '2.5 hours',
-    streak: 7,
-    lastActive: '2 hours ago',
+        setUserStats(stats)
+        setProgressBySubject(subjects)
+
+        // Transform attempts into progress format
+        const progress: ExamProgress[] = attempts
+          .filter(a => a.status === 'completed' && a.exam)
+          .reduce((acc: ExamProgress[], attempt) => {
+            const exam = attempt.exam!
+            const existing = acc.find(p => p.id === exam.id)
+            if (existing) {
+              // Update with better score if exists
+              if (attempt.score && attempt.score > (existing.score || 0)) {
+                existing.score = attempt.score
+                existing.progress = attempt.score
+              }
+              return acc
+            }
+
+            acc.push({
+              id: exam.id,
+              title: exam.title,
+              progress: attempt.score || 0,
+              completed: attempt.score ? Math.round((attempt.score / 100) * exam.total_questions) : 0,
+              total: exam.total_questions,
+              subject: formatSubjectName(exam.subject),
+              lastAccessed: formatRelativeTime(attempt.started_at),
+              score: attempt.score,
+            })
+            return acc
+          }, [])
+
+        setExamProgress(progress)
+      } catch (error) {
+        console.error('Error fetching progress data:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProgressData()
+  }, [])
+
+  const formatSubjectName = (subject: string): string => {
+    const subjectNames: Record<string, string> = {
+      'land_law': 'Land Law',
+      'trusts': 'Trusts & Equity',
+      'property': 'Property Transactions',
+      'criminal': 'Criminal Law',
+      'commercial': 'Commercial Law',
+      'tax': 'Tax Law',
+      'professional': 'Professional Conduct',
+      'wills': 'Wills & Administration',
+      'mixed': 'Mixed',
+    }
+    return subjectNames[subject] || subject
+  }
+
+  const formatRelativeTime = (dateString: string): string => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMins / 60)
+    const diffDays = Math.floor(diffHours / 24)
+
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins} minutes ago`
+    if (diffHours < 24) return `${diffHours} hours ago`
+    if (diffDays < 7) return `${diffDays} days ago`
+    return date.toLocaleDateString()
+  }
+
+  const formatTimeSpent = (minutes: number): string => {
+    if (minutes < 60) return `${minutes}m`
+    const hours = Math.floor(minutes / 60)
+    const mins = minutes % 60
+    return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`
   }
 
   const getProgressColor = (progress: number) => {
-    if (progress >= 75) return { bg: 'bg-green-500', text: 'text-green-600' }
+    if (progress >= 70) return { bg: 'bg-green-500', text: 'text-green-600' }
     if (progress >= 50) return { bg: 'bg-blue-500', text: 'text-blue-600' }
     if (progress >= 25) return { bg: 'bg-yellow-500', text: 'text-yellow-600' }
     return { bg: 'bg-orange-500', text: 'text-orange-600' }
   }
+
+  // Calculate overall progress from user stats
+  const overallProgress = userStats?.completedExams && userStats?.totalExams
+    ? Math.round((userStats.completedExams / userStats.totalExams) * 100)
+    : 0
 
   return (
     <DashboardLayout>
@@ -80,7 +131,7 @@ export default function Progress() {
         <div className="flex items-center justify-between gap-8">
           <div>
             <h1 className="text-2xl font-normal text-gray-900">Progress Tracker</h1>
-            <p className="text-sm text-gray-600 mt-1">Track your learning journey and course completion</p>
+            <p className="text-sm text-gray-600 mt-1">Track your learning journey and exam performance</p>
           </div>
 
           {/* User Avatar */}
@@ -92,170 +143,227 @@ export default function Progress() {
 
       {/* Content */}
       <div className="p-8">
-        {/* Overall Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <p className="text-sm text-gray-600 mb-2">Overall Progress</p>
-            <p className="text-3xl font-semibold text-gray-900 mb-3">{overallStats.totalProgress}%</p>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="h-2 rounded-full bg-blue-500 transition-all"
-                style={{ width: `${overallStats.totalProgress}%` }}
-              />
+        {isLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            <span className="ml-2 text-gray-600">Loading progress data...</span>
+          </div>
+        ) : (
+          <>
+            {/* Overall Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <p className="text-sm text-gray-600 mb-2">Overall Progress</p>
+                <p className="text-3xl font-semibold text-gray-900 mb-3">{overallProgress}%</p>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full bg-blue-500 transition-all"
+                    style={{ width: `${overallProgress}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <p className="text-sm text-gray-600 mb-2">Exams Completed</p>
+                <p className="text-3xl font-semibold text-gray-900 mb-3">{userStats?.completedExams || 0}</p>
+                <p className="text-xs text-gray-500">{userStats?.totalExams || 0} total attempts</p>
+              </div>
+
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <p className="text-sm text-gray-600 mb-2">Study Streak</p>
+                <p className="text-3xl font-semibold text-gray-900 mb-3">{userStats?.currentStreak || 0} days</p>
+                <p className="text-xs text-gray-500">
+                  Last active: {userStats?.lastActiveDate ? formatRelativeTime(userStats.lastActiveDate) : 'Never'}
+                </p>
+              </div>
+
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <p className="text-sm text-gray-600 mb-2">Total Study Time</p>
+                <p className="text-3xl font-semibold text-gray-900 mb-3">
+                  {formatTimeSpent(userStats?.totalTimeSpentMinutes || 0)}
+                </p>
+                <p className="text-xs text-gray-500">Average score: {userStats?.averageScore || 0}%</p>
+              </div>
             </div>
-          </div>
 
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <p className="text-sm text-gray-600 mb-2">Active Courses</p>
-            <p className="text-3xl font-semibold text-gray-900 mb-3">{overallStats.activeCourses}</p>
-            <p className="text-xs text-gray-500">{overallStats.completedCourses} completed</p>
-          </div>
+            {/* Exam Progress Details */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Exam Performance</h2>
+              {examProgress.length > 0 ? (
+                <div className="space-y-4">
+                  {examProgress.map((exam) => {
+                    const colors = getProgressColor(exam.progress)
+                    return (
+                      <div key={exam.id} className="bg-white rounded-lg p-6 border border-gray-200">
+                        <div className="flex items-start justify-between mb-4">
+                          <div>
+                            <h3 className="font-semibold text-gray-900">{exam.title}</h3>
+                            <p className="text-sm text-gray-500 mt-1">{exam.subject} • Last accessed: {exam.lastAccessed}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className={`text-2xl font-semibold ${colors.text}`}>{exam.progress}%</p>
+                            <p className="text-xs text-gray-500">{exam.completed}/{exam.total} correct</p>
+                          </div>
+                        </div>
 
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <p className="text-sm text-gray-600 mb-2">Study Streak</p>
-            <p className="text-3xl font-semibold text-gray-900 mb-3">{overallStats.streak} days</p>
-            <p className="text-xs text-gray-500">Last active: {overallStats.lastActive}</p>
-          </div>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div
+                            className={`h-3 rounded-full transition-all ${colors.bg}`}
+                            style={{ width: `${exam.progress}%` }}
+                          />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="bg-white rounded-lg p-8 border border-gray-200 text-center">
+                  <p className="text-gray-600 mb-4">No exam attempts yet</p>
+                  <a href="/quizzes" className="text-blue-600 hover:text-blue-700 font-medium">
+                    Start your first exam →
+                  </a>
+                </div>
+              )}
+            </div>
 
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <p className="text-sm text-gray-600 mb-2">Total Hours</p>
-            <p className="text-3xl font-semibold text-gray-900 mb-3">{overallStats.totalHours}h</p>
-            <p className="text-xs text-gray-500">{overallStats.averageTimePerDay}/day avg</p>
-          </div>
-        </div>
+            {/* Progress by Subject */}
+            {progressBySubject.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Progress by Subject</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {progressBySubject.map((subject) => {
+                    const colors = getProgressColor(subject.averageScore)
+                    return (
+                      <div key={subject.subject} className="bg-white rounded-lg p-6 border border-gray-200">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-gray-900">{subject.subject}</h3>
+                          <span className={`text-lg font-semibold ${colors.text}`}>{subject.averageScore}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                          <div
+                            className={`h-2 rounded-full transition-all ${colors.bg}`}
+                            style={{ width: `${subject.averageScore}%` }}
+                          />
+                        </div>
+                        <div className="flex items-center justify-between text-sm text-gray-600">
+                          <span>{subject.answeredQuestions} questions attempted</span>
+                          <span>{subject.correctAnswers} correct</span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
 
-        {/* Course Progress Details */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Course Progress</h2>
-          <div className="space-y-4">
-            {courseProgress.map((course) => {
-              const colors = getProgressColor(course.progress)
-              return (
-                <div key={course.id} className="bg-white rounded-lg p-6 border border-gray-200">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{course.title}</h3>
-                      <p className="text-sm text-gray-500 mt-1">{course.category} • Last accessed: {course.lastAccessed}</p>
+            {/* Performance Stats */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              {/* Pass Rate */}
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <h3 className="font-semibold text-gray-900 mb-4">Pass Rate</h3>
+                <div className="flex items-center gap-6">
+                  <div className="relative w-24 h-24">
+                    <svg className="w-24 h-24 transform -rotate-90">
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="40"
+                        stroke="#e5e7eb"
+                        strokeWidth="8"
+                        fill="none"
+                      />
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="40"
+                        stroke={userStats?.passRate && userStats.passRate >= 70 ? '#22c55e' : '#ef4444'}
+                        strokeWidth="8"
+                        fill="none"
+                        strokeDasharray={`${(userStats?.passRate || 0) * 2.51} 251`}
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xl font-bold text-gray-900">{userStats?.passRate || 0}%</span>
                     </div>
-                    <div className="text-right">
-                      <p className={`text-2xl font-semibold ${colors.text}`}>{course.progress}%</p>
-                      <p className="text-xs text-gray-500">{course.completed}/{course.total}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">
+                      {userStats?.completedExams || 0} exams completed
+                    </p>
+                    <p className={`text-sm ${userStats?.passRate && userStats.passRate >= 70 ? 'text-green-600' : 'text-red-600'}`}>
+                      {userStats?.passRate && userStats.passRate >= 70 ? 'Above passing threshold' : 'Below passing threshold (70%)'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Average Score */}
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <h3 className="font-semibold text-gray-900 mb-4">Average Score</h3>
+                <div className="flex items-center gap-6">
+                  <div className="relative w-24 h-24">
+                    <svg className="w-24 h-24 transform -rotate-90">
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="40"
+                        stroke="#e5e7eb"
+                        strokeWidth="8"
+                        fill="none"
+                      />
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="40"
+                        stroke="#3b82f6"
+                        strokeWidth="8"
+                        fill="none"
+                        strokeDasharray={`${(userStats?.averageScore || 0) * 2.51} 251`}
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xl font-bold text-gray-900">{userStats?.averageScore || 0}%</span>
                     </div>
                   </div>
-
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                      className={`h-3 rounded-full transition-all ${colors.bg}`}
-                      style={{ width: `${course.progress}%` }}
-                    />
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">
+                      Across all {userStats?.completedExams || 0} completed exams
+                    </p>
+                    <p className="text-sm text-blue-600">
+                      {userStats?.averageScore && userStats.averageScore >= 70
+                        ? 'Great performance!'
+                        : 'Keep practicing to improve'}
+                    </p>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Learning Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Weekly Summary */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-4">Weekly Summary</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Monday</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
-                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '80%' }} />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900">2.5h</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Tuesday</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
-                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '60%' }} />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900">1.8h</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Wednesday</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
-                    <div className="h-2 rounded-full bg-green-500" style={{ width: '100%' }} />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900">3.0h</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Thursday</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
-                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '70%' }} />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900">2.1h</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Friday</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
-                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '50%' }} />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900">1.5h</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Learning Breakdown */}
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-4">Learning Breakdown</h3>
-            <div className="space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">Reading</span>
-                  <span className="text-sm font-semibold text-gray-900">45%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="h-2 rounded-full bg-blue-500" style={{ width: '45%' }} />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">Videos</span>
-                  <span className="text-sm font-semibold text-gray-900">30%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="h-2 rounded-full bg-purple-500" style={{ width: '30%' }} />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">Practice</span>
-                  <span className="text-sm font-semibold text-gray-900">25%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="h-2 rounded-full bg-green-500" style={{ width: '25%' }} />
-                </div>
-              </div>
+            {/* Insights */}
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+              <h3 className="font-semibold text-gray-900 mb-3">Learning Insights</h3>
+              <ul className="space-y-2 text-sm text-gray-700">
+                {userStats?.currentStreak && userStats.currentStreak > 0 && (
+                  <li>✓ Great job! You're on track with a {userStats.currentStreak}-day learning streak</li>
+                )}
+                {userStats?.averageScore && userStats.averageScore >= 70 && (
+                  <li>✓ Your average score of {userStats.averageScore}% is above the passing threshold</li>
+                )}
+                {userStats?.passRate !== undefined && userStats.passRate < 70 && (
+                  <li>⚠️ Consider reviewing topics where you scored below 70%</li>
+                )}
+                {(!userStats?.completedExams || userStats.completedExams === 0) && (
+                  <li>💡 Start with a practice exam to track your progress</li>
+                )}
+                {userStats?.completedExams && userStats.completedExams >= 5 && (
+                  <li>🎯 You've completed {userStats.completedExams} exams - great dedication!</li>
+                )}
+              </ul>
             </div>
-          </div>
-        </div>
-
-        {/* Insights */}
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
-          <h3 className="font-semibold text-gray-900 mb-3">Learning Insights</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li>✓ Great job! You're on track with a 7-day learning streak</li>
-            <li>✓ You spend 30% more time on videos than the average learner</li>
-            <li>✓ Your best learning time is early morning (6-9 AM)</li>
-            <li>✓ Consider balancing more practice questions with your reading sessions</li>
-          </ul>
-        </div>
+          </>
+        )}
       </div>
     </DashboardLayout>
   )

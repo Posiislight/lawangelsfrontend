@@ -1,4 +1,4 @@
-import { HelpCircle, CheckCircle, Lock } from 'lucide-react'
+import { CheckCircle, Lock } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import DashboardLayout from '../components/DashboardLayout'
@@ -170,8 +170,8 @@ export default function Practice() {
           <button
             onClick={() => setFilterDifficulty('all')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterDifficulty === 'all'
-                ? 'bg-blue-100 text-blue-600'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-blue-100 text-blue-600'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
           >
             All Levels
@@ -179,8 +179,8 @@ export default function Practice() {
           <button
             onClick={() => setFilterDifficulty('easy')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterDifficulty === 'easy'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-green-100 text-green-700'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
           >
             Easy
@@ -188,8 +188,8 @@ export default function Practice() {
           <button
             onClick={() => setFilterDifficulty('medium')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterDifficulty === 'medium'
-                ? 'bg-yellow-100 text-yellow-700'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-yellow-100 text-yellow-700'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
           >
             Medium
@@ -197,8 +197,8 @@ export default function Practice() {
           <button
             onClick={() => setFilterDifficulty('hard')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterDifficulty === 'hard'
-                ? 'bg-red-100 text-red-700'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-red-100 text-red-700'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
           >
             Hard

@@ -4,9 +4,16 @@ import { ArrowLeft, Clock, Zap, ChevronLeft, ChevronRight, Loader } from 'lucide
 import { quizApi } from '../services/quizApi'
 import { fetchCsrfToken } from '../api/client'
 import type { Question, ExamAttempt } from '../services/quizApi'
+import type { PracticeMode } from './MockExamCustomization'
 
 type AnswerState = 'unanswered' | 'answered' | 'navigated'
 type LoadingStep = 'initializing' | 'creating-attempt' | 'loading-questions' | 'loading-config' | 'ready'
+
+interface MockExamProps {
+  examId?: number
+  practiceMode?: PracticeMode
+  extraTimeEnabled?: boolean
+}
 
 interface ExamState {
   loading: boolean
@@ -23,15 +30,20 @@ interface ExamState {
   answerState: AnswerState
   answeredQuestions: Record<number, { answer: string; isCorrect: boolean }>
   speedReaderTime: number
+  practiceMode: PracticeMode
 }
 
-export default function MockExam() {
+export default function MockExam({
+  examId = 1,
+  practiceMode = 'learn-as-you-go',
+  extraTimeEnabled = false
+}: MockExamProps) {
   const navigate = useNavigate()
   const [state, setState] = useState<ExamState>({
     loading: true,
     loadingStep: 'initializing',
     error: null,
-    examId: 1,
+    examId: examId,
     attemptId: null,
     questions: [],
     attempt: null,
@@ -42,6 +54,7 @@ export default function MockExam() {
     answerState: 'unanswered',
     answeredQuestions: {},
     speedReaderTime: 70,
+    practiceMode: practiceMode,
   })
 
   // Track which answers have been submitted to backend to avoid duplicates
@@ -52,7 +65,7 @@ export default function MockExam() {
     const initializeExam = async () => {
       try {
         setState(prev => ({ ...prev, loading: true, loadingStep: 'creating-attempt' }))
-        
+
         // Fetch CSRF token from the backend endpoint
         const csrfToken = await fetchCsrfToken()
 
@@ -74,7 +87,7 @@ export default function MockExam() {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           credentials: 'include',
-          body: JSON.stringify({ exam_id: 1, is_mock: false }),
+          body: JSON.stringify({ exam_id: examId, is_mock: false }),
         }).then(res => {
           if (!res.ok) {
             if (res.status === 401) {
@@ -87,7 +100,7 @@ export default function MockExam() {
 
         console.log('Attempt created:', attempt)
         setState(prev => ({ ...prev, loadingStep: 'loading-questions' }))
-        
+
         // Load the 40 randomly selected questions for this attempt
         console.log('Fetching questions for attempt:', attempt.id)
         const questions = await fetch(`${apiBaseUrl}/exam-attempts/${attempt.id}/questions/`, {
@@ -110,7 +123,7 @@ export default function MockExam() {
 
         console.log('Questions loaded:', questions.length)
         setState(prev => ({ ...prev, loadingStep: 'loading-config' }))
-        
+
         // Load timing config
         const config = await fetch(`${apiBaseUrl}/exams/config/`, {
           method: 'GET',
@@ -137,7 +150,7 @@ export default function MockExam() {
           questions: questions,
           attempt: attempt,
           attemptId: attempt.id,
-          timeLeft: config.default_duration_minutes * 60,
+          timeLeft: Math.round(config.default_duration_minutes * 60 * (extraTimeEnabled ? 1.25 : 1)),
           speedReaderTime: config.default_speed_reader_seconds,
         }))
       } catch (error) {
@@ -149,7 +162,7 @@ export default function MockExam() {
         }))
       }
     }
-    
+
     initializeExam()
   }, [])
 
@@ -228,7 +241,7 @@ export default function MockExam() {
       // Fire-and-forget: Send to backend (don't wait for response)
       if (state.attempt && !submittedAnswersRef.current.has(state.currentQuestion)) {
         submittedAnswersRef.current.add(state.currentQuestion)
-        
+
         fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/${state.attempt.id}/submit-answer/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -277,7 +290,7 @@ export default function MockExam() {
 
     try {
       console.log(`Finishing exam attempt ${state.attempt.id}...`)
-      
+
       // End the exam attempt
       const completedAttempt = await quizApi.endExam(state.attempt.id)
       console.log('Exam completed:', completedAttempt)
@@ -299,7 +312,7 @@ export default function MockExam() {
   const handleConfirmFinish = () => {
     const answeredCount = Object.keys(state.answeredQuestions).length
     const totalQuestions = state.questions.length
-    
+
     if (answeredCount < totalQuestions) {
       const unanswered = totalQuestions - answeredCount
       const confirmed = window.confirm(
@@ -341,21 +354,19 @@ export default function MockExam() {
               return (
                 <div key={item.step} className="flex items-start gap-3">
                   <div
-                    className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-medium text-sm transition-all ${
-                      isCompleted
-                        ? 'bg-[#10B981] text-white'
-                        : isActive
+                    className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-medium text-sm transition-all ${isCompleted
+                      ? 'bg-[#10B981] text-white'
+                      : isActive
                         ? 'bg-[#E17100] text-white ring-2 ring-[#E17100] ring-offset-2'
                         : 'bg-[#E2E8F0] text-[#64748B]'
-                    }`}
+                      }`}
                   >
                     {isCompleted ? '✓' : index + 1}
                   </div>
                   <div className="flex-1">
                     <p
-                      className={`font-medium transition-colors ${
-                        isActive ? 'text-[#E17100]' : isCompleted ? 'text-[#10B981]' : 'text-[#314158]'
-                      }`}
+                      className={`font-medium transition-colors ${isActive ? 'text-[#E17100]' : isCompleted ? 'text-[#10B981]' : 'text-[#314158]'
+                        }`}
                     >
                       {item.label}
                     </p>
@@ -436,14 +447,12 @@ export default function MockExam() {
           <div className="flex items-center justify-center gap-3 bg-[#1D293D] px-6 py-3 rounded-xl border border-[#314158] w-fit left-2 -mt-16">
             <button
               onClick={() => setState(prev => ({ ...prev, speedReaderEnabled: !prev.speedReaderEnabled }))}
-              className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors ${
-                state.speedReaderEnabled ? 'bg-[#FE9A00]' : 'bg-[#CBCED4]'
-              }`}
+              className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors ${state.speedReaderEnabled ? 'bg-[#FE9A00]' : 'bg-[#CBCED4]'
+                }`}
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  state.speedReaderEnabled ? 'translate-x-3.5' : 'translate-x-0.5'
-                }`}
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${state.speedReaderEnabled ? 'translate-x-3.5' : 'translate-x-0.5'
+                  }`}
               />
             </button>
             <Zap size={16} className="text-[#FE9A00]" />
@@ -496,15 +505,14 @@ export default function MockExam() {
                   return (
                     <div key={option.label}>
                       <label
-                        className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                          showCorrectHighlight
-                            ? 'bg-[#ECFDF5] border-[#10B981]'
-                            : showIncorrectHighlight
+                        className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${showCorrectHighlight
+                          ? 'bg-[#ECFDF5] border-[#10B981]'
+                          : showIncorrectHighlight
                             ? 'bg-[#FEF2F2] border-[#EF4444]'
                             : isSelected && state.answerState !== 'unanswered'
-                            ? 'bg-[#EFF6FF] border-[#3B82F6]'
-                            : 'bg-white border-[#E2E8F0] hover:border-[#CAD5E2]'
-                        } ${state.answerState !== 'unanswered' ? 'cursor-not-allowed' : ''}`}
+                              ? 'bg-[#EFF6FF] border-[#3B82F6]'
+                              : 'bg-white border-[#E2E8F0] hover:border-[#CAD5E2]'
+                          } ${state.answerState !== 'unanswered' ? 'cursor-not-allowed' : ''}`}
                       >
                         <input
                           type="radio"
@@ -565,11 +573,10 @@ export default function MockExam() {
                   <button
                     onClick={handleNextQuestion}
                     disabled={state.currentQuestion >= totalQuestions - 1}
-                    className={`px-8 py-3 rounded-lg font-medium transition flex items-center gap-2 ${
-                      state.currentQuestion < totalQuestions - 1
-                        ? 'bg-[#0F172B] text-white hover:bg-[#1a1f3a]'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
+                    className={`px-8 py-3 rounded-lg font-medium transition flex items-center gap-2 ${state.currentQuestion < totalQuestions - 1
+                      ? 'bg-[#0F172B] text-white hover:bg-[#1a1f3a]'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
                   >
                     Next Question
                     <ChevronRight size={18} />
@@ -585,11 +592,10 @@ export default function MockExam() {
               <button
                 onClick={handlePreviousQuestion}
                 disabled={state.currentQuestion === 0}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${
-                  state.currentQuestion === 0
-                    ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
-                    : 'bg-white text-[#0A0A0A] border-[#CAD5E2] hover:border-[#314158]'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${state.currentQuestion === 0
+                  ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
+                  : 'bg-white text-[#0A0A0A] border-[#CAD5E2] hover:border-[#314158]'
+                  }`}
               >
                 <ChevronLeft size={18} />
                 <span className="text-sm font-medium">Previous</span>
@@ -601,13 +607,12 @@ export default function MockExam() {
                     <button
                       key={i}
                       onClick={() => setState(prev => ({ ...prev, currentQuestion: i }))}
-                      className={`w-10 h-10 rounded-full font-medium transition flex items-center justify-center ${
-                        state.currentQuestion === i
-                          ? 'bg-[#0F172B] text-white shadow-lg'
-                          : state.answeredQuestions[i] !== undefined
+                      className={`w-10 h-10 rounded-full font-medium transition flex items-center justify-center ${state.currentQuestion === i
+                        ? 'bg-[#0F172B] text-white shadow-lg'
+                        : state.answeredQuestions[i] !== undefined
                           ? 'bg-[#10B981] text-white'
                           : 'bg-[#E2E8F0] text-[#45556C]'
-                      }`}
+                        }`}
                     >
                       {i + 1}
                     </button>
@@ -618,11 +623,10 @@ export default function MockExam() {
               <button
                 onClick={handleNextQuestion}
                 disabled={state.currentQuestion >= totalQuestions - 1}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${
-                  state.currentQuestion >= totalQuestions - 1
-                    ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
-                    : 'bg-white text-[#0A0A0A] border-[#CAD5E2] hover:border-[#314158]'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${state.currentQuestion >= totalQuestions - 1
+                  ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
+                  : 'bg-white text-[#0A0A0A] border-[#CAD5E2] hover:border-[#314158]'
+                  }`}
               >
                 <span className="text-sm font-medium">Next</span>
                 <ChevronRight size={18} />

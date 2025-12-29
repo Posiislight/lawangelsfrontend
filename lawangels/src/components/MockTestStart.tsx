@@ -1,36 +1,26 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, FileText, BookOpen, CheckCircle, Zap } from 'lucide-react'
-import { quizApi } from '../services/quizApi'
+import type { Exam } from '../services/quizApi'
 
-export default function MockTestStart() {
-  const navigate = useNavigate()
-  const [speedReaderEnabled, _setSpeedReaderEnabled] = useState(false)
+interface MockTestStartProps {
+  exam: Exam
+  onContinue: () => void
+  onBack: () => void
+}
 
-  // Silently preload questions in background
-  useEffect(() => {
-    const preloadQuestions = async () => {
-      try {
-        console.log('Preloading questions in background...')
-        // Create exam attempt
-        const attempt = await quizApi.startExam(1, false)
-        console.log('Exam attempt created:', attempt.id)
-        
-        // Fetch the questions for this attempt
-        const questions = await quizApi.getAttemptQuestions(attempt.id)
-        console.log('Questions preloaded:', questions.length, 'questions')
-      } catch (error) {
-        console.error('Background preload failed (non-critical):', error)
-      }
+export default function MockTestStart({ exam, onContinue, onBack }: MockTestStartProps) {
+  const formatSubjectName = (subject: string): string => {
+    const subjectNames: Record<string, string> = {
+      'land_law': 'Land Law',
+      'trusts': 'Trusts & Equity',
+      'property': 'Property Transactions',
+      'criminal': 'Criminal Law',
+      'commercial': 'Commercial Law',
+      'tax': 'Tax Law',
+      'professional': 'Professional Conduct',
+      'wills': 'Wills & Administration',
+      'mixed': 'Mixed',
     }
-
-    preloadQuestions()
-  }, [])
-
-  const handleStartTest = () => {
-    console.log('Starting mock test with Speed Reader:', speedReaderEnabled)
-    // Navigate to mock exam page
-    navigate('/mock-exam')
+    return subjectNames[subject] || subject
   }
 
   const instructions = [
@@ -45,7 +35,10 @@ export default function MockTestStart() {
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 bg-[#0F172B] border-b border-[#1D293D] shadow-lg z-50">
         <div className="flex items-center px-10 py-4">
-          <button className="flex items-center gap-3 bg-[#0F172B] text-[#CAD5E2] hover:text-white hover:border-white transition">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-3 bg-[#0F172B] text-[#CAD5E2] hover:text-white transition"
+          >
             <ArrowLeft size={16} />
             <span className="text-sm font-medium">Back to Dashboard</span>
           </button>
@@ -57,11 +50,11 @@ export default function MockTestStart() {
         {/* Badge and Heading */}
         <div className="mb-8 relative text-center">
           <div className="inline-block bg-[#E17100] text-white px-4 py-2 rounded-lg text-xs font-medium mb-6">
-            Mock Test 1
+            {formatSubjectName(exam.subject)}
           </div>
-          <h1 className="text-3xl font-medium text-[#0F172B] mb-3 text-center">Sample Practice Questions</h1>
+          <h1 className="text-3xl font-medium text-[#0F172B] mb-3 text-center">{exam.title}</h1>
           <p className="text-base text-[#45556C] max-w-2xl text-center mx-auto">
-            Test your knowledge with professionally designed questions covering Land Law. This mock test simulates real exam conditions to help you prepare effectively.
+            {exam.description || `Test your knowledge with professionally designed questions covering ${formatSubjectName(exam.subject)}. This mock test simulates real exam conditions to help you prepare effectively.`}
           </p>
         </div>
 
@@ -78,7 +71,7 @@ export default function MockTestStart() {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-[#0F172B]">Duration</h3>
-                <p className="text-base text-[#45556C]">60 minutes</p>
+                <p className="text-base text-[#45556C]">{exam.duration_minutes} minutes</p>
               </div>
             </div>
 
@@ -89,7 +82,7 @@ export default function MockTestStart() {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-[#0F172B]">Questions</h3>
-                <p className="text-base text-[#45556C]">50 multiple choice questions</p>
+                <p className="text-base text-[#45556C]">{exam.total_questions} multiple choice questions</p>
               </div>
             </div>
 
@@ -100,7 +93,7 @@ export default function MockTestStart() {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-[#0F172B]">Subject Area</h3>
-                <p className="text-base text-[#45556C]">Land Law</p>
+                <p className="text-base text-[#45556C]">{formatSubjectName(exam.subject)}</p>
               </div>
             </div>
 
@@ -111,7 +104,9 @@ export default function MockTestStart() {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-[#0F172B]">Pass Mark</h3>
-                <p className="text-base text-[#45556C]">70% (35/50 questions)</p>
+                <p className="text-base text-[#45556C]">
+                  {exam.passing_score_percentage}% ({Math.round(exam.total_questions * exam.passing_score_percentage / 100)}/{exam.total_questions} questions)
+                </p>
               </div>
             </div>
           </div>
@@ -143,19 +138,16 @@ export default function MockTestStart() {
               </p>
             </div>
           </div>
-          
-          {/* Toggle for Speed Reader */}
-          
         </div>
 
-        {/* Start Button */}
+        {/* Continue Button */}
         <div className="flex flex-col items-center gap-6">
           <button
-            onClick={handleStartTest}
+            onClick={onContinue}
             className="bg-[#0F172B] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#1a1f3a] transition flex items-center gap-2 text-lg"
           >
             <span className="text-xl">▶</span>
-            Start Mock Test
+            Continue
           </button>
           <p className="text-sm text-[#62748E] text-center">
             Make sure you have a stable internet connection and uninterrupted time to complete the test.
