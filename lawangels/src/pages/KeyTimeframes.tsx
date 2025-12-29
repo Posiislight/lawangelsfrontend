@@ -1,13 +1,10 @@
 import { useAuth } from '../contexts/AuthContext'
-import { BookOpen, Menu, X, Bell, Home, BarChart3, HelpCircle, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Clock, AlertCircle } from 'lucide-react'
+import { Bell, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import logo from '../assets/lawangelslogo.png'
-import logotext from '../assets/logotext.png'
+import DashboardLayout from '../components/DashboardLayout'
 
 export default function KeyTimeframes() {
   const { user } = useAuth()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('contract-law')
 
   const timeframes = {
@@ -318,278 +315,153 @@ export default function KeyTimeframes() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50 font-worksans">
-      {/* Sidebar */}
-      <div
-        className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 overflow-y-auto flex flex-col`}
-      >
-        {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            {sidebarOpen && (
-              <div className="flex items-center gap-2">
-                <img src={logo} alt="logo" className='w-14' />
-                <img src={logotext} alt="logo" className='w-[93px] h-[20px] mt-2 -mx-2' />
-              </div>
-            )}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+    <DashboardLayout>
+      {/* Header */}
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
+        <div className="flex items-center justify-between gap-8">
+          <div>
+            <h1 className="text-2xl font-normal text-gray-900">
+              ⏱️ Key Timeframes
+            </h1>
+            <p className="text-gray-600">Essential legal timeframes and limitation periods across all areas of law</p>
+          </div>
+
+          <div className="flex-1 flex justify-center">
+            <div className="relative w-80">
+              <input
+                type="text"
+                placeholder="Search timeframes..."
+                className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              />
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+              <Bell className="w-6 h-6" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-          </div>
-        </div>
-
-        {/* Navigation Menu */}
-        <nav className="flex-1 p-4 space-y-6">
-          {/* My Learning */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">My Learning</p>}
-          <div className="space-y-2">
-            <Link to="/dashboard" className="block">
-              <NavItem icon={<Home className="w-5 h-5" />} label="Home" open={sidebarOpen} />
-            </Link>
-            <Link to="/my-courses" className="block">
-              <NavItem icon={<BookOpen className="w-5 h-5" />} label="My Courses" open={sidebarOpen} />
-            </Link>
-            <Link to="/progress" className="block">
-              <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" open={sidebarOpen} />
-            </Link>
-            <Link to="/practice" className="block">
-              <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" open={sidebarOpen} />
-            </Link>
-          </div>
-
-          {/* Learning Modes */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Modes</p>}
-          <div className="space-y-2">
-            <Link to="/textbook" className="block">
-              <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" open={sidebarOpen} />
-            </Link>
-            <Link to="/practice-questions" className="block">
-              <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice Questions" open={sidebarOpen} />
-            </Link>
-            <Link to="/video-tutorials" className="block">
-              <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" open={sidebarOpen} />
-            </Link>
-            <Link to="/flashcards" className="block">
-              <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
-            </Link>
-            <Link to="/quizzes" className="block">
-              <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
-            </Link>
-            <Link to="/mock-questions" className="block">
-              <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
-            </Link>
-          </div>
-
-          {/* Learning Tools */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Tools</p>}
-          <div className="space-y-2">
-            <Link to="/angel-ai" className="block">
-              <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" open={sidebarOpen} />
-            </Link>
-            <Link to="/sqe-tips" className="block">
-              <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" open={sidebarOpen} />
-            </Link>
-            <Link to="/key-timeframes" className="block">
-              <NavItem icon={<Clock className="w-5 h-5" />} label="Key Timeframes" active={true} open={sidebarOpen} />
-            </Link>
-          </div>
-        </nav>
-
-        {/* Settings & User Profile */}
-        <div className="p-4 border-t border-gray-200 space-y-2">
-          <div className={`flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 ${sidebarOpen ? '' : 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
               {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
-            {sidebarOpen && (
-              <div>
-                <p className="text-sm font-semibold text-gray-900">{user?.first_name || 'User'}</p>
-                <p className="text-xs text-gray-500">Premium Plan</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between gap-8">
-            <div>
-              <h1 className="text-2xl font-normal text-gray-900">
-                ⏱️ Key Timeframes
-              </h1>
-              <p className="text-gray-600">Essential legal timeframes and limitation periods across all areas of law</p>
-            </div>
-
-            {/* Search Bar */}
-            <div className="flex-1 flex justify-center">
-              <div className="relative w-80">
-                <input
-                  type="text"
-                  placeholder="Search timeframes..."
-                  className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-                />
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                <Bell className="w-6 h-6" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
-                {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
-              </div>
-            </div>
+      {/* Page Content */}
+      <div className="p-8">
+        {/* Info Box */}
+        <div className="bg-blue-50 border-l-4 border-l-blue-500 rounded-lg p-4 mb-8 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold text-blue-900">Important Note on Limitation Periods</p>
+            <p className="text-sm text-blue-800 mt-1">These timeframes are crucial for exam success. Missing a limitation deadline can bar a claim entirely. Always check the specific statute or case law applicable to the scenario given.</p>
           </div>
         </div>
 
-        {/* Page Content */}
-        <div className="p-8">
-          {/* Info Box */}
-          <div className="bg-blue-50 border-l-4 border-l-blue-500 rounded-lg p-4 mb-8 flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-blue-900">Important Note on Limitation Periods</p>
-              <p className="text-sm text-blue-800 mt-1">These timeframes are crucial for exam success. Missing a limitation deadline can bar a claim entirely. Always check the specific statute or case law applicable to the scenario given.</p>
-            </div>
-          </div>
-
-          {/* Category Navigation */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-black mb-4">Browse by Subject</h2>
-            <div className="flex gap-2 flex-wrap">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all text-sm ${
-                    selectedCategory === cat.id
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-500'
+        {/* Category Navigation */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-black mb-4">Browse by Subject</h2>
+          <div className="flex gap-2 flex-wrap">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all text-sm ${selectedCategory === cat.id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-500'
                   }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+              >
+                {cat.label}
+              </button>
+            ))}
           </div>
+        </div>
 
-          {/* Timeframes Cards */}
-          <div className="space-y-6">
-            {timeframes[selectedCategory as keyof typeof timeframes].map((tf, idx) => (
-              <div key={idx} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-                <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-gray-200 p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">{tf.title}</h3>
-                      <div className="flex items-center gap-3">
-                        <div className="text-3xl font-bold text-blue-600">{tf.timeframe}</div>
-                        <div className={`px-3 py-1 rounded-full text-sm font-semibold border ${significanceColor[tf.significance as keyof typeof significanceColor]}`}>
-                          {tf.significance} Significance
-                        </div>
+        {/* Timeframes Cards */}
+        <div className="space-y-6">
+          {timeframes[selectedCategory as keyof typeof timeframes].map((tf, idx) => (
+            <div key={idx} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-gray-200 p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{tf.title}</h3>
+                    <div className="flex items-center gap-3">
+                      <div className="text-3xl font-bold text-blue-600">{tf.timeframe}</div>
+                      <div className={`px-3 py-1 rounded-full text-sm font-semibold border ${significanceColor[tf.significance as keyof typeof significanceColor]}`}>
+                        {tf.significance} Significance
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="p-6">
-                  <p className="text-gray-700 mb-6">{tf.description}</p>
+              <div className="p-6">
+                <p className="text-gray-700 mb-6">{tf.description}</p>
 
-                  {/* Key Points */}
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3">Key Points:</h4>
-                    <ul className="space-y-2">
-                      {tf.keyPoints.map((point, pidx) => (
-                        <li key={pidx} className="text-sm text-gray-700 flex items-start gap-3">
-                          <span className="text-blue-500 font-bold mt-0.5">•</span>
-                          {point}
-                        </li>
+                {/* Key Points */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-3">Key Points:</h4>
+                  <ul className="space-y-2">
+                    {tf.keyPoints.map((point, pidx) => (
+                      <li key={pidx} className="text-sm text-gray-700 flex items-start gap-3">
+                        <span className="text-blue-500 font-bold mt-0.5">•</span>
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Example */}
+                <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                  <h4 className="font-semibold text-gray-900 mb-2 text-sm">Example:</h4>
+                  <p className="text-sm text-gray-700">{tf.example}</p>
+                </div>
+
+                {/* Related Cases */}
+                {tf.relatedCases.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3 text-sm">Related Cases & Legislation:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {tf.relatedCases.map((cas, cidx) => (
+                        <span key={cidx} className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium border border-blue-200">
+                          {cas}
+                        </span>
                       ))}
-                    </ul>
-                  </div>
-
-                  {/* Example */}
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
-                    <h4 className="font-semibold text-gray-900 mb-2 text-sm">Example:</h4>
-                    <p className="text-sm text-gray-700">{tf.example}</p>
-                  </div>
-
-                  {/* Related Cases */}
-                  {tf.relatedCases.length > 0 && (
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-3 text-sm">Related Cases & Legislation:</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {tf.relatedCases.map((cas, cidx) => (
-                          <span key={cidx} className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium border border-blue-200">
-                            {cas}
-                          </span>
-                        ))}
-                      </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick Reference */}
+        <div className="mt-12 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-lg p-8 border border-blue-200">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Quick Reference: Critical Periods</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { title: 'General Contract Claims', period: '6 years' },
+              { title: 'Personal Injury Claims', period: '3 years' },
+              { title: 'Defamation Claims', period: '1 year' },
+              { title: 'Adverse Possession', period: '12 years (unregistered)' },
+              { title: 'Consumer Cooling Off', period: '14 days' },
+              { title: 'Criminal Appeal (Crown)', period: '28 days' },
+              { title: 'Negligence Claims', period: '3 years' },
+              { title: 'Breach of Trust', period: '6 years' },
+              { title: 'Criminal Prosecution', period: 'Variable' }
+            ].map((ref, idx) => (
+              <div key={idx} className="bg-white rounded-lg p-4 border border-blue-200 hover:shadow-md transition-shadow">
+                <p className="font-semibold text-gray-900 text-sm">{ref.title}</p>
+                <p className="text-2xl font-bold text-blue-600 mt-2">{ref.period}</p>
               </div>
             ))}
           </div>
-
-          {/* Quick Reference */}
-          <div className="mt-12 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-lg p-8 border border-blue-200">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Quick Reference: Critical Periods</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                { title: 'General Contract Claims', period: '6 years' },
-                { title: 'Personal Injury Claims', period: '3 years' },
-                { title: 'Defamation Claims', period: '1 year' },
-                { title: 'Adverse Possession', period: '12 years (unregistered)' },
-                { title: 'Consumer Cooling Off', period: '14 days' },
-                { title: 'Criminal Appeal (Crown)', period: '28 days' },
-                { title: 'Negligence Claims', period: '3 years' },
-                { title: 'Breach of Trust', period: '6 years' },
-                { title: 'Criminal Prosecution', period: 'Variable' }
-              ].map((ref, idx) => (
-                <div key={idx} className="bg-white rounded-lg p-4 border border-blue-200 hover:shadow-md transition-shadow">
-                  <p className="font-semibold text-gray-900 text-sm">{ref.title}</p>
-                  <p className="text-2xl font-bold text-blue-600 mt-2">{ref.period}</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-function NavItem({
-  icon,
-  label,
-  active = false,
-  open,
-}: {
-  icon: React.ReactNode
-  label: string
-  active?: boolean
-  open: boolean
-}) {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-        active
-          ? 'bg-blue-50 text-blue-600 font-semibold'
-          : 'text-gray-700 hover:bg-gray-100'
-      } ${open ? '' : 'justify-center'}`}
-    >
-      <span className="flex-shrink-0">{icon}</span>
-      {open && <span className="text-sm">{label}</span>}
-    </button>
+    </DashboardLayout>
   )
 }

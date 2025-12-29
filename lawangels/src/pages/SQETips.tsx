@@ -1,13 +1,10 @@
 import { useAuth } from '../contexts/AuthContext'
-import { BookOpen, Menu, X, Bell, Home, BarChart3, HelpCircle, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, Clock, ArrowRight, CheckCircle } from 'lucide-react'
+import { Bell, ArrowRight, CheckCircle } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import logo from '../assets/lawangelslogo.png'
-import logotext from '../assets/logotext.png'
+import DashboardLayout from '../components/DashboardLayout'
 
 export default function SQETips() {
   const { user } = useAuth()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('exam-strategy')
 
   const tips = {
@@ -203,226 +200,126 @@ export default function SQETips() {
   ]
 
   return (
-    <div className="flex h-screen bg-gray-50 font-worksans">
-      {/* Sidebar */}
-      <div
-        className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 overflow-y-auto flex flex-col`}
-      >
-        {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            {sidebarOpen && (
-              <div className="flex items-center gap-2">
-                <img src={logo} alt="logo" className='w-14' />
-                <img src={logotext} alt="logo" className='w-[93px] h-[20px] mt-2 -mx-2' />
-              </div>
-            )}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+    <DashboardLayout>
+      {/* Header */}
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
+        <div className="flex items-center justify-between gap-8">
+          <div>
+            <h1 className="text-2xl font-normal text-gray-900">
+              💡 SQE Tips & Tricks
+            </h1>
+            <p className="text-gray-600">Expert advice on exam technique, avoiding common mistakes, and effective study methods</p>
+          </div>
+
+          <div className="flex-1 flex justify-center">
+            <div className="relative w-80">
+              <input
+                type="text"
+                placeholder="Search tips..."
+                className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              />
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+              <Bell className="w-6 h-6" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-          </div>
-        </div>
-
-        {/* Navigation Menu */}
-        <nav className="flex-1 p-4 space-y-6">
-          {/* My Learning */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">My Learning</p>}
-          <div className="space-y-2">
-            <Link to="/dashboard" className="block">
-              <NavItem icon={<Home className="w-5 h-5" />} label="Home" open={sidebarOpen} />
-            </Link>
-            <Link to="/my-courses" className="block">
-              <NavItem icon={<BookOpen className="w-5 h-5" />} label="My Courses" open={sidebarOpen} />
-            </Link>
-            <Link to="/progress" className="block">
-              <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" open={sidebarOpen} />
-            </Link>
-            <Link to="/practice" className="block">
-              <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" open={sidebarOpen} />
-            </Link>
-          </div>
-
-          {/* Learning Modes */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Modes</p>}
-          <div className="space-y-2">
-            <Link to="/textbook" className="block">
-              <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" open={sidebarOpen} />
-            </Link>
-            <Link to="/practice-questions" className="block">
-              <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice Questions" open={sidebarOpen} />
-            </Link>
-            <Link to="/video-tutorials" className="block">
-              <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" open={sidebarOpen} />
-            </Link>
-            <Link to="/flashcards" className="block">
-              <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
-            </Link>
-            <Link to="/quizzes" className="block">
-              <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
-            </Link>
-            <Link to="/mock-questions" className="block">
-              <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
-            </Link>
-          </div>
-
-          {/* Learning Tools */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Tools</p>}
-          <div className="space-y-2">
-            <Link to="/angel-ai" className="block">
-              <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" open={sidebarOpen} />
-            </Link>
-            <Link to="/sqe-tips" className="block">
-              <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" active={true} open={sidebarOpen} />
-            </Link>
-            <Link to="/key-timeframes" className="block">
-              <NavItem icon={<Clock className="w-5 h-5" />} label="Key Timeframes" open={sidebarOpen} />
-            </Link>
-          </div>
-        </nav>
-
-        {/* Settings & User Profile */}
-        <div className="p-4 border-t border-gray-200 space-y-2">
-          <div className={`flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 ${sidebarOpen ? '' : 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
               {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
-            {sidebarOpen && (
-              <div>
-                <p className="text-sm font-semibold text-gray-900">{user?.first_name || 'User'}</p>
-                <p className="text-xs text-gray-500">Premium Plan</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between gap-8">
-            <div>
-              <h1 className="text-2xl font-normal text-gray-900">
-                💡 SQE Tips & Tricks
-              </h1>
-              <p className="text-gray-600">Expert advice on exam technique, avoiding common mistakes, and effective study methods</p>
-            </div>
-
-            {/* Search Bar */}
-            <div className="flex-1 flex justify-center">
-              <div className="relative w-80">
-                <input
-                  type="text"
-                  placeholder="Search tips..."
-                  className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-                />
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                <Bell className="w-6 h-6" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
-                {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Page Content */}
-        <div className="p-8">
-          {/* Quick Tips Grid */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-normal text-black mb-6">Quick Tips</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {quickTips.map((tip, idx) => (
-                <div key={idx} className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200 hover:shadow-md transition-shadow">
-                  <div className="text-3xl mb-3">{tip.icon}</div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{tip.title}</h3>
-                  <p className="text-sm text-gray-700">{tip.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Category Navigation */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-normal text-black mb-4">Detailed Tips by Category</h2>
-            <div className="flex gap-3 flex-wrap">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-6 py-2 rounded-lg font-medium transition-all ${
-                    selectedCategory === cat.id
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-500'
-                  }`}
-                >
-                  {cat.label} ({cat.count})
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Tips Cards */}
-          <div className="space-y-4">
-            {tips[selectedCategory as keyof typeof tips].map((tip, idx) => (
-              <div key={idx} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-3xl">{tip.icon}</span>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">{tip.title}</h3>
-                        <p className="text-sm text-gray-600">{tip.category}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs px-3 py-1 bg-blue-100 text-blue-600 rounded-full font-medium">
-                      {tip.difficulty}
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 mb-4">{tip.content}</p>
-
-                <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Key Points:</p>
-                  <ul className="space-y-1">
-                    {tip.tips.map((t, tidx) => (
-                      <li key={tidx} className="text-sm text-gray-700 flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500 flex items-center gap-1">
-                    <Eye className="w-4 h-4" />
-                    {tip.reads.toLocaleString()} reads
-                  </span>
-                  <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
-                    Read More <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+      {/* Page Content */}
+      <div className="p-8">
+        {/* Quick Tips Grid */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-normal text-black mb-6">Quick Tips</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {quickTips.map((tip, idx) => (
+              <div key={idx} className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200 hover:shadow-md transition-shadow">
+                <div className="text-3xl mb-3">{tip.icon}</div>
+                <h3 className="font-semibold text-gray-900 mb-2">{tip.title}</h3>
+                <p className="text-sm text-gray-700">{tip.description}</p>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Category Navigation */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-normal text-black mb-4">Detailed Tips by Category</h2>
+          <div className="flex gap-3 flex-wrap">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-6 py-2 rounded-lg font-medium transition-all ${selectedCategory === cat.id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-500'
+                  }`}
+              >
+                {cat.label} ({cat.count})
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tips Cards */}
+        <div className="space-y-4">
+          {tips[selectedCategory as keyof typeof tips].map((tip, idx) => (
+            <div key={idx} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-3xl">{tip.icon}</span>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">{tip.title}</h3>
+                      <p className="text-sm text-gray-600">{tip.category}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-3 py-1 bg-blue-100 text-blue-600 rounded-full font-medium">
+                    {tip.difficulty}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-gray-700 mb-4">{tip.content}</p>
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <p className="text-sm font-semibold text-gray-900 mb-2">Key Points:</p>
+                <ul className="space-y-1">
+                  {tip.tips.map((t, tidx) => (
+                    <li key={tidx} className="text-sm text-gray-700 flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500 flex items-center gap-1">
+                  <Eye className="w-4 h-4" />
+                  {tip.reads.toLocaleString()} reads
+                </span>
+                <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Read More <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   )
 }
 
@@ -432,30 +329,5 @@ function Eye({ className }: { className: string }) {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
     </svg>
-  )
-}
-
-function NavItem({
-  icon,
-  label,
-  active = false,
-  open,
-}: {
-  icon: React.ReactNode
-  label: string
-  active?: boolean
-  open: boolean
-}) {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-        active
-          ? 'bg-blue-50 text-blue-600 font-semibold'
-          : 'text-gray-700 hover:bg-gray-100'
-      } ${open ? '' : 'justify-center'}`}
-    >
-      <span className="flex-shrink-0">{icon}</span>
-      {open && <span className="text-sm">{label}</span>}
-    </button>
   )
 }

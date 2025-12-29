@@ -1,7 +1,7 @@
-import { Book, Video, CheckCircle, Lock, Search, Filter, Home, BarChart3, HelpCircle, Menu, X, Brain, FileText, Bot, Lightbulb, Clock, HelpCircle as QuestionIcon, Grid } from 'lucide-react'
+import { Book, Video, CheckCircle, Lock, Search, Filter } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import DashboardLayout from '../components/DashboardLayout'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
 
@@ -19,7 +19,6 @@ interface Course {
 
 export default function MyCourses() {
   const { user } = useAuth()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'locked' | 'completed'>('all')
 
@@ -107,196 +106,95 @@ export default function MyCourses() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50 font-worksans">
-      {/* Sidebar */}
-      <div
-        className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 overflow-y-auto flex flex-col`}
-      >
-        {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            {sidebarOpen && (
-              <div className="flex items-center gap-2">
-                <img src={logo} alt="logo" className='w-14' />
-                <img src={logotext} alt="logo" className='w-[93px] h-[20px] mt-2 -mx-2' />
-              </div>
-            )}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation Menu */}
-        <nav className="flex-1 p-4 space-y-6">
-          {/* My Learning */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">My Learning</p>}
-          <div className="space-y-2">
-            <Link to="/dashboard" className="block">
-              <NavItem icon={<Home className="w-5 h-5" />} label="Home" open={sidebarOpen} />
-            </Link>
-            <Link to="/my-courses" className="block">
-              <NavItem icon={<Book className="w-5 h-5" />} label="My Courses" active={true} open={sidebarOpen} />
-            </Link>
-            <Link to="/progress" className="block">
-              <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" open={sidebarOpen} />
-            </Link>
-            <Link to="/practice" className="block">
-              <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" open={sidebarOpen} />
-            </Link>
-          </div>          {/* Community */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Modes</p>}
-          <div className="space-y-2">
-            <Link to="/textbook" className="block">
-              <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" open={sidebarOpen} />
-            </Link>
-            <Link to="/practice-questions" className="block">
-              <NavItem icon={<QuestionIcon className="w-5 h-5" />} label="Practice Questions" open={sidebarOpen} />
-            </Link>
-            <Link to="/video-tutorials" className="block">
-              <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" open={sidebarOpen} />
-            </Link>
-            <Link to="/flashcards" className="block">
-              <NavItem icon={<Grid className="w-5 h-5" />} label="Flashcard" open={sidebarOpen} />
-            </Link>
-            <Link to="/quizzes" className="block">
-              <NavItem icon={<Brain className="w-5 h-5" />} label="Quizzes" open={sidebarOpen} />
-            </Link>
-            <Link to="/mock-questions" className="block">
-              <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" open={sidebarOpen} />
-            </Link>
+    <DashboardLayout>
+      {/* Header */}
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
+        <div className="flex items-center justify-between gap-8">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="logo" className="w-12" />
+            <img src={logotext} alt="logo" className="w-[80px] h-[18px]" />
           </div>
 
-          {/* Learning Tools */}
-          {sidebarOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-4">Learning Tools</p>}
-          <div className="space-y-2">
-            <Link to="/angel-ai" className="block">
-              <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" open={sidebarOpen} />
-            </Link>
-            <Link to="/sqe-tips" className="block">
-              <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" open={sidebarOpen} />
-            </Link>
-            <Link to="/key-timeframes" className="block">
-              <NavItem icon={<Clock className="w-5 h-5" />} label="Key Timeframes" open={sidebarOpen} />
-            </Link>
+          <div>
+            <h1 className="text-2xl font-normal text-gray-900">My Courses</h1>
           </div>
-        </nav>
 
-        {/* Settings & User Profile */}
-        <div className="p-4 border-t border-gray-200 space-y-2">
-          
-          <div className={`flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 ${sidebarOpen ? '' : 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold flex-shrink-0">
-              {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
+          {/* Search Bar */}
+          <div className="flex-1 flex justify-center">
+            <div className="relative w-80">
+              <input
+                type="text"
+                placeholder="Search courses..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             </div>
-            {sidebarOpen && (
-              <div>
-                <p className="text-sm font-semibold text-gray-900">{user?.first_name || 'User'}</p>
-                <p className="text-xs text-gray-500">Premium Plan</p>
-              </div>
-            )}
+          </div>
+
+          {/* User Avatar */}
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
+            {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between gap-8">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <img src={logo} alt="logo" className="w-12" />
-              <img src={logotext} alt="logo" className="w-[80px] h-[18px]" />
-            </Link>
-
-            <div>
-              <h1 className="text-2xl font-normal text-gray-900">My Courses</h1>
-            </div>
-
-            {/* Search Bar */}
-            <div className="flex-1 flex justify-center">
-              <div className="relative w-80">
-                <input
-                  type="text"
-                  placeholder="Search courses..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-2 pl-10 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-                />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              </div>
-            </div>
-
-            {/* User Avatar */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
-              {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
-            </div>
-          </div>
+      {/* Filter Buttons */}
+      <div className="px-8 pt-6 pb-4 bg-white border-b border-gray-200">
+        <div className="flex items-center gap-3">
+          <Filter className="w-5 h-5 text-gray-600" />
+          <button
+            onClick={() => setFilterStatus('all')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'all'
+                ? 'bg-blue-100 text-blue-600'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilterStatus('active')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'active'
+                ? 'bg-blue-100 text-blue-600'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+          >
+            Active
+          </button>
+          <button
+            onClick={() => setFilterStatus('locked')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'locked'
+                ? 'bg-blue-100 text-blue-600'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+          >
+            Locked
+          </button>
+          <button
+            onClick={() => setFilterStatus('completed')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'completed'
+                ? 'bg-blue-100 text-blue-600'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+          >
+            Completed
+          </button>
         </div>
+      </div>
 
-        {/* Filter Buttons */}
-        <div className="px-8 pt-6 pb-4 bg-white border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <Filter className="w-5 h-5 text-gray-600" />
-            <button
-              onClick={() => setFilterStatus('all')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                filterStatus === 'all'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setFilterStatus('active')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                filterStatus === 'active'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Active
-            </button>
-            <button
-              onClick={() => setFilterStatus('locked')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                filterStatus === 'locked'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Locked
-            </button>
-            <button
-              onClick={() => setFilterStatus('completed')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                filterStatus === 'completed'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Completed
-            </button>
-          </div>
-        </div>
-
-        {/* Courses Grid */}
-        <div className="p-8">
+      {/* Courses Grid */}
+      <div className="p-8">
         {filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {filteredCourses.map((course) => (
               <div
                 key={course.id}
-                className={`rounded-lg border transition-shadow hover:shadow-md ${
-                  course.status === 'locked'
+                className={`rounded-lg border transition-shadow hover:shadow-md ${course.status === 'locked'
                     ? 'border-gray-200 bg-gray-50'
                     : 'border-gray-200 bg-white'
-                }`}
+                  }`}
               >
                 <div className="p-6">
                   {/* Header */}
@@ -386,33 +284,7 @@ export default function MyCourses() {
             </p>
           </div>
         </div>
-        </div>
       </div>
-    </div>
-  )
-}
-
-function NavItem({
-  icon,
-  label,
-  active = false,
-  open,
-}: {
-  icon: React.ReactNode
-  label: string
-  active?: boolean
-  open: boolean
-}) {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-        active
-          ? 'bg-blue-50 text-blue-600 font-semibold'
-          : 'text-gray-700 hover:bg-gray-100'
-      } ${open ? '' : 'justify-center'}`}
-    >
-      <span className="flex-shrink-0">{icon}</span>
-      {open && <span className="text-sm">{label}</span>}
-    </button>
+    </DashboardLayout>
   )
 }

@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import businesslawimg from '../assets/BUSINESS LAW.jpg';
 import Dashboardcut from '../assets/Law Angelscut.jpg';
+import fullbooklistimg from '../assets/full book list L.A.-min.jpg';
 
 export default function Features() {
     const [currentSlide, setCurrentSlide] = useState(0);
-    
+
     const slideImages = [
         Dashboardcut,
+        fullbooklistimg,
         businesslawimg,
     ];
 
@@ -25,9 +27,9 @@ export default function Features() {
             description: "Learn from educators who break down complex legal concepts into practical, easy-to-grasp lessons.",
             icon: (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="20" cy="20" r="20" fill="#25A9E0"/>
-                  <path d="M14 28V19.5L20 16L26 19.5V28" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M14 28H26" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="20" cy="20" r="20" fill="#25A9E0" />
+                    <path d="M14 28V19.5L20 16L26 19.5V28" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M14 28H26" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             )
         },
@@ -36,8 +38,8 @@ export default function Features() {
             description: "Test your knowledge with realistic SQE-style questions and mock exams that mirror the real test environment.",
             icon: (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="20" cy="20" r="20" fill="#25A9E0"/>
-                  <path d="M14 20H26M14 28H20M14 12H26" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="20" cy="20" r="20" fill="#25A9E0" />
+                    <path d="M14 20H26M14 28H20M14 12H26" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             )
         },
@@ -46,9 +48,9 @@ export default function Features() {
             description: "Stay on track with tailored schedules that adapt to your pace, strengths, and areas needing improvement.",
             icon: (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="20" cy="20" r="20" fill="#25A9E0"/>
-                  <path d="M14 28V12H26V28H14Z" stroke="white" strokeWidth="2" strokeLinejoin="round"/>
-                  <path d="M20 20H26" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                    <circle cx="20" cy="20" r="20" fill="#25A9E0" />
+                    <path d="M14 28V12H26V28H14Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+                    <path d="M20 20H26" stroke="white" strokeWidth="2" strokeLinecap="round" />
                 </svg>
             )
         },
@@ -57,8 +59,8 @@ export default function Features() {
             description: "Study at your own convenience with our fully online platform, on desktop, tablet, or mobile.",
             icon: (
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="20" cy="20" r="20" fill="#25A9E0"/>
-                  <path d="M14 20H26M20 14V26" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="20" cy="20" r="20" fill="#25A9E0" />
+                    <path d="M14 20H26M20 14V26" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             )
         }
@@ -116,12 +118,12 @@ export default function Features() {
                             animation: scroll-left 30s linear infinite;
                         }
                     `}</style>
-                    
+
                     <div className="w-full overflow-hidden py-8">
                         <div className="feature-scroll flex gap-6">
                             {[...features, ...features].map((feature, index) => (
-                                <div 
-                                    key={index} 
+                                <div
+                                    key={index}
                                     className="flex-shrink-0 w-80 flex flex-col items-center gap-4 p-6 rounded-lg bg-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
                                 >
                                     <div className="text-center">
@@ -143,53 +145,51 @@ export default function Features() {
                 {/* Slideshow mockup image */}
                 <div className="mt-12 px-6 pb-12">
                     <div className="relative mx-auto max-w-6xl rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
-                        <div className="relative w-full h-screen max-h-[800px] flex items-start">
+                        <div className="relative w-full h-[500px] flex items-start">
                             {/* Slides */}
                             <div className="relative w-full h-full overflow-hidden">
-                            {slideImages.map((image, index) => (
-                                <img
-                                    key={index}
-                                    src={image}
-                                    alt={`Platform preview slide ${index + 1}`}
-                                    className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                                        index === currentSlide ? 'opacity-100' : 'opacity-0'
-                                    }`}
-                                />
-                            ))}
-                        </div>
+                                {slideImages.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt={`Platform preview slide ${index + 1}`}
+                                        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+                                            }`}
+                                    />
+                                ))}
+                            </div>
 
-                        {/* Navigation Buttons */}
-                        <button
-                            onClick={() => setCurrentSlide((prev) => (prev - 1 + slideImages.length) % slideImages.length)}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-10"
-                            aria-label="Previous slide"
-                        >
-                            <ChevronLeft className="w-6 h-6 text-gray-800" />
-                        </button>
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={() => setCurrentSlide((prev) => (prev - 1 + slideImages.length) % slideImages.length)}
+                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-10"
+                                aria-label="Previous slide"
+                            >
+                                <ChevronLeft className="w-6 h-6 text-gray-800" />
+                            </button>
 
-                        <button
-                            onClick={() => setCurrentSlide((prev) => (prev + 1) % slideImages.length)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-10"
-                            aria-label="Next slide"
-                        >
-                            <ChevronRight className="w-6 h-6 text-gray-800" />
-                        </button>
+                            <button
+                                onClick={() => setCurrentSlide((prev) => (prev + 1) % slideImages.length)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200 z-10"
+                                aria-label="Next slide"
+                            >
+                                <ChevronRight className="w-6 h-6 text-gray-800" />
+                            </button>
 
-                        {/* Dots Indicator */}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                            {slideImages.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setCurrentSlide(index)}
-                                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                                        index === currentSlide
+                            {/* Dots Indicator */}
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                {slideImages.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrentSlide(index)}
+                                        className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
                                             ? 'bg-sky-500 w-8'
                                             : 'bg-white/60 hover:bg-white/80'
-                                    }`}
-                                    aria-label={`Go to slide ${index + 1}`}
-                                />
-                            ))}
-                        </div>
+                                            }`}
+                                        aria-label={`Go to slide ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
