@@ -32,6 +32,8 @@ import SQETips from './pages/SQETips'
 import KeyTimeframes from './pages/KeyTimeframes'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
+import GamifiedQuiz from './components/GamifiedQuiz'
+import GamifiedQuizResults from './pages/GamifiedQuizResults'
 
 function App() {
   return (
@@ -222,6 +224,24 @@ function App() {
           <Route path="/contact" element={<Home />} /> {/* TODO: Create Contact component */}
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsAndConditions />} />
+
+          {/* Gamified Quiz Routes */}
+          <Route
+            path="/quiz/play/:topic/:attemptId"
+            element={
+              <ProtectedRoute>
+                <GamifiedQuiz />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/quiz/results/:attemptId"
+            element={
+              <ProtectedRoute>
+                <GamifiedQuizResults />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </SidebarProvider>
     </AuthProvider>

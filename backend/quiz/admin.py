@@ -3,6 +3,7 @@ from .models import (
     Exam, Question, QuestionOption, ExamAttempt,
     QuestionAnswer, ExamTimingConfig, Review
 )
+from .topic_models import UserGameProfile, TopicQuizAttempt, TopicQuizAnswer
 
 
 class QuestionOptionInline(admin.TabularInline):
@@ -133,3 +134,75 @@ class ReviewAdmin(admin.ModelAdmin):
         updated = queryset.update(is_approved=False)
         self.message_user(request, f'{updated} review(s) rejected.')
     reject_reviews.short_description = 'Reject selected reviews'
+
+
+# ========== Topic Quiz Admin ==========
+
+class TopicQuizAnswerInline(admin.TabularInline):
+    model = TopicQuizAnswer
+    extra = 0
+    fields = ['question_id', 'selected_answer', 'is_correct', 'points_earned', 'answered_at']
+    readonly_fields = ['question_id', 'selected_answer', 'is_correct', 'points_earned', 'answered_at']
+
+
+@admin.register(UserGameProfile)
+class UserGameProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'current_level', 'rank', 'total_points', 'total_quizzes_completed', 'longest_streak']
+    list_filter = ['rank', 'current_level']
+    search_fields = ['user__username', 'user__email']
+    readonly_fields = ['created_at', 'updated_at']
+    fieldsets = (
+        ('User', {
+            'fields': ('user',)
+        }),
+        ('Level & XP', {
+            'fields': ('current_level', 'xp', 'xp_to_next_level', 'rank', 'total_points')
+        }),
+        ('Stats', {
+            'fields': ('total_quizzes_completed', 'total_correct_answers', 'total_wrong_answers', 'longest_streak')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(TopicQuizAttempt)
+class TopicQuizAttemptAdmin(admin.ModelAdmin):
+    list_display = ['user', 'topic', 'status', 'points_earned', 'lives_remaining', 'correct_count', 'wrong_count', 'started_at']
+    list_filter = ['topic', 'status', 'started_at']
+    search_fields = ['user__username']
+    readonly_fields = ['started_at', 'completed_at']
+    inlines = [TopicQuizAnswerInline]
+    fieldsets = (
+        ('Attempt', {
+            'fields': ('user', 'topic', 'status')
+        }),
+        ('Game State', {
+            'fields': ('lives_remaining', 'points_earned', 'current_streak')
+        }),
+        ('Progress', {
+            'fields': ('current_question_index', 'total_questions', 'correct_count', 'wrong_count')
+        }),
+        ('Power-ups', {
+            'fields': ('fifty_fifty_used', 'time_freeze_used')
+        }),
+        ('Questions', {
+            'fields': ('question_ids',),
+            'classes': ('collapse',)
+        }),
+        ('Timeline', {
+            'fields': ('started_at', 'completed_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(TopicQuizAnswer)
+class TopicQuizAnswerAdmin(admin.ModelAdmin):
+    list_display = ['attempt', 'question_id', 'selected_answer', 'is_correct', 'points_earned', 'answered_at']
+    list_filter = ['is_correct', 'attempt__topic']
+    search_fields = ['attempt__user__username']
+    readonly_fields = ['answered_at']
+

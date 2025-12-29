@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Home, RefreshCw, ChevronDown, ChevronUp, Loader, Trophy, TrendingUp, BarChart3 } from 'lucide-react'
+import { Home, RefreshCw, ChevronDown, ChevronUp, Loader, Trophy, TrendingUp, BarChart3, Timer, Target, CheckCheckIcon } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { ExamAttempt, QuestionAnswer } from '../services/quizApi'
+
 
 interface AnswerWithQuestion extends QuestionAnswer {
   question: {
@@ -281,7 +282,7 @@ export default function Results() {
                 <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
                   <span className="text-xl">{motivational.icon}</span>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-900">{motivational.title}</h2>
+                <h2 className="text-xl font-normal text-gray-900">{motivational.title}</h2>
               </div>
               <p className="text-gray-600">{motivational.message}</p>
             </div>
@@ -331,25 +332,23 @@ export default function Results() {
         {/* Performance Analytics */}
         <div className="bg-white rounded-2xl p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-              <span className="text-indigo-600">📊</span>
+            <div className="w-8 h-8 bg-[#0F172B] rounded-lg flex items-center justify-center">
+              <span className="text-indigo-600"><TrendingUp className="w-4 h-4 text-white" /></span>
             </div>
-            <h2 className="text-lg font-semibold text-gray-900">Performance Analytics</h2>
+            <h2 className="text-2xl font-normal text-gray-900">Performance Analytics</h2>
           </div>
 
           {/* Accuracy Bar */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-gray-600">Accuracy Rate</span>
-              <span className={`text-sm font-medium px-2 py-0.5 rounded ${scorePercentage >= 70 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                }`}>
+              <span className={`text-xs font-light px-2 py-0.5 rounded bg-[#0F172B] text-white`}>
                 {scorePercentage}%
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${scorePercentage >= 70 ? 'bg-gradient-to-r from-green-400 to-green-600' : 'bg-gradient-to-r from-red-400 to-red-600'
-                  }`}
+                className={`h-full rounded-full transition-all duration-500 bg-[#0F172B]`}
                 style={{ width: `${scorePercentage}%` }}
               />
             </div>
@@ -362,22 +361,22 @@ export default function Results() {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="bg-gray-50 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-                  <span className="text-gray-600 text-xs">⏱</span>
+                <div className="w-6 h-6 bg-[#0F172B] rounded-lg flex items-center justify-center p-4">
+                  <span className="text-gray-600 text-xs text-white"><Timer className="w-4 h-4 text-white" /></span>
                 </div>
                 <span className="text-gray-500 text-sm">Total Time Spent</span>
               </div>
-              <p className="text-xl font-bold text-gray-900">{formatTime(totalTimeSeconds)}</p>
+              <p className="text-2xl font-normal text-gray-900">{formatTime(totalTimeSeconds)}</p>
               <p className="text-xs text-gray-500">For {totalQuestions} questions</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
-                  <span className="text-orange-600 text-xs">⌛</span>
+                <div className="w-6 h-6 bg-[#0F172B] rounded-lg flex items-center justify-center p-4">
+                  <span className="text-orange-600 text-xs text-white"><Target className="w-4 h-4 text-white" /></span>
                 </div>
                 <span className="text-gray-500 text-sm">Avg. Time/Question</span>
               </div>
-              <p className="text-xl font-bold text-gray-900">{formatTime(avgTimePerQuestion)}</p>
+              <p className="text-2xl font-normal text-gray-900">{formatTime(avgTimePerQuestion)}</p>
               <p className="text-xs text-gray-500">Pacing indicator</p>
             </div>
           </div>
@@ -385,8 +384,8 @@ export default function Results() {
           {/* Questions Completed Badge */}
           <div className="bg-green-50 rounded-xl p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-green-600">✓</span>
+              <div className="w-8 h-8 bg-green-900 rounded-lg flex items-center justify-center">
+                <span className="text-green-600"><CheckCheckIcon className="w-4 h-4 text-white" /></span>
               </div>
               <div>
                 <p className="font-medium text-gray-900">Questions Completed</p>
@@ -528,15 +527,15 @@ export default function Results() {
         {/* Action Buttons */}
         <div className="flex gap-4">
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/dashboard')}
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"
           >
             <Home className="w-5 h-5" />
-            Back to Profile
+            Back to Dashboard
           </button>
           <button
             onClick={() => navigate(`/mock-questions`)}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#0AB5FF] rounded-xl text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
           >
             <RefreshCw className="w-5 h-5" />
             Retake Test
