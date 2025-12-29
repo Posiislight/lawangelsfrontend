@@ -288,7 +288,7 @@ export default function GamifiedQuiz() {
                     <div className="p-8 md:p-10">
                         {/* Points Stake Badge */}
                         <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold mb-6 border border-orange-200">
-                            <span>🏆</span>
+                            <span></span>
                             <span>100 Points Stake</span>
                         </div>
 
@@ -300,7 +300,7 @@ export default function GamifiedQuiz() {
                                 </div>
                             </div>
                             <div className="flex-1">
-                                <h2 className="text-2xl md:text-3xl font-bold text-slate-800 leading-tight mb-2">
+                                <h2 className="text-2xl md:text-3xl font-normal text-slate-800 leading-tight mb-2">
                                     {state.currentQuestion?.text}
                                 </h2>
                                 <p className="text-slate-500 font-medium">
@@ -344,7 +344,7 @@ export default function GamifiedQuiz() {
                                         disabled={isEliminated || !!state.answerResult || state.isSubmitting}
                                         className={`group relative flex items-center p-4 rounded-xl transition-all duration-200 w-full text-left ${buttonClass}`}
                                     >
-                                        <div className={`w-10 h-10 rounded-lg font-bold flex items-center justify-center mr-4 transition-colors text-lg ${labelClass}`}>
+                                        <div className={`w-9 h-9 rounded-lg font-medium flex items-center justify-center mr-4 transition-colors text-base ${labelClass}`}>
                                             {state.answerResult && isCorrect ? (
                                                 <Check className="w-6 h-6" />
                                             ) : state.answerResult && isWrong ? (
@@ -353,7 +353,7 @@ export default function GamifiedQuiz() {
                                                 option.label
                                             )}
                                         </div>
-                                        <span className={`text-lg font-semibold ${isEliminated ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
+                                        <span className={`text-base font-light ${isEliminated ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
                                             {option.text}
                                         </span>
                                     </button>
