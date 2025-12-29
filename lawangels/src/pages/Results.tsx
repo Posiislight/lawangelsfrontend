@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Home, RefreshCw, ChevronDown, ChevronUp, Loader } from 'lucide-react'
+import { Home, RefreshCw, ChevronDown, ChevronUp, Loader, Trophy, TrendingUp, BarChart3 } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { ExamAttempt, QuestionAnswer } from '../services/quizApi'
 
@@ -162,27 +162,33 @@ export default function Results() {
   const getMotivationalContent = () => {
     if (scorePercentage >= 80) {
       return {
-        icon: '🏆',
+        icon: <Trophy className="w-6 h-6 text-green-600" />,
         title: 'Excellent Work!',
         message: "You're ready for the exam. Keep up the great work!",
         bgColor: 'bg-gradient-to-br from-green-50 to-emerald-50',
-        borderColor: 'border-green-200'
+        borderColor: 'border-green-200',
+        msgCardBg: 'bg-green-50/50',
+        msgCardBorder: 'border-green-600'
       }
     } else if (scorePercentage >= 60) {
       return {
-        icon: '📈',
+        icon: <TrendingUp className="w-6 h-6 text-blue-600" />,
         title: 'Good Progress!',
         message: 'You\'re on the right track. Review the explanations for missed questions.',
         bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50',
-        borderColor: 'border-blue-200'
+        borderColor: 'border-blue-200',
+        msgCardBg: 'bg-blue-50/50',
+        msgCardBorder: 'border-blue-600'
       }
     } else {
       return {
-        icon: '📊',
+        icon: <BarChart3 className="w-6 h-6 text-orange-600" />,
         title: 'Keep Going!',
         message: 'Everyone starts somewhere. Review the explanations and practice more.',
         bgColor: 'bg-gradient-to-br from-orange-50 to-amber-50',
-        borderColor: 'border-orange-200'
+        borderColor: 'border-orange-200',
+        msgCardBg: 'bg-orange-50/50',
+        msgCardBorder: 'border-orange-600'
       }
     }
   }
@@ -220,11 +226,11 @@ export default function Results() {
   const strokeDashoffset = circumference - (scorePercentage / 100) * circumference
 
   return (
-    <div className="min-h-screen bg-[#0F172B]">
+    <div className="min-h-screen bg-white font-worksans">
       {/* Header */}
       <header className="bg-[#0F172B] border-b border-[#1E293B] py-4 px-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-xl font-semibold text-white text-center">Your Results</h1>
+          <h1 className="text-xl font-normal text-white text-center">Your Results</h1>
           <p className="text-gray-400 text-sm text-center mt-1">Here's how you did on this practice test</p>
         </div>
       </header>
@@ -232,7 +238,10 @@ export default function Results() {
       {/* Main Content */}
       <main className="px-4 py-6 max-w-4xl mx-auto space-y-6">
         {/* Score Card */}
-        <div className={`${motivational.bgColor} ${motivational.borderColor} border rounded-2xl p-6`}>
+        <div
+          style={{ background: 'linear-gradient(135deg, rgba(15, 23, 43, 0.05) 0%, rgba(0, 0, 0, 0) 50%, rgba(225, 113, 0, 0.05) 100%)' }}
+          className="border rounded-2xl p-6 shadow-sm"
+        >
           <div className="flex flex-col md:flex-row items-center gap-6">
             {/* Circular Score */}
             <div className="relative">
@@ -259,7 +268,7 @@ export default function Results() {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className={`text-4xl font-bold ${scorePercentage >= 70 ? 'text-orange-500' : 'text-red-500'}`}>
+                <span className={`text-4xl font-normal text-[#0F172B]`}>
                   {scorePercentage}%
                 </span>
                 <span className="text-gray-500 text-sm">Overall Score</span>
@@ -267,7 +276,7 @@ export default function Results() {
             </div>
 
             {/* Motivational Message */}
-            <div className="flex-1">
+            <div className={`flex-1 border p-6 rounded-lg ${motivational.msgCardBg} ${motivational.msgCardBorder}`}>
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
                   <span className="text-xl">{motivational.icon}</span>
@@ -280,32 +289,41 @@ export default function Results() {
 
           {/* Stats Row */}
           <div className="grid grid-cols-3 gap-4 mt-6">
-            <div className="bg-white rounded-xl p-4 text-center shadow-sm">
+            <div
+              style={{ background: 'linear-gradient(135deg, #ECFDF5 0%, rgba(208, 250, 229, 0.5) 100%)' }}
+              className="rounded-xl p-4 text-center shadow-sm border border-green-900/50"
+            >
               <div className="flex items-center justify-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-green-600 text-xs">✓</span>
+                <div className="w-8 h-8 bg-green-900 rounded-lg flex items-center justify-center border-1 border-green-900">
+                  <span className="text-white text-xs">✓</span>
                 </div>
                 <span className="text-gray-500 text-sm">Correct</span>
               </div>
-              <p className="text-2xl font-bold text-green-600">{correctAnswers}</p>
+              <p className="text-3xl font-normal text-green-800">{correctAnswers}</p>
             </div>
-            <div className="bg-white rounded-xl p-4 text-center shadow-sm">
+            <div
+              style={{ background: 'linear-gradient(135deg, #FFF1F2 0%, rgba(255, 228, 230, 0.5) 100%)' }}
+              className="rounded-xl p-4 text-center shadow-sm border border-red-900/50"
+            >
               <div className="flex items-center justify-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
-                  <span className="text-red-600 text-xs">✕</span>
+                <div className="w-8 h-8 bg-red-900 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-xs">✕</span>
                 </div>
                 <span className="text-gray-500 text-sm">Incorrect</span>
               </div>
-              <p className="text-2xl font-bold text-red-500">{incorrectAnswers}</p>
+              <p className="text-3xl font-normal text-red-800">{incorrectAnswers}</p>
             </div>
-            <div className="bg-white rounded-xl p-4 text-center shadow-sm">
+            <div
+              style={{ background: 'rgba(224, 246, 255, 0.5)' }}
+              className="rounded-xl p-4 text-center shadow-sm border border-blue-900/50"
+            >
               <div className="flex items-center justify-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 text-xs">⏱</span>
+                <div className="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-xs">⏱</span>
                 </div>
-                <span className="text-gray-500 text-sm">Time</span>
+                <span className="text-blue-800 text-sm">Time</span>
               </div>
-              <p className="text-2xl font-bold text-blue-600">{formatTime(totalTimeSeconds)}</p>
+              <p className="text-3xl font-normal text-blue-800">{formatTime(totalTimeSeconds)}</p>
             </div>
           </div>
         </div>
