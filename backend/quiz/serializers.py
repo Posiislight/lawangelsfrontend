@@ -139,6 +139,21 @@ class ExamAttemptLightSerializer(serializers.ModelSerializer):
         read_only_fields = ['started_at', 'status']
 
 
+class ExamAttemptReviewSerializer(serializers.ModelSerializer):
+    """Serializer for exam attempt review (includes full question details)"""
+    exam = ExamSerializer(read_only=True)
+    answers = QuestionAnswerDetailSerializer(many=True, read_only=True)
+    # Use full detail serializer (with explanations/correct answers) for review
+    questions = QuestionDetailSerializer(many=True, read_only=True, source='selected_questions')
+    
+    class Meta:
+        model = ExamAttempt
+        fields = [
+            'id', 'exam', 'user', 'started_at', 'ended_at', 'status',
+            'score', 'time_spent_seconds', 'speed_reader_enabled', 'answers', 'questions'
+        ]
+
+
 class ExamAttemptListSerializer(serializers.ModelSerializer):
     """Serializer for listing exam attempts"""
     exam = ExamSerializer(read_only=True)

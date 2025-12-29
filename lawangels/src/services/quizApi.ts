@@ -87,12 +87,15 @@ export interface ExamAttempt {
   time_spent_seconds: number | null;
   speed_reader_enabled: boolean;
   selected_questions?: number[];
-  answers?: Array<QuestionAnswer & { question: Question }>;
+  selected_questions_detail?: Question[];
+  answers?: QuestionAnswer[];
+  questions?: Question[]; // Full question details for review
 }
 
 export interface QuestionAnswer {
   id: number;
-  question_id: number;
+  question?: Question;
+  question_id?: number;
   selected_answer: string;
   is_correct: boolean;
   time_spent_seconds: number;

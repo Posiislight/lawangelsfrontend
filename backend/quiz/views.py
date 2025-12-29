@@ -18,6 +18,7 @@ from .serializers import (
     ExamAttemptCreateSerializer, ExamAttemptSerializer, ExamAttemptLightSerializer,
     ExamAttemptListSerializer, ExamAttemptUpdateSerializer, QuestionAnswerSerializer,
     ExamTimingConfigSerializer, CSVUploadSerializer, ExamAttemptMinimalCreateSerializer,
+    ExamAttemptReviewSerializer,
     QuestionForAttemptSerializer, QuestionAnswerSubmitSerializer, ReviewSerializer, ReviewCreateSerializer
 )
 from .csv_parser import CSVQuestionParser
@@ -588,7 +589,7 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                 'answers__question__options'
             ).get(id=attempt.id)
             
-            serializer = ExamAttemptSerializer(attempt)
+            serializer = ExamAttemptReviewSerializer(attempt)
             serialization_time = (time.time() - start_time) * 1000
             
             # Only log detailed metrics in DEBUG mode (production performance)

@@ -9,11 +9,12 @@ interface AnswerWithQuestion extends QuestionAnswer {
     id: number
     text: string
     question_number: number
-    difficulty: string
+    difficulty: 'easy' | 'medium' | 'hard'
     topic: string  // Used for topic analytics - kept for future breakdown feature
     correct_answer: string
     explanation: string
     options: Array<{
+      id: number
       label: string
       text: string
     }>
@@ -51,7 +52,45 @@ export default function Results() {
 
         const reviewData = await quizApi.getReview(attemptIdNum)
         setAttempt(reviewData)
-        setAnswers((reviewData.answers || []) as AnswerWithQuestion[])
+
+        // Use questions array (full exam questions) as source of truth
+        // This includes unanswered questions which would be missing from 'answers'
+        const allQuestions = reviewData.questions || []
+
+        if (allQuestions.length > 0) {
+          // Map all questions to answers (creating placeholders for unanswered ones)
+          const processedAnswers: AnswerWithQuestion[] = allQuestions.map(q => {
+            // Find if there's an answer for this question
+            // Check both finding by question object id (if populated) or direct question_id
+            const matchingAnswer = reviewData.answers?.find(a =>
+              (a.question && a.question.id === q.id) ||
+              (a.question_id === q.id)
+            )
+
+            if (matchingAnswer) {
+              // User answered this question
+              return {
+                ...matchingAnswer,
+                question: q as any // Ensure type match
+              } as AnswerWithQuestion
+            } else {
+              // User did NOT answer this question (count as wrong)
+              return {
+                id: Math.random(), // Temp ID
+                question_id: q.id,
+                question: q as any,
+                selected_answer: '',
+                is_correct: false,
+                time_spent_seconds: 0
+              } as AnswerWithQuestion
+            }
+          })
+          setAnswers(processedAnswers)
+        } else {
+          // Fallback for backward compatibility or if questions not returned
+          setAnswers((reviewData.answers || []) as AnswerWithQuestion[])
+        }
+
         setLoading(false)
       } catch (err) {
         console.error('Error fetching results:', err)
@@ -93,10 +132,10 @@ export default function Results() {
           <h2 className="text-xl font-semibold text-red-400 mb-2">Error Loading Results</h2>
           <p className="text-red-300 mb-6">{error || 'Unable to load results'}</p>
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/dashboard')}
             className="px-6 py-2 bg-white text-[#0F172B] rounded-lg hover:bg-gray-100 transition font-medium"
           >
-            Back to Profile
+            Back to Dashboard
           </button>
         </div>
       </div>

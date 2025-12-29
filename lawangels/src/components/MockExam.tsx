@@ -60,6 +60,10 @@ export default function MockExam({
   // Track which answers have been submitted to backend to avoid duplicates
   const submittedAnswersRef = useRef<Set<number>>(new Set())
 
+  // Store auth tokens for answer submissions
+  const csrfTokenRef = useRef<string | null>(null)
+  const authTokenRef = useRef<string | null>(null)
+
   // Initialize exam and create attempt
   useEffect(() => {
     const initializeExam = async () => {
@@ -76,6 +80,10 @@ export default function MockExam({
         // Retrieve auth token from localStorage
         const token = localStorage.getItem('authToken')
         const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+
+        // Store tokens for later use in answer submissions
+        csrfTokenRef.current = csrfToken
+        authTokenRef.current = token
 
         // Create new attempt
         console.log('Creating exam attempt...')
@@ -242,9 +250,17 @@ export default function MockExam({
       if (state.attempt && !submittedAnswersRef.current.has(state.currentQuestion)) {
         submittedAnswersRef.current.add(state.currentQuestion)
 
-        fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/exam-attempts/${state.attempt.id}/submit-answer/`, {
+        const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+        if (csrfTokenRef.current) {
+          headers['X-CSRFToken'] = csrfTokenRef.current
+        }
+        if (authTokenRef.current) {
+          headers['Authorization'] = `Bearer ${authTokenRef.current}`
+        }
+
+        fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/exam-attempts/${state.attempt.id}/submit-answer/`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify({
             question_id: question.id,
             selected_answer: label,
@@ -527,41 +543,8 @@ export default function MockExam({
                         <span className="text-sm text-[#314158]">{option.text}</span>
                       </label>
 
-                      {/* Feedback shown under selected option */}
-                      {isSelected && showFeedback && isAnswerCorrect && (
-                        <div className="bg-[#ECFDF5] border-2 border-[#10B981] rounded-xl p-6 mt-3 mb-3">
-                          <div className="flex gap-3 mb-4">
-                            <div className="text-[#10B981] text-2xl">✓</div>
-                            <h3 className="text-lg font-medium text-[#059669]">Correct!</h3>
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-[#059669] mb-2">Explanation:</p>
-                            <p className="text-sm text-[#047857]">
-                              {question.explanation}
-                            </p>
-                          </div>
-                        </div>
-                      )}
+                      {/* Feedback removed for mock exam simulation - detailed review provided in Results page */}
 
-                      {isSelected && showFeedback && !isAnswerCorrect && (
-                        <div className="bg-[#FEF2F2] border-2 border-[#EF4444] rounded-xl p-6 mt-3 mb-3">
-                          <div className="flex gap-3 mb-4">
-                            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#EF4444] text-white text-lg font-bold flex-shrink-0">
-                              ✕
-                            </div>
-                            <div>
-                              <h3 className="text-base font-semibold text-[#DC2626]">Incorrect</h3>
-                              <p className="text-sm text-[#EF4444]">The correct answer is {question.correct_answer}</p>
-                            </div>
-                          </div>
-                          <div className="ml-9">
-                            <p className="text-sm font-medium text-[#DC2626] mb-3">Explanation:</p>
-                            <p className="text-sm text-[#7F1D1D] leading-relaxed">
-                              {question.explanation}
-                            </p>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   )
                 })}
