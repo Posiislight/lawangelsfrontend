@@ -67,6 +67,17 @@ export default function TextbookReader() {
         fetchTextbook()
     }, [id])
 
+    // Exit fullscreen when leaving the page
+    useEffect(() => {
+        return () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {
+                    // Ignore errors if already exited
+                })
+            }
+        }
+    }, [])
+
     const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
         setNumPages(numPages)
         setPdfLoading(false)

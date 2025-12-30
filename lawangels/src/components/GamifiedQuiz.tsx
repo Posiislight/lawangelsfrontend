@@ -300,7 +300,7 @@ export default function GamifiedQuiz() {
                                 </div>
                             </div>
                             <div className="flex-1">
-                                <h2 className="text-2xl md:text-3xl font-normal text-slate-800 leading-tight mb-2">
+                                <h2 className="text-lg md:text-xl font-normal text-slate-800 leading-tight mb-2">
                                     {state.currentQuestion?.text}
                                 </h2>
                                 <p className="text-slate-500 font-medium">
