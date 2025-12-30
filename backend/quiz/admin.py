@@ -4,6 +4,7 @@ from .models import (
     QuestionAnswer, ExamTimingConfig, Review
 )
 from .topic_models import UserGameProfile, TopicQuizAttempt, TopicQuizAnswer
+from .textbook_models import Textbook
 
 
 class QuestionOptionInline(admin.TabularInline):
@@ -205,4 +206,12 @@ class TopicQuizAnswerAdmin(admin.ModelAdmin):
     list_filter = ['is_correct', 'attempt__topic']
     search_fields = ['attempt__user__username']
     readonly_fields = ['answered_at']
+
+
+@admin.register(Textbook)
+class TextbookAdmin(admin.ModelAdmin):
+    list_display = ['title', 'subject', 'category', 'file_name', 'order']
+    list_filter = ['category']
+    search_fields = ['title', 'subject']
+    ordering = ['category', 'order', 'title']
 

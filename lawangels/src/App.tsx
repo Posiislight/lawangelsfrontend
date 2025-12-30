@@ -33,6 +33,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 import GamifiedQuiz from './components/GamifiedQuiz'
 import GamifiedQuizResults from './pages/GamifiedQuizResults'
+import TextbookReader from './pages/TextbookReader'
 
 function App() {
   return (
@@ -90,6 +91,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Textbook />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Textbook Reader - Protected */}
+          <Route
+            path="/textbook/:id"
+            element={
+              <ProtectedRoute>
+                <TextbookReader />
               </ProtectedRoute>
             }
           />

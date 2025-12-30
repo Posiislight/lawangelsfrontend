@@ -2,6 +2,7 @@ from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from . import views
 from . import topic_views
+from . import textbook_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -13,6 +14,9 @@ router.register(r'reviews', views.ReviewViewSet, basename='review')
 router.register(r'topics', topic_views.TopicViewSet, basename='topic')
 router.register(r'topic-attempts', topic_views.TopicQuizAttemptViewSet, basename='topic-attempt')
 router.register(r'game-profile', topic_views.UserGameProfileViewSet, basename='game-profile')
+
+# Textbook router
+router.register(r'textbooks', textbook_views.TextbookViewSet, basename='textbook')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)
