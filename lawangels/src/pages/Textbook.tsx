@@ -8,7 +8,7 @@ import DashboardLayout from '../components/DashboardLayout'
 import { textbookApi } from '../services/textbookApi'
 import type { TextbookListItem, TextbookCategory } from '../services/textbookApi'
 
-// Category colors
+// Category colors - FLK2 uses orange, BOTH uses brand dark (#0F172B)
 const CATEGORY_STYLES = {
   FLK1: {
     badge: 'bg-blue-100 text-blue-700 border-blue-200',
@@ -16,14 +16,14 @@ const CATEGORY_STYLES = {
     border: 'border-t-blue-500',
   },
   FLK2: {
-    badge: 'bg-green-100 text-green-700 border-green-200',
-    accent: 'bg-green-500',
-    border: 'border-t-green-500',
+    badge: 'bg-orange-100 text-orange-700 border-orange-200',
+    accent: 'bg-orange-500',
+    border: 'border-t-orange-500',
   },
   BOTH: {
-    badge: 'bg-purple-100 text-purple-700 border-purple-200',
-    accent: 'bg-purple-500',
-    border: 'border-t-purple-500',
+    badge: 'bg-slate-900 text-white border-slate-800',
+    accent: 'bg-slate-900',
+    border: 'border-t-slate-900',
   },
 }
 
@@ -71,13 +71,14 @@ export default function Textbook() {
 
   return (
     <DashboardLayout>
-      <div className="font-worksans">
+      <div className="font-worksans min-h-0 flex flex-col h-full">
         {/* Header */}
         <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
           <div className="flex items-center justify-between gap-8">
             <div>
-              <h1 className="text-2xl font-normal text-gray-900">
-                📖 Textbook Library
+              <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
+                <BookOpen className="w-6 h-6 text-blue-500" />
+                Textbook Library
               </h1>
               <p className="text-gray-600">Comprehensive study materials for SQE preparation</p>
             </div>
@@ -174,8 +175,8 @@ export default function Textbook() {
                       <div className="p-6">
                         {/* Icon and Category */}
                         <div className="flex items-start justify-between mb-4">
-                          <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-3xl">
-                            {textbook.icon}
+                          <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center">
+                            <BookOpen className="w-7 h-7 text-gray-500" />
                           </div>
                           <span className={`px-2 py-1 text-xs font-semibold rounded-full border ${categoryStyle.badge}`}>
                             {textbook.category}
@@ -216,6 +217,6 @@ export default function Textbook() {
           )}
         </div>
       </div>
-    </DashboardLayout>
+    </DashboardLayout >
   )
 }
