@@ -17,6 +17,8 @@ class Textbook(models.Model):
     file_name = models.CharField(max_length=255)
     icon = models.CharField(max_length=10, default='📚')
     order = models.IntegerField(default=0)
+    # Table of contents - list of {title: str, page: int}
+    chapters = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

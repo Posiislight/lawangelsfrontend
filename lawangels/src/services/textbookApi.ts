@@ -24,6 +24,11 @@ const API_BASE_URL = getApiBaseUrl();
 
 export type TextbookCategory = 'FLK1' | 'FLK2' | 'BOTH';
 
+export interface Chapter {
+    title: string;
+    page: number;
+}
+
 export interface Textbook {
     id: number;
     title: string;
@@ -34,6 +39,7 @@ export interface Textbook {
     file_name: string;
     icon: string;
     order: number;
+    chapters: Chapter[];
     created_at: string;
     updated_at: string;
 }

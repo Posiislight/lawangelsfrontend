@@ -19,6 +19,7 @@ class TextbookSerializer(serializers.ModelSerializer):
             'file_name',
             'icon',
             'order',
+            'chapters',
             'created_at',
             'updated_at',
         ]

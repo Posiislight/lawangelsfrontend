@@ -234,73 +234,77 @@ export default function TextbookReader() {
 
             {/* Main Content */}
             <div className="flex flex-1 overflow-hidden">
-                {/* Sidebar - Contents */}
+                {/* Sidebar - Table of Contents */}
                 {showSidebar && (
-                    <aside className="w-56 bg-white border-r border-gray-200 overflow-y-auto">
+                    <aside className="w-64 bg-white border-r border-gray-200 overflow-y-auto">
                         <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                Contents
+                                Table of Contents
                             </h3>
                         </div>
                         <div className="p-2">
-                            {/* Generate modules based on page count */}
-                            {Array.from({ length: Math.ceil(numPages / 10) }, (_, i) => {
-                                const moduleNum = i + 1
-                                const startPage = i * 10 + 1
-                                const endPage = Math.min((i + 1) * 10, numPages)
-                                const isCurrentModule = pageNumber >= startPage && pageNumber <= endPage
+                            {/* Display actual chapters from the textbook */}
+                            {textbook.chapters && textbook.chapters.length > 0 ? (
+                                textbook.chapters.map((chapter, index) => {
+                                    const nextChapter = textbook.chapters[index + 1]
+                                    const isCurrentChapter = nextChapter
+                                        ? pageNumber >= chapter.page && pageNumber < nextChapter.page
+                                        : pageNumber >= chapter.page
 
-                                return (
-                                    <div key={moduleNum} className="mb-1">
+                                    return (
                                         <button
+                                            key={index}
                                             onClick={() => {
                                                 setPageLoading(true)
-                                                setPageNumber(startPage)
+                                                setPageNumber(chapter.page)
                                             }}
-                                            className={`w-full px-3 py-2.5 rounded-lg text-left text-sm transition-colors flex items-center gap-2 ${isCurrentModule
+                                            className={`w-full px-3 py-2.5 rounded-lg text-left text-sm transition-colors flex items-start gap-3 mb-1 ${isCurrentChapter
                                                 ? 'bg-blue-50 text-blue-700 font-medium border-l-2 border-blue-500'
                                                 : 'hover:bg-gray-50 text-gray-700'
                                                 }`}
                                         >
-                                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${isCurrentModule ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
-                                                {moduleNum}
+                                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${isCurrentChapter ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                                                {index + 1}
                                             </span>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-medium truncate">Module {moduleNum}</p>
-                                                <p className="text-xs text-gray-500">Pages {startPage}-{endPage}</p>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="font-medium leading-tight">{chapter.title}</p>
+                                                <p className="text-xs text-gray-500 mt-0.5">Page {chapter.page}</p>
                                             </div>
                                         </button>
-                                    </div>
-                                )
-                            })}
+                                    )
+                                })
+                            ) : (
+                                <p className="text-sm text-gray-500 px-3 py-2">No chapters available</p>
+                            )}
                         </div>
 
-                        {/* Quick page nav */}
-                        <div className="p-4 border-t border-gray-100">
-                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                                Jump to page
-                            </p>
-                            <div className="grid grid-cols-5 gap-1">
-                                {pageNumbers.slice(0, 20).map((num) => (
-                                    <button
-                                        key={num}
-                                        onClick={() => {
-                                            setPageLoading(true)
-                                            setPageNumber(num)
-                                        }}
-                                        className={`p-1.5 rounded text-xs font-medium transition-colors ${pageNumber === num
-                                            ? 'bg-blue-500 text-white'
-                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                            }`}
-                                    >
-                                        {num}
-                                    </button>
-                                ))}
-                                {numPages > 20 && (
-                                    <span className="p-1.5 text-xs text-gray-400 text-center">...</span>
-                                )}
+
+                        {/* Quick page nav - Chapter pages */}
+                        {textbook.chapters && textbook.chapters.length > 0 && (
+                            <div className="p-4 border-t border-gray-100">
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                                    Jump to Chapter
+                                </p>
+                                <div className="grid grid-cols-4 gap-1">
+                                    {textbook.chapters.map((chapter, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => {
+                                                setPageLoading(true)
+                                                setPageNumber(chapter.page)
+                                            }}
+                                            className={`p-1.5 rounded text-xs font-medium transition-colors ${pageNumber === chapter.page
+                                                ? 'bg-blue-500 text-white'
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                                }`}
+                                            title={chapter.title}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </aside>
                 )}
 
