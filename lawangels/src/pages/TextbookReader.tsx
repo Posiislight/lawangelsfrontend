@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
     ChevronLeft, ChevronRight, Maximize2, Minimize2, Loader2, ArrowLeft, BookOpen, List
@@ -34,6 +34,14 @@ export default function TextbookReader() {
 
     // PDF URL with auth token
     const [pdfUrl, setPdfUrl] = useState<string>('')
+
+    // Memoize PDF options to prevent unnecessary reloads
+    const pdfOptions = useMemo(() => ({
+        httpHeaders: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        },
+        withCredentials: true,
+    }), [])
 
     useEffect(() => {
         const fetchTextbook = async () => {
@@ -110,8 +118,7 @@ export default function TextbookReader() {
         }
     }
 
-    // Generate page thumbnails for sidebar
-    const pageNumbers = Array.from({ length: numPages }, (_, i) => i + 1)
+
 
     if (loading) {
         return (
@@ -324,12 +331,7 @@ export default function TextbookReader() {
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={onDocumentLoadError}
                         loading={null}
-                        options={{
-                            httpHeaders: {
-                                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-                            },
-                            withCredentials: true,
-                        }}
+                        options={pdfOptions}
                     >
                         <Page
                             pageNumber={pageNumber}
