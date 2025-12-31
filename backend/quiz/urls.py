@@ -5,6 +5,7 @@ from . import topic_views
 from . import textbook_views
 from . import progress_views
 from . import dashboard_views
+from . import quizzes_page_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -25,6 +26,9 @@ router.register(r'progress', progress_views.UserProgressViewSet, basename='progr
 
 # Dashboard router (optimized single-call endpoint)
 router.register(r'dashboard', dashboard_views.DashboardViewSet, basename='dashboard')
+
+# Quizzes page router (optimized single-call endpoint)
+router.register(r'quizzes-page', quizzes_page_views.QuizzesPageViewSet, basename='quizzes-page')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)

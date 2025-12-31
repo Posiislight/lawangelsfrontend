@@ -33,6 +33,35 @@ const TOPIC_COLORS: Record<string, { bg: string; border: string; text: string; i
   wills: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', iconBg: 'bg-indigo-100', accent: 'bg-indigo-500' },
 }
 
+// Helper to fetch optimized quizzes page data
+const fetchQuizzesPageData = async (): Promise<{
+  topics: TopicSummary[];
+  recentAttempts: TopicQuizAttempt[];
+  profile: UserGameProfile;
+}> => {
+  const getApiBaseUrl = () => {
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+    const hostname = window.location.hostname
+    if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:8000/api'
+    return 'https://quiz-backend.onrender.com/api'
+  }
+
+  const response = await fetch(`${getApiBaseUrl()}/quizzes-page/`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+
+  const data = await response.json()
+  return {
+    topics: data.topics,
+    recentAttempts: data.recentAttempts,
+    profile: data.profile,
+  }
+}
+
 export default function Quizzes() {
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -42,20 +71,15 @@ export default function Quizzes() {
   const [profile, setProfile] = useState<UserGameProfile | null>(null)
   const [startingQuiz, setStartingQuiz] = useState<string | null>(null)
 
+  // OPTIMIZED: Single API call instead of 3 separate calls
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const [topicsData, attemptsData, profileData] = await Promise.all([
-          topicQuizApi.getTopics(),
-          topicQuizApi.getAttempts(),
-          topicQuizApi.getGameProfile(),
-        ])
-
-        setTopics(topicsData)
-        // Get the 6 most recent attempts
-        setRecentAttempts(attemptsData.slice(0, 6))
-        setProfile(profileData)
+        const data = await fetchQuizzesPageData()
+        setTopics(data.topics)
+        setRecentAttempts(data.recentAttempts.slice(0, 6))
+        setProfile(data.profile)
       } catch (error) {
         console.error('Error fetching quizzes:', error)
       } finally {

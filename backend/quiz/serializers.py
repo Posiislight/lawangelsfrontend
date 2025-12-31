@@ -150,8 +150,11 @@ class ExamAttemptLightSerializer(serializers.ModelSerializer):
 
 
 class ExamAttemptReviewSerializer(serializers.ModelSerializer):
-    """Serializer for exam attempt review (includes full question details)"""
-    exam = ExamSerializer(read_only=True)
+    """Serializer for exam attempt review (includes full question details)
+    
+    OPTIMIZED: Uses ExamMinimalSerializer to avoid N+1 query from get_questions_count()
+    """
+    exam = ExamMinimalSerializer(read_only=True)
     answers = QuestionAnswerDetailSerializer(many=True, read_only=True)
     # Use full detail serializer (with explanations/correct answers) for review
     questions = QuestionDetailSerializer(many=True, read_only=True, source='selected_questions')
