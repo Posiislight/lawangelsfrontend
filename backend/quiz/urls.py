@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 from . import topic_views
 from . import textbook_views
+from . import progress_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -17,6 +18,9 @@ router.register(r'game-profile', topic_views.UserGameProfileViewSet, basename='g
 
 # Textbook router
 router.register(r'textbooks', textbook_views.TextbookViewSet, basename='textbook')
+
+# Progress tracker router
+router.register(r'progress', progress_views.UserProgressViewSet, basename='progress')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)
