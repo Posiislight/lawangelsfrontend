@@ -6,6 +6,7 @@ from . import textbook_views
 from . import progress_views
 from . import dashboard_views
 from . import quizzes_page_views
+from . import ai_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -30,6 +31,9 @@ router.register(r'dashboard', dashboard_views.DashboardViewSet, basename='dashbo
 # Quizzes page router (optimized single-call endpoint)
 router.register(r'quizzes-page', quizzes_page_views.QuizzesPageViewSet, basename='quizzes-page')
 
+# Angel AI router
+router.register(r'ai', ai_views.AngelAIViewSet, basename='ai')
+
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)
     # Using the viewset's create action directly
@@ -45,6 +49,10 @@ urlpatterns = [
     re_path(r'^topic-attempts/(?P<pk>[^/.]+)/summary/$', topic_views.TopicQuizAttemptViewSet.as_view({'get': 'summary'}), name='topic-attempt-summary'),
     re_path(r'^topic-attempts/(?P<pk>[^/.]+)/use-powerup/$', topic_views.TopicQuizAttemptViewSet.as_view({'post': 'use_powerup'}), name='topic-attempt-use-powerup'),
     re_path(r'^topics/(?P<pk>[^/.]+)/questions/$', topic_views.TopicViewSet.as_view({'get': 'questions'}), name='topic-questions'),
+    
+    # Angel AI streaming endpoint
+    path('ai/stream/', ai_views.AngelAIViewSet.as_view({'post': 'stream'}), name='ai-stream'),
+    path('ai/chat/', ai_views.AngelAIViewSet.as_view({'post': 'chat'}), name='ai-chat'),
     
     # Router must come AFTER custom routes
     path('', include(router.urls)),

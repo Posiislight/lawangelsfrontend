@@ -1,76 +1,18 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, Send, Plus, MessageCircle } from 'lucide-react'
-import { useState } from 'react'
+import { Bell, Send, Plus, MessageCircle, Loader2 } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
+import { angelAiApi, type Chat, type ChatMessage } from '../services/angelAiApi'
 
 export default function AngelAI() {
   const { user } = useAuth()
-  const [currentChat, setCurrentChat] = useState(0)
+  const [chats, setChats] = useState<Chat[]>([])
+  const [currentChatIndex, setCurrentChatIndex] = useState<number | null>(null)
   const [messageInput, setMessageInput] = useState('')
-
-  const chats = [
-    {
-      id: 0,
-      title: 'Contract Law - Consideration',
-      date: 'Today',
-      messages: [
-        {
-          role: 'user',
-          content: 'Can you explain consideration in contract law?',
-          timestamp: '10:30 AM'
-        },
-        {
-          role: 'ai',
-          content: 'Consideration is a fundamental concept in contract law. It refers to something of value given by both parties to a contract. Each party must give something and receive something in return.\n\nKey elements:\n• Must be given by both parties\n• Must be of value (money, goods, services, or a promise)\n• Must not be illusory or past consideration\n• Can be executory (promise for promise) or executed (act for promise)',
-          timestamp: '10:31 AM'
-        },
-        {
-          role: 'user',
-          content: 'What about past consideration? Is that valid?',
-          timestamp: '10:32 AM'
-        },
-        {
-          role: 'ai',
-          content: 'No, past consideration is generally NOT valid in English contract law. This is established in the case Roscorla v Thomas (1842).\n\nPast consideration means an act or promise was completed BEFORE the promise to give something in return was made.\n\nExample: If I lend you £100 today, and you promise to repay me tomorrow because I helped you, that promise tomorrow cannot be based on past consideration.\n\nException: Past consideration may be valid if there was an implied understanding at the time of the original act that payment would be made.',
-          timestamp: '10:33 AM'
-        }
-      ]
-    },
-    {
-      id: 1,
-      title: 'Criminal Law - Actus Reus',
-      date: 'Yesterday',
-      messages: [
-        {
-          role: 'user',
-          content: 'What is actus reus?',
-          timestamp: '2:15 PM'
-        },
-        {
-          role: 'ai',
-          content: 'Actus reus is the Latin term for "guilty act" - it refers to the physical element of a crime. It\'s the actual act or omission that constitutes the crime.',
-          timestamp: '2:16 PM'
-        }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Property Law - Trusts',
-      date: '2 days ago',
-      messages: [
-        {
-          role: 'user',
-          content: 'How do express trusts work?',
-          timestamp: '11:45 AM'
-        },
-        {
-          role: 'ai',
-          content: 'Express trusts are created deliberately with an intention to create a trust relationship. They require three certainties (from Knight v Knight)...',
-          timestamp: '11:46 AM'
-        }
-      ]
-    }
-  ]
+  const [isLoading, setIsLoading] = useState(false)
+  const [streamingContent, setStreamingContent] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const suggestedQuestions = [
     'What is mens rea in criminal law?',
@@ -90,11 +32,97 @@ export default function AngelAI() {
     { title: 'Criminal Liability Defences', subject: 'Criminal Law', level: 'Advanced' }
   ]
 
-  const sendMessage = () => {
-    if (messageInput.trim()) {
-      setMessageInput('')
+  // Scroll to bottom when messages change or streaming content updates
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [chats, currentChatIndex, streamingContent])
+
+  const createNewChat = () => {
+    const newChat = angelAiApi.createNewChat()
+    setChats(prev => [newChat, ...prev])
+    setCurrentChatIndex(0)
+    setError(null)
+  }
+
+  const sendMessage = async (messageText?: string) => {
+    const message = messageText || messageInput.trim()
+    if (!message || isLoading) return
+
+    // If no chat exists, create one
+    if (currentChatIndex === null) {
+      const newChat = angelAiApi.createNewChat(angelAiApi.generateChatTitle(message))
+      setChats([newChat])
+      setCurrentChatIndex(0)
+
+      // Continue with the new chat
+      setTimeout(() => sendMessageToChat(message, 0), 0)
+    } else {
+      sendMessageToChat(message, currentChatIndex)
+    }
+
+    setMessageInput('')
+  }
+
+  const sendMessageToChat = async (message: string, chatIndex: number) => {
+    setIsLoading(true)
+    setError(null)
+    setStreamingContent('')
+
+    // Add user message immediately
+    const userMessage = angelAiApi.createUserMessage(message)
+    setChats(prev => {
+      const updated = [...prev]
+      if (!updated[chatIndex].messages.length) {
+        // Update title for new chat
+        updated[chatIndex].title = angelAiApi.generateChatTitle(message)
+      }
+      updated[chatIndex].messages = [...updated[chatIndex].messages, userMessage]
+      return updated
+    })
+
+    try {
+      // Get current conversation history (before adding the new user message)
+      const currentMessages = chats[chatIndex]?.messages || []
+
+      // Use streaming API
+      let fullResponse = ''
+
+      for await (const chunk of angelAiApi.streamMessage(message, currentMessages)) {
+        if (chunk.error) {
+          throw new Error(chunk.error)
+        }
+
+        if (chunk.content) {
+          fullResponse += chunk.content
+          setStreamingContent(fullResponse)
+        }
+
+        if (chunk.done) {
+          // Streaming complete - add the full message
+          const aiMessage = angelAiApi.createAIMessage(fullResponse)
+          setChats(prev => {
+            const updated = [...prev]
+            updated[chatIndex].messages = [...updated[chatIndex].messages, aiMessage]
+            return updated
+          })
+          setStreamingContent('')
+        }
+      }
+    } catch (err) {
+      console.error('Error sending message:', err)
+      setError(err instanceof Error ? err.message : 'Failed to send message')
+      setStreamingContent('')
+    } finally {
+      setIsLoading(false)
     }
   }
+
+  const handleSuggestedQuestion = (question: string) => {
+    setMessageInput(question)
+    sendMessage(question)
+  }
+
+  const currentChat = currentChatIndex !== null ? chats[currentChatIndex] : null
 
   return (
     <DashboardLayout>
@@ -105,7 +133,7 @@ export default function AngelAI() {
             <h1 className="text-2xl font-normal text-gray-900">
               🤖 Angel AI
             </h1>
-            <p className="text-gray-600">Your personal law tutor - ask anything about legal concepts</p>
+            <p className="text-gray-600">Your personal law tutor powered by Law Angels textbooks</p>
           </div>
 
           <div className="flex-1 flex justify-center">
@@ -138,24 +166,33 @@ export default function AngelAI() {
         {/* Chat List Sidebar */}
         <div className="w-80 bg-white rounded-lg border border-gray-200 flex flex-col">
           <div className="p-4 border-b border-gray-200">
-            <button className="w-full flex items-center justify-center gap-2 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium">
+            <button
+              onClick={createNewChat}
+              className="w-full flex items-center justify-center gap-2 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+            >
               <Plus className="w-5 h-5" />
               New Chat
             </button>
           </div>
 
           <div className="flex-1 overflow-y-auto">
-            {chats.map((chat) => (
-              <button
-                key={chat.id}
-                onClick={() => setCurrentChat(chat.id)}
-                className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors ${currentChat === chat.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
-                  }`}
-              >
-                <h3 className="font-semibold text-gray-900 text-sm truncate">{chat.title}</h3>
-                <p className="text-xs text-gray-500 mt-1">{chat.date}</p>
-              </button>
-            ))}
+            {chats.length === 0 ? (
+              <div className="p-4 text-center text-gray-500 text-sm">
+                No conversations yet. Start a new chat!
+              </div>
+            ) : (
+              chats.map((chat, idx) => (
+                <button
+                  key={chat.id}
+                  onClick={() => setCurrentChatIndex(idx)}
+                  className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors ${currentChatIndex === idx ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                    }`}
+                >
+                  <h3 className="font-semibold text-gray-900 text-sm truncate">{chat.title}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{chat.date}</p>
+                </button>
+              ))
+            )}
           </div>
         </div>
 
@@ -163,22 +200,68 @@ export default function AngelAI() {
         <div className="flex-1 bg-white rounded-lg border border-gray-200 flex flex-col">
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
-            {chats[currentChat].messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-xs lg:max-w-md px-4 py-3 rounded-lg ${msg.role === 'user'
-                      ? 'bg-blue-500 text-white rounded-br-none'
-                      : 'bg-gray-100 text-gray-900 rounded-bl-none'
-                    }`}
-                >
-                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                  <p className={`text-xs mt-2 ${msg.role === 'user' ? 'text-blue-100' : 'text-gray-500'}`}>
-                    {msg.timestamp}
-                  </p>
+            {currentChat ? (
+              <>
+                {currentChat.messages.map((msg, idx) => (
+                  <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div
+                      className={`max-w-xs lg:max-w-md xl:max-w-lg px-4 py-3 rounded-lg ${msg.role === 'user'
+                        ? 'bg-blue-500 text-white rounded-br-none'
+                        : 'bg-gray-100 text-gray-900 rounded-bl-none'
+                        }`}
+                    >
+                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      <p className={`text-xs mt-2 ${msg.role === 'user' ? 'text-blue-100' : 'text-gray-500'}`}>
+                        {msg.timestamp}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Streaming response */}
+                {streamingContent && (
+                  <div className="flex justify-start">
+                    <div className="max-w-xs lg:max-w-md xl:max-w-lg px-4 py-3 rounded-lg bg-gray-100 text-gray-900 rounded-bl-none">
+                      <p className="text-sm whitespace-pre-wrap">{streamingContent}</p>
+                      <div className="flex items-center gap-1 mt-2">
+                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
+                        <span className="text-xs text-gray-500">Angel AI is typing...</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Loading indicator (only when not streaming) */}
+                {isLoading && !streamingContent && (
+                  <div className="flex justify-start">
+                    <div className="bg-gray-100 text-gray-900 rounded-lg rounded-bl-none px-4 py-3 flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-sm">Angel AI is thinking...</span>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </>
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center text-gray-500">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-4xl">🤖</span>
                 </div>
+                <p className="text-lg font-medium mb-2">Hi! I'm Angel AI</p>
+                <p className="text-sm text-center max-w-md">
+                  Your personal law tutor. I'm trained on the Law Angels textbook library to help you prepare for the SQE.
+                  Ask me anything about legal concepts!
+                </p>
               </div>
-            ))}
+            )}
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="px-6 py-2 bg-red-50 text-red-600 text-sm border-t border-red-200">
+              {error}
+            </div>
+          )}
 
           {/* Message Input */}
           <div className="p-6 border-t border-gray-200">
@@ -189,13 +272,15 @@ export default function AngelAI() {
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={isLoading}
+                className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
               />
               <button
-                onClick={sendMessage}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+                onClick={() => sendMessage()}
+                disabled={isLoading || !messageInput.trim()}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-4 h-4" />
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -213,7 +298,9 @@ export default function AngelAI() {
               {suggestedQuestions.map((q, idx) => (
                 <button
                   key={idx}
-                  className="w-full text-left text-sm p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors text-gray-700 hover:text-blue-600 border border-gray-100 hover:border-blue-300"
+                  onClick={() => handleSuggestedQuestion(q)}
+                  disabled={isLoading}
+                  className="w-full text-left text-sm p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors text-gray-700 hover:text-blue-600 border border-gray-100 hover:border-blue-300 disabled:opacity-50"
                 >
                   {q}
                 </button>
