@@ -5,8 +5,8 @@ import DashboardLayout from '../components/DashboardLayout'
 import MockTestStart from '../components/MockTestStart'
 import MockExamCustomization, { type PracticeMode } from '../components/MockExamCustomization'
 import MockExam from '../components/MockExam'
-import { quizApi, type Exam, type ExamAttempt } from '../services/quizApi'
-import { dashboardApi, type UserStats } from '../services/dashboardApi'
+import type { Exam } from '../services/quizApi'
+import type { UserStats } from '../services/dashboardApi'
 
 type ViewState = 'list' | 'start' | 'customize' | 'exam'
 
@@ -23,6 +23,56 @@ interface ExamSettings {
   extraTimeEnabled: boolean
 }
 
+// API helper for the new optimized endpoint
+const fetchMockExamsData = async (): Promise<{ exams: MockExamWithStats[], userStats: UserStats }> => {
+  const getApiBaseUrl = () => {
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+    const hostname = window.location.hostname
+    if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:8000/api'
+    return 'https://quiz-backend.onrender.com/api'
+  }
+
+  const token = localStorage.getItem('authToken')
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (token) headers['Authorization'] = `Bearer ${token}`
+
+  const response = await fetch(`${getApiBaseUrl()}/dashboard/mock_exams/`, {
+    method: 'GET',
+    credentials: 'include',
+    headers,
+  })
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+
+  const data = await response.json()
+
+  // Transform backend response to frontend format
+  const exams: MockExamWithStats[] = data.exams.map((exam: any) => ({
+    ...exam,
+    lastAttempt: exam.lastAttempt ? formatRelativeTimeStatic(exam.lastAttempt) : 'Not attempted',
+  }))
+
+  return { exams, userStats: data.userStats }
+}
+
+// Static version of formatRelativeTime for use in fetchMockExamsData
+const formatRelativeTimeStatic = (dateString: string): string => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+  const diffWeeks = Math.floor(diffDays / 7)
+
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins} minutes ago`
+  if (diffHours < 24) return `${diffHours} hours ago`
+  if (diffDays < 7) return `${diffDays} days ago`
+  if (diffWeeks < 4) return `${diffWeeks} weeks ago`
+  return date.toLocaleDateString()
+}
+
 export default function MockQuestions() {
   const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
@@ -37,90 +87,20 @@ export default function MockQuestions() {
     extraTimeEnabled: false,
   })
 
+  // OPTIMIZED: Single API call instead of 3 separate calls
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-
-        // Fetch exams first - this should always work
-        let exams: Exam[] = []
-        try {
-          exams = await quizApi.getExams()
-          console.log('[MockQuestions] Fetched exams:', exams.length)
-        } catch (examError) {
-          console.error('[MockQuestions] Error fetching exams:', examError)
-          // If exams fail, we can't continue
-          setIsLoading(false)
-          return
-        }
-
-        // Fetch attempts and stats - these may fail if not authenticated
-        let attempts: ExamAttempt[] = []
-        let stats: UserStats | null = null
-
-        try {
-          attempts = await quizApi.getAttempts()
-          console.log('[MockQuestions] Fetched attempts:', attempts.length)
-        } catch (attemptError) {
-          console.warn('[MockQuestions] Could not fetch attempts (user may not be logged in):', attemptError)
-          // Continue without attempts
-        }
-
-        try {
-          stats = await dashboardApi.getUserStats()
-          console.log('[MockQuestions] Fetched user stats')
-        } catch (statsError) {
-          console.warn('[MockQuestions] Could not fetch user stats:', statsError)
-          // Continue without stats
-        }
-
+        const { exams, userStats: stats } = await fetchMockExamsData()
+        setMockExams(exams)
         setUserStats(stats)
-
-        // Create a map of exam attempts
-        const attemptsByExam = new Map<number, ExamAttempt[]>()
-        attempts.forEach(attempt => {
-          const examId = attempt.exam_id || attempt.exam?.id
-          if (examId) {
-            if (!attemptsByExam.has(examId)) {
-              attemptsByExam.set(examId, [])
-            }
-            attemptsByExam.get(examId)!.push(attempt)
-          }
-        })
-
-        // Enrich exams with attempt stats
-        const colors = ['blue', 'purple', 'green', 'red', 'yellow', 'indigo']
-        const enrichedExams: MockExamWithStats[] = exams.map((exam, idx) => {
-          const examAttempts = attemptsByExam.get(exam.id) || []
-          const completedAttempts = examAttempts.filter(a => a.status === 'completed')
-          const scores = completedAttempts
-            .map(a => a.score)
-            .filter((s): s is number => s !== null)
-
-          // Get latest attempt
-          const sortedAttempts = [...completedAttempts].sort(
-            (a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
-          )
-          const lastAttemptDate = sortedAttempts.length > 0
-            ? formatRelativeTime(sortedAttempts[0].started_at)
-            : 'Not attempted'
-
-          return {
-            ...exam,
-            attemptsTaken: completedAttempts.length,
-            averageScore: scores.length > 0
-              ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
-              : 0,
-            bestScore: scores.length > 0 ? Math.max(...scores) : 0,
-            lastAttempt: lastAttemptDate,
-            color: colors[idx % colors.length],
-          }
-        })
-
-        setMockExams(enrichedExams)
-        console.log('[MockQuestions] Set enrichedExams:', enrichedExams.length)
+        console.log('[MockQuestions] Fetched data via optimized endpoint:', exams.length, 'exams')
       } catch (error) {
-        console.error('Error fetching mock exams:', error)
+        console.error('[MockQuestions] Error fetching mock exams:', error)
+        // Set empty state on error
+        setMockExams([])
+        setUserStats(null)
       } finally {
         setIsLoading(false)
       }
@@ -142,23 +122,6 @@ export default function MockQuestions() {
       'mixed': 'Mixed',
     }
     return subjectNames[subject] || subject
-  }
-
-  const formatRelativeTime = (dateString: string): string => {
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffMs = now.getTime() - date.getTime()
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMins / 60)
-    const diffDays = Math.floor(diffHours / 24)
-    const diffWeeks = Math.floor(diffDays / 7)
-
-    if (diffMins < 1) return 'Just now'
-    if (diffMins < 60) return `${diffMins} minutes ago`
-    if (diffHours < 24) return `${diffHours} hours ago`
-    if (diffDays < 7) return `${diffDays} days ago`
-    if (diffWeeks < 4) return `${diffWeeks} weeks ago`
-    return date.toLocaleDateString()
   }
 
   const colorMap = {

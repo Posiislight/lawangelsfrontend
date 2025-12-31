@@ -19,6 +19,7 @@ class DashboardViewSet(viewsets.ViewSet):
     
     Endpoints:
     - GET /dashboard/ - Get all dashboard data (stats, activity, exams)
+    - GET /dashboard/mock_exams/ - Get all mock exams with user stats
     """
     permission_classes = [IsAuthenticated]
 
@@ -94,6 +95,99 @@ class DashboardViewSet(viewsets.ViewSet):
             'userStats': user_stats,
             'recentActivity': recent_activity,
             'upcomingExams': upcoming_exams,
+        })
+
+    @action(detail=False, methods=['get'])
+    def mock_exams(self, request):
+        """
+        Get all mock exams with user attempt stats in ONE optimized call.
+        
+        For the MockQuestions page - replaces 3 separate API calls with 1.
+        
+        Returns:
+        - exams: List of exams with attempt stats (attemptsTaken, avgScore, bestScore, lastAttempt)
+        - userStats: Overall user statistics
+        
+        Performance: 2 database queries total
+        """
+        user = request.user
+        
+        # Query 1: Get ALL active exams
+        all_exams = list(Exam.objects.filter(is_active=True).values(
+            'id', 'title', 'description', 'subject', 'duration_minutes',
+            'speed_reader_seconds', 'passing_score_percentage', 'total_questions', 'is_active'
+        ))
+        
+        # Query 2: Get ALL user attempts with exam data
+        attempts = list(ExamAttempt.objects.filter(user=user).select_related('exam').values(
+            'id', 'exam_id', 'status', 'score', 'time_spent_seconds', 'started_at', 'ended_at'
+        ))
+        
+        # Group attempts by exam (in Python - no additional queries)
+        attempts_by_exam = {}
+        for attempt in attempts:
+            exam_id = attempt['exam_id']
+            if exam_id not in attempts_by_exam:
+                attempts_by_exam[exam_id] = []
+            attempts_by_exam[exam_id].append(attempt)
+        
+        # Calculate user stats from attempts
+        completed_attempts = [a for a in attempts if a['status'] == 'completed']
+        scores = [a['score'] for a in completed_attempts if a['score'] is not None]
+        
+        average_score = round(sum(scores) / len(scores)) if scores else 0
+        passed_count = len([s for s in scores if s >= 70])
+        pass_rate = round((passed_count / len(scores)) * 100) if scores else 0
+        total_time_seconds = sum(a['time_spent_seconds'] or 0 for a in completed_attempts)
+        
+        # Calculate streak
+        dates = set()
+        for a in attempts:
+            if a['started_at']:
+                dates.add(a['started_at'].date())
+        
+        streak = 0
+        if dates:
+            today = timezone.now().date()
+            current = today if today in dates else today - timedelta(days=1)
+            while current in dates:
+                streak += 1
+                current -= timedelta(days=1)
+        
+        user_stats = {
+            'totalExams': len(attempts),
+            'completedExams': len(completed_attempts),
+            'averageScore': average_score,
+            'totalTimeSpentMinutes': round(total_time_seconds / 60),
+            'currentStreak': streak,
+            'passRate': pass_rate,
+        }
+        
+        # Enrich exams with attempt stats
+        colors = ['blue', 'purple', 'green', 'red', 'yellow', 'indigo']
+        enriched_exams = []
+        
+        for idx, exam in enumerate(all_exams):
+            exam_attempts = attempts_by_exam.get(exam['id'], [])
+            completed = [a for a in exam_attempts if a['status'] == 'completed']
+            exam_scores = [a['score'] for a in completed if a['score'] is not None]
+            
+            # Get last attempt
+            sorted_attempts = sorted(completed, key=lambda x: x['started_at'] or timezone.now(), reverse=True)
+            last_attempt = sorted_attempts[0]['started_at'] if sorted_attempts else None
+            
+            enriched_exams.append({
+                **exam,
+                'attemptsTaken': len(completed),
+                'averageScore': round(sum(exam_scores) / len(exam_scores)) if exam_scores else 0,
+                'bestScore': max(exam_scores) if exam_scores else 0,
+                'lastAttempt': last_attempt.isoformat() if last_attempt else None,
+                'color': colors[idx % len(colors)],
+            })
+        
+        return Response({
+            'exams': enriched_exams,
+            'userStats': user_stats,
         })
 
     def _calculate_streak(self, attempts):
