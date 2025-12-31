@@ -145,24 +145,36 @@ WSGI_APPLICATION = 'lawangels.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.kfviwdoyiknsnnnadkpe',
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'aws-1-eu-west-2.pooler.supabase.com',
-        'PORT': '5432',
-        'CONN_MAX_AGE': 60,  # Reduced from 600 to close connections faster
-        'OPTIONS': {
-            'connect_timeout': 30,
-            'keepalives': 1,
-            'keepalives_idle': 30,
-            'options': '-c statement_timeout=30000',
-            'sslmode': 'require'
+# Check if DATABASE_URL is provided (used in CI/CD and production)
+import dj_database_url
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    # Use DATABASE_URL for CI/CD or production (like Render, Heroku, etc.)
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=60)
+    }
+else:
+    # Fallback to Supabase for local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres.kfviwdoyiknsnnnadkpe',
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': 'aws-1-eu-west-2.pooler.supabase.com',
+            'PORT': '5432',
+            'CONN_MAX_AGE': 60,
+            'OPTIONS': {
+                'connect_timeout': 30,
+                'keepalives': 1,
+                'keepalives_idle': 30,
+                'options': '-c statement_timeout=30000',
+                'sslmode': 'require'
+            }
         }
     }
-}
 
 # Session Configuration - Use cache sessions to reduce DB connections
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
