@@ -77,6 +77,10 @@ function getAuthToken(): string | null {
 
 // ============ API Client Class ============
 
+// Cache for textbooks list (60 seconds)
+let textbooksCache: { data: TextbookListItem[]; timestamp: number } | null = null;
+const CACHE_DURATION_MS = 60 * 1000; // 60 seconds
+
 class TextbookApiClient {
     private baseUrl: string;
 
@@ -123,8 +127,34 @@ class TextbookApiClient {
     // ============ Textbooks ============
 
     async getTextbooks(category?: TextbookCategory): Promise<TextbookListItem[]> {
+        // Use cache for non-filtered requests (most common case)
+        if (!category && textbooksCache) {
+            const age = Date.now() - textbooksCache.timestamp;
+            if (age < CACHE_DURATION_MS) {
+                console.log('[TextbookAPI] Returning cached textbooks');
+                return textbooksCache.data;
+            }
+        }
+
         const params = category ? `?category=${category}` : '';
-        return this.request<TextbookListItem[]>(`/textbooks/${params}`);
+        const data = await this.request<TextbookListItem[]>(`/textbooks/${params}`);
+
+        // Cache the result for non-filtered requests
+        if (!category) {
+            textbooksCache = { data, timestamp: Date.now() };
+            console.log('[TextbookAPI] Cached textbooks list');
+        }
+
+        return data;
+    }
+
+    // Prefetch textbooks in background (call on app init)
+    prefetchTextbooks(): void {
+        if (!textbooksCache) {
+            this.getTextbooks().catch(() => {
+                // Silently fail prefetch - it's just an optimization
+            });
+        }
     }
 
     async getTextbook(id: number): Promise<Textbook> {
