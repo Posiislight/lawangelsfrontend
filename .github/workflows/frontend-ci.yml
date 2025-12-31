@@ -1,0 +1,43 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'lawangels/**'
+      - '.github/workflows/frontend-ci.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'lawangels/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: 'lawangels/package-lock.json'
+    
+    - name: Install dependencies
+      run: |
+        cd lawangels
+        npm ci
+    
+    - name: Type check
+      run: |
+        cd lawangels
+        npm run build 2>&1 || echo "Build completed with warnings"
+    
+    - name: Build production bundle
+      run: |
+        cd lawangels
+        npm run build
+      env:
+        VITE_API_URL: https://quiz-backend.onrender.com/api

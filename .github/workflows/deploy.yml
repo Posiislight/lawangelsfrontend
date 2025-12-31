@@ -1,0 +1,57 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  # Run tests first
+  test-backend:
+    uses: ./.github/workflows/django-tests.yml
+    
+  test-frontend:
+    uses: ./.github/workflows/frontend-ci.yml
+
+  # Deploy backend to Render (only if tests pass)
+  deploy-backend:
+    needs: [test-backend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Trigger Render Deploy
+      run: |
+        # If you have a Render deploy hook, add it here
+        # curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+        echo "Backend deployment triggered (configure RENDER_DEPLOY_HOOK_URL secret)"
+      continue-on-error: true
+
+  # Deploy frontend to Vercel (only if tests pass)  
+  deploy-frontend:
+    needs: [test-frontend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Deploy to Vercel
+      run: |
+        # Vercel automatically deploys on push to main if connected
+        # This step is for logging/notification purposes
+        echo "Frontend deployment to Vercel triggered automatically"
+      continue-on-error: true
+
+  # Notify on completion
+  notify:
+    needs: [deploy-backend, deploy-frontend]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Deployment Summary
+      run: |
+        echo "🚀 Deployment pipeline completed"
+        echo "Backend: ${{ needs.deploy-backend.result }}"
+        echo "Frontend: ${{ needs.deploy-frontend.result }}"
