@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import ProgressTracker from '../components/ProgressTracker'
 import DashboardLayout from '../components/DashboardLayout'
 import { dashboardApi, type UserStats, type RecentActivity } from '../services/dashboardApi'
-import { quizApi, type Exam } from '../services/quizApi'
+import type { Exam } from '../services/quizApi'
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -14,19 +14,16 @@ export default function Dashboard() {
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([])
   const [upcomingExams, setUpcomingExams] = useState<Exam[]>([])
 
-  // Fetch dashboard data from backend
+  // Fetch dashboard data from backend - OPTIMIZED: single batch call
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setIsLoading(true)
-        const [stats, activity, exams] = await Promise.all([
-          dashboardApi.getUserStats(),
-          dashboardApi.getRecentActivity(5),
-          quizApi.getExams(),
-        ])
-        setUserStats(stats)
-        setRecentActivity(activity)
-        setUpcomingExams(exams.filter(e => e.is_active).slice(0, 3))
+        // Single optimized call that fetches all data at once
+        const dashboardData = await dashboardApi.getDashboardData()
+        setUserStats(dashboardData.userStats)
+        setRecentActivity(dashboardData.recentActivity)
+        setUpcomingExams(dashboardData.upcomingExams)
       } catch (error) {
         console.error('Error fetching dashboard data:', error)
         // Use fallback data on error

@@ -39,6 +39,16 @@ class QuestionMinimalSerializer(serializers.ModelSerializer):
         fields = ['id', 'question_number', 'text', 'difficulty', 'topic', 'options']
 
 
+class ExamMinimalSerializer(serializers.ModelSerializer):
+    """Ultra-lightweight exam serializer for dashboard - NO extra queries"""
+    class Meta:
+        model = Exam
+        fields = [
+            'id', 'title', 'subject', 'duration_minutes',
+            'passing_score_percentage', 'is_active', 'total_questions'
+        ]
+
+
 class ExamSerializer(serializers.ModelSerializer):
     """Serializer for exam with all details"""
     questions_count = serializers.SerializerMethodField()
@@ -154,9 +164,27 @@ class ExamAttemptReviewSerializer(serializers.ModelSerializer):
         ]
 
 
+class ExamAttemptDashboardSerializer(serializers.ModelSerializer):
+    """Ultra-lightweight serializer for dashboard - NO extra queries
+    
+    Uses only pre-fetched data and avoids any SerializerMethodField
+    that could trigger additional queries.
+    """
+    exam_id = serializers.IntegerField(source='exam.id', read_only=True)
+    exam_title = serializers.CharField(source='exam.title', read_only=True)
+    exam_subject = serializers.CharField(source='exam.subject', read_only=True)
+    
+    class Meta:
+        model = ExamAttempt
+        fields = [
+            'id', 'exam_id', 'exam_title', 'exam_subject',
+            'started_at', 'ended_at', 'status', 'score', 'time_spent_seconds'
+        ]
+
+
 class ExamAttemptListSerializer(serializers.ModelSerializer):
     """Serializer for listing exam attempts"""
-    exam = ExamSerializer(read_only=True)
+    exam = ExamMinimalSerializer(read_only=True)
     
     class Meta:
         model = ExamAttempt

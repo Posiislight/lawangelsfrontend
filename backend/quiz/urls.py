@@ -4,6 +4,7 @@ from . import views
 from . import topic_views
 from . import textbook_views
 from . import progress_views
+from . import dashboard_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -21,6 +22,9 @@ router.register(r'textbooks', textbook_views.TextbookViewSet, basename='textbook
 
 # Progress tracker router
 router.register(r'progress', progress_views.UserProgressViewSet, basename='progress')
+
+# Dashboard router (optimized single-call endpoint)
+router.register(r'dashboard', dashboard_views.DashboardViewSet, basename='dashboard')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)
