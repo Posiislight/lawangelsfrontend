@@ -2,7 +2,7 @@ import { Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import DashboardLayout from '../components/DashboardLayout'
-import { dashboardApi, type UserStats, type ProgressData } from '../services/dashboardApi'
+import type { UserStats, ProgressData } from '../services/dashboardApi'
 
 
 interface ExamProgress {
@@ -16,6 +16,62 @@ interface ExamProgress {
   score: number | null
 }
 
+// Helper to fetch optimized progress page data
+const fetchProgressPageData = async (): Promise<{
+  userStats: UserStats;
+  examProgress: ExamProgress[];
+  progressBySubject: ProgressData[];
+}> => {
+  const getApiBaseUrl = () => {
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+    const hostname = window.location.hostname
+    if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:8000/api'
+    return 'https://quiz-backend.onrender.com/api'
+  }
+
+  const token = localStorage.getItem('authToken')
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (token) headers['Authorization'] = `Bearer ${token}`
+
+  const response = await fetch(`${getApiBaseUrl()}/dashboard/progress_page/`, {
+    method: 'GET',
+    credentials: 'include',
+    headers,
+  })
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+
+  const data = await response.json()
+
+  // Transform the data - format relative times on the frontend
+  const examProgress: ExamProgress[] = (data.examProgress || []).map((exam: any) => ({
+    ...exam,
+    lastAccessed: exam.lastAccessed ? formatRelativeTimeStatic(exam.lastAccessed) : 'Unknown',
+  }))
+
+  return {
+    userStats: data.userStats,
+    examProgress,
+    progressBySubject: data.progressBySubject || [],
+  }
+}
+
+// Static formatRelativeTime helper
+const formatRelativeTimeStatic = (dateString: string): string => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins} minutes ago`
+  if (diffHours < 24) return `${diffHours} hours ago`
+  if (diffDays < 7) return `${diffDays} days ago`
+  return date.toLocaleDateString()
+}
+
 export default function Progress() {
   const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
@@ -23,48 +79,15 @@ export default function Progress() {
   const [examProgress, setExamProgress] = useState<ExamProgress[]>([])
   const [progressBySubject, setProgressBySubject] = useState<ProgressData[]>([])
 
+  // OPTIMIZED: Single API call instead of 3 separate calls
   useEffect(() => {
-    const fetchProgressData = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true)
-        const [stats, attempts, subjects] = await Promise.all([
-          dashboardApi.getUserStats(),
-          dashboardApi.getExamAttemptsWithDetails(),
-          dashboardApi.getProgressBySubject(),
-        ])
-
-        setUserStats(stats)
-        setProgressBySubject(subjects)
-
-        // Transform attempts into progress format
-        const progress: ExamProgress[] = attempts
-          .filter(a => a.status === 'completed' && a.exam)
-          .reduce((acc: ExamProgress[], attempt) => {
-            const exam = attempt.exam!
-            const existing = acc.find(p => p.id === exam.id)
-            if (existing) {
-              // Update with better score if exists
-              if (attempt.score && attempt.score > (existing.score || 0)) {
-                existing.score = attempt.score
-                existing.progress = attempt.score
-              }
-              return acc
-            }
-
-            acc.push({
-              id: exam.id,
-              title: exam.title,
-              progress: attempt.score || 0,
-              completed: attempt.score ? Math.round((attempt.score / 100) * exam.total_questions) : 0,
-              total: exam.total_questions,
-              subject: formatSubjectName(exam.subject),
-              lastAccessed: formatRelativeTime(attempt.started_at),
-              score: attempt.score,
-            })
-            return acc
-          }, [])
-
-        setExamProgress(progress)
+        const data = await fetchProgressPageData()
+        setUserStats(data.userStats)
+        setExamProgress(data.examProgress)
+        setProgressBySubject(data.progressBySubject)
       } catch (error) {
         console.error('Error fetching progress data:', error)
       } finally {
@@ -72,38 +95,8 @@ export default function Progress() {
       }
     }
 
-    fetchProgressData()
+    fetchData()
   }, [])
-
-  const formatSubjectName = (subject: string): string => {
-    const subjectNames: Record<string, string> = {
-      'land_law': 'Land Law',
-      'trusts': 'Trusts & Equity',
-      'property': 'Property Transactions',
-      'criminal': 'Criminal Law',
-      'commercial': 'Commercial Law',
-      'tax': 'Tax Law',
-      'professional': 'Professional Conduct',
-      'wills': 'Wills & Administration',
-      'mixed': 'Mixed',
-    }
-    return subjectNames[subject] || subject
-  }
-
-  const formatRelativeTime = (dateString: string): string => {
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffMs = now.getTime() - date.getTime()
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMins / 60)
-    const diffDays = Math.floor(diffHours / 24)
-
-    if (diffMins < 1) return 'Just now'
-    if (diffMins < 60) return `${diffMins} minutes ago`
-    if (diffHours < 24) return `${diffHours} hours ago`
-    if (diffDays < 7) return `${diffDays} days ago`
-    return date.toLocaleDateString()
-  }
 
   const formatTimeSpent = (minutes: number): string => {
     if (minutes < 60) return `${minutes}m`
@@ -173,7 +166,7 @@ export default function Progress() {
                 <p className="text-sm text-gray-600 mb-2">Study Streak</p>
                 <p className="text-3xl font-semibold text-gray-900 mb-3">{userStats?.currentStreak || 0} days</p>
                 <p className="text-xs text-gray-500">
-                  Last active: {userStats?.lastActiveDate ? formatRelativeTime(userStats.lastActiveDate) : 'Never'}
+                  Last active: {userStats?.lastActiveDate ? formatRelativeTimeStatic(userStats.lastActiveDate) : 'Never'}
                 </p>
               </div>
 

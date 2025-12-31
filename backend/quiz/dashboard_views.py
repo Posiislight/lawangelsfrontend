@@ -190,6 +190,136 @@ class DashboardViewSet(viewsets.ViewSet):
             'userStats': user_stats,
         })
 
+    @action(detail=False, methods=['get'])
+    def progress_page(self, request):
+        """
+        Get all data needed for the Progress page in ONE optimized call.
+        
+        Replaces 3 separate API calls with 1.
+        
+        Returns:
+        - userStats: Aggregated user statistics
+        - examProgress: List of completed exams with progress data
+        - progressBySubject: Progress grouped by subject
+        
+        Performance: 2 database queries total
+        """
+        user = request.user
+        
+        # Query 1: Get ALL exams
+        all_exams = {
+            e['id']: e 
+            for e in Exam.objects.filter(is_active=True).values(
+                'id', 'title', 'subject', 'total_questions'
+            )
+        }
+        
+        # Query 2: Get ALL user attempts with exam data
+        attempts = list(ExamAttempt.objects.filter(user=user).select_related('exam').values(
+            'id', 'exam_id', 'status', 'score', 'time_spent_seconds', 'started_at', 'ended_at'
+        ))
+        
+        # Calculate user stats from attempts (no additional queries)
+        completed_attempts = [a for a in attempts if a['status'] == 'completed']
+        scores = [a['score'] for a in completed_attempts if a['score'] is not None]
+        
+        average_score = round(sum(scores) / len(scores)) if scores else 0
+        passed_count = len([s for s in scores if s >= 70])
+        pass_rate = round((passed_count / len(scores)) * 100) if scores else 0
+        total_time_seconds = sum(a['time_spent_seconds'] or 0 for a in completed_attempts)
+        
+        # Calculate streak
+        dates = set()
+        for a in attempts:
+            if a['started_at']:
+                dates.add(a['started_at'].date())
+        
+        streak = 0
+        if dates:
+            today = timezone.now().date()
+            current = today if today in dates else today - timedelta(days=1)
+            while current in dates:
+                streak += 1
+                current -= timedelta(days=1)
+        
+        last_active = max([a['started_at'] for a in attempts if a['started_at']], default=None)
+        
+        user_stats = {
+            'totalExams': len(attempts),
+            'completedExams': len(completed_attempts),
+            'averageScore': average_score,
+            'totalTimeSpentMinutes': round(total_time_seconds / 60),
+            'currentStreak': streak,
+            'lastActiveDate': last_active.isoformat() if last_active else None,
+            'passRate': pass_rate,
+        }
+        
+        # Build exam progress (best score per exam)
+        exam_best_scores = {}
+        for a in completed_attempts:
+            if a['score'] is not None:
+                exam_id = a['exam_id']
+                if exam_id not in exam_best_scores or a['score'] > exam_best_scores[exam_id]['score']:
+                    exam_best_scores[exam_id] = a
+        
+        subject_names = {
+            'land_law': 'Land Law',
+            'trusts': 'Trusts & Equity',
+            'property': 'Property Transactions',
+            'criminal': 'Criminal Law',
+            'commercial': 'Commercial Law',
+            'tax': 'Tax Law',
+            'professional': 'Professional Conduct',
+            'wills': 'Wills & Administration',
+            'mixed': 'Mixed',
+        }
+        
+        exam_progress = []
+        for exam_id, attempt in exam_best_scores.items():
+            exam = all_exams.get(exam_id)
+            if exam:
+                subject = exam['subject']
+                exam_progress.append({
+                    'id': exam_id,
+                    'title': exam['title'],
+                    'progress': attempt['score'] or 0,
+                    'completed': round((attempt['score'] or 0) / 100 * exam['total_questions']),
+                    'total': exam['total_questions'],
+                    'subject': subject_names.get(subject, subject),
+                    'lastAccessed': attempt['started_at'].isoformat() if attempt['started_at'] else None,
+                    'score': attempt['score'],
+                })
+        
+        # Build progress by subject
+        subject_stats = {}
+        for a in completed_attempts:
+            if a['score'] is not None and a['exam_id'] in all_exams:
+                subject = all_exams[a['exam_id']]['subject']
+                if subject not in subject_stats:
+                    subject_stats[subject] = {'scores': [], 'count': 0}
+                subject_stats[subject]['scores'].append(a['score'])
+                subject_stats[subject]['count'] += 1
+        
+        progress_by_subject = []
+        for subject, stats in subject_stats.items():
+            avg_score = round(sum(stats['scores']) / len(stats['scores'])) if stats['scores'] else 0
+            correct = round(avg_score / 100 * stats['count'] * 10)  # Approximate
+            progress_by_subject.append({
+                'subject': subject_names.get(subject, subject),
+                'totalQuestions': stats['count'] * 10,  # Approximate
+                'answeredQuestions': stats['count'],
+                'correctAnswers': correct,
+                'incorrectAnswers': stats['count'] - correct,
+                'averageScore': avg_score,
+                'lastAttemptDate': None,
+            })
+        
+        return Response({
+            'userStats': user_stats,
+            'examProgress': exam_progress,
+            'progressBySubject': progress_by_subject,
+        })
+
     def _calculate_streak(self, attempts):
         """Calculate consecutive days with activity"""
         if not attempts:
