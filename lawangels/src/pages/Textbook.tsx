@@ -33,7 +33,7 @@ export default function Textbook() {
   const [textbooks, setTextbooks] = useState<TextbookListItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<TextbookCategory | 'ALL'>('ALL')
+  const [selectedCategory, setSelectedCategory] = useState<TextbookCategory | 'ALL'>('ALL' as TextbookCategory | 'ALL')
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function Textbook() {
   const filteredTextbooks = textbooks.filter(book => {
     const matchesCategory = selectedCategory === 'ALL' ||
       book.category === selectedCategory ||
-      (selectedCategory !== 'ALL' && book.category === 'BOTH')
+      book.category === 'BOTH'
     const matchesSearch = searchQuery === '' ||
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.subject.toLowerCase().includes(searchQuery.toLowerCase())

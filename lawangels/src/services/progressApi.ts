@@ -64,6 +64,7 @@ export interface LearningDistribution {
     name: string;
     value: number;
     color: string;
+    [key: string]: string | number; // Index signature for Recharts compatibility
 }
 
 export interface RecentActivity {

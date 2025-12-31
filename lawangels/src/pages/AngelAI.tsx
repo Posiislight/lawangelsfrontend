@@ -2,7 +2,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Bell, Send, Plus, MessageCircle, Loader2 } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
-import { angelAiApi, type Chat, type ChatMessage } from '../services/angelAiApi'
+import { angelAiApi, type Chat } from '../services/angelAiApi'
 
 export default function AngelAI() {
   const { user } = useAuth()

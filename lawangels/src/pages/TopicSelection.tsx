@@ -36,7 +36,7 @@ const TOPIC_COLORS: Record<string, { bg: string; border: string; text: string; i
 
 export default function TopicSelection() {
     const navigate = useNavigate()
-    const { user } = useAuth()
+    useAuth() // Call hook but don't destructure unused user
     const [topics, setTopics] = useState<TopicSummary[]>([])
     const [profile, setProfile] = useState<UserGameProfile | null>(null)
     const [loading, setLoading] = useState(true)
