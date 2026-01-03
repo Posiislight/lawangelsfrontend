@@ -5,6 +5,7 @@ from .models import (
 )
 from .topic_models import UserGameProfile, TopicQuizAttempt, TopicQuizAnswer
 from .textbook_models import Textbook
+from .video_models import VideoCourse, Video, VideoProgress, CourseProgress
 
 
 class QuestionOptionInline(admin.TabularInline):
@@ -214,4 +215,86 @@ class TextbookAdmin(admin.ModelAdmin):
     list_filter = ['category']
     search_fields = ['title', 'subject']
     ordering = ['category', 'order', 'title']
+
+
+# ========== Video Admin ==========
+
+class VideoInline(admin.TabularInline):
+    model = Video
+    extra = 0
+    fields = ['order', 'title', 'description', 'cloudflare_video_id', 'duration_seconds', 'is_active']
+    readonly_fields = []
+    ordering = ['order']
+
+
+@admin.register(VideoCourse)
+class VideoCourseAdmin(admin.ModelAdmin):
+    list_display = ['title', 'total_videos', 'total_duration_formatted', 'order', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title']
+    prepopulated_fields = {'slug': ('title',)}
+    inlines = [VideoInline]
+    readonly_fields = ['created_at', 'updated_at', 'total_videos', 'total_duration_formatted']
+    fieldsets = (
+        ('Course Details', {
+            'fields': ('title', 'slug')
+        }),
+        ('Display', {
+            'fields': ('thumbnail_url', 'order', 'is_active')
+        }),
+        ('Statistics', {
+            'fields': ('total_videos', 'total_duration_formatted'),
+            'classes': ('collapse',)
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ['title', 'course', 'order', 'duration_formatted', 'cloudflare_video_id', 'is_active']
+    list_filter = ['course', 'is_active', 'created_at']
+    search_fields = ['title', 'description', 'cloudflare_video_id']
+    readonly_fields = ['created_at', 'updated_at', 'duration_formatted']
+    list_editable = ['order', 'is_active']
+    ordering = ['course', 'order']
+    fieldsets = (
+        ('Video Details', {
+            'fields': ('course', 'title', 'description', 'order')
+        }),
+        ('Cloudflare Stream', {
+            'fields': ('cloudflare_video_id', 'duration_seconds', 'duration_formatted', 'thumbnail_url')
+        }),
+        ('Content', {
+            'fields': ('key_topics',),
+            'description': 'Enter key topics as a JSON array, e.g. ["Topic 1", "Topic 2"]'
+        }),
+        ('Status', {
+            'fields': ('is_active',)
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(VideoProgress)
+class VideoProgressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'video', 'progress_percentage', 'is_completed', 'last_watched_at']
+    list_filter = ['is_completed', 'video__course', 'last_watched_at']
+    search_fields = ['user__username', 'video__title']
+    readonly_fields = ['last_watched_at', 'completed_at', 'progress_percentage']
+
+
+@admin.register(CourseProgress)
+class CourseProgressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'course', 'videos_completed', 'progress_percentage', 'last_watched_at']
+    list_filter = ['course', 'last_watched_at']
+    search_fields = ['user__username', 'course__title']
+    readonly_fields = ['last_watched_at', 'progress_percentage']
+
 

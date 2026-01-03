@@ -7,6 +7,7 @@ from . import progress_views
 from . import dashboard_views
 from . import quizzes_page_views
 from . import ai_views
+from . import video_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -33,6 +34,11 @@ router.register(r'quizzes-page', quizzes_page_views.QuizzesPageViewSet, basename
 
 # Angel AI router
 router.register(r'ai', ai_views.AngelAIViewSet, basename='ai')
+
+# Video router
+router.register(r'video-courses', video_views.VideoCourseViewSet, basename='video-course')
+router.register(r'videos', video_views.VideoViewSet, basename='video')
+router.register(r'video-progress', video_views.VideoProgressViewSet, basename='video-progress')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)

@@ -23,6 +23,7 @@ import Progress from './pages/Progress'
 import Practice from './pages/Practice'
 import Textbook from './pages/Textbook'
 import VideoTutorials from './pages/VideoTutorials'
+import VideoWatch from './pages/VideoWatch'
 import Flashcards from './pages/Flashcards'
 import Quizzes from './pages/Quizzes'
 import MockQuestions from './pages/MockQuestions'
@@ -113,6 +114,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <VideoTutorials />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Video Watch - Protected */}
+          <Route
+            path="/video-tutorials/watch/:videoId"
+            element={
+              <ProtectedRoute>
+                <VideoWatch />
               </ProtectedRoute>
             }
           />
