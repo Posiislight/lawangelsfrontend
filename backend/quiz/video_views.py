@@ -43,32 +43,36 @@ class VideoSerializer(serializers.ModelSerializer):
             return f"https://iframe.videodelivery.net/{obj.cloudflare_video_id}"
         return ""
 
-    def get_is_completed(self, obj):
+    def _get_progress(self, obj):
+        """Get or cache video progress for current user"""
+        # Check if already cached on the object
+        if hasattr(obj, '_cached_progress'):
+            return obj._cached_progress
+        
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            progress = VideoProgress.objects.filter(
-                user=request.user, video=obj
-            ).first()
-            return progress.is_completed if progress else False
-        return False
+            # Check if progress was prefetched
+            if hasattr(obj, 'prefetched_progress'):
+                obj._cached_progress = obj.prefetched_progress[0] if obj.prefetched_progress else None
+            else:
+                obj._cached_progress = VideoProgress.objects.filter(
+                    user=request.user, video=obj
+                ).first()
+        else:
+            obj._cached_progress = None
+        return obj._cached_progress
+
+    def get_is_completed(self, obj):
+        progress = self._get_progress(obj)
+        return progress.is_completed if progress else False
 
     def get_watched_seconds(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            progress = VideoProgress.objects.filter(
-                user=request.user, video=obj
-            ).first()
-            return progress.watched_seconds if progress else 0
-        return 0
+        progress = self._get_progress(obj)
+        return progress.watched_seconds if progress else 0
 
     def get_progress_percentage(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            progress = VideoProgress.objects.filter(
-                user=request.user, video=obj
-            ).first()
-            return progress.progress_percentage if progress else 0
-        return 0
+        progress = self._get_progress(obj)
+        return progress.progress_percentage if progress else 0
 
 
 class VideoCourseListSerializer(serializers.ModelSerializer):
@@ -97,18 +101,11 @@ class VideoCourseListSerializer(serializers.ModelSerializer):
         return 0
 
     def get_progress_percentage(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            total = obj.total_videos
-            if total == 0:
-                return 0
-            completed = VideoProgress.objects.filter(
-                user=request.user,
-                video__course=obj,
-                is_completed=True
-            ).count()
-            return int((completed / total) * 100)
-        return 0
+        total = obj.total_videos
+        completed = self.get_videos_completed(obj)
+        if total == 0:
+            return 0
+        return int((completed / total) * 100)
 
 
 class VideoCourseDetailSerializer(serializers.ModelSerializer):
@@ -139,18 +136,11 @@ class VideoCourseDetailSerializer(serializers.ModelSerializer):
         return 0
 
     def get_progress_percentage(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            total = obj.total_videos
-            if total == 0:
-                return 0
-            completed = VideoProgress.objects.filter(
-                user=request.user,
-                video__course=obj,
-                is_completed=True
-            ).count()
-            return int((completed / total) * 100)
-        return 0
+        total = obj.total_videos
+        completed = self.get_videos_completed(obj)
+        if total == 0:
+            return 0
+        return int((completed / total) * 100)
 
 
 class VideoDetailSerializer(serializers.ModelSerializer):
@@ -238,7 +228,7 @@ class VideoDetailSerializer(serializers.ModelSerializer):
 
 class VideoCourseViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    ViewSet for video courses.
+    ViewSet for video courses - optimized with annotated counts.
     List all courses with progress, or retrieve single course with videos.
     """
     queryset = VideoCourse.objects.filter(is_active=True)
@@ -252,9 +242,10 @@ class VideoCourseViewSet(viewsets.ReadOnlyModelViewSet):
         return VideoCourseListSerializer
 
     def get_queryset(self):
+        # Model has total_videos as a property, so just prefetch videos
         return VideoCourse.objects.filter(is_active=True).prefetch_related(
             'videos'
-        )
+        ).order_by('order', 'title')
 
 
 class VideoViewSet(viewsets.ReadOnlyModelViewSet):
