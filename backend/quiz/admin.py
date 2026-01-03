@@ -6,6 +6,7 @@ from .models import (
 from .topic_models import UserGameProfile, TopicQuizAttempt, TopicQuizAnswer
 from .textbook_models import Textbook
 from .video_models import VideoCourse, Video, VideoProgress, CourseProgress
+from .chat_models import ChatConversation, ChatMessage
 
 
 class QuestionOptionInline(admin.TabularInline):
@@ -298,3 +299,31 @@ class CourseProgressAdmin(admin.ModelAdmin):
     readonly_fields = ['last_watched_at', 'progress_percentage']
 
 
+# ========== Chat Admin ==========
+
+class ChatMessageInline(admin.TabularInline):
+    model = ChatMessage
+    extra = 0
+    fields = ['role', 'content', 'timestamp']
+    readonly_fields = ['timestamp']
+
+
+@admin.register(ChatConversation)
+class ChatConversationAdmin(admin.ModelAdmin):
+    list_display = ['user', 'title', 'created_at', 'updated_at']
+    list_filter = ['created_at']
+    search_fields = ['user__username', 'title']
+    readonly_fields = ['created_at', 'updated_at']
+    inlines = [ChatMessageInline]
+
+
+@admin.register(ChatMessage)
+class ChatMessageAdmin(admin.ModelAdmin):
+    list_display = ['conversation', 'role', 'content_preview', 'timestamp']
+    list_filter = ['role', 'timestamp']
+    search_fields = ['conversation__title', 'content']
+    readonly_fields = ['timestamp']
+
+    def content_preview(self, obj):
+        return obj.content[:50] + '...' if len(obj.content) > 50 else obj.content
+    content_preview.short_description = 'Content'

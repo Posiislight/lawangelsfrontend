@@ -63,6 +63,10 @@ urlpatterns = [
     # Angel AI streaming endpoint
     path('ai/stream/', ai_views.AngelAIViewSet.as_view({'post': 'stream'}), name='ai-stream'),
     path('ai/chat/', ai_views.AngelAIViewSet.as_view({'post': 'chat'}), name='ai-chat'),
+    # Angel AI conversation endpoints
+    path('ai/conversations/', ai_views.AngelAIViewSet.as_view({'get': 'conversations', 'post': 'conversations'}), name='ai-conversations'),
+    path('ai/conversations/<int:conversation_id>/', ai_views.AngelAIViewSet.as_view({'get': 'conversation_detail', 'delete': 'conversation_detail'}), name='ai-conversation-detail'),
+    path('ai/conversations/<int:conversation_id>/message/', ai_views.AngelAIViewSet.as_view({'post': 'add_message'}), name='ai-conversation-message'),
     
     # Router must come AFTER custom routes
     path('', include(router.urls)),

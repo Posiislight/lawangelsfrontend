@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { Bell, Send, Plus, Loader2, Bot } from 'lucide-react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import { angelAiApi, type Chat } from '../services/angelAiApi'
 
@@ -12,60 +12,131 @@ export default function AngelAI() {
   const [isLoading, setIsLoading] = useState(false)
   const [streamingContent, setStreamingContent] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [isLoadingChats, setIsLoadingChats] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  // Load conversations from backend on mount
+  useEffect(() => {
+    const loadConversations = async () => {
+      try {
+        setIsLoadingChats(true)
+        const conversations = await angelAiApi.getConversations()
+        setChats(conversations)
+      } catch (err) {
+        console.error('Failed to load conversations:', err)
+        setError('Failed to load chat history')
+      } finally {
+        setIsLoadingChats(false)
+      }
+    }
+    loadConversations()
+  }, [])
 
+  // Load messages when selecting a chat
+  const selectChat = useCallback(async (index: number) => {
+    const chat = chats[index]
+    if (!chat) return
+
+    setCurrentChatIndex(index)
+    setError(null)
+
+    // If messages aren't loaded yet, fetch them
+    if (chat.messages.length === 0) {
+      try {
+        const fullChat = await angelAiApi.getConversation(chat.id)
+        setChats(prev => {
+          const updated = [...prev]
+          updated[index] = fullChat
+          return updated
+        })
+      } catch (err) {
+        console.error('Failed to load chat messages:', err)
+        setError('Failed to load messages')
+      }
+    }
+  }, [chats])
 
   // Scroll to bottom when messages change or streaming content updates
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chats, currentChatIndex, streamingContent])
 
-  const createNewChat = () => {
-    const newChat = angelAiApi.createNewChat()
-    setChats(prev => [newChat, ...prev])
-    setCurrentChatIndex(0)
-    setError(null)
+  const createNewChat = async () => {
+    try {
+      // Create in backend first
+      const { id, title } = await angelAiApi.createConversation('New Chat')
+      const newChat: Chat = {
+        id,
+        title,
+        date: 'Today',
+        messages: []
+      }
+      setChats(prev => [newChat, ...prev])
+      setCurrentChatIndex(0)
+      setError(null)
+    } catch (err) {
+      console.error('Failed to create chat:', err)
+      setError('Failed to create new chat')
+    }
   }
 
   const sendMessage = async (messageText?: string) => {
     const message = messageText || messageInput.trim()
     if (!message || isLoading) return
 
-    // If no chat exists, create one
+    // If no chat exists, create one first
     if (currentChatIndex === null) {
-      const newChat = angelAiApi.createNewChat(angelAiApi.generateChatTitle(message))
-      setChats([newChat])
-      setCurrentChatIndex(0)
-
-      // Continue with the new chat
-      setTimeout(() => sendMessageToChat(message, 0), 0)
+      try {
+        const { id, title } = await angelAiApi.createConversation('New Chat')
+        const newChat: Chat = {
+          id,
+          title,
+          date: 'Today',
+          messages: []
+        }
+        setChats([newChat])
+        setCurrentChatIndex(0)
+        // Continue with the new chat
+        setTimeout(() => sendMessageToChat(message, 0, id), 0)
+      } catch (err) {
+        console.error('Failed to create chat:', err)
+        setError('Failed to create chat')
+        return
+      }
     } else {
-      sendMessageToChat(message, currentChatIndex)
+      sendMessageToChat(message, currentChatIndex, chats[currentChatIndex].id)
     }
 
     setMessageInput('')
   }
 
-  const sendMessageToChat = async (message: string, chatIndex: number) => {
+  const sendMessageToChat = async (message: string, chatIndex: number, chatId: string) => {
     setIsLoading(true)
     setError(null)
     setStreamingContent('')
 
-    // Add user message immediately
+    // Add user message immediately to UI
     const userMessage = angelAiApi.createUserMessage(message)
     setChats(prev => {
       const updated = [...prev]
-      if (!updated[chatIndex].messages.length) {
-        // Update title for new chat
-        updated[chatIndex].title = angelAiApi.generateChatTitle(message)
-      }
       updated[chatIndex].messages = [...updated[chatIndex].messages, userMessage]
       return updated
     })
 
     try {
-      // Get current conversation history (before adding the new user message)
+      // Save user message to backend
+      const { conversationTitle } = await angelAiApi.addMessage(chatId, 'user', message)
+
+      // Update title if it changed
+      if (conversationTitle !== chats[chatIndex].title) {
+        setChats(prev => {
+          const updated = [...prev]
+          updated[chatIndex].title = conversationTitle
+          return updated
+        })
+      }
+
+      // Get current conversation history
       const currentMessages = chats[chatIndex]?.messages || []
 
       // Use streaming API
@@ -82,7 +153,7 @@ export default function AngelAI() {
         }
 
         if (chunk.done) {
-          // Streaming complete - add the full message
+          // Streaming complete - add the full message to UI
           const aiMessage = angelAiApi.createAIMessage(fullResponse)
           setChats(prev => {
             const updated = [...prev]
@@ -90,6 +161,9 @@ export default function AngelAI() {
             return updated
           })
           setStreamingContent('')
+
+          // Save AI response to backend
+          await angelAiApi.addMessage(chatId, 'ai', fullResponse)
         }
       }
     } catch (err) {
@@ -100,8 +174,6 @@ export default function AngelAI() {
       setIsLoading(false)
     }
   }
-
-
 
   const currentChat = currentChatIndex !== null ? chats[currentChatIndex] : null
 
@@ -158,7 +230,12 @@ export default function AngelAI() {
           </div>
 
           <div className="flex-1 overflow-y-auto">
-            {chats.length === 0 ? (
+            {isLoadingChats ? (
+              <div className="p-4 text-center text-gray-500 text-sm flex items-center justify-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Loading chats...
+              </div>
+            ) : chats.length === 0 ? (
               <div className="p-4 text-center text-gray-500 text-sm">
                 No conversations yet. Start a new chat!
               </div>
@@ -166,7 +243,7 @@ export default function AngelAI() {
               chats.map((chat, idx) => (
                 <button
                   key={chat.id}
-                  onClick={() => setCurrentChatIndex(idx)}
+                  onClick={() => selectChat(idx)}
                   className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors ${currentChatIndex === idx ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
                     }`}
                 >

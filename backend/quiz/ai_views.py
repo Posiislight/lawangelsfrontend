@@ -15,7 +15,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.http import StreamingHttpResponse
 from django.conf import settings
 
+
 from .textbook_models import Textbook
+from .chat_models import ChatConversation, ChatMessage
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +92,11 @@ class AngelAIViewSet(viewsets.ViewSet):
     Endpoints:
     - POST /ai/chat/ - Send a message and get AI response (non-streaming)
     - POST /ai/stream/ - Send a message and get streaming AI response
+    - GET /ai/conversations/ - List user's chat conversations
+    - POST /ai/conversations/ - Create a new conversation
+    - GET /ai/conversations/{id}/ - Get conversation with messages
+    - DELETE /ai/conversations/{id}/ - Delete a conversation
+    - POST /ai/conversations/{id}/message/ - Add a message to conversation
     """
     permission_classes = [IsAuthenticated]
     
@@ -246,3 +253,128 @@ class AngelAIViewSet(viewsets.ViewSet):
                 {'error': f'AI service error: {str(e)}', 'success': False},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+    # ============ Conversation CRUD Methods ============
+
+    @action(detail=False, methods=['get', 'post'])
+    def conversations(self, request):
+        """
+        GET: List user's chat conversations
+        POST: Create a new conversation
+        """
+        if request.method == 'GET':
+            conversations = ChatConversation.objects.filter(user=request.user)
+            data = [{
+                'id': conv.id,
+                'title': conv.title,
+                'created_at': conv.created_at.isoformat(),
+                'updated_at': conv.updated_at.isoformat(),
+                'message_count': conv.messages.count()
+            } for conv in conversations]
+            return Response({'conversations': data, 'success': True})
+        
+        elif request.method == 'POST':
+            title = request.data.get('title', 'New Chat')
+            conversation = ChatConversation.objects.create(
+                user=request.user,
+                title=title
+            )
+            return Response({
+                'id': conversation.id,
+                'title': conversation.title,
+                'created_at': conversation.created_at.isoformat(),
+                'success': True
+            }, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['get', 'delete'], url_path='conversations/(?P<conversation_id>[^/.]+)')
+    def conversation_detail(self, request, conversation_id=None):
+        """
+        GET: Get a single conversation with all messages
+        DELETE: Delete a conversation
+        """
+        try:
+            conversation = ChatConversation.objects.get(
+                id=conversation_id,
+                user=request.user
+            )
+        except ChatConversation.DoesNotExist:
+            return Response(
+                {'error': 'Conversation not found', 'success': False},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.method == 'GET':
+            messages = [{
+                'role': msg.role,
+                'content': msg.content,
+                'timestamp': msg.timestamp.strftime('%I:%M %p')
+            } for msg in conversation.messages.all()]
+            
+            return Response({
+                'id': conversation.id,
+                'title': conversation.title,
+                'created_at': conversation.created_at.isoformat(),
+                'updated_at': conversation.updated_at.isoformat(),
+                'messages': messages,
+                'success': True
+            })
+        
+        elif request.method == 'DELETE':
+            conversation.delete()
+            return Response({'success': True}, status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['post'], url_path='conversations/(?P<conversation_id>[^/.]+)/message')
+    def add_message(self, request, conversation_id=None):
+        """Add a message to an existing conversation."""
+        try:
+            conversation = ChatConversation.objects.get(
+                id=conversation_id,
+                user=request.user
+            )
+        except ChatConversation.DoesNotExist:
+            return Response(
+                {'error': 'Conversation not found', 'success': False},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        role = request.data.get('role')
+        content = request.data.get('content')
+
+        if not role or not content:
+            return Response(
+                {'error': 'role and content are required', 'success': False},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if role not in ['user', 'ai']:
+            return Response(
+                {'error': 'role must be "user" or "ai"', 'success': False},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        message = ChatMessage.objects.create(
+            conversation=conversation,
+            role=role,
+            content=content
+        )
+
+        # Update conversation title based on first user message if it's still "New Chat"
+        if conversation.title == 'New Chat' and role == 'user':
+            # Generate title from first message
+            title = content[:40].strip()
+            if len(content) > 40:
+                title = title + '...'
+            conversation.title = title
+            conversation.save()
+
+        # Update the conversation's updated_at timestamp
+        conversation.save()
+
+        return Response({
+            'id': message.id,
+            'role': message.role,
+            'content': message.content,
+            'timestamp': message.timestamp.strftime('%I:%M %p'),
+            'conversation_title': conversation.title,
+            'success': True
+        }, status=status.HTTP_201_CREATED)

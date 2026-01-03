@@ -212,6 +212,111 @@ class AngelAIApiClient {
         }
     }
 
+    // ============ Conversation Persistence API ============
+
+    /**
+     * Get all conversations for the current user.
+     */
+    async getConversations(): Promise<Chat[]> {
+        const response = await fetch(`${this.baseUrl}/ai/conversations/`, {
+            method: 'GET',
+            headers: this.getHeaders(),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.conversations.map((conv: { id: number; title: string; updated_at: string }) => ({
+            id: String(conv.id),
+            title: conv.title,
+            date: formatDate(new Date(conv.updated_at)),
+            messages: []
+        }));
+    }
+
+    /**
+     * Create a new conversation in the backend.
+     */
+    async createConversation(title: string = 'New Chat'): Promise<{ id: string; title: string }> {
+        const response = await fetch(`${this.baseUrl}/ai/conversations/`, {
+            method: 'POST',
+            headers: this.getHeaders(),
+            credentials: 'include',
+            body: JSON.stringify({ title }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        return { id: String(data.id), title: data.title };
+    }
+
+    /**
+     * Get a specific conversation with all its messages.
+     */
+    async getConversation(conversationId: string): Promise<Chat> {
+        const response = await fetch(`${this.baseUrl}/ai/conversations/${conversationId}/`, {
+            method: 'GET',
+            headers: this.getHeaders(),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        return {
+            id: String(data.id),
+            title: data.title,
+            date: formatDate(new Date(data.updated_at)),
+            messages: data.messages.map((msg: { role: 'user' | 'ai'; content: string; timestamp: string }) => ({
+                role: msg.role,
+                content: msg.content,
+                timestamp: msg.timestamp
+            }))
+        };
+    }
+
+    /**
+     * Delete a conversation.
+     */
+    async deleteConversation(conversationId: string): Promise<void> {
+        const response = await fetch(`${this.baseUrl}/ai/conversations/${conversationId}/`, {
+            method: 'DELETE',
+            headers: this.getHeaders(),
+            credentials: 'include',
+        });
+
+        if (!response.ok && response.status !== 204) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+    }
+
+    /**
+     * Add a message to an existing conversation.
+     */
+    async addMessage(conversationId: string, role: 'user' | 'ai', content: string): Promise<{ timestamp: string; conversationTitle: string }> {
+        const response = await fetch(`${this.baseUrl}/ai/conversations/${conversationId}/message/`, {
+            method: 'POST',
+            headers: this.getHeaders(),
+            credentials: 'include',
+            body: JSON.stringify({ role, content }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        return { timestamp: data.timestamp, conversationTitle: data.conversation_title };
+    }
+
     // ============ Chat Management Helpers ============
 
     /**
@@ -262,3 +367,4 @@ class AngelAIApiClient {
 // Export singleton instance
 export const angelAiApi = new AngelAIApiClient();
 export default angelAiApi;
+
