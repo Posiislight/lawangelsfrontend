@@ -8,6 +8,7 @@ from . import dashboard_views
 from . import quizzes_page_views
 from . import ai_views
 from . import video_views
+from . import my_courses_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -39,6 +40,9 @@ router.register(r'ai', ai_views.AngelAIViewSet, basename='ai')
 router.register(r'video-courses', video_views.VideoCourseViewSet, basename='video-course')
 router.register(r'videos', video_views.VideoViewSet, basename='video')
 router.register(r'video-progress', video_views.VideoProgressViewSet, basename='video-progress')
+
+# My Courses unified router
+router.register(r'my-courses', my_courses_views.MyCoursesViewSet, basename='my-courses')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)

@@ -6,13 +6,13 @@ export default function Practice() {
   const navigate = useNavigate()
 
   const handleStartMockTest = () => {
-    // Navigate to topic selection for mock test
-    navigate('/practice/mock-test')
+    // Navigate to mock questions page
+    navigate('/mock-questions')
   }
 
   const handleStartQuiz = () => {
-    // Navigate to topic selection for quiz
-    navigate('/practice/quiz')
+    // Navigate to quizzes page
+    navigate('/quizzes')
   }
 
   return (

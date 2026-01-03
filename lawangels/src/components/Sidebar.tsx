@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { BookOpen, Clock, Home, BarChart3, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb } from 'lucide-react'
+import { BookOpen, Clock, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
@@ -44,9 +44,6 @@ export default function Sidebar() {
           </Link>
           <Link to="/my-courses" className="block">
             <NavItem icon={<BookOpen className="w-5 h-5" />} label="My Courses" active={isActive('/my-courses')} open={sidebarOpen} />
-          </Link>
-          <Link to="/progress" className="block">
-            <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Progress" active={isActive('/progress')} open={sidebarOpen} />
           </Link>
           <Link to="/practice" className="block">
             <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Practice" active={isActive('/practice')} open={sidebarOpen} />

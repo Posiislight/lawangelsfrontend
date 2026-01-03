@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, Send, Plus, MessageCircle, Loader2 } from 'lucide-react'
+import { Bell, Send, Plus, Loader2, Bot } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import { angelAiApi, type Chat } from '../services/angelAiApi'
@@ -14,23 +14,7 @@ export default function AngelAI() {
   const [error, setError] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const suggestedQuestions = [
-    'What is mens rea in criminal law?',
-    'Explain breach of contract and remedies',
-    'What are the requirements for a valid will?',
-    'How does negligence liability work?',
-    'What is judicial review?',
-    'Explain adverse possession in property law'
-  ]
 
-  const recentTopics = [
-    { title: 'Consideration in Contracts', subject: 'Contract Law', level: 'Core Concept' },
-    { title: 'Statutory Interpretation', subject: 'Constitutional Law', level: 'Advanced' },
-    { title: 'Damages and Remedies', subject: 'Contract Law', level: 'Intermediate' },
-    { title: 'Trusts and Beneficiaries', subject: 'Equity & Trusts', level: 'Core Concept' },
-    { title: 'Negligence Duty of Care', subject: 'Tort Law', level: 'Intermediate' },
-    { title: 'Criminal Liability Defences', subject: 'Criminal Law', level: 'Advanced' }
-  ]
 
   // Scroll to bottom when messages change or streaming content updates
   useEffect(() => {
@@ -117,10 +101,7 @@ export default function AngelAI() {
     }
   }
 
-  const handleSuggestedQuestion = (question: string) => {
-    setMessageInput(question)
-    sendMessage(question)
-  }
+
 
   const currentChat = currentChatIndex !== null ? chats[currentChatIndex] : null
 
@@ -130,8 +111,9 @@ export default function AngelAI() {
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
         <div className="flex items-center justify-between gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900">
-              🤖 Angel AI
+            <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
+              <Bot className="w-7 h-7 text-blue-500" />
+              Angel AI
             </h1>
             <p className="text-gray-600">Your personal law tutor powered by Law Angels textbooks</p>
           </div>
@@ -162,7 +144,7 @@ export default function AngelAI() {
       </div>
 
       {/* Page Content */}
-      <div className="flex-1 overflow-hidden flex gap-6 p-8">
+      <div className="flex-1 overflow-hidden flex gap-6 p-8 h-[calc(100vh-120px)]">
         {/* Chat List Sidebar */}
         <div className="w-80 bg-white rounded-lg border border-gray-200 flex flex-col">
           <div className="p-4 border-b border-gray-200">
@@ -197,7 +179,7 @@ export default function AngelAI() {
         </div>
 
         {/* Chat Area */}
-        <div className="flex-1 bg-white rounded-lg border border-gray-200 flex flex-col">
+        <div className="flex-1 bg-white rounded-lg border border-gray-200 flex flex-col min-h-0">
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {currentChat ? (
@@ -245,13 +227,10 @@ export default function AngelAI() {
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-gray-500">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-4xl">🤖</span>
+                  <Bot className="w-10 h-10 text-white" />
                 </div>
-                <p className="text-lg font-medium mb-2">Hi! I'm Angel AI</p>
-                <p className="text-sm text-center max-w-md">
-                  Your personal law tutor. I'm trained on the Law Angels textbook library to help you prepare for the SQE.
-                  Ask me anything about legal concepts!
-                </p>
+                <p className="text-lg font-medium mb-2">Hi! I'm Angel AI , I'm here to help!</p>
+
               </div>
             )}
           </div>
@@ -286,44 +265,7 @@ export default function AngelAI() {
           </div>
         </div>
 
-        {/* Right Sidebar */}
-        <div className="w-80 space-y-4 overflow-y-auto">
-          {/* Suggested Questions */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <MessageCircle className="w-5 h-5 text-blue-500" />
-              Suggested Questions
-            </h3>
-            <div className="space-y-2">
-              {suggestedQuestions.map((q, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleSuggestedQuestion(q)}
-                  disabled={isLoading}
-                  className="w-full text-left text-sm p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors text-gray-700 hover:text-blue-600 border border-gray-100 hover:border-blue-300 disabled:opacity-50"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          {/* Recent Topics */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="font-semibold text-gray-900 mb-4">Recently Asked</h3>
-            <div className="space-y-2">
-              {recentTopics.map((topic, idx) => (
-                <div key={idx} className="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors cursor-pointer">
-                  <p className="text-sm font-semibold text-gray-900">{topic.title}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-gray-600">{topic.subject}</span>
-                    <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded">{topic.level}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     </DashboardLayout>
   )
