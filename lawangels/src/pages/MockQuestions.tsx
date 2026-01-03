@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, ArrowRight, Target, CheckCircle, TrendingUp, Clock, Loader2 } from 'lucide-react'
+import { Bell, ArrowRight, Target, CheckCircle, TrendingUp, Clock, Loader2, ClipboardList } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import MockTestStart from '../components/MockTestStart'
@@ -197,8 +197,9 @@ export default function MockQuestions() {
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
         <div className="flex items-center justify-between gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900">
-              📋 Mock Questions
+            <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
+              <ClipboardList className="w-6 h-6 text-blue-600" />
+              Mock Questions
             </h1>
             <p className="text-gray-600">Full-length mock exams simulating the real SQE experience</p>
           </div>

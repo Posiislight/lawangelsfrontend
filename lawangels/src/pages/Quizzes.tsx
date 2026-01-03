@@ -2,7 +2,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import {
   Bell, ChevronRight, Loader2, Zap, Trophy, Target, Flame,
-  BookOpen, Scale, Building2, FileText, Users, Star
+  BookOpen, Scale, Building2, FileText, Users, Star, Gamepad2
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
@@ -136,8 +136,9 @@ export default function Quizzes() {
         <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
           <div className="flex items-center justify-between gap-8">
             <div>
-              <h1 className="text-2xl font-normal text-gray-900">
-                🎮 Topic Quizzes
+              <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
+                <Gamepad2 className="w-6 h-6 text-cyan-500" />
+                Topic Quizzes
               </h1>
               <p className="text-gray-600">Gamified learning - earn points and level up!</p>
             </div>
