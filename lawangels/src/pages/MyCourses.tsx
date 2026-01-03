@@ -157,7 +157,10 @@ export default function MyCourses() {
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
         <div className="flex items-center justify-between gap-8">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">📚 My Courses</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
+              <BookOpen className="w-6 h-6 text-blue-600" />
+              My Courses
+            </h1>
             <p className="text-gray-600 text-sm mt-1">Track your learning progress across all content</p>
           </div>
 

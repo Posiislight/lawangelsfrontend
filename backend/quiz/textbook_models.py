@@ -34,3 +34,38 @@ class Textbook(models.Model):
         import os
         from django.conf import settings
         return os.path.join(settings.BASE_DIR, 'textbooks', self.file_name)
+
+
+class TextbookProgress(models.Model):
+    """Tracks user's reading progress on a textbook."""
+    from django.contrib.auth.models import User
+    
+    user = models.ForeignKey(
+        'auth.User',
+        on_delete=models.CASCADE,
+        related_name='textbook_progress'
+    )
+    textbook = models.ForeignKey(
+        Textbook,
+        on_delete=models.CASCADE,
+        related_name='user_progress'
+    )
+    current_page = models.IntegerField(default=1)
+    total_pages = models.IntegerField(default=1)
+    time_spent_seconds = models.IntegerField(default=0)
+    last_read_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ['user', 'textbook']
+        verbose_name = "Textbook Progress"
+        verbose_name_plural = "Textbook Progress"
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.textbook.title} (Page {self.current_page})"
+    
+    @property
+    def progress_percentage(self):
+        if self.total_pages <= 0:
+            return 0
+        return round((self.current_page / self.total_pages) * 100)

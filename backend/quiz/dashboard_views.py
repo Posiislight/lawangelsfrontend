@@ -81,8 +81,41 @@ class DashboardViewSet(viewsets.ViewSet):
         # Calculate streak
         streak = self._calculate_streak(attempts)
         
-        # Get last active date
-        last_active = attempts[0].started_at if attempts else None
+        # Get last active date from ALL sources
+        activity_dates = []
+        
+        # Exam attempts
+        if attempts:
+            activity_dates.append(attempts[0].started_at)
+        
+        # Topic quizzes
+        try:
+            from .topic_models import TopicQuizAttempt
+            last_quiz = TopicQuizAttempt.objects.filter(user=user).order_by('-started_at').first()
+            if last_quiz:
+                activity_dates.append(last_quiz.started_at)
+        except Exception:
+            pass
+        
+        # Video progress
+        try:
+            from .video_models import VideoProgress
+            last_video = VideoProgress.objects.filter(user=user).order_by('-updated_at').first()
+            if last_video:
+                activity_dates.append(last_video.updated_at)
+        except Exception:
+            pass
+        
+        # Textbook progress
+        try:
+            from .textbook_models import TextbookProgress
+            last_textbook = TextbookProgress.objects.filter(user=user).order_by('-last_read_at').first()
+            if last_textbook:
+                activity_dates.append(last_textbook.last_read_at)
+        except Exception:
+            pass
+        
+        last_active = max(activity_dates) if activity_dates else None
         
         # Build response
         user_stats = {
@@ -444,13 +477,60 @@ class DashboardViewSet(viewsets.ViewSet):
         })
 
     def _calculate_streak(self, attempts):
-        """Calculate consecutive days with activity"""
-        if not attempts:
-            return 0
-        
+        """
+        Calculate consecutive days with ANY study activity.
+        Includes: exam attempts, topic quizzes, video watching.
+        """
         dates = set()
+        
+        # 1. Exam attempt dates
         for attempt in attempts:
             dates.add(attempt.started_at.date())
+        
+        # 2. Topic quiz dates
+        try:
+            from .topic_models import TopicQuizAttempt
+            user = attempts[0].user if attempts else None
+            if user:
+                quiz_dates = TopicQuizAttempt.objects.filter(
+                    user=user
+                ).values_list('started_at', flat=True)
+                for dt in quiz_dates:
+                    if dt:
+                        dates.add(dt.date())
+        except Exception as e:
+            logger.warning(f"Error getting quiz dates for streak: {e}")
+        
+        # 3. Video watch dates
+        try:
+            from .video_models import VideoProgress
+            user = attempts[0].user if attempts else None
+            if user:
+                video_dates = VideoProgress.objects.filter(
+                    user=user
+                ).values_list('updated_at', flat=True)
+                for dt in video_dates:
+                    if dt:
+                        dates.add(dt.date())
+        except Exception as e:
+            logger.warning(f"Error getting video dates for streak: {e}")
+        
+        # 4. Textbook reading dates
+        try:
+            from .textbook_models import TextbookProgress
+            user = attempts[0].user if attempts else None
+            if user:
+                textbook_dates = TextbookProgress.objects.filter(
+                    user=user
+                ).values_list('last_read_at', flat=True)
+                for dt in textbook_dates:
+                    if dt:
+                        dates.add(dt.date())
+        except Exception as e:
+            logger.warning(f"Error getting textbook dates for streak: {e}")
+        
+        if not dates:
+            return 0
         
         today = timezone.now().date()
         streak = 0

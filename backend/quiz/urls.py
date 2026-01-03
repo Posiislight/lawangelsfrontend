@@ -9,6 +9,7 @@ from . import quizzes_page_views
 from . import ai_views
 from . import video_views
 from . import my_courses_views
+from . import search_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -43,6 +44,9 @@ router.register(r'video-progress', video_views.VideoProgressViewSet, basename='v
 
 # My Courses unified router
 router.register(r'my-courses', my_courses_views.MyCoursesViewSet, basename='my-courses')
+
+# Search router
+router.register(r'search', search_views.SearchViewSet, basename='search')
 
 urlpatterns = [
     # Custom route for start endpoint (must come BEFORE router.urls for proper precedence)
