@@ -239,6 +239,17 @@ class VideoApiClient {
 
     // ============ Stats ============
 
+    /**
+     * OPTIMIZED: Get all data for VideoTutorials page in ONE call
+     * Much faster than calling getCourses() + getOverallStats() separately
+     */
+    async getPageData(): Promise<{ courses: VideoCourse[]; stats: OverallVideoStats }> {
+        const response = await this.request<{ courses: VideoCourse[]; stats: OverallVideoStats }>('/video-progress/page_data/');
+        // Update cache with the courses
+        coursesCache = { data: response.courses, timestamp: Date.now() };
+        return response;
+    }
+
     async getOverallStats(): Promise<OverallVideoStats> {
         return this.request<OverallVideoStats>('/video-progress/');
     }

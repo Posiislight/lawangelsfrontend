@@ -31,12 +31,10 @@ export default function VideoTutorials() {
       setError(null)
 
       try {
-        const [coursesData, statsData] = await Promise.all([
-          videoApi.getCourses(),
-          videoApi.getOverallStats()
-        ])
-        setCourses(coursesData)
-        setStats(statsData)
+        // OPTIMIZED: Single API call for all data (much faster!)
+        const pageData = await videoApi.getPageData()
+        setCourses(pageData.courses)
+        setStats(pageData.stats)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load video tutorials')
       } finally {
