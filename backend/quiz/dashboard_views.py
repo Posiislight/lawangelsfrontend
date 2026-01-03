@@ -50,7 +50,33 @@ class DashboardViewSet(viewsets.ViewSet):
         passed_count = len([s for s in scores if s >= 70])
         pass_rate = round((passed_count / len(scores)) * 100) if scores else 0
         
-        total_time_seconds = sum(a.time_spent_seconds or 0 for a in completed_attempts)
+        # Calculate comprehensive study time from all sources
+        # 1. Exam attempt time
+        exam_time_seconds = sum(a.time_spent_seconds or 0 for a in completed_attempts)
+        
+        # 2. Topic quiz time (from TopicQuizAnswer records)
+        quiz_time_seconds = 0
+        try:
+            from .topic_models import TopicQuizAnswer
+            quiz_time = TopicQuizAnswer.objects.filter(
+                attempt__user=user
+            ).aggregate(total=Sum('time_spent_seconds'))
+            quiz_time_seconds = quiz_time['total'] or 0
+        except Exception as e:
+            logger.warning(f"Error getting quiz time: {e}")
+        
+        # 3. Video watch time (from VideoProgress)
+        video_time_seconds = 0
+        try:
+            from .video_models import VideoProgress
+            video_time = VideoProgress.objects.filter(
+                user=user
+            ).aggregate(total=Sum('watch_position_seconds'))
+            video_time_seconds = video_time['total'] or 0
+        except Exception as e:
+            logger.warning(f"Error getting video time: {e}")
+        
+        total_time_seconds = exam_time_seconds + quiz_time_seconds + video_time_seconds
         
         # Calculate streak
         streak = self._calculate_streak(attempts)
@@ -318,6 +344,103 @@ class DashboardViewSet(viewsets.ViewSet):
             'userStats': user_stats,
             'examProgress': exam_progress,
             'progressBySubject': progress_by_subject,
+        })
+
+    @action(detail=False, methods=['get'])
+    def continue_learning(self, request):
+        """
+        Get data for 'Pick Up Where You Left Off' section.
+        
+        Returns last activity for reading, videos, and practice.
+        """
+        user = request.user
+        
+        # Default response - no activity
+        reading_data = None
+        video_data = None
+        practice_data = None
+        
+        try:
+            # Get last in-progress quiz attempt
+            from .topic_models import TopicQuizAttempt
+            last_quiz = TopicQuizAttempt.objects.filter(
+                user=user,
+                status='in_progress'
+            ).order_by('-started_at').first()
+            
+            if last_quiz:
+                topic_names = {
+                    'land_law': 'Land Law',
+                    'trusts': 'Trusts',
+                    'criminal_law': 'Criminal Law',
+                    'criminal_practice': 'Criminal Practice',
+                    'professional_ethics': 'Professional Ethics',
+                    'solicitors_accounts': 'Solicitors Accounts',
+                    'taxation': 'Tax Law',
+                }
+                practice_data = {
+                    'subject': topic_names.get(last_quiz.topic, last_quiz.topic.replace('_', ' ').title()),
+                    'title': f'{last_quiz.topic.replace("_", " ").title()} Quiz',
+                    'current': last_quiz.current_question_index + 1,
+                    'total': last_quiz.total_questions,
+                    'progress': round((last_quiz.current_question_index / last_quiz.total_questions) * 100) if last_quiz.total_questions else 0,
+                    'href': f'/quiz/play/{last_quiz.topic}/{last_quiz.id}',
+                }
+        except Exception as e:
+            logger.warning(f"Error getting quiz progress: {e}")
+        
+        try:
+            # Get last video progress
+            from .video_models import VideoProgress, Video
+            last_video = VideoProgress.objects.filter(
+                user=user,
+                is_completed=False
+            ).select_related('video', 'video__course').order_by('-updated_at').first()
+            
+            if last_video and last_video.video:
+                # Calculate progress
+                total_videos = Video.objects.filter(
+                    course=last_video.video.course,
+                    is_active=True
+                ).count()
+                completed_videos = VideoProgress.objects.filter(
+                    user=user,
+                    video__course=last_video.video.course,
+                    is_completed=True
+                ).count()
+                progress = round((completed_videos / total_videos) * 100) if total_videos else 0
+                
+                video_data = {
+                    'subject': last_video.video.course.title if last_video.video.course else 'Video',
+                    'title': last_video.video.title,
+                    'current': completed_videos + 1,
+                    'total': total_videos,
+                    'progress': progress,
+                    'href': f'/video-tutorials/watch/{last_video.video.id}',
+                }
+        except Exception as e:
+            logger.warning(f"Error getting video progress: {e}")
+        
+        try:
+            # Get first available textbook as reading suggestion
+            from .textbook_models import Textbook
+            first_textbook = Textbook.objects.first()
+            if first_textbook:
+                reading_data = {
+                    'subject': first_textbook.subject,
+                    'title': first_textbook.title,
+                    'current': 1,
+                    'total': len(first_textbook.chapters) if first_textbook.chapters else 1,
+                    'progress': 0,
+                    'href': f'/textbook/{first_textbook.id}',
+                }
+        except Exception as e:
+            logger.warning(f"Error getting textbook: {e}")
+        
+        return Response({
+            'reading': reading_data,
+            'video': video_data,
+            'practice': practice_data,
         })
 
     def _calculate_streak(self, attempts):

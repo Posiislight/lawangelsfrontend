@@ -13,17 +13,37 @@ export default function Dashboard() {
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([])
   const [upcomingExams, setUpcomingExams] = useState<Exam[]>([])
+  const [courses, setCourses] = useState<Array<{
+    id: string
+    title: string
+    category: string
+    status: string
+    overall_progress: number
+    videos: { completed: number; total: number; progress: number }
+    quizzes: { completed: number; correct: number; progress: number }
+    textbook: { available: boolean; title: string | null; id: number | null }
+  }>>([])
+  const [continueLearning, setContinueLearning] = useState<{
+    reading: { subject: string; title: string; current: number; total: number; progress: number; href: string } | null
+    video: { subject: string; title: string; current: number; total: number; progress: number; href: string } | null
+    practice: { subject: string; title: string; current: number; total: number; progress: number; href: string } | null
+  }>({ reading: null, video: null, practice: null })
 
-  // Fetch dashboard data from backend - OPTIMIZED: single batch call
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setIsLoading(true)
-        // Single optimized call that fetches all data at once
-        const dashboardData = await dashboardApi.getDashboardData()
+        // Fetch dashboard data, courses, and continue learning in parallel
+        const [dashboardData, coursesData, continueData] = await Promise.all([
+          dashboardApi.getDashboardData(),
+          dashboardApi.getMyCourses(),
+          dashboardApi.getContinueLearning()
+        ])
         setUserStats(dashboardData.userStats)
         setRecentActivity(dashboardData.recentActivity)
         setUpcomingExams(dashboardData.upcomingExams)
+        setCourses(coursesData.courses)
+        setContinueLearning(continueData)
       } catch (error) {
         console.error('Error fetching dashboard data:', error)
         // Use fallback data on error
@@ -338,73 +358,81 @@ export default function Dashboard() {
               </div>
             )}
 
-            {/* Pick Up Where You Left Off */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-normal text-black mb-1">Pick Up Where You Left Off</h2>
-              <p className="text-gray-600 text-sm mb-6">Continue your learning journey across reading, videos, and practice</p>
+            {/* Pick Up Where You Left Off - Dynamic data from backend */}
+            {(continueLearning.reading || continueLearning.video || continueLearning.practice) && (
+              <div className="mb-8">
+                <h2 className="text-2xl font-normal text-black mb-1">Pick Up Where You Left Off</h2>
+                <p className="text-gray-600 text-sm mb-6">Continue your learning journey across reading, videos, and practice</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Reading Card */}
-                <div className="rounded-lg p-6 border-t-4 border-t-blue-500 border border-blue-600 bg-white">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">READING</span>
-                    <span className="text-xs text-gray-500">Chapter 4 of 24</span>
-                  </div>
-                  <h3 className="text-sm text-gray-600 mb-1">Constitutional Law</h3>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Parliamentary Sovereignty</h4>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-gray-600">12 hrs left</span>
-                    <span className="text-sm font-semibold text-gray-900">67%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="h-2 rounded-full bg-blue-500" style={{ width: '67%' }} />
-                  </div>
-                  <a href="/textbook" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
-                    Continue learning <span>→</span>
-                  </a>
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Reading Card */}
+                  {continueLearning.reading && (
+                    <div className="rounded-lg p-6 border-t-4 border-t-blue-500 border border-blue-600 bg-white">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">READING</span>
+                        <span className="text-xs text-gray-500">Chapter {continueLearning.reading.current} of {continueLearning.reading.total}</span>
+                      </div>
+                      <h3 className="text-sm text-gray-600 mb-1">{continueLearning.reading.subject}</h3>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">{continueLearning.reading.title}</h4>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-gray-600">{continueLearning.reading.total - continueLearning.reading.current} chapters left</span>
+                        <span className="text-sm font-semibold text-gray-900">{continueLearning.reading.progress}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                        <div className="h-2 rounded-full bg-blue-500" style={{ width: `${continueLearning.reading.progress}%` }} />
+                      </div>
+                      <a href={continueLearning.reading.href} className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                        Continue learning <span>→</span>
+                      </a>
+                    </div>
+                  )}
 
-                {/* Watching Card */}
-                <div className="rounded-lg p-6 border-t-4 border-t-purple-500 border border-purple-500 bg-white">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-semibold text-purple-600 uppercase tracking-wide">WATCHING</span>
-                    <span className="text-xs text-gray-500">Video 3 of 8</span>
-                  </div>
-                  <h3 className="text-sm text-gray-600 mb-1">Contract Law</h3>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Consideration in Contracts</h4>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-gray-600">15.20 remaining</span>
-                    <span className="text-sm font-semibold text-gray-900">45%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="h-2 rounded-full bg-purple-500" style={{ width: '45%' }} />
-                  </div>
-                  <a href="/video-tutorials" className="text-purple-600 hover:text-purple-700 font-medium text-sm inline-flex items-center gap-1">
-                    Continue learning <span>→</span>
-                  </a>
-                </div>
+                  {/* Watching Card */}
+                  {continueLearning.video && (
+                    <div className="rounded-lg p-6 border-t-4 border-t-purple-500 border border-purple-500 bg-white">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-semibold text-purple-600 uppercase tracking-wide">WATCHING</span>
+                        <span className="text-xs text-gray-500">Video {continueLearning.video.current} of {continueLearning.video.total}</span>
+                      </div>
+                      <h3 className="text-sm text-gray-600 mb-1">{continueLearning.video.subject}</h3>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">{continueLearning.video.title}</h4>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-gray-600">{continueLearning.video.total - continueLearning.video.current} videos left</span>
+                        <span className="text-sm font-semibold text-gray-900">{continueLearning.video.progress}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                        <div className="h-2 rounded-full bg-purple-500" style={{ width: `${continueLearning.video.progress}%` }} />
+                      </div>
+                      <a href={continueLearning.video.href} className="text-purple-600 hover:text-purple-700 font-medium text-sm inline-flex items-center gap-1">
+                        Continue learning <span>→</span>
+                      </a>
+                    </div>
+                  )}
 
-                {/* Practicing Card */}
-                <div className="rounded-lg p-6 border-t-4 border-t-green-500 border border-green-500 bg-white">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-semibold text-green-600 uppercase tracking-wide">PRACTICING</span>
-                    <span className="text-xs text-gray-500">Question 16 of 20</span>
-                  </div>
-                  <h3 className="text-sm text-gray-600 mb-1">Property Law</h3>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Land Registration</h4>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-gray-600">4 questions left</span>
-                    <span className="text-sm font-semibold text-gray-900">80%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="h-2 rounded-full bg-green-500" style={{ width: '80%' }} />
-                  </div>
-                  <a href="/practice" className="text-green-600 hover:text-green-700 font-medium text-sm inline-flex items-center gap-1">
-                    Continue learning <span>→</span>
-                  </a>
+                  {/* Practicing Card */}
+                  {continueLearning.practice && (
+                    <div className="rounded-lg p-6 border-t-4 border-t-green-500 border border-green-500 bg-white">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-semibold text-green-600 uppercase tracking-wide">PRACTICING</span>
+                        <span className="text-xs text-gray-500">Question {continueLearning.practice.current} of {continueLearning.practice.total}</span>
+                      </div>
+                      <h3 className="text-sm text-gray-600 mb-1">{continueLearning.practice.subject}</h3>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">{continueLearning.practice.title}</h4>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-gray-600">{continueLearning.practice.total - continueLearning.practice.current} questions left</span>
+                        <span className="text-sm font-semibold text-gray-900">{continueLearning.practice.progress}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                        <div className="h-2 rounded-full bg-green-500" style={{ width: `${continueLearning.practice.progress}%` }} />
+                      </div>
+                      <a href={continueLearning.practice.href} className="text-green-600 hover:text-green-700 font-medium text-sm inline-flex items-center gap-1">
+                        Continue learning <span>→</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Available Exams - From Backend */}
             {upcomingExams.length > 0 && (
@@ -446,7 +474,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <a
-                        href={`/quiz/${exam.id}`}
+                        href="/mock-questions"
                         className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-center block hover:bg-blue-600 transition-colors"
                       >
                         Start Exam
@@ -457,96 +485,73 @@ export default function Dashboard() {
               </div>
             )}
 
-            {/* Your Courses - Static for now (no backend support) */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-6 rounded-lg">
-                <div>
-                  <h2 className="text-2xl font-normal text-black">Your Courses</h2>
-                  <p className="text-gray-600 text-sm">Each course includes reading materials, video tutorials, and practice questions</p>
-                </div>
-                <a href="/my-courses" className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                  View all →
-                </a>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Constitutional and Administrative Law */}
-                <div className="rounded-3xl p-4 border border-gray-200 bg-white relative">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="font-normal text-gray-900">Constitutional and<br />Administrative Law</h3>
+            {/* Your Courses - Now connected to backend */}
+            {courses.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-6 rounded-lg">
+                  <div>
+                    <h2 className="text-2xl font-normal text-black">Your Courses</h2>
+                    <p className="text-gray-600 text-sm">Each course includes reading materials, video tutorials, and practice questions</p>
                   </div>
-                  <span className="absolute top-0 right-0 bg-[#0AB5FF] text-white text-xs font-semibold px-3 py-1 rounded-bl-lg rounded-tr-lg">Active</span>
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600">Overall Progress</span>
-                      <span className="text-sm font-semibold text-gray-900">67%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="h-2 rounded-full bg-blue-500" style={{ width: '67%' }} />
-                    </div>
-                  </div>
-                  <div className="space-y-3 text-sm">
-                    <p className="text-gray-600 font-medium mb-3">Learning Content</p>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <Book className="w-5 h-5 text-blue-600" />
-                      <span>Reading</span>
-                      <span className="ml-auto font-semibold">16/24</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <Video className="w-5 h-5 text-purple-600" />
-                      <span>Videos</span>
-                      <span className="ml-auto font-semibold">12/18</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span>Practice</span>
-                      <span className="ml-auto font-semibold">80/120</span>
-                    </div>
-                  </div>
+                  <a href="/my-courses" className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+                    View all →
+                  </a>
                 </div>
 
-                {/* Contract Law */}
-                <div className="rounded-lg p-6 border border-gray-200 bg-white">
-                  <h3 className="font-normal text-gray-900 mb-4">Contract Law</h3>
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600">Overall Progress</span>
-                      <span className="text-sm font-semibold text-gray-900">45%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="h-2 rounded-full bg-blue-500" style={{ width: '45%' }} />
-                    </div>
-                  </div>
-                  <div className="space-y-3 text-sm">
-                    <p className="text-gray-600 font-medium mb-3">Learning Content</p>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <Book className="w-5 h-5 text-blue-600" />
-                      <span>Reading</span>
-                      <span className="ml-auto font-semibold">14/32</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <Video className="w-5 h-5 text-purple-600" />
-                      <span>Videos</span>
-                      <span className="ml-auto font-semibold">11/24</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span>Practice</span>
-                      <span className="ml-auto font-semibold">81/180</span>
-                    </div>
-                  </div>
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {courses.slice(0, 3).map((course) => (
+                    <div key={course.id} className={`rounded-3xl p-4 border border-gray-200 ${course.status === 'not_started' ? 'bg-gray-50' : 'bg-white'} relative`}>
+                      <div className="flex items-start justify-between mb-4">
+                        <h3 className="font-normal text-gray-900">{course.title}</h3>
+                        {course.status === 'not_started' && <Lock className="w-5 h-5 text-gray-400" />}
+                      </div>
+                      {course.status === 'in_progress' && (
+                        <span className="absolute top-0 right-0 bg-[#0AB5FF] text-white text-xs font-semibold px-3 py-1 rounded-bl-lg rounded-tr-lg">Active</span>
+                      )}
+                      {course.status === 'completed' && (
+                        <span className="absolute top-0 right-0 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-bl-lg rounded-tr-lg">Complete</span>
+                      )}
 
-                {/* Tort Law - Locked */}
-                <div className="rounded-3xl p-4 border border-gray-200 bg-gray-50">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="font-normal text-gray-900">Tort Law</h3>
-                    <Lock className="w-5 h-5 text-gray-400" />
-                  </div>
-                  <p className="text-sm text-gray-500">Complete previous courses to unlock</p>
+                      {course.status !== 'not_started' ? (
+                        <>
+                          <div className="mb-6">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm text-gray-600">Overall Progress</span>
+                              <span className="text-sm font-semibold text-gray-900">{course.overall_progress}%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div className="h-2 rounded-full bg-blue-500" style={{ width: `${course.overall_progress}%` }} />
+                            </div>
+                          </div>
+                          <div className="space-y-3 text-sm">
+                            <p className="text-gray-600 font-medium mb-3">Learning Content</p>
+                            {course.textbook.available && (
+                              <div className="flex items-center gap-3 text-gray-600">
+                                <Book className="w-5 h-5 text-blue-600" />
+                                <span>Reading</span>
+                                <span className="ml-auto font-semibold">Available</span>
+                              </div>
+                            )}
+                            <div className="flex items-center gap-3 text-gray-600">
+                              <Video className="w-5 h-5 text-purple-600" />
+                              <span>Videos</span>
+                              <span className="ml-auto font-semibold">{course.videos.completed}/{course.videos.total}</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-gray-600">
+                              <CheckCircle className="w-5 h-5 text-green-600" />
+                              <span>Practice</span>
+                              <span className="ml-auto font-semibold">{course.quizzes.completed} completed</span>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <p className="text-sm text-gray-500">Start learning to track progress</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
           </>
         ) : (
           <ProgressTracker />

@@ -119,7 +119,7 @@ class AngelAIViewSet(viewsets.ViewSet):
         )
     
     def _build_messages(self, message: str, conversation_history: list) -> list:
-        """Build the messages array for the API call."""
+        """Build the messages array for the API call with RAG context."""
         messages = [
             {"role": "system", "content": get_system_prompt()}
         ]
@@ -134,10 +134,32 @@ class AngelAIViewSet(viewsets.ViewSet):
                 "content": msg.get('content', '')
             })
         
-        # Add current message
+        # Search for relevant textbook content (this is fast - just vector search)
+        rag_context = ""
+        try:
+            from . import rag_service
+            results = rag_service.search_relevant_content(message, top_k=3)
+            if results:
+                rag_context = rag_service.format_context_for_prompt(results)
+                logger.info(f"Found {len(results)} relevant textbook chunks")
+        except Exception as e:
+            logger.warning(f"RAG search failed (continuing without context): {e}")
+        
+        # Add current message with RAG context
+        if rag_context:
+            augmented_message = f"""Based on this relevant content from Law Angels textbooks:
+
+{rag_context}
+
+User question: {message}
+
+Please answer using the textbook content above where relevant, and cite the source textbook when you use information from it."""
+        else:
+            augmented_message = message
+        
         messages.append({
             "role": "user",
-            "content": message
+            "content": augmented_message
         })
         
         return messages

@@ -474,6 +474,81 @@ class DashboardApiClient {
             return []
         }
     }
+
+    /**
+     * Get unified course progress data from the my-courses endpoint
+     */
+    async getMyCourses(): Promise<{
+        courses: Array<{
+            id: string
+            title: string
+            category: string
+            status: string
+            overall_progress: number
+            videos: { completed: number; total: number; progress: number }
+            quizzes: { completed: number; correct: number; progress: number }
+            textbook: { available: boolean; title: string | null; id: number | null }
+        }>
+        stats: {
+            total: number
+            in_progress: number
+            completed: number
+            not_started: number
+            average_progress: number
+        }
+    }> {
+        try {
+            const response = await fetch(`${this.getApiBaseUrl()}/my-courses/`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(this.getAuthHeaders()),
+                },
+            })
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`)
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Error fetching my courses:', error)
+            return {
+                courses: [],
+                stats: { total: 0, in_progress: 0, completed: 0, not_started: 0, average_progress: 0 }
+            }
+        }
+    }
+
+    /**
+     * Get continue learning data for the "Pick Up Where You Left Off" section
+     */
+    async getContinueLearning(): Promise<{
+        reading: { subject: string; title: string; current: number; total: number; progress: number; href: string } | null
+        video: { subject: string; title: string; current: number; total: number; progress: number; href: string } | null
+        practice: { subject: string; title: string; current: number; total: number; progress: number; href: string } | null
+    }> {
+        try {
+            const response = await fetch(`${this.getApiBaseUrl()}/dashboard/continue_learning/`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(this.getAuthHeaders()),
+                },
+            })
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`)
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Error fetching continue learning:', error)
+            return { reading: null, video: null, practice: null }
+        }
+    }
 }
 
 // Export singleton instance
