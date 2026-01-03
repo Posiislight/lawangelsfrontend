@@ -87,3 +87,8 @@ analyze_docx.py
 analyze_docx2.py
 test_regex.py
 import_questions_local.py
+
+# Large generated files (exceed GitHub's 100MB limit)
+backend/textbook_embeddings.json
+textbook_embeddings.json
+*.embeddings.json

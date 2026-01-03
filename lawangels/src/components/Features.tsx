@@ -145,7 +145,7 @@ export default function Features() {
                 {/* Slideshow mockup image */}
                 <div className="mt-12 px-6 pb-12">
                     <div className="relative mx-auto max-w-6xl rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
-                        <div className="relative w-full h-[400px] flex items-start">
+                        <div className="relative w-full h-[600px] flex items-center justify-center">
                             {/* Slides */}
                             <div className="relative w-full h-full overflow-hidden">
                                 {slideImages.map((image, index) => (
@@ -153,7 +153,7 @@ export default function Features() {
                                         key={index}
                                         src={image}
                                         alt={`Platform preview slide ${index + 1}`}
-                                        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+                                        className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
                                             }`}
                                     />
                                 ))}
