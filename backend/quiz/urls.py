@@ -10,6 +10,7 @@ from . import ai_views
 from . import video_views
 from . import my_courses_views
 from . import search_views
+from . import health_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -71,6 +72,9 @@ urlpatterns = [
     path('ai/conversations/', ai_views.AngelAIViewSet.as_view({'get': 'conversations', 'post': 'conversations'}), name='ai-conversations'),
     path('ai/conversations/<int:conversation_id>/', ai_views.AngelAIViewSet.as_view({'get': 'conversation_detail', 'delete': 'conversation_detail'}), name='ai-conversation-detail'),
     path('ai/conversations/<int:conversation_id>/message/', ai_views.AngelAIViewSet.as_view({'post': 'add_message'}), name='ai-conversation-message'),
+    
+    # Health check for warm-up pings (no auth required)
+    path('health/', health_views.health_check, name='health-check'),
     
     # Router must come AFTER custom routes
     path('', include(router.urls)),

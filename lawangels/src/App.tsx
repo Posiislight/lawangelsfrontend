@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
 import { SidebarProvider } from './contexts/SidebarContext'
 import Home from './pages/Home'
@@ -35,8 +36,14 @@ import TermsAndConditions from './pages/TermsAndConditions'
 import GamifiedQuiz from './components/GamifiedQuiz'
 import GamifiedQuizResults from './pages/GamifiedQuizResults'
 import TextbookReader from './pages/TextbookReader'
+import { warmUpBackend } from './services/warmUpService'
 
 function App() {
+  // Warm up backend on app load to reduce cold start latency (Render free tier)
+  useEffect(() => {
+    warmUpBackend()
+  }, [])
+
   return (
     <AuthProvider>
       <SidebarProvider>
