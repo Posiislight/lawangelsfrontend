@@ -170,73 +170,52 @@ export default function VideoTutorials() {
           </div>
         )}
 
-        {/* All Video Courses Section */}
-        <div>
-          <h2 className="text-2xl font-normal text-black mb-1">All Video Series</h2>
-          <p className="text-gray-600 text-sm mb-6">Browse through structured video collections for each course</p>
-
-          {courses.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-xl">
-              <PlayCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No Video Courses Yet</h3>
-              <p className="text-gray-500">Video courses will appear here once they are added.</p>
+        {/* FLK1 - Functioning Legal Knowledge 1 */}
+        {courses.filter(c => c.category === 'FLK1').length > 0 && (
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-2xl">📘</span>
+              <h2 className="text-2xl font-semibold text-gray-900">FLK1 — Functioning Legal Knowledge 1</h2>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courses.map((course, idx) => {
+            <p className="text-gray-600 text-sm mb-6">Foundation legal knowledge: Business Law, Contract Law, Torts, and more</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {courses.filter(c => c.category === 'FLK1').map((course, idx) => {
                 const color = courseColors[idx % courseColors.length]
 
                 return (
                   <div
                     key={course.id}
                     onClick={() => handleCourseClick(course)}
-                    className="rounded-xl border-t-4 border-t-blue-500 overflow-hidden transition-all bg-white border border-gray-200 hover:shadow-lg cursor-pointer"
-                    style={{ borderTopColor: color.accent.replace('bg-', '#').replace('-500', '') }}
+                    className="rounded-xl overflow-hidden transition-all bg-white border border-gray-200 hover:shadow-lg cursor-pointer"
                   >
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <p className={`text-xs font-semibold uppercase tracking-wide ${color.text} mb-2`}>
-                            {course.title}
-                          </p>
-                          <h3 className="text-lg font-semibold text-gray-900 mb-2">{course.title}</h3>
-                        </div>
-                      </div>
+                    <div className={`h-3 ${color.accent}`} />
+                    <div className="p-5">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">{course.title}</h3>
 
-                      <div className="space-y-4 mb-6">
+                      <div className="space-y-3 mb-4">
                         <div className="flex items-center justify-between text-sm">
                           <span className="text-gray-600">Videos</span>
-                          <span className="font-semibold text-gray-900">
+                          <span className="font-medium text-gray-900">
                             {course.videos_completed}/{course.total_videos}
                           </span>
                         </div>
 
-                        {course.videos_completed > 0 && (
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className={`h-2 rounded-full ${color.accent}`}
-                              style={{ width: `${course.progress_percentage}%` }}
-                            />
-                          </div>
-                        )}
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${color.accent}`}
+                            style={{ width: `${course.progress_percentage}%` }}
+                          />
+                        </div>
 
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600">Total Duration</span>
-                          <span className="font-semibold text-gray-900">{course.total_duration_formatted}</span>
+                          <span className="text-gray-600">Duration</span>
+                          <span className="font-medium text-gray-900">{course.total_duration_formatted}</span>
                         </div>
                       </div>
 
-                      {/* Progress Info */}
-                      <div className={`mb-6 p-3 rounded-lg ${color.bg}`}>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-semibold text-gray-900">Progress</span>
-                          <span className={`text-sm font-semibold ${color.text}`}>{course.progress_percentage}%</span>
-                        </div>
-                      </div>
-
-                      {/* Action Button */}
                       <button className={`w-full ${color.accent} text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}>
-                        {course.videos_completed > 0 ? 'Continue Watching' : 'Start Series'}
+                        {course.videos_completed > 0 ? 'Continue' : 'Start'}
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -244,8 +223,73 @@ export default function VideoTutorials() {
                 )
               })}
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* FLK2 - Functioning Legal Knowledge 2 */}
+        {courses.filter(c => c.category === 'FLK2').length > 0 && (
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-2xl">📗</span>
+              <h2 className="text-2xl font-semibold text-gray-900">FLK2 — Functioning Legal Knowledge 2</h2>
+            </div>
+            <p className="text-gray-600 text-sm mb-6">Advanced legal practice: Property, Wills, Solicitors' Accounts, & more</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {courses.filter(c => c.category === 'FLK2').map((course, idx) => {
+                const color = courseColors[(idx + 4) % courseColors.length]
+
+                return (
+                  <div
+                    key={course.id}
+                    onClick={() => handleCourseClick(course)}
+                    className="rounded-xl overflow-hidden transition-all bg-white border border-gray-200 hover:shadow-lg cursor-pointer"
+                  >
+                    <div className={`h-3 ${color.accent}`} />
+                    <div className="p-5">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">{course.title}</h3>
+
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Videos</span>
+                          <span className="font-medium text-gray-900">
+                            {course.videos_completed}/{course.total_videos}
+                          </span>
+                        </div>
+
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${color.accent}`}
+                            style={{ width: `${course.progress_percentage}%` }}
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Duration</span>
+                          <span className="font-medium text-gray-900">{course.total_duration_formatted}</span>
+                        </div>
+                      </div>
+
+                      <button className={`w-full ${color.accent} text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}>
+                        {course.videos_completed > 0 ? 'Continue' : 'Start'}
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {courses.length === 0 && (
+          <div className="text-center py-12 bg-gray-50 rounded-xl">
+            <PlayCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No Video Courses Yet</h3>
+            <p className="text-gray-500">Video courses will appear here once they are added.</p>
+          </div>
+        )}
 
         {/* Learning Stats */}
         {stats && (

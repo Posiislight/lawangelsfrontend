@@ -12,8 +12,22 @@ class VideoCourse(models.Model):
     A course containing multiple video tutorials.
     E.g., "Contract Law", "Property Law", etc.
     """
+    CATEGORY_FLK1 = 'FLK1'
+    CATEGORY_FLK2 = 'FLK2'
+    CATEGORY_CHOICES = [
+        (CATEGORY_FLK1, 'FLK1 - Functioning Legal Knowledge 1'),
+        (CATEGORY_FLK2, 'FLK2 - Functioning Legal Knowledge 2'),
+    ]
+    
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
+    category = models.CharField(
+        max_length=10,
+        choices=CATEGORY_CHOICES,
+        default=CATEGORY_FLK1,
+        help_text="FLK1 or FLK2 classification"
+    )
+    description = models.TextField(blank=True, help_text="Course description")
     thumbnail_url = models.URLField(blank=True)
     order = models.IntegerField(default=0, help_text="Display order on course listing")
     is_active = models.BooleanField(default=True)
@@ -21,7 +35,7 @@ class VideoCourse(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['order', 'title']
+        ordering = ['category', 'order', 'title']
         verbose_name = "Video Course"
         verbose_name_plural = "Video Courses"
 

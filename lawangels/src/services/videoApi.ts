@@ -45,6 +45,9 @@ export interface VideoCourse {
     id: number;
     title: string;
     slug: string;
+    category: 'FLK1' | 'FLK2';
+    category_display: string;
+    description: string;
     thumbnail_url: string;
     order: number;
     total_videos: number;

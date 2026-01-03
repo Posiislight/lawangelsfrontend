@@ -81,11 +81,12 @@ class VideoCourseListSerializer(serializers.ModelSerializer):
     total_duration_formatted = serializers.ReadOnlyField()
     videos_completed = serializers.SerializerMethodField()
     progress_percentage = serializers.SerializerMethodField()
+    category_display = serializers.CharField(source='get_category_display', read_only=True)
 
     class Meta:
         model = VideoCourse
         fields = [
-            'id', 'title', 'slug',
+            'id', 'title', 'slug', 'category', 'category_display', 'description',
             'thumbnail_url', 'order', 'total_videos',
             'total_duration_formatted', 'videos_completed', 'progress_percentage'
         ]
@@ -115,11 +116,12 @@ class VideoCourseDetailSerializer(serializers.ModelSerializer):
     total_duration_formatted = serializers.ReadOnlyField()
     videos_completed = serializers.SerializerMethodField()
     progress_percentage = serializers.SerializerMethodField()
+    category_display = serializers.CharField(source='get_category_display', read_only=True)
 
     class Meta:
         model = VideoCourse
         fields = [
-            'id', 'title', 'slug',
+            'id', 'title', 'slug', 'category', 'category_display', 'description',
             'thumbnail_url', 'order', 'total_videos',
             'total_duration_formatted', 'videos_completed',
             'progress_percentage', 'videos'
