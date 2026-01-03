@@ -54,6 +54,8 @@ export interface VideoCourse {
     total_duration_formatted: string;
     videos_completed: number;
     progress_percentage: number;
+    first_video_id: number | null;
+    next_video_id: number | null;
 }
 
 export interface VideoCourseDetail extends VideoCourse {

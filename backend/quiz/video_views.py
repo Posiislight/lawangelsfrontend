@@ -82,13 +82,16 @@ class VideoCourseListSerializer(serializers.ModelSerializer):
     videos_completed = serializers.SerializerMethodField()
     progress_percentage = serializers.SerializerMethodField()
     category_display = serializers.CharField(source='get_category_display', read_only=True)
+    first_video_id = serializers.SerializerMethodField()
+    next_video_id = serializers.SerializerMethodField()
 
     class Meta:
         model = VideoCourse
         fields = [
             'id', 'title', 'slug', 'category', 'category_display', 'description',
             'thumbnail_url', 'order', 'total_videos',
-            'total_duration_formatted', 'videos_completed', 'progress_percentage'
+            'total_duration_formatted', 'videos_completed', 'progress_percentage',
+            'first_video_id', 'next_video_id'
         ]
 
     def get_videos_completed(self, obj):
@@ -100,6 +103,31 @@ class VideoCourseListSerializer(serializers.ModelSerializer):
                 is_completed=True
             ).count()
         return 0
+
+    def get_first_video_id(self, obj):
+        """Get ID of first video in course"""
+        first_video = obj.videos.filter(is_active=True).order_by('order').first()
+        return first_video.id if first_video else None
+
+    def get_next_video_id(self, obj):
+        """Get ID of next unwatched video, or first video if all completed"""
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            # Get IDs of completed videos
+            completed_ids = set(VideoProgress.objects.filter(
+                user=request.user,
+                video__course=obj,
+                is_completed=True
+            ).values_list('video_id', flat=True))
+            
+            # Find first unwatched video
+            for video in obj.videos.filter(is_active=True).order_by('order'):
+                if video.id not in completed_ids:
+                    return video.id
+        
+        # Return first video if all completed or not authenticated
+        first_video = obj.videos.filter(is_active=True).order_by('order').first()
+        return first_video.id if first_video else None
 
     def get_progress_percentage(self, obj):
         total = obj.total_videos
