@@ -174,7 +174,7 @@ class VideoCourseDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoDetailSerializer(serializers.ModelSerializer):
-    """Full video detail with playback info and navigation"""
+    """Full video detail with playback info and navigation - OPTIMIZED"""
     duration_formatted = serializers.ReadOnlyField()
     course_title = serializers.CharField(source='course.title', read_only=True)
     course_slug = serializers.CharField(source='course.slug', read_only=True)
@@ -208,42 +208,49 @@ class VideoDetailSerializer(serializers.ModelSerializer):
             return f"https://iframe.videodelivery.net/{obj.cloudflare_video_id}"
         return ""
 
-    def get_is_completed(self, obj):
+    def _get_progress(self, obj):
+        """Get and cache video progress for current user - avoids multiple queries"""
+        if hasattr(obj, '_cached_progress'):
+            return obj._cached_progress
+        
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            progress = VideoProgress.objects.filter(
+            obj._cached_progress = VideoProgress.objects.filter(
                 user=request.user, video=obj
             ).first()
-            return progress.is_completed if progress else False
-        return False
+        else:
+            obj._cached_progress = None
+        return obj._cached_progress
+
+    def get_is_completed(self, obj):
+        progress = self._get_progress(obj)
+        return progress.is_completed if progress else False
 
     def get_watched_seconds(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            progress = VideoProgress.objects.filter(
-                user=request.user, video=obj
-            ).first()
-            return progress.watched_seconds if progress else 0
-        return 0
+        progress = self._get_progress(obj)
+        return progress.watched_seconds if progress else 0
 
     def get_progress_percentage(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            progress = VideoProgress.objects.filter(
-                user=request.user, video=obj
-            ).first()
-            return progress.progress_percentage if progress else 0
-        return 0
+        progress = self._get_progress(obj)
+        return progress.progress_percentage if progress else 0
 
     def get_next_video_id(self, obj):
+        # Use cached nav data if available
+        if hasattr(obj, '_next_video_id'):
+            return obj._next_video_id
         next_video = obj.get_next_video()
         return next_video.id if next_video else None
 
     def get_previous_video_id(self, obj):
+        # Use cached nav data if available
+        if hasattr(obj, '_previous_video_id'):
+            return obj._previous_video_id
         prev_video = obj.get_previous_video()
         return prev_video.id if prev_video else None
 
     def get_video_number(self, obj):
+        if hasattr(obj, '_video_number'):
+            return obj._video_number
         return Video.objects.filter(
             course=obj.course,
             order__lt=obj.order,
@@ -251,6 +258,8 @@ class VideoDetailSerializer(serializers.ModelSerializer):
         ).count() + 1
 
     def get_total_course_videos(self, obj):
+        if hasattr(obj, '_total_course_videos'):
+            return obj._total_course_videos
         return obj.course.total_videos
 
 
@@ -290,6 +299,46 @@ class VideoViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Video.objects.filter(is_active=True).select_related('course')
+    
+    def retrieve(self, request, *args, **kwargs):
+        """
+        OPTIMIZED: Precompute navigation and progress data to avoid multiple queries.
+        """
+        video = self.get_object()
+        
+        # Get all videos in course in ONE query for navigation
+        course_videos = list(Video.objects.filter(
+            course=video.course,
+            is_active=True
+        ).order_by('order').values_list('id', 'order'))
+        
+        # Find video position and nav
+        video_ids = [v[0] for v in course_videos]
+        video_orders = {v[0]: v[1] for v in course_videos}
+        
+        try:
+            idx = video_ids.index(video.id)
+            video._video_number = idx + 1
+            video._total_course_videos = len(video_ids)
+            video._next_video_id = video_ids[idx + 1] if idx + 1 < len(video_ids) else None
+            video._previous_video_id = video_ids[idx - 1] if idx > 0 else None
+        except ValueError:
+            video._video_number = 1
+            video._total_course_videos = len(video_ids)
+            video._next_video_id = None
+            video._previous_video_id = None
+        
+        # Cache progress
+        if request.user.is_authenticated:
+            progress = VideoProgress.objects.filter(
+                user=request.user, video=video
+            ).first()
+            video._cached_progress = progress
+        else:
+            video._cached_progress = None
+        
+        serializer = self.get_serializer(video)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
     def update_progress(self, request, pk=None):
@@ -371,12 +420,37 @@ class VideoViewSet(viewsets.ReadOnlyModelViewSet):
         """
         Get all videos in the same course as this video.
         GET /api/videos/<id>/course_videos/
+        
+        OPTIMIZED: Pre-fetches all progress data to avoid N+1 queries
         """
         video = self.get_object()
-        videos = Video.objects.filter(
+        videos = list(Video.objects.filter(
             course=video.course,
             is_active=True
-        ).order_by('order')
+        ).order_by('order'))
+        
+        # Pre-fetch all progress data for these videos in ONE query
+        if request.user.is_authenticated:
+            video_ids = [v.id for v in videos]
+            progress_map = {
+                vp['video_id']: vp
+                for vp in VideoProgress.objects.filter(
+                    user=request.user,
+                    video_id__in=video_ids
+                ).values('video_id', 'is_completed', 'watched_seconds')
+            }
+            
+            # Attach progress to each video object for serializer to use
+            for v in videos:
+                vp = progress_map.get(v.id)
+                if vp:
+                    v._cached_progress = type('Progress', (), {
+                        'is_completed': vp['is_completed'],
+                        'watched_seconds': vp['watched_seconds'],
+                        'progress_percentage': int((vp['watched_seconds'] / v.duration_seconds) * 100) if v.duration_seconds > 0 else 0
+                    })()
+                else:
+                    v._cached_progress = None
 
         serializer = VideoSerializer(
             videos, many=True, context={'request': request}
@@ -454,29 +528,42 @@ class VideoProgressViewSet(viewsets.ViewSet):
     def page_data(self, request):
         """
         OPTIMIZED: Get all data needed for VideoTutorials page in ONE call.
-        Replaces 2 separate API calls and eliminates N+1 queries.
         
-        Returns:
-        - courses: List of courses with progress (computed efficiently)
-        - stats: Overall video statistics
-        - continue_watching: Videos to continue
-        
-        Performance: ~4 database queries total instead of 2N+10
+        Performance target: < 500ms with ~5 database queries
         """
         user = request.user
         
-        # Query 1: Get all courses with video counts (single query with annotation)
-        # Use .only() to limit fetched fields for performance
-        courses = list(VideoCourse.objects.filter(is_active=True).only(
+        # Query 1: Get all courses with video counts AND total duration (single query)
+        courses = list(VideoCourse.objects.filter(is_active=True).annotate(
+            video_count=models.Count('videos', filter=models.Q(videos__is_active=True)),
+            total_duration=models.Sum('videos__duration_seconds', filter=models.Q(videos__is_active=True))
+        ).values(
             'id', 'title', 'slug', 'category', 'description', 
-            'thumbnail_url', 'order'
-        ).annotate(
-            video_count=models.Count('videos', filter=models.Q(videos__is_active=True))
+            'thumbnail_url', 'order', 'video_count', 'total_duration'
         ).order_by('order', 'title'))
         
-        # Query 2: Get ALL user progress in one query - use values() for efficiency
+        # Query 2: Get ALL videos in one query - build both first_videos and course_videos maps
+        first_videos = {}
+        course_videos = {}
+        for video in Video.objects.filter(is_active=True).values(
+            'id', 'course_id', 'order'
+        ).order_by('course_id', 'order'):
+            course_id = video['course_id']
+            if course_id not in first_videos:
+                first_videos[course_id] = video['id']
+            if course_id not in course_videos:
+                course_videos[course_id] = []
+            course_videos[course_id].append(video['id'])
+        
+        # Query 3: Get user progress (only if authenticated)
         all_progress = {}
+        completed_videos_count = 0
+        total_watched = 0
+        courses_started_count = 0
+        continue_watching = []
+        
         if user.is_authenticated:
+            # Get completed video IDs grouped by course
             for vp in VideoProgress.objects.filter(
                 user=user, is_completed=True
             ).values('video_id', 'video__course_id'):
@@ -484,102 +571,99 @@ class VideoProgressViewSet(viewsets.ViewSet):
                 if course_id not in all_progress:
                     all_progress[course_id] = set()
                 all_progress[course_id].add(vp['video_id'])
+            
+            # Query 4: Get aggregate stats in one query
+            stats = VideoProgress.objects.filter(user=user).aggregate(
+                completed_count=models.Count('id', filter=models.Q(is_completed=True)),
+                total_watched=models.Sum('watched_seconds')
+            )
+            completed_videos_count = stats['completed_count'] or 0
+            total_watched = stats['total_watched'] or 0
+            
+            # Query 5: Get courses started count
+            courses_started_count = CourseProgress.objects.filter(user=user).count()
+            
+            # Query 6: Continue watching (limit 3)
+            for cp in CourseProgress.objects.filter(
+                user=user, last_video__isnull=False
+            ).select_related('last_video', 'course').order_by('-last_watched_at')[:3]:
+                continue_watching.append({
+                    'video_id': cp.last_video.id,
+                    'video_title': cp.last_video.title,
+                    'course_title': cp.course.title,
+                    'course_slug': cp.course.slug,
+                    'duration_formatted': f"{cp.last_video.duration_seconds // 60}:{cp.last_video.duration_seconds % 60:02d}"
+                })
         
-        # Query 3: Get first video for each course using values() - much faster
-        first_videos = {}
-        for video in Video.objects.filter(is_active=True).values(
-            'id', 'course_id', 'order'
-        ).order_by('course_id', 'order'):
-            if video['course_id'] not in first_videos:
-                first_videos[video['course_id']] = video['id']
-        
-        # Query 4: Get all videos grouped by course for next_video calculation
-        # Only load what we need
-        course_videos = {}
-        for video in Video.objects.filter(is_active=True).values(
-            'id', 'course_id', 'order'
-        ).order_by('course_id', 'order'):
-            course_id = video['course_id']
-            if course_id not in course_videos:
-                course_videos[course_id] = []
-            course_videos[course_id].append(video['id'])
-        
-        # Build course data without additional queries
+        # Build course data (no additional queries - all data pre-fetched)
         course_data = []
+        courses_completed_count = 0
+        
         for course in courses:
-            completed_ids = all_progress.get(course.id, set())
+            course_id = course['id']
+            completed_ids = all_progress.get(course_id, set())
             completed_count = len(completed_ids)
-            total_videos = course.video_count
+            total_videos = course['video_count'] or 0
+            total_duration = course['total_duration'] or 0
             
             # Calculate first unwatched video
-            first_video_id = first_videos.get(course.id)
+            first_video_id = first_videos.get(course_id)
             next_video_id = first_video_id
             
-            if completed_ids:
+            if completed_ids and course_id in course_videos:
                 # Find first unwatched video from cached list
-                for vid_id in course_videos.get(course.id, []):
+                for vid_id in course_videos[course_id]:
                     if vid_id not in completed_ids:
                         next_video_id = vid_id
                         break
             
+            # Format duration
+            hours = total_duration // 3600
+            minutes = (total_duration % 3600) // 60
+            duration_formatted = f"{hours}h {minutes}m" if hours > 0 else f"{minutes}m"
+            
+            # Track completed courses
+            if total_videos > 0 and completed_count == total_videos:
+                courses_completed_count += 1
+            
+            # Get category display name
+            category_display = 'FLK1 - Functioning Legal Knowledge 1' if course['category'] == 'FLK1' else 'FLK2 - Functioning Legal Knowledge 2'
+            
             course_data.append({
-                'id': course.id,
-                'title': course.title,
-                'slug': course.slug,
-                'category': course.category,
-                'category_display': course.get_category_display(),
-                'description': course.description,
-                'thumbnail_url': course.thumbnail_url,
-                'order': course.order,
+                'id': course_id,
+                'title': course['title'],
+                'slug': course['slug'],
+                'category': course['category'],
+                'category_display': category_display,
+                'description': course['description'],
+                'thumbnail_url': course['thumbnail_url'],
+                'order': course['order'],
                 'total_videos': total_videos,
-                'total_duration_formatted': course.total_duration_formatted,
+                'total_duration_formatted': duration_formatted,
                 'videos_completed': completed_count,
                 'progress_percentage': int((completed_count / total_videos) * 100) if total_videos > 0 else 0,
                 'first_video_id': first_video_id,
                 'next_video_id': next_video_id,
             })
         
-        # Query 5: Get stats - reuse already counted data
-        total_videos_count = Video.objects.filter(is_active=True).count()
-        completed_videos = VideoProgress.objects.filter(user=user, is_completed=True).count() if user.is_authenticated else 0
-        total_courses = len(courses)
-        courses_started = CourseProgress.objects.filter(user=user).count() if user.is_authenticated else 0
-        courses_completed = sum(1 for c in course_data if c['videos_completed'] == c['total_videos'] and c['total_videos'] > 0)
+        # Calculate total videos from pre-fetched data
+        total_videos_count = sum(c['total_videos'] for c in course_data)
         
-        total_watched = 0
-        if user.is_authenticated:
-            total_watched = VideoProgress.objects.filter(user=user).aggregate(
-                total=models.Sum('watched_seconds')
-            )['total'] or 0
-        
-        # Continue watching
-        continue_watching = []
-        if user.is_authenticated:
-            for cp in CourseProgress.objects.filter(user=user).select_related(
-                'last_video', 'course'
-            ).only(
-                'last_video__id', 'last_video__title', 'last_video__duration_seconds',
-                'course__title', 'course__slug', 'last_watched_at'
-            ).order_by('-last_watched_at')[:3]:
-                if cp.last_video:
-                    continue_watching.append({
-                        'video_id': cp.last_video.id,
-                        'video_title': cp.last_video.title,
-                        'course_title': cp.course.title,
-                        'course_slug': cp.course.slug,
-                        'duration_formatted': cp.last_video.duration_formatted
-                    })
+        # Format total watched time
+        watched_hours = total_watched // 3600
+        watched_minutes = (total_watched % 3600) // 60
+        watched_formatted = f"{watched_hours}h {watched_minutes}m" if watched_hours > 0 else f"{watched_minutes}m"
         
         return Response({
             'courses': course_data,
             'stats': {
                 'total_videos': total_videos_count,
-                'completed_videos': completed_videos,
-                'total_courses': total_courses,
-                'courses_started': courses_started,
-                'courses_completed': courses_completed,
+                'completed_videos': completed_videos_count,
+                'total_courses': len(courses),
+                'courses_started': courses_started_count,
+                'courses_completed': courses_completed_count,
                 'total_watched_seconds': total_watched,
-                'total_watched_formatted': self._format_duration(total_watched),
+                'total_watched_formatted': watched_formatted,
                 'continue_watching': continue_watching,
             }
         })
