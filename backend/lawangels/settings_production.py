@@ -289,6 +289,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ============================================================================
+# VIDEO STREAMING CONFIGURATION
+# ============================================================================
+
+# Cloudflare Stream Configuration
+CLOUDFLARE_ACCOUNT_ID = os.getenv('CLOUDFLARE_ACCOUNT_ID', '')
+CLOUDFLARE_API_TOKEN = os.getenv('CLOUDFLARE_API_TOKEN', '')
+
+# Bunny.net Stream Configuration
+BUNNY_STREAM_LIBRARY_ID = os.getenv('BUNNY_STREAM_LIBRARY_ID', '573273')
+BUNNY_STREAM_API_KEY = os.getenv('BUNNY_STREAM_API_KEY', '')
+BUNNY_STREAM_CDN_HOSTNAME = os.getenv('BUNNY_STREAM_CDN_HOSTNAME', 'vz-c82d373b-070.b-cdn.net')
+
+# ============================================================================
 # SECURITY HEADERS - PRODUCTION
 # ============================================================================
 
