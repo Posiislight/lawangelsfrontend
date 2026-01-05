@@ -126,10 +126,16 @@ class MyCoursesViewSet(viewsets.ViewSet):
         user = request.user
         
         try:
-            # Fetch all data in minimal queries
-            video_courses = list(VideoCourse.objects.filter(is_active=True).prefetch_related('videos'))
+            # OPTIMIZED: Fetch all data in minimal queries using annotations
+            # Query 1: Get video courses with video counts (single query)
+            video_courses = list(VideoCourse.objects.filter(is_active=True).annotate(
+                active_video_count=Count('videos', filter=Q(videos__is_active=True))
+            ).values('id', 'title', 'active_video_count'))
             
-            # Get video progress for user
+            # Build lookup map for courses
+            course_map = {vc['title']: vc for vc in video_courses}
+            
+            # Query 2: Get video progress for user (single query)
             video_progress = {}
             if user.is_authenticated:
                 progress_data = VideoProgress.objects.filter(
@@ -141,7 +147,7 @@ class MyCoursesViewSet(viewsets.ViewSet):
                 for p in progress_data:
                     video_progress[p['video__course_id']] = p['completed_count']
             
-            # Get quiz progress by topic
+            # Query 3: Get quiz progress by topic (single query)
             quiz_progress = {}
             if user.is_authenticated:
                 quiz_data = TopicQuizAttempt.objects.filter(
@@ -157,7 +163,7 @@ class MyCoursesViewSet(viewsets.ViewSet):
                         'correct': q['total_correct'] or 0
                     }
             
-            # Get mock exam progress
+            # Query 4: Get mock exam progress (single query)
             exam_progress = 0
             if user.is_authenticated:
                 exam_progress = ExamAttempt.objects.filter(
@@ -165,14 +171,14 @@ class MyCoursesViewSet(viewsets.ViewSet):
                     status='completed'
                 ).count()
             
-            # Get textbooks
-            textbooks = list(Textbook.objects.all())
+            # Query 5: Get textbooks (single query)
+            textbooks = list(Textbook.objects.values('id', 'title', 'subject'))
             textbook_by_subject = {}
             for tb in textbooks:
-                if tb.subject not in textbook_by_subject:
-                    textbook_by_subject[tb.subject] = tb
+                if tb['subject'] not in textbook_by_subject:
+                    textbook_by_subject[tb['subject']] = tb
             
-            # Build unified course data
+            # Build unified course data (no additional queries)
             courses = []
             for subject_key, subject_info in SUBJECT_MAP.items():
                 course_data = {
@@ -202,11 +208,12 @@ class MyCoursesViewSet(viewsets.ViewSet):
                     }
                 }
                 
-                # Video progress
-                for vc in video_courses:
-                    if vc.title in subject_info['video_titles']:
-                        total_videos = vc.videos.filter(is_active=True).count()
-                        completed_videos = video_progress.get(vc.id, 0)
+                # Video progress - use lookup map (O(1) instead of O(n))
+                for video_title in subject_info['video_titles']:
+                    if video_title in course_map:
+                        vc = course_map[video_title]
+                        total_videos = vc['active_video_count']
+                        completed_videos = video_progress.get(vc['id'], 0)
                         course_data['videos']['total'] = total_videos
                         course_data['videos']['completed'] = completed_videos
                         if total_videos > 0:
@@ -228,8 +235,8 @@ class MyCoursesViewSet(viewsets.ViewSet):
                     if tb_subject in textbook_by_subject:
                         tb = textbook_by_subject[tb_subject]
                         course_data['textbook']['available'] = True
-                        course_data['textbook']['title'] = tb.title
-                        course_data['textbook']['id'] = tb.id
+                        course_data['textbook']['title'] = tb['title']
+                        course_data['textbook']['id'] = tb['id']
                         break
                 
                 # Calculate overall progress (weighted average)

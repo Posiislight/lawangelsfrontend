@@ -48,8 +48,11 @@ class ExamViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         """Log queryset access with optimized queries"""
-        queryset = super().get_queryset().prefetch_related('questions__options')
-        log_queryset_access(queryset, 'LIST')
+        queryset = super().get_queryset()
+        # Only prefetch questions on detail view, not on list
+        if self.action == 'retrieve':
+            queryset = queryset.prefetch_related('questions__options')
+        log_queryset_access(queryset, 'LIST' if self.action == 'list' else 'RETRIEVE')
         return queryset
 
     def get_serializer_class(self):

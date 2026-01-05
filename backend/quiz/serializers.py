@@ -50,19 +50,15 @@ class ExamMinimalSerializer(serializers.ModelSerializer):
 
 
 class ExamSerializer(serializers.ModelSerializer):
-    """Serializer for exam with all details"""
-    questions_count = serializers.SerializerMethodField()
+    """Serializer for exam list - optimized for minimal queries"""
     
     class Meta:
         model = Exam
         fields = [
             'id', 'title', 'description', 'subject', 'duration_minutes',
             'speed_reader_seconds', 'passing_score_percentage', 'is_active',
-            'total_questions', 'questions_count'
+            'total_questions'
         ]
-    
-    def get_questions_count(self, obj):
-        return obj.questions.count()
 
 
 class ExamDetailSerializer(serializers.ModelSerializer):

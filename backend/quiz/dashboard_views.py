@@ -71,7 +71,7 @@ class DashboardViewSet(viewsets.ViewSet):
             from .video_models import VideoProgress
             video_time = VideoProgress.objects.filter(
                 user=user
-            ).aggregate(total=Sum('watch_position_seconds'))
+            ).aggregate(total=Sum('watched_seconds'))
             video_time_seconds = video_time['total'] or 0
         except Exception as e:
             logger.warning(f"Error getting video time: {e}")
@@ -100,9 +100,9 @@ class DashboardViewSet(viewsets.ViewSet):
         # Video progress
         try:
             from .video_models import VideoProgress
-            last_video = VideoProgress.objects.filter(user=user).order_by('-updated_at').first()
+            last_video = VideoProgress.objects.filter(user=user).order_by('-last_watched_at').first()
             if last_video:
-                activity_dates.append(last_video.updated_at)
+                activity_dates.append(last_video.last_watched_at)
         except Exception:
             pass
         
@@ -428,7 +428,7 @@ class DashboardViewSet(viewsets.ViewSet):
             last_video = VideoProgress.objects.filter(
                 user=user,
                 is_completed=False
-            ).select_related('video', 'video__course').order_by('-updated_at').first()
+            ).select_related('video', 'video__course').order_by('-last_watched_at').first()
             
             if last_video and last_video.video:
                 # Calculate progress
@@ -508,7 +508,7 @@ class DashboardViewSet(viewsets.ViewSet):
             if user:
                 video_dates = VideoProgress.objects.filter(
                     user=user
-                ).values_list('updated_at', flat=True)
+                ).values_list('last_watched_at', flat=True)
                 for dt in video_dates:
                     if dt:
                         dates.add(dt.date())
