@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import businesslawimg from '../assets/BUSINESS LAW.jpg';
-import Dashboardcut from '../assets/Law Angelscut.jpg';
+import Dashboardcut from '../assets/newdashboardscreenshot.png';
 import fullbooklistimg from '../assets/full book list L.A.-min.jpg';
 
 export default function Features() {
