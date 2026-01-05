@@ -26,6 +26,8 @@ import Textbook from './pages/Textbook'
 import VideoTutorials from './pages/VideoTutorials'
 import VideoWatch from './pages/VideoWatch'
 import Flashcards from './pages/Flashcards'
+import FlashcardTopic from './pages/FlashcardTopic'
+import FlashcardStudy from './pages/FlashcardStudy'
 import Quizzes from './pages/Quizzes'
 import MockQuestions from './pages/MockQuestions'
 import AngelAI from './pages/AngelAI'
@@ -171,6 +173,26 @@ function App() {
             element={
               <ProtectedRoute>
                 <Flashcards />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Flashcard Topic/Subject - Protected */}
+          <Route
+            path="/flashcards/topic/:subject"
+            element={
+              <ProtectedRoute>
+                <FlashcardTopic />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Flashcard Study - Protected */}
+          <Route
+            path="/flashcards/:deckId/study"
+            element={
+              <ProtectedRoute>
+                <FlashcardStudy />
               </ProtectedRoute>
             }
           />

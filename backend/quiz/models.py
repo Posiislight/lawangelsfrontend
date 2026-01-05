@@ -211,3 +211,7 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.rating} Stars"
+
+
+# Import flashcard models
+from .flashcard_models import FlashcardDeck, Flashcard, FlashcardProgress

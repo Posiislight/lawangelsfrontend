@@ -12,6 +12,7 @@ from . import my_courses_views
 from . import search_views
 from . import health_views
 from . import summary_notes_views
+from . import flashcard_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -49,6 +50,9 @@ router.register(r'my-courses', my_courses_views.MyCoursesViewSet, basename='my-c
 
 # Search router
 router.register(r'search', search_views.SearchViewSet, basename='search')
+
+# Flashcards router
+router.register(r'flashcards', flashcard_views.FlashcardDeckViewSet, basename='flashcard')
 
 # Summary Notes router
 router.register(r'summary-notes', summary_notes_views.SummaryNotesViewSet, basename='summary-notes')
