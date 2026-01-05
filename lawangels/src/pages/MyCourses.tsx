@@ -386,6 +386,23 @@ export default function MyCourses() {
                           {course.quizzes.completed} done →
                         </span>
                       </button>
+
+                      {/* Study Notes Link */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigate('/summary-notes')
+                        }}
+                        className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer transition-all"
+                      >
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <FileText className="w-4 h-4" style={{ color: accentColor }} />
+                          <span>Study Notes</span>
+                        </div>
+                        <span className="text-xs font-medium text-gray-900">
+                          View →
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>

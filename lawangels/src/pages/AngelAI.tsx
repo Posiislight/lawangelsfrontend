@@ -1,8 +1,9 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, Send, Plus, Loader2, Bot } from 'lucide-react'
+import { Bell, Send, Plus, Loader2 } from 'lucide-react'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import { angelAiApi, type Chat } from '../services/angelAiApi'
+import lawAngelsLogo from '../assets/lawangelslogo.png'
 
 export default function AngelAI() {
   const { user } = useAuth()
@@ -184,7 +185,7 @@ export default function AngelAI() {
         <div className="flex items-center justify-between gap-8">
           <div>
             <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
-              <Bot className="w-7 h-7 text-blue-500" />
+              <img src={lawAngelsLogo} alt="Law Angels" className="w-8 h-8 object-contain" />
               Angel AI
             </h1>
             <p className="text-gray-600">Your personal law tutor powered by Law Angels textbooks</p>
@@ -303,8 +304,8 @@ export default function AngelAI() {
               </>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-gray-500">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mb-4">
-                  <Bot className="w-10 h-10 text-white" />
+                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg">
+                  <img src={lawAngelsLogo} alt="Law Angels" className="w-16 h-16 object-contain" />
                 </div>
                 <p className="text-lg font-medium mb-2">Hi! I'm Angel AI , I'm here to help!</p>
 

@@ -36,6 +36,8 @@ import TermsAndConditions from './pages/TermsAndConditions'
 import GamifiedQuiz from './components/GamifiedQuiz'
 import GamifiedQuizResults from './pages/GamifiedQuizResults'
 import TextbookReader from './pages/TextbookReader'
+import SummaryNotes from './pages/SummaryNotes'
+import SummaryNotesReader from './pages/SummaryNotesReader'
 import { warmUpBackend } from './services/warmUpService'
 
 function App() {
@@ -113,7 +115,35 @@ function App() {
             }
           />
 
+          {/* Summary Notes - Protected */}
+          <Route
+            path="/summary-notes"
+            element={
+              <ProtectedRoute>
+                <SummaryNotes />
+              </ProtectedRoute>
+            }
+          />
 
+          {/* Summary Notes Reader - Protected */}
+          <Route
+            path="/summary-notes/:id"
+            element={
+              <ProtectedRoute>
+                <SummaryNotesReader />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Summary Notes Reader with Chapter - Protected */}
+          <Route
+            path="/summary-notes/:id/chapter/:chapterId"
+            element={
+              <ProtectedRoute>
+                <SummaryNotesReader />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Video Tutorials - Protected */}
           <Route

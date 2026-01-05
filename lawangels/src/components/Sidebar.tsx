@@ -56,6 +56,9 @@ export default function Sidebar() {
           <Link to="/textbook" className="block">
             <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" active={isActive('/textbook')} open={sidebarOpen} />
           </Link>
+          <Link to="/summary-notes" className="block">
+            <NavItem icon={<FileText className="w-5 h-5" />} label="Study Notes" active={isActive('/summary-notes')} open={sidebarOpen} />
+          </Link>
           <Link to="/video-tutorials" className="block">
             <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" active={isActive('/video-tutorials')} open={sidebarOpen} />
           </Link>
