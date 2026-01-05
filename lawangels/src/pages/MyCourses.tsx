@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import DashboardLayout from '../components/DashboardLayout'
+import { summaryNotesApi, type SummaryNotes } from '../services/summaryNotesApi'
 
 // Brand colors
 const FLK1_COLOR = '#0AB5FF'
@@ -76,29 +77,46 @@ export default function MyCourses() {
   const [data, setData] = useState<MyCoursesResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [summaryNotes, setSummaryNotes] = useState<SummaryNotes[]>([])
 
   useEffect(() => {
-    const loadCourses = async () => {
+    const loadData = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`${getApiBaseUrl()}/my-courses/`, {
-          method: 'GET',
-          credentials: 'include',
-          headers: getAuthHeaders(),
-        })
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`)
+        // Fetch courses and summary notes in parallel
+        const [coursesResponse, notesData] = await Promise.all([
+          fetch(`${getApiBaseUrl()}/my-courses/`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: getAuthHeaders(),
+          }),
+          summaryNotesApi.list().catch(() => [] as SummaryNotes[])
+        ])
+
+        if (!coursesResponse.ok) {
+          throw new Error(`HTTP ${coursesResponse.status}`)
         }
-        const coursesData = await response.json()
+        const coursesData = await coursesResponse.json()
         setData(coursesData)
+        setSummaryNotes(notesData)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load courses')
       } finally {
         setLoading(false)
       }
     }
-    loadCourses()
+    loadData()
   }, [])
+
+  // Find matching summary notes for a course title
+  const findSummaryNotesForCourse = (courseTitle: string): SummaryNotes | undefined => {
+    const title = courseTitle.toLowerCase()
+    return summaryNotes.find(note =>
+      note.title.toLowerCase().includes(title) ||
+      title.includes(note.subject.toLowerCase()) ||
+      note.subject.toLowerCase().includes(title)
+    )
+  }
 
   // Filter courses based on status, category, and search term
   const filteredCourses = data?.courses
@@ -391,7 +409,12 @@ export default function MyCourses() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          navigate('/summary-notes')
+                          const matchingNotes = findSummaryNotesForCourse(course.title)
+                          if (matchingNotes) {
+                            navigate(`/summary-notes/${matchingNotes.id}`)
+                          } else {
+                            navigate('/summary-notes')
+                          }
                         }}
                         className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer transition-all"
                       >

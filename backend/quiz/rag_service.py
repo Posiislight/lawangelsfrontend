@@ -2,14 +2,16 @@
 RAG Service for Angel AI
 
 Provides retrieval-augmented generation using Law Angels textbooks.
-Uses simple JSON-based storage with numpy for cosine similarity search.
-No external vector database required.
+Uses simple JSON-based storage with cosine similarity search.
+FAST MODE: Also supports keyword-based search without API calls.
 """
 
 import os
 import json
 import logging
+import re
 from typing import List, Dict
+from collections import Counter
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -19,6 +21,17 @@ EMBEDDINGS_FILE = os.path.join(settings.BASE_DIR, 'textbook_embeddings.json')
 
 # Cache for loaded embeddings
 _embeddings_cache = None
+
+# Legal keywords to boost relevance
+LEGAL_KEYWORDS = {
+    'murder', 'manslaughter', 'theft', 'robbery', 'burglary', 'fraud',
+    'assault', 'battery', 'negligence', 'duty', 'breach', 'causation',
+    'contract', 'offer', 'acceptance', 'consideration', 'intention',
+    'trust', 'trustee', 'beneficiary', 'fiduciary', 'equity',
+    'property', 'land', 'easement', 'lease', 'freehold', 'leasehold',
+    'tort', 'damages', 'liability', 'defendant', 'claimant',
+    'statute', 'act', 'section', 'mens rea', 'actus reus',
+}
 
 
 def get_openai_client():
@@ -245,8 +258,73 @@ def format_context_for_prompt(results: List[Dict]) -> str:
     context_parts = []
     
     for i, result in enumerate(results, 1):
-        context_parts.append(f"**Source {i}: {result['textbook_title']} ({result['subject']})**")
+        context_parts.append(f"From {result['textbook_title']} ({result['subject']}):")
         context_parts.append(result['content'])
         context_parts.append("")
     
     return "\n".join(context_parts)
+
+
+def fast_keyword_search(query: str, top_k: int = 3) -> List[Dict]:
+    """
+    Fast keyword-based search that doesn't require API calls.
+    Uses term frequency matching for instant results.
+    """
+    try:
+        data = load_embeddings()
+        
+        if not data.get("chunks"):
+            return []
+        
+        # Extract keywords from query
+        query_lower = query.lower()
+        query_words = set(re.findall(r'\b[a-z]+\b', query_lower))
+        
+        # Add legal keyword variations  
+        legal_terms_in_query = query_words & LEGAL_KEYWORDS
+        
+        # Score each chunk
+        scored_chunks = []
+        for chunk in data["chunks"]:
+            content_lower = chunk['content'].lower()
+            
+            # Count matching words
+            score = 0
+            for word in query_words:
+                if len(word) > 2:  # Skip very short words
+                    count = content_lower.count(word)
+                    score += count
+                    
+                    # Boost for legal terms
+                    if word in LEGAL_KEYWORDS:
+                        score += count * 2
+            
+            # Boost for case citations (R v Something, [1959])
+            case_matches = len(re.findall(r'\b[rv]\s+v\s+\w+', content_lower, re.IGNORECASE))
+            score += case_matches * 5
+            
+            # Boost for statute references (Act 19XX)
+            statute_matches = len(re.findall(r'\bact\s+\d{4}\b', content_lower, re.IGNORECASE))
+            score += statute_matches * 3
+            
+            if score > 0:
+                scored_chunks.append((score, chunk))
+        
+        # Sort by score
+        scored_chunks.sort(key=lambda x: x[0], reverse=True)
+        
+        # Return top results
+        results = []
+        for score, chunk in scored_chunks[:top_k]:
+            results.append({
+                'content': chunk['content'][:1500],  # Limit content length
+                'textbook_title': chunk['textbook_title'],
+                'subject': chunk['subject'],
+                'score': score
+            })
+        
+        return results
+    
+    except Exception as e:
+        logger.error(f"Keyword search error: {e}")
+        return []
