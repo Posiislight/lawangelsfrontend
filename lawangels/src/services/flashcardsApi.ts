@@ -4,7 +4,19 @@
  * Handles API requests for flashcard decks, cards, and user progress.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Get API base URL from environment variable
+const getBaseUrl = (): string => {
+    const envUrl = import.meta.env.VITE_API_BASE_URL;
+    if (envUrl) {
+        console.log('[FlashcardsAPI] Using environment variable API URL:', envUrl);
+        return envUrl;
+    }
+    console.log('[FlashcardsAPI] Using default localhost URL');
+    return 'http://localhost:8000';
+};
+
+const API_BASE_URL = getBaseUrl();
+console.log('[FlashcardsAPI] Initialized with base URL:', API_BASE_URL);
 
 // Types
 export interface FlashcardDeck {
