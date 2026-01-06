@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Lightbulb, Eye, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react'
-import { flashcardsApi, type Flashcard, type FlashcardProgress } from '../services/flashcardsApi'
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { flashcardsApi, type Flashcard } from '../services/flashcardsApi'
 import DashboardLayout from '../components/DashboardLayout'
 
 export default function FlashcardStudy() {
     const { deckId } = useParams<{ deckId: string }>()
     const navigate = useNavigate()
 
-    const [deckTitle, setDeckTitle] = useState('')
     const [cards, setCards] = useState<Flashcard[]>([])
     const [currentIndex, setCurrentIndex] = useState(0)
     const [showAnswer, setShowAnswer] = useState(false)
-    const [showHint, setShowHint] = useState(false)
-    const [progress, setProgress] = useState<FlashcardProgress | null>(null)
     const [loading, setLoading] = useState(true)
     const [correctCards, setCorrectCards] = useState<boolean[]>([])
 
@@ -25,9 +22,7 @@ export default function FlashcardStudy() {
         try {
             setLoading(true)
             const data = await flashcardsApi.getStudySession(Number(deckId))
-            setDeckTitle(data.deck.title)
             setCards(data.cards)
-            setProgress(data.progress)
             setCorrectCards(new Array(data.cards.length).fill(false))
         } catch (error) {
             console.error('Error loading study session:', error)
@@ -38,9 +33,7 @@ export default function FlashcardStudy() {
 
     const currentCard = cards[currentIndex]
 
-    const handleShowAnswer = () => {
-        setShowAnswer(true)
-    }
+
 
     const handleNext = async (isCorrect?: boolean) => {
         // Update progress
@@ -50,12 +43,11 @@ export default function FlashcardStudy() {
             setCorrectCards(updatedCorrectCards)
 
             try {
-                const updatedProgress = await flashcardsApi.updateProgress(
+                await flashcardsApi.updateProgress(
                     Number(deckId),
                     currentIndex + 1,
                     isCorrect
                 )
-                setProgress(updatedProgress)
             } catch (error) {
                 console.error('Error updating progress:', error)
             }
@@ -65,7 +57,6 @@ export default function FlashcardStudy() {
         if (currentIndex < cards.length - 1) {
             setCurrentIndex(currentIndex + 1)
             setShowAnswer(false)
-            setShowHint(false)
         }
     }
 
@@ -73,7 +64,6 @@ export default function FlashcardStudy() {
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1)
             setShowAnswer(false)
-            setShowHint(false)
         }
     }
 
@@ -159,15 +149,7 @@ export default function FlashcardStudy() {
                             </span>
                         </div>
 
-                        {/* Bottom control */}
-                        <div className="w-full flex justify-end z-10">
-                            <button
-                                className="text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-white/10 p-2.5 rounded-full transition-all duration-200"
-                                title="Expand view"
-                            >
-                                <Maximize2 className="w-6 h-6" />
-                            </button>
-                        </div>
+
 
                         {/* Decorative gradients */}
                         <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-colors duration-500 ${showAnswer && correctCards[currentIndex]

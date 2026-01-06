@@ -84,33 +84,30 @@ export const flashcardsApi = {
     },
 
     /**
-     * Get decks grouped by subject/topic
+     * Get decks grouped by subject/topic - uses optimized backend endpoint
      */
     async getTopics(): Promise<FlashcardTopic[]> {
-        const decks = await this.getDecks();
+        const response = await fetch(`${getApiBaseUrl()}/flashcards/topics/`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: getAuthHeaders(),
+        });
 
-        // Group decks by subject
-        const topicMap = new Map<string, FlashcardTopic>();
-
-        for (const deck of decks) {
-            if (!topicMap.has(deck.subject)) {
-                topicMap.set(deck.subject, {
-                    subject: deck.subject,
-                    category: deck.category,
-                    icon: deck.icon,
-                    totalDecks: 0,
-                    totalCards: 0,
-                    decks: [],
-                });
-            }
-
-            const topic = topicMap.get(deck.subject)!;
-            topic.decks.push(deck);
-            topic.totalDecks += 1;
-            topic.totalCards += deck.total_cards;
+        if (!response.ok) {
+            throw new Error('Failed to fetch topics');
         }
 
-        return Array.from(topicMap.values());
+        const data = await response.json();
+
+        // Transform backend response to match expected format
+        return data.map((item: { subject: string; category: string; icon: string; total_decks: number; total_cards: number }) => ({
+            subject: item.subject,
+            category: item.category,
+            icon: item.icon,
+            totalDecks: item.total_decks,
+            totalCards: item.total_cards,
+            decks: [], // Decks loaded separately when needed
+        }));
     },
 
     /**

@@ -1,4 +1,3 @@
-import { useAuth } from '../contexts/AuthContext'
 import { ChevronRight, RotateCw, ArrowLeft } from 'lucide-react'
 import DashboardLayout from '../components/DashboardLayout'
 import { useState, useEffect } from 'react'
@@ -6,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { flashcardsApi, type FlashcardDeck } from '../services/flashcardsApi'
 
 export default function FlashcardTopic() {
-    const { user } = useAuth()
     const navigate = useNavigate()
     const { subject } = useParams<{ subject: string }>()
     const [chapters, setChapters] = useState<FlashcardDeck[]>([])

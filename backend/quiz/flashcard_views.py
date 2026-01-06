@@ -1,14 +1,16 @@
 """
-Flashcard API Views
+Flashcard API Views - Optimized for Performance
 
 Provides REST API endpoints for flashcard decks, flashcards, and user progress tracking.
+Uses annotated queries and caching for fast responses.
 """
 
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Count, Q, F
+from django.db.models import Count, Q
+from django.core.cache import cache
 from .flashcard_models import FlashcardDeck, Flashcard, FlashcardProgress
 from rest_framework import serializers
 
@@ -33,7 +35,7 @@ class FlashcardProgressSerializer(serializers.ModelSerializer):
 
 
 class FlashcardDeckListSerializer(serializers.ModelSerializer):
-    """Serializer for deck list view."""
+    """Serializer for deck list view - minimal fields for speed."""
     total_cards = serializers.IntegerField(source='card_count', read_only=True)
     user_progress = serializers.SerializerMethodField()
     
@@ -42,7 +44,6 @@ class FlashcardDeckListSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'subject', 'category', 'icon', 'total_cards', 'user_progress']
     
     def get_user_progress(self, obj):
-        # Check if progress was prefetched
         if hasattr(obj, '_prefetched_progress') and obj._prefetched_progress:
             return FlashcardProgressSerializer(obj._prefetched_progress).data
         return None
@@ -51,13 +52,16 @@ class FlashcardDeckListSerializer(serializers.ModelSerializer):
 class FlashcardDeckDetailSerializer(serializers.ModelSerializer):
     """Serializer for deck detail view with all cards."""
     cards = FlashcardSerializer(many=True, read_only=True)
-    total_cards = serializers.IntegerField(read_only=True)
+    total_cards = serializers.SerializerMethodField()
     user_progress = serializers.SerializerMethodField()
     
     class Meta:
         model = FlashcardDeck
         fields = ['id', 'title', 'subject', 'description', 'category', 'icon', 
                   'total_cards', 'cards', 'user_progress']
+    
+    def get_total_cards(self, obj):
+        return obj.cards.filter(is_active=True).count()
     
     def get_user_progress(self, obj):
         user = self.context['request'].user
@@ -71,7 +75,7 @@ class FlashcardDeckDetailSerializer(serializers.ModelSerializer):
 
 
 class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
-    """ViewSet for flashcard decks."""
+    """ViewSet for flashcard decks - optimized for performance."""
     permission_classes = [IsAuthenticated]
     
     def get_serializer_class(self):
@@ -80,31 +84,71 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         return FlashcardDeckListSerializer
     
     def get_queryset(self):
-        # Annotate with total cards count (use card_count to avoid conflict with property)
+        """Get queryset with card count annotation - single optimized query."""
         return FlashcardDeck.objects.filter(is_active=True).annotate(
             card_count=Count('cards', filter=Q(cards__is_active=True))
-        ).order_by('category', 'order', 'title')
+        ).only('id', 'title', 'subject', 'category', 'icon', 'order').order_by('category', 'order', 'title')
     
     def list(self, request, *args, **kwargs):
-        """List all decks with user progress."""
+        """List all decks - optimized with caching."""
+        # Try cache first (cache key includes user for progress)
+        cache_key = f'flashcard_decks_user_{request.user.id}'
+        cached = cache.get(cache_key)
+        
+        if cached is not None:
+            return Response(cached)
+        
+        # Get all deck IDs first (fast)
+        deck_ids = list(FlashcardDeck.objects.filter(is_active=True).values_list('id', flat=True))
+        
+        # Single query for all decks with annotation
         queryset = self.get_queryset()
         
-        # Batch fetch user progress
+        # Single query for user progress
         user_progress_map = {}
         if request.user.is_authenticated:
             progress_list = FlashcardProgress.objects.filter(
                 user=request.user,
-                deck__in=queryset
-            )
+                deck_id__in=deck_ids
+            ).only('deck_id', 'cards_studied', 'correct_answers', 'total_attempts', 'last_studied_at')
             user_progress_map = {p.deck_id: p for p in progress_list}
         
-        # Attach progress to decks
+        # Attach progress
         decks_list = list(queryset)
         for deck in decks_list:
             deck._prefetched_progress = user_progress_map.get(deck.id)
         
         serializer = self.get_serializer(decks_list, many=True)
-        return Response(serializer.data)
+        data = serializer.data
+        
+        # Cache for 60 seconds
+        cache.set(cache_key, data, 60)
+        
+        return Response(data)
+    
+    @action(detail=False, methods=['get'])
+    def topics(self, request):
+        """Get grouped topics - highly optimized endpoint."""
+        cache_key = 'flashcard_topics'
+        cached = cache.get(cache_key)
+        
+        if cached is not None:
+            return Response(cached)
+        
+        # Single aggregation query
+        topics_data = FlashcardDeck.objects.filter(is_active=True).values(
+            'subject', 'category', 'icon'
+        ).annotate(
+            total_decks=Count('id'),
+            total_cards=Count('cards', filter=Q(cards__is_active=True))
+        ).order_by('category', 'subject')
+        
+        result = list(topics_data)
+        
+        # Cache for 5 minutes (topics don't change often)
+        cache.set(cache_key, result, 300)
+        
+        return Response(result)
     
     @action(detail=True, methods=['post'])
     def update_progress(self, request, pk=None):
@@ -114,14 +158,12 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         cards_studied = request.data.get('cards_studied', 0)
         correct = request.data.get('correct', False)
         
-        # Get or create progress
         progress, created = FlashcardProgress.objects.get_or_create(
             user=request.user,
             deck=deck,
             defaults={'cards_studied': 0, 'correct_answers': 0, 'total_attempts': 0}
         )
         
-        # Update progress
         if cards_studied > progress.cards_studied:
             progress.cards_studied = cards_studied
         
@@ -131,18 +173,24 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         
         progress.save()
         
+        # Invalidate user cache
+        cache.delete(f'flashcard_decks_user_{request.user.id}')
+        
         serializer = FlashcardProgressSerializer(progress)
         return Response(serializer.data)
     
     @action(detail=True, methods=['get'])
     def study(self, request, pk=None):
-        """Get cards for study session."""
-        deck = self.get_object()
+        """Get cards for study session - optimized."""
+        deck = FlashcardDeck.objects.filter(id=pk, is_active=True).prefetch_related(
+            'cards'
+        ).first()
         
-        # Get all active cards
+        if not deck:
+            return Response({'error': 'Deck not found'}, status=404)
+        
         cards = deck.cards.filter(is_active=True).order_by('order')
         
-        # Get user progress
         progress = None
         if request.user.is_authenticated:
             progress, _ = FlashcardProgress.objects.get_or_create(
