@@ -4,15 +4,15 @@
  * Handles API requests for flashcard decks, cards, and user progress.
  */
 
-// Get API base URL from environment variable
+// Get API base URL from environment variable (same as authApi uses VITE_API_URL)
 const getBaseUrl = (): string => {
-    const envUrl = import.meta.env.VITE_API_BASE_URL;
+    const envUrl = import.meta.env.VITE_API_URL;
     if (envUrl) {
         console.log('[FlashcardsAPI] Using environment variable API URL:', envUrl);
         return envUrl;
     }
     console.log('[FlashcardsAPI] Using default localhost URL');
-    return 'http://localhost:8000';
+    return 'http://localhost:8000/api';
 };
 
 const API_BASE_URL = getBaseUrl();
@@ -74,7 +74,7 @@ function getAuthHeaders() {
 }
 
 function getApiBaseUrl() {
-    return `${API_BASE_URL}/api`;
+    return API_BASE_URL;
 }
 
 export const flashcardsApi = {
