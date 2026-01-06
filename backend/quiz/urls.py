@@ -13,6 +13,7 @@ from . import search_views
 from . import health_views
 from . import summary_notes_views
 from . import flashcard_views
+from . import practice_questions_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -80,6 +81,11 @@ urlpatterns = [
     path('ai/conversations/', ai_views.AngelAIViewSet.as_view({'get': 'conversations', 'post': 'conversations'}), name='ai-conversations'),
     path('ai/conversations/<int:conversation_id>/', ai_views.AngelAIViewSet.as_view({'get': 'conversation_detail', 'delete': 'conversation_detail'}), name='ai-conversation-detail'),
     path('ai/conversations/<int:conversation_id>/message/', ai_views.AngelAIViewSet.as_view({'post': 'add_message'}), name='ai-conversation-message'),
+    
+    # Practice Questions routes
+    path('practice-questions/', practice_questions_views.practice_questions_list, name='practice-questions-list'),
+    path('practice-questions/<str:course_slug>/', practice_questions_views.course_topics, name='practice-questions-course'),
+    path('practice-questions/<str:course_slug>/<str:topic_slug>/', practice_questions_views.topic_questions, name='practice-questions-topic'),
     
     # Health check for warm-up pings (no auth required)
     path('health/', health_views.health_check, name='health-check'),

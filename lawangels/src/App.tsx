@@ -30,6 +30,7 @@ import FlashcardTopic from './pages/FlashcardTopic'
 import FlashcardStudy from './pages/FlashcardStudy'
 import Quizzes from './pages/Quizzes'
 import MockQuestions from './pages/MockQuestions'
+import PracticeQuestions from './pages/PracticeQuestions'
 import AngelAI from './pages/AngelAI'
 import SQETips from './pages/SQETips'
 import KeyTimeframes from './pages/KeyTimeframes'
@@ -213,6 +214,32 @@ function App() {
             element={
               <ProtectedRoute>
                 <MockQuestions />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Practice Questions - Protected */}
+          <Route
+            path="/practice-questions"
+            element={
+              <ProtectedRoute>
+                <PracticeQuestions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/practice-questions/:courseSlug"
+            element={
+              <ProtectedRoute>
+                <PracticeQuestions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/practice-questions/:courseSlug/:topicSlug"
+            element={
+              <ProtectedRoute>
+                <PracticeQuestions />
               </ProtectedRoute>
             }
           />

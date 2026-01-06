@@ -71,6 +71,9 @@ export default function Sidebar() {
           <Link to="/mock-questions" className="block">
             <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" active={isActive('/mock-questions')} open={sidebarOpen} />
           </Link>
+          <Link to="/practice-questions" className="block">
+            <NavItem icon={<FileText className="w-5 h-5" />} label="Practice Questions" active={isActive('/practice-questions')} open={sidebarOpen} />
+          </Link>
         </div>
 
         {/* Learning Tools */}

@@ -138,6 +138,55 @@ export default function Practice() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
+
+          {/* Practice Questions Card */}
+          <div className="bg-gradient-to-br from-emerald-50 to-green-100/50 rounded-2xl p-8 border border-emerald-200">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-3">Practice Questions</h3>
+            <p className="text-gray-600 mb-6">
+              Topic-based practice with instant feedback and detailed explanations
+            </p>
+
+            {/* Features */}
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center gap-3 text-gray-700">
+                <FileText className="w-5 h-5 text-emerald-500" />
+                <span>Organized by course and topic</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-700">
+                <Target className="w-5 h-5 text-emerald-500" />
+                <span>Instant feedback on answers</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-700">
+                <Flag className="w-5 h-5 text-emerald-500" />
+                <span>Detailed explanations</span>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="flex items-end gap-8 mb-6">
+              <div>
+                <p className="text-3xl font-bold text-emerald-600">250+</p>
+                <p className="text-sm text-gray-500">Questions</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-emerald-600">12</p>
+                <p className="text-sm text-gray-500">Topics</p>
+              </div>
+              <div>
+                <p className="text-xl font-semibold text-emerald-600">Learn</p>
+                <p className="text-sm text-gray-500">Mode</p>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <button
+              onClick={() => navigate('/practice-questions')}
+              className="flex items-center justify-between w-full text-emerald-600 font-semibold hover:text-emerald-700 transition-colors group"
+            >
+              <span>Start Practice</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
       </div>
     </DashboardLayout>
