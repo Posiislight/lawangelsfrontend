@@ -151,10 +151,45 @@ export default function Textbook() {
           </div>
 
           {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-              <span className="ml-2 text-gray-600">Loading textbooks...</span>
-            </div>
+            <>
+              {/* Textbook cards skeleton */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <div key={i} className="rounded-xl border-t-4 border-t-gray-300 overflow-hidden bg-white border border-gray-200">
+                    <div className="p-6">
+                      {/* Icon and category */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="w-14 h-14 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-shimmer bg-[length:200%_100%] rounded-xl"></div>
+                        <div className="h-6 w-12 bg-gray-200 rounded-full animate-pulse"></div>
+                      </div>
+                      {/* Title and subject */}
+                      <div className="mb-4">
+                        <div className="h-3 w-16 bg-gray-100 rounded animate-pulse mb-2"></div>
+                        <div className="h-5 w-full bg-gray-200 rounded animate-pulse mb-1"></div>
+                        <div className="h-5 w-2/3 bg-gray-200 rounded animate-pulse"></div>
+                      </div>
+                      {/* Button */}
+                      <div className="h-10 w-full bg-gray-300 rounded-lg animate-pulse"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-center gap-3 mt-8 text-gray-500">
+                <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
+                <span className="text-sm">Loading textbooks...</span>
+              </div>
+
+              <style>{`
+                @keyframes shimmer {
+                  0% { background-position: 200% 0; }
+                  100% { background-position: -200% 0; }
+                }
+                .animate-shimmer {
+                  animation: shimmer 2s infinite linear;
+                }
+              `}</style>
+            </>
           ) : error ? (
             <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
               <p className="text-red-700">{error}</p>

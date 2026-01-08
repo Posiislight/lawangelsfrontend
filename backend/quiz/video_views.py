@@ -265,6 +265,13 @@ class VideoDetailSerializer(serializers.ModelSerializer):
 
 # ========== ViewSets ==========
 
+def add_cache_headers(response, max_age=3600, public=True):
+    """Add Cache-Control headers to a response for edge caching."""
+    cache_type = 'public' if public else 'private'
+    response['Cache-Control'] = f'{cache_type}, max-age={max_age}, stale-while-revalidate=60'
+    return response
+
+
 class VideoCourseViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for video courses - optimized with annotated counts.
@@ -285,6 +292,12 @@ class VideoCourseViewSet(viewsets.ReadOnlyModelViewSet):
         return VideoCourse.objects.filter(is_active=True).prefetch_related(
             'videos'
         ).order_by('order', 'title')
+    
+    def list(self, request, *args, **kwargs):
+        """List all courses with caching."""
+        response = super().list(request, *args, **kwargs)
+        # Cache for 5 minutes (has user-specific progress)
+        return add_cache_headers(response, max_age=300, public=False)
 
 
 class VideoViewSet(viewsets.ReadOnlyModelViewSet):
@@ -529,33 +542,51 @@ class VideoProgressViewSet(viewsets.ViewSet):
         """
         OPTIMIZED: Get all data needed for VideoTutorials page in ONE call.
         
-        Performance target: < 500ms with ~5 database queries
+        Performance: Uses caching + minimal database queries
         """
+        from django.core.cache import cache
+        
         user = request.user
         
-        # Query 1: Get all courses with video counts AND total duration (single query)
-        courses = list(VideoCourse.objects.filter(is_active=True).annotate(
-            video_count=models.Count('videos', filter=models.Q(videos__is_active=True)),
-            total_duration=models.Sum('videos__duration_seconds', filter=models.Q(videos__is_active=True))
-        ).values(
-            'id', 'title', 'slug', 'category', 'description', 
-            'thumbnail_url', 'order', 'video_count', 'total_duration'
-        ).order_by('order', 'title'))
+        # Check cache for course and video data (static - cache for 30 minutes)
+        cache_key = 'video_page_courses'
+        cached_data = cache.get(cache_key)
         
-        # Query 2: Get ALL videos in one query - build both first_videos and course_videos maps
-        first_videos = {}
-        course_videos = {}
-        for video in Video.objects.filter(is_active=True).values(
-            'id', 'course_id', 'order'
-        ).order_by('course_id', 'order'):
-            course_id = video['course_id']
-            if course_id not in first_videos:
-                first_videos[course_id] = video['id']
-            if course_id not in course_videos:
-                course_videos[course_id] = []
-            course_videos[course_id].append(video['id'])
+        if cached_data:
+            courses = cached_data['courses']
+            first_videos = cached_data['first_videos']
+            course_videos = cached_data['course_videos']
+        else:
+            # Query 1: Get all courses with video counts AND total duration
+            courses = list(VideoCourse.objects.filter(is_active=True).annotate(
+                video_count=models.Count('videos', filter=models.Q(videos__is_active=True)),
+                total_duration=models.Sum('videos__duration_seconds', filter=models.Q(videos__is_active=True))
+            ).values(
+                'id', 'title', 'slug', 'category', 'description', 
+                'thumbnail_url', 'order', 'video_count', 'total_duration'
+            ).order_by('order', 'title'))
+            
+            # Query 2: Get ALL videos in one query
+            first_videos = {}
+            course_videos = {}
+            for video in Video.objects.filter(is_active=True).values(
+                'id', 'course_id', 'order'
+            ).order_by('course_id', 'order'):
+                course_id = video['course_id']
+                if course_id not in first_videos:
+                    first_videos[course_id] = video['id']
+                if course_id not in course_videos:
+                    course_videos[course_id] = []
+                course_videos[course_id].append(video['id'])
+            
+            # Cache static data for 30 minutes
+            cache.set(cache_key, {
+                'courses': courses,
+                'first_videos': first_videos,
+                'course_videos': course_videos
+            }, 1800)
         
-        # Query 3: Get user progress (only if authenticated)
+        # User progress (not cached - must be fresh)
         all_progress = {}
         completed_videos_count = 0
         total_watched = 0
@@ -572,7 +603,7 @@ class VideoProgressViewSet(viewsets.ViewSet):
                     all_progress[course_id] = set()
                 all_progress[course_id].add(vp['video_id'])
             
-            # Query 4: Get aggregate stats in one query
+            # Get aggregate stats in one query
             stats = VideoProgress.objects.filter(user=user).aggregate(
                 completed_count=models.Count('id', filter=models.Q(is_completed=True)),
                 total_watched=models.Sum('watched_seconds')
@@ -580,10 +611,10 @@ class VideoProgressViewSet(viewsets.ViewSet):
             completed_videos_count = stats['completed_count'] or 0
             total_watched = stats['total_watched'] or 0
             
-            # Query 5: Get courses started count
+            # Get courses started count
             courses_started_count = CourseProgress.objects.filter(user=user).count()
             
-            # Query 6: Continue watching (limit 3)
+            # Continue watching (limit 3)
             for cp in CourseProgress.objects.filter(
                 user=user, last_video__isnull=False
             ).select_related('last_video', 'course').order_by('-last_watched_at')[:3]:
@@ -595,7 +626,7 @@ class VideoProgressViewSet(viewsets.ViewSet):
                     'duration_formatted': f"{cp.last_video.duration_seconds // 60}:{cp.last_video.duration_seconds % 60:02d}"
                 })
         
-        # Build course data (no additional queries - all data pre-fetched)
+        # Build course data
         course_data = []
         courses_completed_count = 0
         
@@ -611,7 +642,6 @@ class VideoProgressViewSet(viewsets.ViewSet):
             next_video_id = first_video_id
             
             if completed_ids and course_id in course_videos:
-                # Find first unwatched video from cached list
                 for vid_id in course_videos[course_id]:
                     if vid_id not in completed_ids:
                         next_video_id = vid_id
@@ -622,11 +652,9 @@ class VideoProgressViewSet(viewsets.ViewSet):
             minutes = (total_duration % 3600) // 60
             duration_formatted = f"{hours}h {minutes}m" if hours > 0 else f"{minutes}m"
             
-            # Track completed courses
             if total_videos > 0 and completed_count == total_videos:
                 courses_completed_count += 1
             
-            # Get category display name
             category_display = 'FLK1 - Functioning Legal Knowledge 1' if course['category'] == 'FLK1' else 'FLK2 - Functioning Legal Knowledge 2'
             
             course_data.append({
@@ -646,15 +674,14 @@ class VideoProgressViewSet(viewsets.ViewSet):
                 'next_video_id': next_video_id,
             })
         
-        # Calculate total videos from pre-fetched data
+        # Calculate totals
         total_videos_count = sum(c['total_videos'] for c in course_data)
         
-        # Format total watched time
         watched_hours = total_watched // 3600
         watched_minutes = (total_watched % 3600) // 60
         watched_formatted = f"{watched_hours}h {watched_minutes}m" if watched_hours > 0 else f"{watched_minutes}m"
         
-        return Response({
+        response = Response({
             'courses': course_data,
             'stats': {
                 'total_videos': total_videos_count,
@@ -667,3 +694,7 @@ class VideoProgressViewSet(viewsets.ViewSet):
                 'continue_watching': continue_watching,
             }
         })
+        
+        # Add cache headers for edge caching (5 min for user-specific data)
+        response['Cache-Control'] = 'private, max-age=300, stale-while-revalidate=60'
+        return response

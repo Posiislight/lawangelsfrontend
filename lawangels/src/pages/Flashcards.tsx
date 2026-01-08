@@ -70,7 +70,48 @@ export default function Flashcards() {
         <p className="text-gray-600 text-sm mb-6">Each topic contains multiple chapters with flashcards</p>
 
         {loading ? (
-          <div className="text-center py-12">Loading topics...</div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm">
+                  {/* Header skeleton */}
+                  <div className="bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-shimmer bg-[length:200%_100%] p-6">
+                    <div className="w-10 h-10 bg-white/30 rounded-lg mb-3 animate-pulse"></div>
+                    <div className="h-6 w-32 bg-white/30 rounded animate-pulse mb-2"></div>
+                    <div className="h-4 w-16 bg-white/20 rounded animate-pulse"></div>
+                  </div>
+                  {/* Content skeleton */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="h-8 w-12 bg-gray-200 rounded animate-pulse mb-1"></div>
+                        <div className="h-3 w-16 bg-gray-100 rounded animate-pulse"></div>
+                      </div>
+                      <div className="w-px h-8 bg-gray-200" />
+                      <div className="text-center">
+                        <div className="h-8 w-12 bg-gray-200 rounded animate-pulse mb-1"></div>
+                        <div className="h-3 w-12 bg-gray-100 rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                    <div className="h-12 w-full bg-gray-200 rounded-lg animate-pulse"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center justify-center gap-3 mt-8 text-gray-500">
+              <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <span className="text-sm">Loading flashcards...</span>
+            </div>
+            <style>{`
+              @keyframes shimmer {
+                0% { background-position: 200% 0; }
+                100% { background-position: -200% 0; }
+              }
+              .animate-shimmer {
+                animation: shimmer 2s infinite linear;
+              }
+            `}</style>
+          </>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topics.map((topic) => {

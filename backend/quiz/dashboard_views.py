@@ -196,17 +196,26 @@ class DashboardViewSet(viewsets.ViewSet):
         - exams: List of exams with attempt stats (attemptsTaken, avgScore, bestScore, lastAttempt)
         - userStats: Overall user statistics
         
-        Performance: 2 database queries total
+        Performance: 2 database queries total + caching
         """
+        from django.core.cache import cache
+        
         user = request.user
         
-        # Query 1: Get ALL active exams
-        all_exams = list(Exam.objects.filter(is_active=True).values(
-            'id', 'title', 'description', 'subject', 'duration_minutes',
-            'speed_reader_seconds', 'passing_score_percentage', 'total_questions', 'is_active'
-        ))
+        # Try cache for static exam data (30 min cache)
+        exams_cache_key = 'mock_exams_list'
+        all_exams = cache.get(exams_cache_key)
         
-        # Query 2: Get ALL user attempts with exam data
+        if all_exams is None:
+            # Query 1: Get ALL active exams
+            all_exams = list(Exam.objects.filter(is_active=True).values(
+                'id', 'title', 'description', 'subject', 'duration_minutes',
+                'speed_reader_seconds', 'passing_score_percentage', 'total_questions', 'is_active'
+            ))
+            # Cache static exam data for 30 minutes
+            cache.set(exams_cache_key, all_exams, 1800)
+        
+        # Query 2: Get ALL user attempts with exam data (user-specific, not cached long)
         attempts = list(ExamAttempt.objects.filter(user=user).select_related('exam').values(
             'id', 'exam_id', 'status', 'score', 'time_spent_seconds', 'started_at', 'ended_at'
         ))
@@ -273,10 +282,13 @@ class DashboardViewSet(viewsets.ViewSet):
                 'color': colors[idx % len(colors)],
             })
         
-        return Response({
+        response = Response({
             'exams': enriched_exams,
             'userStats': user_stats,
         })
+        # Add Cache-Control headers for edge/browser caching (5 min for user data)
+        response['Cache-Control'] = 'private, max-age=300, stale-while-revalidate=60'
+        return response
 
     @action(detail=False, methods=['get'])
     def progress_page(self, request):

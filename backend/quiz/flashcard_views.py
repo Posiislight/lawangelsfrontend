@@ -96,7 +96,9 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         cached = cache.get(cache_key)
         
         if cached is not None:
-            return Response(cached)
+            response = Response(cached)
+            response['Cache-Control'] = 'private, max-age=300, stale-while-revalidate=60'
+            return response
         
         # Get all deck IDs first (fast)
         deck_ids = list(FlashcardDeck.objects.filter(is_active=True).values_list('id', flat=True))
@@ -121,10 +123,12 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(decks_list, many=True)
         data = serializer.data
         
-        # Cache for 60 seconds
-        cache.set(cache_key, data, 60)
+        # Cache for 5 minutes (300 seconds)
+        cache.set(cache_key, data, 300)
         
-        return Response(data)
+        response = Response(data)
+        response['Cache-Control'] = 'private, max-age=300, stale-while-revalidate=60'
+        return response
     
     @action(detail=False, methods=['get'])
     def topics(self, request):
@@ -133,7 +137,9 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         cached = cache.get(cache_key)
         
         if cached is not None:
-            return Response(cached)
+            response = Response(cached)
+            response['Cache-Control'] = 'public, max-age=1800, stale-while-revalidate=300'
+            return response
         
         # Single aggregation query
         topics_data = FlashcardDeck.objects.filter(is_active=True).values(
@@ -145,10 +151,12 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         
         result = list(topics_data)
         
-        # Cache for 5 minutes (topics don't change often)
-        cache.set(cache_key, result, 300)
+        # Cache for 30 minutes (topics rarely change)
+        cache.set(cache_key, result, 1800)
         
-        return Response(result)
+        response = Response(result)
+        response['Cache-Control'] = 'public, max-age=1800, stale-while-revalidate=300'
+        return response
     
     @action(detail=True, methods=['post'])
     def update_progress(self, request, pk=None):

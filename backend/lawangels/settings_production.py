@@ -100,23 +100,26 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 
 if DATABASE_URL:
     # Parse DATABASE_URL if provided (for Render automatic setup)
+    # Note: Ensure DATABASE_URL uses port 6543 for transaction pooling
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
-            conn_max_age=600,
+            conn_max_age=0,  # Must be 0 for transaction pooler mode
             conn_health_checks=True,
         )
     }
-    # Add SSL requirement for Supabase
+    # Add SSL and pooler-compatible options for Supabase
     DATABASES['default']['OPTIONS'] = {
         'sslmode': 'require',
         'connect_timeout': 30,
         'keepalives': 1,
         'keepalives_idle': 30,
+        'options': '-c statement_timeout=30000',
     }
 else:
     # Fallback to individual environment variables
+    # Using port 6543 for Transaction Pooler mode (more concurrent connections)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -124,12 +127,15 @@ else:
             'USER': os.getenv('DB_USER', 'postgres.kfviwdoyiknsnnnadkpe'),
             'PASSWORD': os.getenv('DB_PASSWORD'),
             'HOST': os.getenv('DB_HOST', 'aws-1-eu-west-2.pooler.supabase.com'),
-            'PORT': os.getenv('DB_PORT', '5432'),
-            'CONN_MAX_AGE': 600,
+            'PORT': os.getenv('DB_PORT', '6543'),  # Transaction pooler port (was 5432 for Session mode)
+            'CONN_MAX_AGE': 0,  # Must be 0 for transaction pooler mode
             'CONN_HEALTH_CHECKS': True,
             'OPTIONS': {
                 'sslmode': 'require',
-            
+                'connect_timeout': 30,
+                'keepalives': 1,
+                'keepalives_idle': 30,
+                'options': '-c statement_timeout=30000',
             }
         }
     }

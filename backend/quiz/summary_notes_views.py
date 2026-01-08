@@ -127,6 +127,13 @@ class SummaryNotesDetailSerializer(serializers.ModelSerializer):
 
 # ========== ViewSets ==========
 
+def add_cache_headers(response, max_age=3600, public=True):
+    """Add Cache-Control headers to a response for edge caching."""
+    cache_type = 'public' if public else 'private'
+    response['Cache-Control'] = f'{cache_type}, max-age={max_age}, stale-while-revalidate=60'
+    return response
+
+
 class SummaryNotesViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Summary Notes - OPTIMIZED for performance.
@@ -170,7 +177,10 @@ class SummaryNotesViewSet(viewsets.ReadOnlyModelViewSet):
             notes._prefetched_progress = user_progress_map.get(notes.id)
         
         serializer = self.get_serializer(notes_list, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        
+        # Cache for 5 minutes (has user-specific progress)
+        return add_cache_headers(response, max_age=300, public=False)
     
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

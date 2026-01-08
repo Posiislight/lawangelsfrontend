@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count, Max
+from django.core.cache import cache
 import logging
 
 from .models import Question
@@ -26,6 +27,12 @@ TOPIC_ICONS = {
 }
 
 
+def add_cache_headers(response, max_age=300):
+    """Add Cache-Control headers for edge caching."""
+    response['Cache-Control'] = f'private, max-age={max_age}, stale-while-revalidate=60'
+    return response
+
+
 class QuizzesPageViewSet(viewsets.ViewSet):
     """
     Optimized API for the Quizzes page.
@@ -45,20 +52,23 @@ class QuizzesPageViewSet(viewsets.ViewSet):
         - recentAttempts: Last 6 quiz attempts
         - profile: User game profile
         
-        Performance: 4 database queries total (was 6+ from 3 separate API calls)
+        Performance: Uses caching + 4 database queries total
         """
         user = request.user
+        
+        # Check cache for topic counts (static data - cache for 30 minutes)
+        topic_count_map = cache.get('quiz_topic_counts')
+        if not topic_count_map:
+            topic_counts = Question.objects.values('topic').annotate(
+                question_count=Count('id')
+            )
+            topic_count_map = {tc['topic']: tc['question_count'] for tc in topic_counts}
+            cache.set('quiz_topic_counts', topic_count_map, 1800)  # 30 min cache
         
         # Query 1: Get or create user's game profile
         profile, _ = UserGameProfile.objects.get_or_create(user=user)
         
-        # Query 2: Get question counts per topic
-        topic_counts = Question.objects.values('topic').annotate(
-            question_count=Count('id')
-        )
-        topic_count_map = {tc['topic']: tc['question_count'] for tc in topic_counts}
-        
-        # Query 3: Get user's best scores and attempt counts per topic
+        # Query 2: Get user's best scores and attempt counts per topic
         user_best_scores = TopicQuizAttempt.objects.filter(
             user=user,
             status='completed'
@@ -74,7 +84,7 @@ class QuizzesPageViewSet(viewsets.ViewSet):
             for ubs in user_best_scores
         }
         
-        # Query 4: Get recent attempts (last 6)
+        # Query 3: Get recent attempts (last 6)
         recent_attempts = TopicQuizAttempt.objects.filter(user=user).order_by('-started_at')[:6]
         
         # Build topics list (no additional queries - all data is pre-fetched)
@@ -129,8 +139,12 @@ class QuizzesPageViewSet(viewsets.ViewSet):
             'longest_streak': profile.longest_streak,
         }
         
-        return Response({
+        response = Response({
             'topics': topics,
             'recentAttempts': attempts_data,
             'profile': profile_data,
         })
+        
+        # Add cache headers for edge caching (5 min for user-specific data)
+        return add_cache_headers(response, max_age=300)
+

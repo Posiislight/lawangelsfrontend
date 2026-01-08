@@ -13,6 +13,13 @@ from .textbook_serializers import TextbookSerializer, TextbookListSerializer
 logger = logging.getLogger(__name__)
 
 
+def add_cache_headers(response, max_age=3600, public=True):
+    """Add Cache-Control headers to a response for edge caching."""
+    cache_type = 'public' if public else 'private'
+    response['Cache-Control'] = f'{cache_type}, max-age={max_age}, stale-while-revalidate=60'
+    return response
+
+
 class TextbookViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for textbooks.
@@ -40,7 +47,10 @@ class TextbookViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(category__in=[category.upper(), 'BOTH'])
         
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        
+        # Cache textbook list for 1 hour (content rarely changes)
+        return add_cache_headers(response, max_age=3600, public=False)
     
     @action(detail=True, methods=['get'])
     def pdf(self, request, pk=None):
@@ -77,6 +87,9 @@ class TextbookViewSet(viewsets.ReadOnlyModelViewSet):
             response['Access-Control-Allow-Origin'] = '*'
             response['Access-Control-Expose-Headers'] = 'Content-Disposition'
             
+            # Cache PDFs for 24 hours (static content)
+            response['Cache-Control'] = 'private, max-age=86400, stale-while-revalidate=3600'
+            
             logger.info(f"Serving PDF: {textbook.title} to user {request.user.username}")
             return response
             
@@ -86,3 +99,4 @@ class TextbookViewSet(viewsets.ReadOnlyModelViewSet):
                 {'error': 'Failed to load PDF file'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+

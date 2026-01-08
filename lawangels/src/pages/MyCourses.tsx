@@ -144,9 +144,91 @@ export default function MyCourses() {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+        {/* Header skeleton */}
+        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
+          <div className="flex items-center justify-between gap-8">
+            <div>
+              <div className="h-7 w-40 bg-gray-200 rounded animate-pulse mb-2"></div>
+              <div className="h-4 w-64 bg-gray-100 rounded animate-pulse"></div>
+            </div>
+            <div className="w-80 h-10 bg-gray-100 rounded-lg animate-pulse"></div>
+            <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+          </div>
         </div>
+
+        {/* Filter buttons skeleton */}
+        <div className="px-8 pt-6 pb-4 bg-white border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <div className="w-5 h-5 bg-gray-200 rounded animate-pulse"></div>
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-9 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
+            ))}
+            <div className="w-px h-6 bg-gray-300 mx-2"></div>
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-8 w-16 bg-gray-200 rounded-lg animate-pulse"></div>
+            ))}
+          </div>
+        </div>
+
+        {/* Courses grid skeleton */}
+        <div className="p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+                {/* Color bar */}
+                <div className="h-2 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-shimmer bg-[length:200%_100%]"></div>
+                <div className="p-5">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <div className="h-5 w-12 bg-gray-200 rounded-full animate-pulse mb-2"></div>
+                      <div className="h-5 w-32 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="mb-5">
+                    <div className="flex justify-between mb-2">
+                      <div className="h-4 w-24 bg-gray-100 rounded animate-pulse"></div>
+                      <div className="h-4 w-8 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                    <div className="h-2.5 w-full bg-gray-200 rounded-full animate-pulse"></div>
+                  </div>
+                  {/* Content links */}
+                  <div className="space-y-2">
+                    {[1, 2, 3, 4].map((j) => (
+                      <div key={j} className="h-12 w-full bg-gray-100 rounded-lg animate-pulse"></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="bg-white rounded-xl p-5 border border-gray-200">
+                <div className="h-4 w-20 bg-gray-100 rounded animate-pulse mb-2"></div>
+                <div className="h-9 w-12 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-3 mt-8 text-gray-500">
+            <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+            <span className="text-sm">Loading courses...</span>
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+          .animate-shimmer {
+            animation: shimmer 2s infinite linear;
+          }
+        `}</style>
       </DashboardLayout>
     )
   }
