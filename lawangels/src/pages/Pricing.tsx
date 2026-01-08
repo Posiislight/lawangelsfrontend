@@ -34,7 +34,7 @@ export default function Pricing() {
       icon: 'layers',
       description: 'Revise smarter with high-quality flashcards that lock key legal concepts into memory.',
     },
-    
+
     {
       title: 'Quizzes (1,500+ Questions)',
       icon: 'quiz',
@@ -55,13 +55,13 @@ export default function Pricing() {
       icon: 'layers',
       description: 'Remember more with visual memory aids that turn complicated ideas into simple, easy-to-grasp graphics.',
     },
-    
+
   ]
 
   return (
     <div className="min-h-screen bg-[#f6f7f8] dark:bg-[#101822] font-worksans">
       <Navbar />
-      
+
       <main className="w-full flex flex-col items-center justify-center mt-16">
         {/* Hero Section */}
         <section className="w-full max-w-6xl px-4 py-8 flex flex-col items-center text-center">
@@ -82,9 +82,15 @@ export default function Pricing() {
             <div className="w-full md:w-5/12 lg:w-4/12 bg-[#f8fafc] dark:bg-[#15202b] p-8 lg:p-12 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-[#f0f2f4] dark:border-[#2A3645] relative">
               <div className="absolute top-0 left-0 w-full h-1 bg-[#136dec]"></div>
               <h3 className="text-2xl font-bold text-[#111418] dark:text-white mb-2">Yearly Plan</h3>
-              <div className="flex items-baseline justify-center my-6 text-[#111418] dark:text-white">
-                <span className="text-5xl font-black">£0</span>
-                <span className="text-xl text-[#617289] dark:text-gray-400 ml-2 font-medium">/ year</span>
+              <div className="flex flex-col items-center justify-center my-6">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl text-gray-400 dark:text-gray-500 line-through font-medium">£1500</span>
+                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-sm font-bold rounded-full">50% OFF</span>
+                </div>
+                <div className="flex items-baseline text-[#111418] dark:text-white">
+                  <span className="text-5xl font-black">£750</span>
+                  <span className="text-xl text-[#617289] dark:text-gray-400 ml-2 font-medium">/ year</span>
+                </div>
               </div>
               <p className="text-[#617289] dark:text-gray-400 mb-8 max-w-[240px] text-sm leading-relaxed">
                 Unlock the full potential of your revision with complete access to all features.
@@ -93,7 +99,7 @@ export default function Pricing() {
                 Get Started
                 <span className="material-symbols-outlined ml-2 text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
               </button>
-              <p className="text-xs text-[#617289] dark:text-gray-500 mt-4 font-medium">Free forever. No credit card required.</p>
+              <p className="text-xs text-[#617289] dark:text-gray-500 mt-4 font-medium">Secure checkout. Instant full access.</p>
             </div>
 
             {/* Right Side - Features */}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Bell, ArrowRight, PlayCircle, Clock, Loader2, BookOpen, Library } from 'lucide-react'
+import { Bell, ArrowRight, PlayCircle, Clock, Loader2, BookOpen, Library, Video } from 'lucide-react'
 import DashboardLayout from '../components/DashboardLayout'
 import { useAuth } from '../contexts/AuthContext'
 import { videoApi, type VideoCourse, type OverallVideoStats } from '../services/videoApi'
@@ -90,8 +90,9 @@ export default function VideoTutorials() {
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
         <div className="flex items-center justify-between gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900">
-              🎥 Video Tutorials
+            <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
+              <Video className="w-6 h-6 text-blue-600" />
+              Video Tutorials
             </h1>
             <p className="text-gray-600">Learn from expert instructors with comprehensive video lectures</p>
           </div>

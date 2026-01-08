@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { BookOpen, Clock, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb } from 'lucide-react'
+import { BookOpen, Clock, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, ClipboardList } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
@@ -72,7 +72,7 @@ export default function Sidebar() {
             <NavItem icon={<FileText className="w-5 h-5" />} label="Mock Questions" active={isActive('/mock-questions')} open={sidebarOpen} />
           </Link>
           <Link to="/practice-questions" className="block">
-            <NavItem icon={<FileText className="w-5 h-5" />} label="Practice Questions" active={isActive('/practice-questions')} open={sidebarOpen} />
+            <NavItem icon={<ClipboardList className="w-5 h-5" />} label="Practice Questions" active={isActive('/practice-questions')} open={sidebarOpen} />
           </Link>
         </div>
 

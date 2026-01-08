@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, ChevronRight, ChevronLeft, BookOpen, CheckCircle2, XCircle, Loader, List } from 'lucide-react'
+import { ArrowLeft, ChevronRight, ChevronLeft, BookOpen, CheckCircle2, XCircle, Loader } from 'lucide-react'
 import DashboardLayout from '../components/DashboardLayout'
 import apiClient from '../api/client'
 import { practiceQuestionsApi } from '../services/practiceQuestionsApi'
@@ -13,6 +13,7 @@ interface PracticeArea {
     question_count: number
     questions?: {
         id: number
+        title?: string
         text: string
         options: { label: string; text: string }[]
         correct_answer: string
@@ -124,9 +125,19 @@ export default function PracticeQuestions() {
         if (!currentArea?.questions) return
 
         if (currentQuestionIndex < currentArea.questions.length - 1) {
-            setCurrentQuestionIndex(prev => prev + 1)
-            setSelectedAnswer(null)
-            setShowFeedback(false)
+            const nextIndex = currentQuestionIndex + 1
+            setCurrentQuestionIndex(nextIndex)
+
+            // Check if next question was already answered
+            const key = `${selectedAreaIndex}-${nextIndex}`
+            const nextAnswer = answeredQuestions[key]
+            if (nextAnswer) {
+                setSelectedAnswer(nextAnswer.selectedAnswer)
+                setShowFeedback(true)
+            } else {
+                setSelectedAnswer(null)
+                setShowFeedback(false)
+            }
         }
     }
 
@@ -343,9 +354,16 @@ export default function PracticeQuestions() {
                                         <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-600 text-white font-medium flex-shrink-0">
                                             {currentQuestionIndex + 1}
                                         </div>
-                                        <p className="text-lg text-gray-800 leading-relaxed flex-1">
-                                            {currentQuestion.text}
-                                        </p>
+                                        <div className="flex-1">
+                                            {currentQuestion.title && (
+                                                <h4 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
+                                                    {currentQuestion.title}
+                                                </h4>
+                                            )}
+                                            <p className="text-lg text-gray-800 leading-relaxed">
+                                                {currentQuestion.text}
+                                            </p>
+                                        </div>
                                     </div>
 
                                     {/* Answer Options */}

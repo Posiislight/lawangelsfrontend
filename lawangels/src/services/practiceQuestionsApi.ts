@@ -12,6 +12,7 @@ export interface QuestionOption {
 
 export interface PracticeQuestion {
     id: number
+    title?: string
     text: string
     options: QuestionOption[]
     correct_answer: string

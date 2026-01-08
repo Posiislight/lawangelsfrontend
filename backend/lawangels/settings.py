@@ -157,6 +157,7 @@ if DATABASE_URL:
     }
 else:
     # Fallback to Supabase for local development
+    # Using port 6543 for Transaction Pooler mode (more concurrent connections)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -164,8 +165,8 @@ else:
             'USER': 'postgres.kfviwdoyiknsnnnadkpe',
             'PASSWORD': os.getenv('DB_PASSWORD'),
             'HOST': 'aws-1-eu-west-2.pooler.supabase.com',
-            'PORT': '5432',
-            'CONN_MAX_AGE': 60,
+            'PORT': '6543',  # Transaction pooler port (was 5432 for Session mode)
+            'CONN_MAX_AGE': 0,  # Must be 0 for transaction pooler mode
             'OPTIONS': {
                 'connect_timeout': 30,
                 'keepalives': 1,

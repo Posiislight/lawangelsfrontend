@@ -215,3 +215,12 @@ class Review(models.Model):
 
 # Import flashcard models
 from .flashcard_models import FlashcardDeck, Flashcard, FlashcardProgress
+
+# Import practice question models
+from .practice_question_models import (
+    PracticeQuestionCourse,
+    PracticeQuestionTopic,
+    PracticeQuestionArea,
+    PracticeQuestion
+)
+

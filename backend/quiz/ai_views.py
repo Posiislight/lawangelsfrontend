@@ -36,11 +36,14 @@ def clean_markdown_formatting(text: str) -> str:
     if not text:
         return text
     
-    # Remove **bold** formatting -> just the text inside
-    text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
+    # Remove **bold** formatting -> just the text inside (handle multiline)
+    text = re.sub(r'\*\*(.+?)\*\*', r'\1', text, flags=re.DOTALL)
     
     # Remove __bold__ formatting -> just the text inside  
-    text = re.sub(r'__([^_]+)__', r'\1', text)
+    text = re.sub(r'__(.+?)__', r'\1', text, flags=re.DOTALL)
+    
+    # Remove *italic* formatting -> just the text inside
+    text = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'\1', text)
     
     # Remove ## headers -> just the text (keep on same line)
     text = re.sub(r'^#{1,6}\s+(.+)$', r'\1', text, flags=re.MULTILINE)
@@ -103,7 +106,7 @@ When answering legal questions:
 ⚖️ Explain legal principles clearly with practical examples
 
 CRITICAL FORMATTING RULES:
-❌ NEVER use markdown bold or headers (no ** or ##)
+❌ NEVER use markdown bold or headers (no ** or ##) please dont try to bolden or make headers
 ✅ Write naturally like texting a friend who needs help with law
 ✅ Use bullet points with - or • for lists
 
@@ -235,9 +238,6 @@ Please:
             
             ai_response = completion.choices[0].message.content
             
-            # Clean markdown formatting from response
-            ai_response = clean_markdown_formatting(ai_response)
-            
             logger.info(f"Angel AI response generated for user {request.user.username}")
             
             return Response({
@@ -291,8 +291,6 @@ Please:
                     for chunk in stream:
                         if chunk.choices[0].delta.content:
                             content = chunk.choices[0].delta.content
-                            # Clean markdown formatting from each chunk
-                            content = clean_markdown_formatting(content)
                             # Send as SSE format
                             yield f"data: {json.dumps({'content': content})}\n\n"
                     
@@ -327,20 +325,22 @@ Please:
         POST: Create a new conversation
         """
         if request.method == 'GET':
-            # Optimized: annotate message count instead of calling count() per object
+            # OPTIMIZED: Use values() for minimal data transfer
             from django.db.models import Count
             conversations = ChatConversation.objects.filter(
                 user=request.user
             ).annotate(
                 msg_count=Count('messages')
+            ).values(
+                'id', 'title', 'created_at', 'updated_at', 'msg_count'
             ).order_by('-updated_at')[:20]  # Limit to 20 most recent
             
             data = [{
-                'id': conv.id,
-                'title': conv.title,
-                'created_at': conv.created_at.isoformat(),
-                'updated_at': conv.updated_at.isoformat(),
-                'message_count': conv.msg_count
+                'id': conv['id'],
+                'title': conv['title'],
+                'created_at': conv['created_at'].isoformat() if conv['created_at'] else '',
+                'updated_at': conv['updated_at'].isoformat() if conv['updated_at'] else '',
+                'message_count': conv['msg_count']
             } for conv in conversations]
             return Response({'conversations': data, 'success': True})
         

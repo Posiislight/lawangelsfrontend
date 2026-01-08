@@ -1,9 +1,10 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, Send, Plus, Loader2 } from 'lucide-react'
+import { Bell, Send, Plus, Loader2, Trash2 } from 'lucide-react'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import { angelAiApi, type Chat } from '../services/angelAiApi'
 import lawAngelsLogo from '../assets/lawangelslogo.png'
+import ReactMarkdown from 'react-markdown'
 
 export default function AngelAI() {
   const { user } = useAuth()
@@ -81,6 +82,34 @@ export default function AngelAI() {
     }
   }
 
+  const deleteChat = (chatId: string, chatIndex: number, e: React.MouseEvent) => {
+    e.stopPropagation() // Don't trigger chat selection
+
+    // Optimistic update - remove from UI immediately
+    const deletedChat = chats[chatIndex]
+    setChats(prev => prev.filter((_, idx) => idx !== chatIndex))
+
+    // Reset current chat if we deleted it
+    if (currentChatIndex === chatIndex) {
+      setCurrentChatIndex(null)
+    } else if (currentChatIndex !== null && currentChatIndex > chatIndex) {
+      // Adjust index if we deleted a chat before the current one
+      setCurrentChatIndex(currentChatIndex - 1)
+    }
+
+    // Delete in background - don't await
+    angelAiApi.deleteConversation(chatId).catch(err => {
+      console.error('Failed to delete chat:', err)
+      // Rollback on error - add the chat back
+      setChats(prev => {
+        const updated = [...prev]
+        updated.splice(chatIndex, 0, deletedChat)
+        return updated
+      })
+      setError('Failed to delete chat')
+    })
+  }
+
   const sendMessage = async (messageText?: string) => {
     const message = messageText || messageInput.trim()
     if (!message || isLoading) return
@@ -105,7 +134,10 @@ export default function AngelAI() {
         return
       }
     } else {
-      sendMessageToChat(message, currentChatIndex, chats[currentChatIndex].id)
+      const chat = chats[currentChatIndex]
+      if (chat) {
+        sendMessageToChat(message, currentChatIndex, chat.id)
+      }
     }
 
     setMessageInput('')
@@ -120,7 +152,9 @@ export default function AngelAI() {
     const userMessage = angelAiApi.createUserMessage(message)
     setChats(prev => {
       const updated = [...prev]
-      updated[chatIndex].messages = [...updated[chatIndex].messages, userMessage]
+      if (updated[chatIndex]) {
+        updated[chatIndex].messages = [...updated[chatIndex].messages, userMessage]
+      }
       return updated
     })
 
@@ -129,10 +163,12 @@ export default function AngelAI() {
       const { conversationTitle } = await angelAiApi.addMessage(chatId, 'user', message)
 
       // Update title if it changed
-      if (conversationTitle !== chats[chatIndex].title) {
+      if (chats[chatIndex] && conversationTitle !== chats[chatIndex].title) {
         setChats(prev => {
           const updated = [...prev]
-          updated[chatIndex].title = conversationTitle
+          if (updated[chatIndex]) {
+            updated[chatIndex].title = conversationTitle
+          }
           return updated
         })
       }
@@ -242,15 +278,24 @@ export default function AngelAI() {
               </div>
             ) : (
               chats.map((chat, idx) => (
-                <button
+                <div
                   key={chat.id}
                   onClick={() => selectChat(idx)}
-                  className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors ${currentChatIndex === idx ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                  className={`group w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer flex items-center justify-between ${currentChatIndex === idx ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
                     }`}
                 >
-                  <h3 className="font-semibold text-gray-900 text-sm truncate">{chat.title}</h3>
-                  <p className="text-xs text-gray-500 mt-1">{chat.date}</p>
-                </button>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 text-sm truncate">{chat.title}</h3>
+                    <p className="text-xs text-gray-500 mt-1">{chat.date}</p>
+                  </div>
+                  <button
+                    onClick={(e) => deleteChat(chat.id, idx, e)}
+                    className="opacity-0 group-hover:opacity-100 p-1.5 text-red-500 hover:bg-red-50 rounded transition-all"
+                    title="Delete chat"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               ))
             )}
           </div>
@@ -270,7 +315,13 @@ export default function AngelAI() {
                         : 'bg-gray-100 text-gray-900 rounded-bl-none'
                         }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      {msg.role === 'user' ? (
+                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      ) : (
+                        <div className="text-sm prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
+                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </div>
+                      )}
                       <p className={`text-xs mt-2 ${msg.role === 'user' ? 'text-blue-100' : 'text-gray-500'}`}>
                         {msg.timestamp}
                       </p>
@@ -282,7 +333,9 @@ export default function AngelAI() {
                 {streamingContent && (
                   <div className="flex justify-start">
                     <div className="max-w-xs lg:max-w-md xl:max-w-lg px-4 py-3 rounded-lg bg-gray-100 text-gray-900 rounded-bl-none">
-                      <p className="text-sm whitespace-pre-wrap">{streamingContent}</p>
+                      <div className="text-sm prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
+                        <ReactMarkdown>{streamingContent}</ReactMarkdown>
+                      </div>
                       <div className="flex items-center gap-1 mt-2">
                         <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
                         <span className="text-xs text-gray-500">Angel AI is typing...</span>
