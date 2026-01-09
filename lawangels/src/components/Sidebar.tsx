@@ -1,16 +1,26 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { BookOpen, Clock, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, ClipboardList } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+import { BookOpen, Clock, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, ClipboardList, LogOut } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
 
 export default function Sidebar() {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const { sidebarOpen, setSidebarOpen } = useSidebar()
   const location = useLocation()
+  const navigate = useNavigate()
 
   const isActive = (path: string) => location.pathname === path
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      navigate('/login')
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
 
   return (
     <div
@@ -57,7 +67,7 @@ export default function Sidebar() {
             <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" active={isActive('/textbook')} open={sidebarOpen} />
           </Link>
           <Link to="/summary-notes" className="block">
-            <NavItem icon={<FileText className="w-5 h-5" />} label="Study Notes" active={isActive('/summary-notes')} open={sidebarOpen} />
+            <NavItem icon={<FileText className="w-5 h-5" />} label="Summary Notes" active={isActive('/summary-notes')} open={sidebarOpen} />
           </Link>
           <Link to="/video-tutorials" className="block">
             <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" active={isActive('/video-tutorials')} open={sidebarOpen} />
@@ -104,6 +114,15 @@ export default function Sidebar() {
             </div>
           )}
         </div>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors ${sidebarOpen ? '' : 'justify-center'}`}
+        >
+          <LogOut className="w-5 h-5 flex-shrink-0" />
+          {sidebarOpen && <span className="text-sm font-medium">Logout</span>}
+        </button>
       </div>
     </div>
   )

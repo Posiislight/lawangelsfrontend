@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import serializers
 from django.db.models import Count, Prefetch
 from django.db import models
+from django.core.cache import cache
 
 from .summary_notes_models import SummaryNotes, SummaryNotesChapter, SummaryNotesProgress
 
@@ -159,117 +160,233 @@ class SummaryNotesViewSet(viewsets.ReadOnlyModelViewSet):
         ).order_by('category', 'order', 'title')
     
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        # CACHE KEY STRATEGY:
+        # - Static data (course list): cached for 30 minutes
+        # - User progress: cached for 2 minutes
         
-        # Batch fetch all user progress in ONE query
-        user_progress_map = {}
+        # Try to get cached static data
+        static_cache_key = 'summary_notes_list_static'
+        cached_static = cache.get(static_cache_key)
+        
+        if cached_static is None:
+            # Fetch and cache static data
+            queryset = self.get_queryset()
+            notes_data = []
+            for notes in queryset:
+                notes_data.append({
+                    'id': notes.id,
+                    'title': notes.title,
+                    'subject': notes.subject,
+                    'category': notes.category,
+                    'category_display': notes.get_category_display(),
+                    'description': notes.description,
+                    'icon': notes.icon,
+                    'order': notes.order,
+                    'total_chapters': notes.chapter_count,
+                })
+            cached_static = notes_data
+            cache.set(static_cache_key, cached_static, 1800)  # 30 minutes
+        
+        # Get user progress (cached separately for 2 minutes)
         if request.user.is_authenticated:
-            progress_list = SummaryNotesProgress.objects.filter(
-                user=request.user,
-                summary_notes__in=queryset
-            ).select_related('current_chapter')
+            user_cache_key = f'summary_notes_progress_{request.user.id}'
+            user_progress = cache.get(user_cache_key)
             
-            user_progress_map = {p.summary_notes_id: p for p in progress_list}
+            # Handle stale cache with wrong format or missing cache
+            if user_progress is None or not isinstance(user_progress, dict):
+                progress_list = SummaryNotesProgress.objects.filter(
+                    user=request.user
+                ).values('summary_notes_id', 'completed_chapters', 'current_chapter_id')
+                user_progress = {}
+                for p in progress_list:
+                    user_progress[p['summary_notes_id']] = {
+                        'completed': p['completed_chapters'] or [],
+                        'current': p['current_chapter_id']
+                    }
+                cache.set(user_cache_key, user_progress, 120)  # 2 minutes
+        else:
+            user_progress = {}
         
-        # Attach progress to each notes object
-        notes_list = list(queryset)
-        for notes in notes_list:
-            notes._prefetched_progress = user_progress_map.get(notes.id)
+        # Merge static data with user progress
+        result = []
+        for notes in cached_static:
+            notes_progress = user_progress.get(notes['id'], {})
+            if isinstance(notes_progress, dict):
+                completed = notes_progress.get('completed', [])
+            else:
+                # Handle legacy format (list directly)
+                completed = notes_progress if isinstance(notes_progress, list) else []
+            total = notes['total_chapters']
+            result.append({
+                **notes,
+                'chapters_completed': len(completed),
+                'progress_percentage': round(len(completed) / total * 100) if total > 0 else 0,
+            })
         
-        serializer = self.get_serializer(notes_list, many=True)
-        response = Response(serializer.data)
-        
-        # Cache for 5 minutes (has user-specific progress)
-        return add_cache_headers(response, max_age=300, public=False)
+        response = Response(result)
+        return add_cache_headers(response, max_age=120, public=False)
     
     def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
+        pk = kwargs.get('pk')
         
-        # Batch fetch chapters (only id, title, order - NO content)
-        chapters = list(
-            instance.chapters.filter(is_active=True)
-            .order_by('order')
-            .only('id', 'title', 'order', 'summary_notes_id')
-        )
-        instance.prefetched_chapters = chapters
+        # Try to get cached static data for this notes
+        static_cache_key = f'summary_notes_detail_{pk}'
+        cached_static = cache.get(static_cache_key)
         
-        # Get user progress
+        if cached_static is None:
+            instance = self.get_object()
+            
+            # Batch fetch chapters (only id, title, order - NO content)
+            chapters = list(
+                instance.chapters.filter(is_active=True)
+                .order_by('order')
+                .values('id', 'title', 'order')
+            )
+            
+            cached_static = {
+                'id': instance.id,
+                'title': instance.title,
+                'subject': instance.subject,
+                'category': instance.category,
+                'category_display': instance.get_category_display(),
+                'description': instance.description,
+                'icon': instance.icon,
+                'order': instance.order,
+                'total_chapters': len(chapters),
+                'chapters': chapters,
+            }
+            cache.set(static_cache_key, cached_static, 1800)  # 30 minutes
+        
+        # Get user progress (cached for 2 minutes)
         completed_chapters = []
-        current_chapter_id = chapters[0].id if chapters else None
+        current_chapter_id = cached_static['chapters'][0]['id'] if cached_static['chapters'] else None
         
         if request.user.is_authenticated:
-            progress = SummaryNotesProgress.objects.filter(
-                user=request.user,
-                summary_notes=instance
-            ).select_related('current_chapter').first()
+            user_cache_key = f'summary_notes_progress_{request.user.id}'
+            user_progress = cache.get(user_cache_key)
             
-            if progress:
-                completed_chapters = progress.completed_chapters or []
-                if progress.current_chapter:
-                    current_chapter_id = progress.current_chapter.id
+            # Handle stale cache with wrong format or missing cache
+            if user_progress is None or not isinstance(user_progress, dict):
+                progress_list = SummaryNotesProgress.objects.filter(
+                    user=request.user
+                ).values('summary_notes_id', 'completed_chapters', 'current_chapter_id')
+                user_progress = {}
+                for p in progress_list:
+                    user_progress[p['summary_notes_id']] = {
+                        'completed': p['completed_chapters'] or [],
+                        'current': p['current_chapter_id']
+                    }
+                cache.set(user_cache_key, user_progress, 120)  # 2 minutes
+            
+            notes_progress = user_progress.get(int(pk), {})
+            if isinstance(notes_progress, dict):
+                completed_chapters = notes_progress.get('completed', [])
+                if notes_progress.get('current'):
+                    current_chapter_id = notes_progress['current']
         
-        serializer = self.get_serializer(instance, context={
-            'request': request,
-            'completed_chapters': completed_chapters,
-            'current_chapter_id': current_chapter_id
-        })
-        return Response(serializer.data)
+        # Build response with merged data
+        chapters_with_status = []
+        for ch in cached_static['chapters']:
+            chapters_with_status.append({
+                **ch,
+                'is_completed': ch['id'] in completed_chapters,
+            })
+        
+        total = cached_static['total_chapters']
+        response_data = {
+            **cached_static,
+            'chapters': chapters_with_status,
+            'chapters_completed': len(completed_chapters),
+            'progress_percentage': round(len(completed_chapters) / total * 100) if total > 0 else 0,
+            'current_chapter_id': current_chapter_id,
+        }
+        
+        return Response(response_data)
     
     @action(detail=True, methods=['get'], url_path='chapter/(?P<chapter_id>[^/.]+)')
     def chapter(self, request, pk=None, chapter_id=None):
         """Get specific chapter content."""
-        summary_notes = self.get_object()
         
-        try:
-            chapter = summary_notes.chapters.only(
-                'id', 'title', 'order', 'content', 'summary_notes_id'
-            ).get(id=chapter_id, is_active=True)
-        except SummaryNotesChapter.DoesNotExist:
-            return Response(
-                {'error': 'Chapter not found'},
-                status=status.HTTP_404_NOT_FOUND
+        # Try to get cached chapter content (rarely changes)
+        chapter_cache_key = f'summary_notes_chapter_{pk}_{chapter_id}'
+        cached_chapter = cache.get(chapter_cache_key)
+        
+        if cached_chapter is None:
+            summary_notes = self.get_object()
+            
+            try:
+                chapter = summary_notes.chapters.only(
+                    'id', 'title', 'order', 'content', 'summary_notes_id'
+                ).get(id=chapter_id, is_active=True)
+            except SummaryNotesChapter.DoesNotExist:
+                return Response(
+                    {'error': 'Chapter not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            # Get chapter navigation info efficiently
+            chapter_nav = list(
+                summary_notes.chapters.filter(is_active=True)
+                .order_by('order')
+                .values_list('id', flat=True)
             )
+            
+            try:
+                current_index = chapter_nav.index(chapter.id)
+                prev_chapter_id = chapter_nav[current_index - 1] if current_index > 0 else None
+                next_chapter_id = chapter_nav[current_index + 1] if current_index < len(chapter_nav) - 1 else None
+            except ValueError:
+                current_index = 0
+                prev_chapter_id = None
+                next_chapter_id = None
+            
+            cached_chapter = {
+                'id': chapter.id,
+                'title': chapter.title,
+                'order': chapter.order,
+                'content': chapter.content,
+                'previous_chapter_id': prev_chapter_id,
+                'next_chapter_id': next_chapter_id,
+                'chapter_number': current_index + 1,
+                'total_chapters': len(chapter_nav)
+            }
+            cache.set(chapter_cache_key, cached_chapter, 1800)  # 30 minutes
         
-        # Get completed chapters from progress
-        completed_chapters = []
+        # Get user's completed chapters from cached progress
+        is_completed = False
         if request.user.is_authenticated:
-            progress = SummaryNotesProgress.objects.filter(
-                user=request.user,
-                summary_notes=summary_notes
-            ).values_list('completed_chapters', flat=True).first()
-            completed_chapters = progress or []
-        
-        # Get chapter navigation info efficiently
-        chapter_nav = list(
-            summary_notes.chapters.filter(is_active=True)
-            .order_by('order')
-            .values_list('id', flat=True)
-        )
-        
-        try:
-            current_index = chapter_nav.index(chapter.id)
-            prev_chapter_id = chapter_nav[current_index - 1] if current_index > 0 else None
-            next_chapter_id = chapter_nav[current_index + 1] if current_index < len(chapter_nav) - 1 else None
-        except ValueError:
-            current_index = 0
-            prev_chapter_id = None
-            next_chapter_id = None
+            user_cache_key = f'summary_notes_progress_{request.user.id}'
+            user_progress = cache.get(user_cache_key)
+            
+            # Handle stale cache with wrong format or missing cache
+            if user_progress is None or not isinstance(user_progress, dict):
+                progress_list = SummaryNotesProgress.objects.filter(
+                    user=request.user
+                ).values('summary_notes_id', 'completed_chapters', 'current_chapter_id')
+                user_progress = {}
+                for p in progress_list:
+                    user_progress[p['summary_notes_id']] = {
+                        'completed': p['completed_chapters'] or [],
+                        'current': p['current_chapter_id']
+                    }
+                cache.set(user_cache_key, user_progress, 120)  # 2 minutes
+            
+            notes_progress = user_progress.get(int(pk), {})
+            if isinstance(notes_progress, dict):
+                is_completed = cached_chapter['id'] in notes_progress.get('completed', [])
         
         return Response({
-            'id': chapter.id,
-            'title': chapter.title,
-            'order': chapter.order,
-            'content': chapter.content,
-            'is_completed': chapter.id in completed_chapters,
-            'previous_chapter_id': prev_chapter_id,
-            'next_chapter_id': next_chapter_id,
-            'chapter_number': current_index + 1,
-            'total_chapters': len(chapter_nav)
+            **cached_chapter,
+            'is_completed': is_completed,
         })
     
     @action(detail=True, methods=['post'])
     def progress(self, request, pk=None):
         """Update reading progress."""
+        # Use default auth (session + JWT) - no need for special handling
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+        
         summary_notes = self.get_object()
         
         chapter_id = request.data.get('chapter_id')
@@ -295,6 +412,11 @@ class SummaryNotesViewSet(viewsets.ReadOnlyModelViewSet):
                         progress.completed_chapters = completed
                 
                 progress.save()
+                
+                # Invalidate user's progress cache so next request gets fresh data
+                user_cache_key = f'summary_notes_progress_{request.user.id}'
+                cache.delete(user_cache_key)
+                
             except SummaryNotesChapter.DoesNotExist:
                 return Response(
                     {'error': 'Chapter not found'},

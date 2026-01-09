@@ -1,4 +1,4 @@
-import { Video, CheckCircle, Search, Filter, Loader2, BookOpen, FileText, HelpCircle } from 'lucide-react'
+import { Video, CheckCircle, Search, Filter, Loader2, BookOpen, FileText, HelpCircle, Layers, ClipboardList } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -36,24 +36,17 @@ interface CourseProgress {
   category: 'FLK1' | 'FLK2'
   status: 'not_started' | 'in_progress' | 'completed'
   overall_progress: number
-  videos: {
-    completed: number
-    total: number
-    progress: number
-  }
-  quizzes: {
-    completed: number
-    correct: number
-    progress: number
-  }
   textbook: {
     available: boolean
-    title: string | null
     id: number | null
   }
-  mock_exams: {
-    completed: number
-    progress: number
+  flashcards: {
+    total_cards: number
+    topic: string
+  }
+  practice_questions: {
+    course_slug: string
+    topic_slug: string
   }
 }
 
@@ -127,13 +120,13 @@ export default function MyCourses() {
     }) || []
 
   const handleCourseClick = (course: CourseProgress) => {
-    // Navigate to first available content for this course
-    if (course.videos.total > 0) {
-      navigate('/video-tutorials')
-    } else if (course.quizzes.completed > 0 || course.quizzes.progress === 0) {
-      navigate('/quizzes')
+    // Navigate to first available content for this course - prioritize textbook
+    if (course.textbook.available) {
+      navigate(`/textbook/${course.textbook.id}`)
+    } else if (course.flashcards.total_cards > 0) {
+      navigate(`/flashcards/topic/${encodeURIComponent(course.flashcards.topic)}`)
     } else {
-      navigate('/practice')
+      navigate('/video-tutorials')
     }
   }
 
@@ -451,22 +444,16 @@ export default function MyCourses() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          if (course.videos.total > 0) {
-                            navigate('/video-tutorials')
-                          }
+                          navigate('/video-tutorials')
                         }}
-                        disabled={course.videos.total === 0}
-                        className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${course.videos.total > 0
-                          ? 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer'
-                          : 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-60'
-                          }`}
+                        className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer transition-all"
                       >
                         <div className="flex items-center gap-2 text-gray-600">
-                          <Video className="w-4 h-4" style={{ color: course.videos.total > 0 ? accentColor : '#9CA3AF' }} />
+                          <Video className="w-4 h-4" style={{ color: accentColor }} />
                           <span>Videos</span>
                         </div>
                         <span className="text-xs font-medium text-gray-900">
-                          {course.videos.completed}/{course.videos.total} {course.videos.total > 0 ? '→' : ''}
+                          View →
                         </span>
                       </button>
 
@@ -483,11 +470,58 @@ export default function MyCourses() {
                           <span>Quizzes</span>
                         </div>
                         <span className="text-xs font-medium text-gray-900">
-                          {course.quizzes.completed} done →
+                          View →
                         </span>
                       </button>
 
-                      {/* Study Notes Link */}
+                      {/* Flashcards Link */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          const topic = course.flashcards?.topic
+                          if (topic && course.flashcards?.total_cards) {
+                            navigate(`/flashcards/topic/${encodeURIComponent(topic)}`)
+                          }
+                        }}
+                        disabled={!course.flashcards?.total_cards}
+                        className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${course.flashcards?.total_cards
+                          ? 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer'
+                          : 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-60'
+                          }`}
+                      >
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <Layers className="w-4 h-4" style={{ color: course.flashcards?.total_cards ? accentColor : '#9CA3AF' }} />
+                          <span>Flashcards</span>
+                        </div>
+                        <span className={`text-xs font-medium ${course.flashcards?.total_cards ? 'text-gray-900' : 'text-gray-400'}`}>
+                          {course.flashcards?.total_cards ? 'View →' : 'Coming soon'}
+                        </span>
+                      </button>
+
+                      {/* Practice Questions Link */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          const courseSlug = course.practice_questions?.course_slug || 'flk-1'
+                          const topicSlug = course.practice_questions?.topic_slug
+                          if (topicSlug) {
+                            navigate(`/practice-questions/${courseSlug}/${topicSlug}`)
+                          } else {
+                            navigate(`/practice-questions/${courseSlug}`)
+                          }
+                        }}
+                        className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer transition-all"
+                      >
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <ClipboardList className="w-4 h-4" style={{ color: accentColor }} />
+                          <span>Practice Questions</span>
+                        </div>
+                        <span className="text-xs font-medium text-gray-900">
+                          View →
+                        </span>
+                      </button>
+
+                      {/* Summary Notes Link */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
@@ -502,7 +536,7 @@ export default function MyCourses() {
                       >
                         <div className="flex items-center gap-2 text-gray-600">
                           <FileText className="w-4 h-4" style={{ color: accentColor }} />
-                          <span>Study Notes</span>
+                          <span>Summary Notes</span>
                         </div>
                         <span className="text-xs font-medium text-gray-900">
                           View →

@@ -4,7 +4,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Loader2, CheckCircle, Bookmark, S
 import { summaryNotesApi, type SummaryNotesDetail, type SummaryNotesChapterDetail } from '../services/summaryNotesApi'
 
 // Brand colors
-const TEAL_COLOR = '#0D9488'
+const PRIMARY_COLOR = '#0EA5E9'
 
 export default function SummaryNotesReader() {
     const { id, chapterId } = useParams<{ id: string; chapterId?: string }>()
@@ -84,11 +84,15 @@ export default function SummaryNotesReader() {
         }
     }
 
+    const [markingComplete, setMarkingComplete] = useState(false)
+
     const handleMarkComplete = async () => {
         if (!id || !chapter) return
 
         try {
+            setMarkingComplete(true)
             const result = await summaryNotesApi.updateProgress(parseInt(id), chapter.id, true)
+            console.log('Mark complete result:', result)
             setCompletedChapters(result.completed_chapters)
 
             // Update notes state
@@ -101,13 +105,91 @@ export default function SummaryNotesReader() {
             }
         } catch (err) {
             console.error('Failed to mark complete:', err)
+            alert('Failed to mark chapter as complete. Please try again.')
+        } finally {
+            setMarkingComplete(false)
         }
     }
 
+    // Find previous and next chapter titles
+    const currentIndex = notes?.chapters.findIndex(c => c.id === chapter?.id) ?? -1
+    const prevChapter = currentIndex > 0 ? notes?.chapters[currentIndex - 1] : null
+    const nextChapter = currentIndex >= 0 && currentIndex < (notes?.chapters.length ?? 0) - 1
+        ? notes?.chapters[currentIndex + 1]
+        : null
+
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+            <div className="min-h-screen bg-gray-50 flex flex-col font-worksans">
+                {/* Skeleton Header */}
+                <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <div className="w-5 h-5 bg-gray-200 rounded animate-pulse" />
+                            <div className="w-24 h-4 bg-gray-200 rounded animate-pulse" />
+                        </div>
+                        <div className="text-center hidden md:block">
+                            <div className="w-32 h-5 bg-gray-200 rounded animate-pulse mx-auto mb-2" />
+                            <div className="w-48 h-4 bg-gray-200 rounded animate-pulse mx-auto" />
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <div className="w-24 h-2 bg-gray-200 rounded-full animate-pulse" />
+                        </div>
+                    </div>
+                </header>
+
+                {/* Skeleton Main Content */}
+                <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+                    <div className="flex flex-col lg:flex-row gap-8">
+                        {/* Skeleton Sidebar */}
+                        <aside className="w-full lg:w-96 flex-shrink-0">
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <div className="w-48 h-5 bg-gray-200 rounded animate-pulse mb-2" />
+                                <div className="w-32 h-4 bg-gray-200 rounded animate-pulse mb-6" />
+                                <div className="space-y-3">
+                                    {[1, 2, 3, 4, 5].map((i) => (
+                                        <div key={i} className="p-4 rounded-xl bg-gray-100 animate-pulse">
+                                            <div className="w-16 h-3 bg-gray-200 rounded mb-2" />
+                                            <div className="w-40 h-4 bg-gray-200 rounded" />
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="mt-8 pt-6 border-t border-gray-100">
+                                    <div className="w-full h-2 bg-gray-200 rounded-full animate-pulse" />
+                                </div>
+                            </div>
+                        </aside>
+
+                        {/* Skeleton Content Area */}
+                        <div className="flex-1 flex flex-col space-y-6">
+                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                                <div className="flex justify-between">
+                                    <div className="flex space-x-4">
+                                        <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse" />
+                                        <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse" />
+                                    </div>
+                                    <div className="flex space-x-3">
+                                        <div className="w-24 h-10 bg-gray-200 rounded-lg animate-pulse" />
+                                        <div className="w-20 h-10 bg-gray-200 rounded-lg animate-pulse" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <article className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm border border-gray-100">
+                                <div className="w-64 h-7 bg-gray-200 rounded animate-pulse mb-6" />
+                                <div className="space-y-4">
+                                    <div className="w-full h-4 bg-gray-200 rounded animate-pulse" />
+                                    <div className="w-full h-4 bg-gray-200 rounded animate-pulse" />
+                                    <div className="w-3/4 h-4 bg-gray-200 rounded animate-pulse" />
+                                    <div className="w-full h-4 bg-gray-200 rounded animate-pulse" />
+                                    <div className="w-5/6 h-4 bg-gray-200 rounded animate-pulse" />
+                                    <div className="w-full h-4 bg-gray-200 rounded animate-pulse" />
+                                    <div className="w-2/3 h-4 bg-gray-200 rounded animate-pulse" />
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </main>
             </div>
         )
     }
@@ -117,7 +199,7 @@ export default function SummaryNotesReader() {
             <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
                 <p className="text-red-500 mb-4">{error || 'Notes not found'}</p>
                 <Link to="/summary-notes" className="text-blue-600 hover:underline">
-                    Back to Study Notes
+                    Back to Summary Notes
                 </Link>
             </div>
         )
@@ -128,210 +210,250 @@ export default function SummaryNotesReader() {
         : 0
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
-            {/* Top Header */}
-            <header className="bg-white border-b border-gray-200 px-6 py-4">
-                <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <div className="min-h-screen bg-gray-50 flex flex-col font-worksans">
+            {/* Top Header - Sticky */}
+            <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                    {/* Back to Dashboard */}
                     <Link
                         to="/dashboard"
-                        className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                        className="flex items-center gap-2 text-gray-500 hover:text-sky-500 transition-colors font-medium"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        Dashboard
+                        <span>Dashboard</span>
                     </Link>
 
-                    <div className="text-center">
-                        <h1 className="text-lg font-semibold text-gray-900">Study Notes</h1>
-                        <p className="text-sm text-gray-500">
+                    {/* Center Title */}
+                    <div className="text-center hidden md:block">
+                        <h1 className="text-xl font-bold text-gray-900">Summary Notes</h1>
+                        <p className="text-sm text-gray-500 mt-1">
                             {notes.title} • Chapter {chapter?.chapter_number || 1} of {notes.total_chapters}
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-600">Progress</span>
-                        <div className="flex items-center gap-2">
-                            <div className="w-24 bg-gray-200 rounded-full h-2">
-                                <div
-                                    className="h-2 rounded-full transition-all"
-                                    style={{ width: `${progressPercentage}%`, backgroundColor: TEAL_COLOR }}
-                                />
-                            </div>
-                            <span className="text-sm font-medium" style={{ color: TEAL_COLOR }}>
-                                {progressPercentage}%
-                            </span>
+                    {/* Progress */}
+                    <div className="flex items-center gap-3">
+                        <div className="text-right hidden sm:block">
+                            <p className="text-xs text-gray-500">Progress</p>
+                            <p className="text-sm font-bold text-gray-900">{progressPercentage}%</p>
+                        </div>
+                        <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                                className="h-full rounded-full transition-all duration-300"
+                                style={{ width: `${progressPercentage}%`, backgroundColor: PRIMARY_COLOR }}
+                            />
                         </div>
                     </div>
                 </div>
             </header>
 
             {/* Main Content */}
-            <div className="flex-1 flex">
-                {/* Left Sidebar - Chapters */}
-                <aside className="w-72 bg-white border-r border-gray-200 flex flex-col">
-                    <div className="p-4 border-b border-gray-200">
-                        <h2 className="font-semibold text-gray-900">{notes.title}</h2>
-                        <p className="text-sm text-gray-500 mt-1">
-                            Chapter {chapter?.chapter_number || 1} of {notes.total_chapters}
-                        </p>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto">
-                        {notes.chapters.map((chap, idx) => {
-                            const isActive = chap.id === chapter?.id
-                            const isCompleted = completedChapters.includes(chap.id)
-
-                            return (
-                                <button
-                                    key={chap.id}
-                                    onClick={() => handleChapterClick(chap.id)}
-                                    className={`w-full text-left px-4 py-3 border-b border-gray-100 transition-colors flex items-center gap-3 ${isActive
-                                        ? 'bg-teal-50 border-l-4 border-l-teal-500'
-                                        : 'hover:bg-gray-50'
-                                        }`}
-                                >
-                                    <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${isCompleted
-                                        ? 'bg-green-500 text-white'
-                                        : isActive
-                                            ? 'bg-teal-500 text-white'
-                                            : 'bg-gray-200 text-gray-600'
-                                        }`}>
-                                        {isCompleted ? <CheckCircle className="w-4 h-4" /> : idx + 1}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-xs text-gray-500">Chapter {idx + 1}</p>
-                                        <p className={`text-sm truncate ${isActive ? 'font-medium text-teal-700' : 'text-gray-700'}`}>
-                                            {chap.title}
-                                        </p>
-                                    </div>
-                                </button>
-                            )
-                        })}
-                    </div>
-
-                    {/* Overall Progress */}
-                    <div className="p-4 border-t border-gray-200">
-                        <p className="text-sm text-gray-600 mb-2">Overall Progress</p>
-                        <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
-                            <div
-                                className="h-2 rounded-full transition-all"
-                                style={{ width: `${progressPercentage}%`, backgroundColor: TEAL_COLOR }}
-                            />
-                        </div>
-                        <p className="text-sm text-gray-500">{progressPercentage}%</p>
-                    </div>
-                </aside>
-
-                {/* Right Content Area */}
-                <main className="flex-1 flex flex-col">
-                    {/* Content Header */}
-                    <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                                <Bookmark className="w-5 h-5 text-gray-500" />
-                            </button>
-                            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                                <Share2 className="w-5 h-5 text-gray-500" />
-                            </button>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={handlePrevious}
-                                disabled={!chapter?.previous_chapter_id}
-                                className="flex items-center gap-1 px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                            >
-                                <ChevronLeft className="w-4 h-4" />
-                                Previous
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                disabled={!chapter?.next_chapter_id}
-                                className="flex items-center gap-1 px-4 py-2 text-white rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                                style={{ backgroundColor: TEAL_COLOR }}
-                            >
-                                Next
-                                <ChevronRight className="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Chapter Content */}
-                    <div className="flex-1 overflow-y-auto">
-                        {chapterLoading ? (
-                            <div className="flex items-center justify-center py-20">
-                                <Loader2 className="w-6 h-6 text-teal-600 animate-spin" />
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Left Sidebar - Chapters */}
+                    <aside className="w-full lg:w-96 flex-shrink-0">
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-24">
+                            {/* Sidebar Header */}
+                            <div className="mb-6">
+                                <h2 className="text-lg font-bold text-gray-900">{notes.title}</h2>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Chapter {chapter?.chapter_number || 1} of {notes.total_chapters}
+                                </p>
                             </div>
-                        ) : chapter ? (
-                            <div className="max-w-3xl mx-auto px-8 py-8">
-                                <h1 className="text-2xl font-bold text-gray-900 mb-6">{chapter.title}</h1>
 
-                                {/* Render HTML content */}
-                                <div
-                                    className="prose prose-gray max-w-none
-                    prose-headings:text-gray-900 
-                    prose-h2:text-xl prose-h2:font-semibold prose-h2:mt-8 prose-h2:mb-4
-                    prose-h3:text-lg prose-h3:font-medium prose-h3:mt-6 prose-h3:mb-3
-                    prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
-                    prose-li:text-gray-700 prose-li:my-1
-                    prose-strong:text-gray-900
-                    prose-em:text-gray-600"
-                                    dangerouslySetInnerHTML={{ __html: chapter.content }}
-                                />
+                            {/* Chapter List */}
+                            <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                                {notes.chapters.map((chap, idx) => {
+                                    const isActive = chap.id === chapter?.id
+                                    const isCompleted = completedChapters.includes(chap.id)
 
-                                {/* Mark Complete Button */}
-                                {!completedChapters.includes(chapter.id) && (
-                                    <div className="mt-12 pt-8 border-t border-gray-200">
+                                    if (isCompleted && !isActive) {
+                                        // Completed chapter style
+                                        return (
+                                            <button
+                                                key={chap.id}
+                                                onClick={() => handleChapterClick(chap.id)}
+                                                className="w-full p-4 rounded-xl bg-green-50 flex justify-between items-start cursor-pointer transition-colors hover:bg-green-100"
+                                            >
+                                                <div className="text-left">
+                                                    <p className="text-xs font-medium text-green-700 mb-1">Chapter {idx + 1}</p>
+                                                    <p className="text-sm font-medium text-green-900">{chap.title}</p>
+                                                </div>
+                                                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                                            </button>
+                                        )
+                                    }
+
+                                    if (isActive) {
+                                        // Active chapter style
+                                        return (
+                                            <div
+                                                key={chap.id}
+                                                className="p-4 rounded-xl text-white shadow-md relative overflow-hidden"
+                                                style={{ backgroundColor: PRIMARY_COLOR }}
+                                            >
+                                                <div className="relative z-10 flex justify-between items-start">
+                                                    <div>
+                                                        <p className="text-xs font-medium text-white/80 mb-1">Chapter {idx + 1}</p>
+                                                        <p className="text-sm font-bold">{chap.title}</p>
+                                                    </div>
+                                                    {isCompleted && (
+                                                        <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+
+                                    // Default chapter style
+                                    return (
                                         <button
-                                            onClick={handleMarkComplete}
-                                            className="w-full py-3 rounded-lg text-white font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
-                                            style={{ backgroundColor: TEAL_COLOR }}
+                                            key={chap.id}
+                                            onClick={() => handleChapterClick(chap.id)}
+                                            className="w-full p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer text-left"
                                         >
-                                            <CheckCircle className="w-5 h-5" />
-                                            Mark as Completed
+                                            <p className="text-xs font-medium text-gray-500 mb-1">Chapter {idx + 1}</p>
+                                            <p className="text-sm font-medium text-gray-900">{chap.title}</p>
                                         </button>
-                                    </div>
-                                )}
+                                    )
+                                })}
                             </div>
-                        ) : (
-                            <div className="flex items-center justify-center py-20 text-gray-500">
-                                Select a chapter to start reading
-                            </div>
-                        )}
-                    </div>
 
-                    {/* Footer Navigation */}
-                    <div className="bg-gray-100 border-t border-gray-200 px-8 py-4">
-                        <div className="max-w-3xl mx-auto flex items-center justify-between">
-                            <div>
-                                {chapter?.previous_chapter_id && (
-                                    <button
-                                        onClick={handlePrevious}
-                                        className="text-sm text-gray-600 hover:text-gray-900"
-                                    >
-                                        <span className="text-xs text-gray-500 block">Previous Chapter</span>
-                                        <span className="font-medium">
-                                            Chapter {(chapter.chapter_number || 1) - 1}
-                                        </span>
-                                    </button>
-                                )}
-                            </div>
-                            <div className="text-right">
-                                {chapter?.next_chapter_id && (
-                                    <button
-                                        onClick={handleNext}
-                                        className="text-sm text-gray-600 hover:text-gray-900"
-                                    >
-                                        <span className="text-xs text-gray-500 block">Next Chapter</span>
-                                        <span className="font-medium">
-                                            Chapter {(chapter.chapter_number || 1) + 1}
-                                        </span>
-                                    </button>
-                                )}
+                            {/* Overall Progress */}
+                            <div className="mt-8 pt-6 border-t border-gray-100">
+                                <div className="flex justify-between items-end mb-2">
+                                    <p className="text-xs font-semibold text-gray-500">Overall Progress</p>
+                                    <p className="text-sm font-bold text-gray-900">{progressPercentage}%</p>
+                                </div>
+                                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full rounded-full transition-all duration-300"
+                                        style={{ width: `${progressPercentage}%`, backgroundColor: PRIMARY_COLOR }}
+                                    />
+                                </div>
                             </div>
                         </div>
+                    </aside>
+
+                    {/* Right Content Area */}
+                    <div className="flex-1 flex flex-col space-y-6">
+                        {/* Content Toolbar */}
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex justify-between items-center">
+                            <div className="flex space-x-4">
+                                <button className="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors">
+                                    <Bookmark className="w-5 h-5" />
+                                </button>
+                                <button className="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors">
+                                    <Share2 className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <div className="flex space-x-3">
+                                <button
+                                    onClick={handlePrevious}
+                                    disabled={!chapter?.previous_chapter_id}
+                                    className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors flex items-center disabled:opacity-40 disabled:cursor-not-allowed"
+                                >
+                                    <ChevronLeft className="w-4 h-4 mr-1" /> Previous
+                                </button>
+                                <button
+                                    onClick={handleNext}
+                                    disabled={!chapter?.next_chapter_id}
+                                    className="px-4 py-2 rounded-lg text-white text-sm font-medium shadow-sm transition-colors flex items-center disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90"
+                                    style={{ backgroundColor: PRIMARY_COLOR }}
+                                >
+                                    Next <ChevronRight className="w-4 h-4 ml-1" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Chapter Content */}
+                        <article className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm border border-gray-100">
+                            {chapterLoading ? (
+                                <div className="flex items-center justify-center py-20">
+                                    <Loader2 className="w-6 h-6 animate-spin" style={{ color: PRIMARY_COLOR }} />
+                                </div>
+                            ) : chapter ? (
+                                <>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-6">{chapter.title}</h2>
+
+                                    {/* Render HTML content with prose styling */}
+                                    <div
+                                        className="prose max-w-none text-gray-600 prose-sm
+                                            prose-headings:text-gray-900
+                                            prose-h3:text-lg prose-h3:font-bold prose-h3:mb-3 prose-h3:mt-6
+                                            prose-h4:text-base prose-h4:font-bold prose-h4:mb-2
+                                            prose-p:mb-4 prose-p:leading-relaxed
+                                            prose-ul:space-y-2 prose-ul:mb-6 prose-ul:list-none prose-ul:pl-0
+                                            prose-li:pl-4 prose-li:border-l-2 prose-li:border-gray-200
+                                            prose-strong:text-gray-900
+                                            prose-blockquote:bg-sky-50 prose-blockquote:border-l-4 prose-blockquote:border-sky-500 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-gray-700"
+                                        dangerouslySetInnerHTML={{ __html: chapter.content }}
+                                    />
+
+                                    {/* Mark Complete Button */}
+                                    {!completedChapters.includes(chapter.id) && (
+                                        <div className="mt-12 pt-8 border-t border-gray-100">
+                                            <button
+                                                onClick={handleMarkComplete}
+                                                disabled={markingComplete}
+                                                className="w-full py-3 rounded-lg text-white font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                                                style={{ backgroundColor: PRIMARY_COLOR }}
+                                            >
+                                                {markingComplete ? (
+                                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                                ) : (
+                                                    <CheckCircle className="w-5 h-5" />
+                                                )}
+                                                {markingComplete ? 'Marking...' : 'Mark as Completed'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <div className="flex items-center justify-center py-20 text-gray-500">
+                                    Select a chapter to start reading
+                                </div>
+                            )}
+                        </article>
+
+                        {/* Footer Navigation */}
+                        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                            {prevChapter ? (
+                                <button
+                                    onClick={handlePrevious}
+                                    className="group text-left w-full sm:w-auto hover:bg-gray-50 p-4 -m-4 rounded-xl transition-colors"
+                                >
+                                    <p className="text-xs text-gray-500 mb-1">Previous Chapter</p>
+                                    <p className="text-sm font-bold text-gray-900 group-hover:text-sky-500 transition-colors">
+                                        Chapter {currentIndex}: {prevChapter.title}
+                                    </p>
+                                </button>
+                            ) : (
+                                <div />
+                            )}
+
+                            <div className="h-px w-full sm:w-px sm:h-10 bg-gray-200" />
+
+                            {nextChapter ? (
+                                <button
+                                    onClick={handleNext}
+                                    className="group text-right w-full sm:w-auto hover:bg-gray-50 p-4 -m-4 rounded-xl transition-colors"
+                                >
+                                    <p className="text-xs text-gray-500 mb-1">Next Chapter</p>
+                                    <p className="text-sm font-bold text-gray-900 group-hover:text-sky-500 transition-colors">
+                                        Chapter {currentIndex + 2}: {nextChapter.title}
+                                    </p>
+                                </button>
+                            ) : (
+                                <div />
+                            )}
+                        </div>
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
+
+            {/* Bottom Spacer */}
+            <div className="h-12" />
         </div>
     )
 }

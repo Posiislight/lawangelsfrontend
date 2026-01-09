@@ -12,8 +12,8 @@ export default function Footer() {
         {/* CTA Section for mobile */}
         <div className="w-full relative px-10 py-16 min-h-[500px] flex flex-col justify-center" style={{ backgroundImage: `url(${manpicture})`, backgroundSize: 'cover', backgroundPosition: 'bottom left' }}>
           {/* Dark overlay */}
-          
-          
+
+
           {/* Content */}
           <div className="relative z-10 flex flex-col items-start mb-40">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 font-crimson leading-tight">
@@ -22,9 +22,9 @@ export default function Footer() {
             <p className="text-gray-700 text-sm mb-6 leading-relaxed">
               Don't leave your success to chance. Get structured guidance, comprehensive resources, and the confidence to ace your SQE exams on your first try.
             </p>
-            <button className="bg-[#0AB5FF] hover:bg-cyan-600 text-white px-6 py-3 rounded-full font-semibold transition-colors">
+            <Link to="/register" className="inline-block bg-[#0AB5FF] hover:bg-cyan-600 text-white px-6 py-3 rounded-full font-semibold transition-colors">
               Start your Journey
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -107,9 +107,9 @@ export default function Footer() {
                 on your first try.
               </span>
               <div className="flex justify-center lg:justify-end">
-                <button className="bg-[#0AB5FF] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full mt-6 font-semibold hover:scale-105 duration-300">
+                <Link to="/register" className="inline-block bg-[#0AB5FF] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full mt-6 font-semibold hover:scale-105 duration-300">
                   Start your Journey
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -195,7 +195,7 @@ export default function Footer() {
             <div>
               <h4 className="text-blue-300 font-semibold mb-4 text-lg">Stay Connected</h4>
               <div className="flex gap-4">
-               
+
 
                 {/* TikTok */}
                 <a href="#" className="text-white hover:text-blue-300 transition-colors">
@@ -203,7 +203,7 @@ export default function Footer() {
                     <path d="M16.656 1.029c1.637-0.025 3.262-0.012 4.886-0.025 0.054 2.031 0.878 3.859 2.189 5.213l-0.002-0.002c1.411 1.271 3.247 2.095 5.271 2.235l0.028 0.002v5.036c-1.912-0.048-3.71-0.489-5.331-1.247l0.082 0.034c-0.784-0.377-1.447-0.764-2.077-1.196l0.052 0.034c-0.012 3.649 0.012 7.298-0.025 10.934-0.103 1.853-0.719 3.543-1.707 4.954l0.020-0.031c-1.652 2.366-4.328 3.919-7.371 4.011l-0.014 0c-0.123 0.006-0.268 0.009-0.414 0.009-1.73 0-3.347-0.482-4.725-1.319l0.040 0.023c-2.508-1.509-4.238-4.091-4.558-7.094l-0.004-0.041c-0.025-0.625-0.037-1.25-0.012-1.862 0.49-4.779 4.494-8.476 9.361-8.476 0.547 0 1.083 0.047 1.604 0.136l-0.056-0.008c0.025 1.849-0.050 3.699-0.050 5.548-0.423-0.153-0.911-0.242-1.42-0.242-1.868 0-3.457 1.194-4.045 2.861l-0.009 0.030c-0.133 0.427-0.21 0.918-0.21 1.426 0 0.206 0.013 0.41 0.037 0.61l-0.002-0.024c0.332 2.046 2.086 3.59 4.201 3.59 0.061 0 0.121-0.001 0.181-0.004l-0.009 0c1.463-0.044 2.733-0.831 3.451-1.994l0.010-0.018c0.267-0.372 0.45-0.822 0.511-1.311l0.001-0.014c0.125-2.237 0.075-4.461 0.087-6.698 0.012-5.036-0.012-10.060 0.025-15.083z" />
                   </svg>
                 </a>
-                 {/* LinkedIn */}
+                {/* LinkedIn */}
                 <a href="#" className="text-white hover:text-blue-300 transition-colors">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.08 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8h4.55v13H.22zM8.98 8h4.37v1.8h.1c.61-1.2 2.1-2.5 4.34-2.5 4.64 0 5.5 3.06 5.5 7.04V21h-4.55v-6.3c0-1.5 0-3.4-2.09-3.4-2.1 0-2.42 1.64-2.42 3.32V21H8.98V8z" />
@@ -216,7 +216,7 @@ export default function Footer() {
                   </svg>
                 </a>
 
-               
+
               </div>
             </div>
           </div>

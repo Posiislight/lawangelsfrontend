@@ -73,11 +73,12 @@ def practice_questions_list(request):
         ).values_list('id', 'q_count')
     )
     
-    # Get topics with their question counts in ONE query
+    # Get topics with their question and area counts in ONE query
     topics_data = list(
         PracticeQuestionTopic.objects.annotate(
-            q_count=Count('areas__questions')
-        ).values('id', 'course_id', 'name', 'slug', 'q_count').order_by('name')
+            q_count=Count('areas__questions'),
+            a_count=Count('areas')
+        ).values('id', 'course_id', 'name', 'slug', 'q_count', 'a_count').order_by('name')
     )
     
     # Group topics by course in Python (fast, no DB)
@@ -89,7 +90,8 @@ def practice_questions_list(request):
         topics_by_course[cid].append({
             'name': t['name'],
             'slug': t['slug'],
-            'question_count': t['q_count']
+            'question_count': t['q_count'],
+            'area_count': t['a_count']
         })
     
     # Build response

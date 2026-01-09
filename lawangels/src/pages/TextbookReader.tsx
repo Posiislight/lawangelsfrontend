@@ -327,7 +327,7 @@ export default function TextbookReader() {
                 )}
 
                 {/* PDF Viewer */}
-                <main className="flex-1 overflow-auto bg-gray-200 flex justify-center py-8 relative">
+                <main className="flex-1 bg-gray-200 flex justify-center items-start p-2 relative" style={{ height: 'calc(100vh - 60px)', overflow: 'auto' }}>
                     {(pdfLoading || pageLoading) && (
                         <div className="absolute inset-0 flex items-center justify-center bg-gray-200/80 z-10">
                             <div className="flex flex-col items-center gap-4">
@@ -343,10 +343,11 @@ export default function TextbookReader() {
                         onLoadError={onDocumentLoadError}
                         loading={null}
                         options={pdfOptions}
+                        className="flex justify-center"
                     >
                         <Page
                             pageNumber={pageNumber}
-                            scale={1.2}
+                            scale={0.85}
                             className="shadow-xl"
                             renderTextLayer={false}
                             renderAnnotationLayer={false}

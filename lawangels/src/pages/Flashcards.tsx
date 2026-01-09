@@ -40,7 +40,7 @@ export default function Flashcards() {
   const getColorForCategory = (category: string) => {
     const colors = {
       'FLK1': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', accent: 'bg-blue-500', gradient: 'from-blue-500 to-blue-600' },
-      'FLK2': { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-600', accent: 'bg-purple-500', gradient: 'from-purple-500 to-purple-600' },
+      'FLK2': { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600', accent: 'bg-orange-500', gradient: 'from-orange-500 to-orange-600' },
     }
     return colors[category as keyof typeof colors] || colors['FLK1']
   }

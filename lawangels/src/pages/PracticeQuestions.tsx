@@ -102,19 +102,24 @@ export default function PracticeQuestions() {
         setShowFeedback(false)
     }
 
-    // Handle answer selection
+    // Handle answer selection (just selects, doesn't submit)
     const handleSelectAnswer = (label: string) => {
         if (showFeedback || !currentQuestion) return
-
         setSelectedAnswer(label)
+    }
+
+    // Handle answer submission
+    const handleSubmitAnswer = () => {
+        if (!selectedAnswer || showFeedback || !currentQuestion) return
+
         setShowFeedback(true)
 
-        const isCorrect = label === currentQuestion.correct_answer
+        const isCorrect = selectedAnswer === currentQuestion.correct_answer
         setAnsweredQuestions(prev => ({
             ...prev,
             [questionKey]: {
                 questionId: currentQuestion.id,
-                selectedAnswer: label,
+                selectedAnswer: selectedAnswer,
                 isCorrect
             }
         }))
@@ -470,6 +475,18 @@ export default function PracticeQuestions() {
                                         </div>
                                     )}
 
+                                    {/* Submit Answer Button - Shows when answer selected but not submitted */}
+                                    {selectedAnswer && !showFeedback && (
+                                        <div className="flex justify-center mb-4">
+                                            <button
+                                                onClick={handleSubmitAnswer}
+                                                className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md"
+                                            >
+                                                Submit Answer
+                                            </button>
+                                        </div>
+                                    )}
+
                                     {/* Navigation Buttons */}
                                     <div className="flex justify-between items-center">
                                         <button
@@ -583,20 +600,9 @@ export default function PracticeQuestions() {
                                     </h3>
                                     <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition" />
                                 </div>
-                                <p className="text-sm text-gray-500 mb-3">
-                                    {topic.question_count} questions • {topic.area_count || topic.areas?.length || 0} areas
+                                <p className="text-sm text-gray-500">
+                                    {topic.question_count} questions
                                 </p>
-                                {/* Areas preview */}
-                                <div className="flex flex-wrap gap-1">
-                                    {topic.areas?.slice(0, 4).map((area) => (
-                                        <span
-                                            key={area.slug}
-                                            className="px-2 py-0.5 bg-green-50 text-green-700 text-xs rounded-full"
-                                        >
-                                            {area.letter}. {area.name.slice(0, 20)}...
-                                        </span>
-                                    ))}
-                                </div>
                             </Link>
                         ))}
                     </div>

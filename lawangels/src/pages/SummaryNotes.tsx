@@ -103,7 +103,7 @@ export default function SummaryNotesPage() {
                     <div>
                         <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
                             <FileText className="w-7 h-7 text-teal-500" />
-                            Study Notes
+                            Summary Notes
                         </h1>
                         <p className="text-gray-600">Concise summaries for quick revision and exam prep</p>
                     </div>
@@ -244,7 +244,7 @@ export default function SummaryNotesPage() {
                 ) : (
                     <div className="text-center py-16">
                         <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-600 text-lg mb-2">No study notes found</p>
+                        <p className="text-gray-600 text-lg mb-2">No summary notes found</p>
                         <p className="text-gray-500">Check back later for more content</p>
                     </div>
                 )}

@@ -141,11 +141,11 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
             response['Cache-Control'] = 'public, max-age=1800, stale-while-revalidate=300'
             return response
         
-        # Single aggregation query
+        # Single aggregation query - count distinct decks per subject
         topics_data = FlashcardDeck.objects.filter(is_active=True).values(
             'subject', 'category', 'icon'
         ).annotate(
-            total_decks=Count('id'),
+            total_decks=Count('id', distinct=True),
             total_cards=Count('cards', filter=Q(cards__is_active=True))
         ).order_by('category', 'subject')
         
@@ -181,34 +181,74 @@ class FlashcardDeckViewSet(viewsets.ReadOnlyModelViewSet):
         
         progress.save()
         
-        # Invalidate user cache
+        # Invalidate user caches
         cache.delete(f'flashcard_decks_user_{request.user.id}')
+        cache.delete(f'flashcard_progress_{request.user.id}_{pk}')
         
         serializer = FlashcardProgressSerializer(progress)
         return Response(serializer.data)
     
     @action(detail=True, methods=['get'])
     def study(self, request, pk=None):
-        """Get cards for study session - optimized."""
-        deck = FlashcardDeck.objects.filter(id=pk, is_active=True).prefetch_related(
-            'cards'
-        ).first()
+        """Get cards for study session - optimized with caching."""
         
-        if not deck:
-            return Response({'error': 'Deck not found'}, status=404)
+        # Try to get cached static data (deck and cards)
+        static_cache_key = f'flashcard_study_{pk}'
+        cached_static = cache.get(static_cache_key)
         
-        cards = deck.cards.filter(is_active=True).order_by('order')
+        if cached_static is None:
+            deck = FlashcardDeck.objects.filter(id=pk, is_active=True).first()
+            
+            if not deck:
+                return Response({'error': 'Deck not found'}, status=404)
+            
+            cards = list(deck.cards.filter(is_active=True).order_by('order').values(
+                'id', 'question', 'answer', 'hint', 'order'
+            ))
+            
+            cached_static = {
+                'deck': {
+                    'id': deck.id,
+                    'title': deck.title,
+                    'subject': deck.subject,
+                    'description': deck.description,
+                    'category': deck.category,
+                    'icon': deck.icon,
+                    'total_cards': len(cards),
+                },
+                'cards': cards,
+            }
+            cache.set(static_cache_key, cached_static, 1800)  # 30 minutes
         
-        progress = None
+        # Get user progress (cached for 2 minutes)
+        progress_data = None
         if request.user.is_authenticated:
-            progress, _ = FlashcardProgress.objects.get_or_create(
-                user=request.user,
-                deck=deck,
-                defaults={'cards_studied': 0, 'correct_answers': 0, 'total_attempts': 0}
-            )
+            progress_cache_key = f'flashcard_progress_{request.user.id}_{pk}'
+            progress_data = cache.get(progress_cache_key)
+            
+            if progress_data is None:
+                progress, _ = FlashcardProgress.objects.get_or_create(
+                    user=request.user,
+                    deck_id=pk,
+                    defaults={'cards_studied': 0, 'correct_answers': 0, 'total_attempts': 0}
+                )
+                total_cards = cached_static['deck']['total_cards']
+                progress_data = {
+                    'id': progress.id,
+                    'cards_studied': progress.cards_studied,
+                    'correct_answers': progress.correct_answers,
+                    'total_attempts': progress.total_attempts,
+                    'accuracy_percentage': progress.accuracy_percentage,
+                    'progress_percentage': round(progress.cards_studied / total_cards * 100) if total_cards > 0 else 0,
+                    'last_studied_at': progress.last_studied_at.isoformat() if progress.last_studied_at else None,
+                }
+                cache.set(progress_cache_key, progress_data, 120)  # 2 minutes
         
         return Response({
-            'deck': FlashcardDeckDetailSerializer(deck, context={'request': request}).data,
-            'cards': FlashcardSerializer(cards, many=True).data,
-            'progress': FlashcardProgressSerializer(progress).data if progress else None
+            'deck': {
+                **cached_static['deck'],
+                'user_progress': progress_data,
+            },
+            'cards': cached_static['cards'],
+            'progress': progress_data,
         })

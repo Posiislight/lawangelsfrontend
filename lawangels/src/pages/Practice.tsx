@@ -165,7 +165,7 @@ export default function Practice() {
             {/* Stats */}
             <div className="flex items-end gap-8 mb-6">
               <div>
-                <p className="text-3xl font-bold text-emerald-600">250+</p>
+                <p className="text-3xl font-bold text-emerald-600">1000+</p>
                 <p className="text-sm text-gray-500">Questions</p>
               </div>
               <div>

@@ -202,9 +202,9 @@ export default function GamifiedQuiz() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-200 via-orange-100 to-amber-200 p-4 md:p-8 font-worksans">
+        <div className="min-h-screen bg-gradient-to-br from-amber-200 via-orange-100 to-amber-200 p-3 md:p-4 font-worksans">
             {/* Header Bar */}
-            <div className="max-w-5xl mx-auto mb-8">
+            <div className="max-w-4xl mx-auto mb-4">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     {/* User Badge */}
                     <div className="flex items-center bg-white rounded-full pl-2 pr-6 py-2 shadow-md border-2 border-slate-100">
@@ -279,13 +279,13 @@ export default function GamifiedQuiz() {
             </div>
 
             {/* Main Question Card */}
-            <main className="max-w-4xl mx-auto relative">
+            <main className="max-w-3xl mx-auto relative">
                 {/* Decorative blurs */}
-                <div className="absolute -top-6 -left-6 w-24 h-24 bg-orange-300/30 rounded-full blur-xl" />
-                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-cyan-300/30 rounded-full blur-xl" />
+                <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-300/30 rounded-full blur-xl" />
+                <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-cyan-300/30 rounded-full blur-xl" />
 
-                <div className="bg-white rounded-2xl shadow-xl border-b-8 border-slate-200 overflow-hidden relative z-10">
-                    <div className="p-8 md:p-10">
+                <div className="bg-white rounded-xl shadow-lg border-b-4 border-slate-200 overflow-hidden relative z-10">
+                    <div className="p-4 md:p-6">
                         {/* Points Stake Badge */}
                         <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold mb-6 border border-orange-200">
                             <span></span>
@@ -293,25 +293,22 @@ export default function GamifiedQuiz() {
                         </div>
 
                         {/* Question */}
-                        <div className="flex flex-col md:flex-row gap-6 items-start">
+                        <div className="flex flex-col md:flex-row gap-4 items-start">
                             <div className="flex-shrink-0">
-                                <div className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-2xl shadow-lg flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-300 border-4 border-white">
-                                    <Scale className="w-10 h-10 text-white" />
+                                <div className="w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl shadow-md flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-300 border-2 border-white">
+                                    <Scale className="w-7 h-7 text-white" />
                                 </div>
                             </div>
                             <div className="flex-1">
-                                <h2 className="text-lg md:text-xl font-normal text-slate-800 leading-tight mb-2">
+                                <h2 className="text-base md:text-lg font-normal text-slate-800 leading-snug">
                                     {state.currentQuestion?.text}
                                 </h2>
-                                <p className="text-slate-500 font-medium">
-                                    Select the correct answer to earn points
-                                </p>
                             </div>
                         </div>
                     </div>
 
                     {/* Answer Options */}
-                    <div className="bg-slate-50 p-6 md:p-10 border-t border-slate-100">
+                    <div className="bg-slate-50 p-4 md:p-6 border-t border-slate-100">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             {state.currentQuestion?.options.map((option) => {
                                 const isEliminated = state.eliminatedOptions.includes(option.label)
@@ -342,9 +339,9 @@ export default function GamifiedQuiz() {
                                         key={option.label}
                                         onClick={() => handleSelectAnswer(option.label)}
                                         disabled={isEliminated || !!state.answerResult || state.isSubmitting}
-                                        className={`group relative flex items-center p-4 rounded-xl transition-all duration-200 w-full text-left ${buttonClass}`}
+                                        className={`group relative flex items-center p-3 rounded-lg transition-all duration-200 w-full text-left ${buttonClass}`}
                                     >
-                                        <div className={`w-9 h-9 rounded-lg font-medium flex items-center justify-center mr-4 transition-colors text-base ${labelClass}`}>
+                                        <div className={`w-8 h-8 rounded-md font-medium flex items-center justify-center mr-3 transition-colors text-sm ${labelClass}`}>
                                             {state.answerResult && isCorrect ? (
                                                 <Check className="w-6 h-6" />
                                             ) : state.answerResult && isWrong ? (
@@ -353,7 +350,7 @@ export default function GamifiedQuiz() {
                                                 option.label
                                             )}
                                         </div>
-                                        <span className={`text-base font-light ${isEliminated ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
+                                        <span className={`text-sm font-light ${isEliminated ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
                                             {option.text}
                                         </span>
                                     </button>
@@ -386,7 +383,7 @@ export default function GamifiedQuiz() {
                 </div>
 
                 {/* Bottom Controls */}
-                <div className="mt-8 flex justify-between items-center">
+                <div className="mt-4 flex justify-between items-center">
                     {/* Power-ups */}
                     <div className="flex gap-3">
                         <button

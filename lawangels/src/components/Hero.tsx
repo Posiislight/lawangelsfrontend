@@ -1,13 +1,14 @@
 
+import { Link } from 'react-router-dom';
 import bgImage from '../assets/newheropic.jpg';
- // Ensure you have a suitable background image in your assets
+// Ensure you have a suitable background image in your assets
 export default function Hero() {
     return (
         <section id="home" className="relative font-worksans">
             {/* Desktop Design - Hidden on mobile */}
             <div className="hidden md:block relative h-[100vh]">
                 {/* Background Image */}
-                <div 
+                <div
                     className="absolute inset-0 bg-cover bg-[center_top_20%] bg-no-repeat"
                     style={{
                         backgroundImage: `
@@ -20,36 +21,36 @@ export default function Hero() {
                     {/* Overlay for better text readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent"></div>
                 </div>
-                
+
                 {/* Content */}
                 <div className="relative z-10 flex items-center justify-center h-full pt-[100px]">
                     <div className="w-full max-w-[1440px] mx-auto px-4">
                         <div className=" max-w-5xl mx-auto text-center bottom-10">
                             {/* Main Heading */}
                             <h1
-      className="font-crimson font-semibold text-[50px] leading-[100%] tracking-[-0.06em] text-center text-white mx-auto"
-    >
-      Your Journey to SQE Success
-      <br />
-      Starts Here
-    </h1>
+                                className="font-crimson font-semibold text-[50px] leading-[100%] tracking-[-0.06em] text-center text-white mx-auto"
+                            >
+                                Your Journey to SQE Success
+                                <br />
+                                Starts Here
+                            </h1>
 
-                            
+
                             {/* Subtitle */}
                             <p className="font-worksans mt-6 text-base font-normal leading-7 text-gray-200 max-w-2xl text-center mx-auto sm:text-lg">
                                 Master the Solicitors Qualifying Examination with expert-led courses, interactive practice tests, and a clear roadmap to becoming a qualified solicitor.
                             </p>
-                            
+
                             {/* CTA Button */}
                             <div className="mt-8 text-center">
-                                <button className="bg-sky-400 hover:bg-sky-500 text-black font-medium py-3 px-6 rounded-full text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl mx-auto">
+                                <Link to="/register" className="inline-block bg-sky-400 hover:bg-sky-500 text-black font-medium py-3 px-6 rounded-full text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl mx-auto">
                                     Start your Journey
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 {/* Background Elements for Visual Interest */}
                 <div className="absolute bottom-10 right-10 opacity-20">
                     <div className="w-32 h-32 border border-white/30 rounded-lg transform rotate-12"></div>
@@ -61,7 +62,7 @@ export default function Hero() {
             <div className="md:hidden relative min-h-screen bg-gradient-to-b from-gray-900 to-black">
                 {/* Mobile Background */}
                 <div className="absolute inset-0 opacity-40">
-                    <div 
+                    <div
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                         style={{
                             backgroundImage: `url(${bgImage})`
@@ -88,9 +89,9 @@ export default function Hero() {
                         </p>
 
                         {/* Mobile CTA Button */}
-                        <button className="bg-sky-400 hover:bg-sky-500 active:bg-sky-600 text-black font-semibold py-3 px-8 rounded-full text-base transition-all duration-200 transform active:scale-95 shadow-lg w-full max-w-xs">
+                        <Link to="/register" className="inline-block text-center bg-sky-400 hover:bg-sky-500 active:bg-sky-600 text-black font-semibold py-3 px-8 rounded-full text-base transition-all duration-200 transform active:scale-95 shadow-lg w-full max-w-xs">
                             Start your Journey
-                        </button>
+                        </Link>
 
                         {/* Mobile Decorative Elements */}
                         <div className="mt-12 flex gap-4 opacity-30">

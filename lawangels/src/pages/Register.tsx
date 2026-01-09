@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { AlertCircle, Target, RefreshCw, BookOpen, Plus, Eye, EyeOff } from 'lucide-react'
+import { AlertCircle, Target, RefreshCw, BookOpen, Plus, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
 import avatar1 from '../assets/avatars/Frame 23.png'
@@ -135,7 +135,16 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 font-worksans py-8">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 font-worksans py-8 relative">
+      {/* Back to Home Link */}
+      <Link
+        to="/"
+        className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span className="text-sm font-medium">Back to Home</span>
+      </Link>
+
       <div className="w-full max-w-2xl">
         {/* Header with Logo */}
         <div className="flex justify-center items-center gap-2 mb-8">
@@ -159,9 +168,8 @@ export default function Register() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  i === step ? 'bg-[#0089FF]' : i < step ? 'bg-[#0089FF]' : 'bg-[#E2E8F0]'
-                }`}
+                className={`w-2 h-2 rounded-full transition-colors ${i === step ? 'bg-[#0089FF]' : i < step ? 'bg-[#0089FF]' : 'bg-[#E2E8F0]'
+                  }`}
               />
             ))}
           </div>
@@ -300,15 +308,13 @@ export default function Register() {
                           setStudyGoal(option.value as StudyGoal)
                           if (validationError) setValidationError('')
                         }}
-                        className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${
-                          studyGoal === option.value
+                        className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${studyGoal === option.value
                             ? 'border-[#0089FF] bg-[#F0F8FF]'
                             : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
-                        }`}
+                          }`}
                       >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                          studyGoal === option.value ? 'bg-[#0089FF]' : 'bg-[#F3F4F6]'
-                        }`}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${studyGoal === option.value ? 'bg-[#0089FF]' : 'bg-[#F3F4F6]'
+                          }`}>
                           <IconComponent className={`w-5 h-5 ${studyGoal === option.value ? 'text-white' : 'text-[#111418]'}`} />
                         </div>
                         <span className="font-medium text-[#111418]">{option.label}</span>
@@ -334,11 +340,10 @@ export default function Register() {
                         setStudyTime(option.value as StudyTime)
                         if (validationError) setValidationError('')
                       }}
-                      className={`p-3 rounded-lg border-2 transition-all text-center font-medium text-sm ${
-                        studyTime === option.value
+                      className={`p-3 rounded-lg border-2 transition-all text-center font-medium text-sm ${studyTime === option.value
                           ? 'border-[#0089FF] bg-[#F0F8FF] text-[#0089FF]'
                           : 'border-[#E2E8F0] text-[#617289] hover:border-[#0089FF]/30'
-                      }`}
+                        }`}
                     >
                       {option.label}
                     </button>
@@ -357,11 +362,10 @@ export default function Register() {
                         setSelectedAvatar(avatar.id)
                         if (validationError) setValidationError('')
                       }}
-                      className={`w-16 h-16 rounded-full border-3 flex items-center justify-center transition-all overflow-hidden p-0 ${
-                        selectedAvatar === avatar.id
+                      className={`w-16 h-16 rounded-full border-3 flex items-center justify-center transition-all overflow-hidden p-0 ${selectedAvatar === avatar.id
                           ? 'border-[#0089FF] ring-4 ring-[#0089FF]/10'
                           : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
-                      }`}
+                        }`}
                       title={avatar.name}
                     >
                       {avatar.image ? (
@@ -460,11 +464,10 @@ export default function Register() {
                       setPaymentMethod('credit')
                       if (validationError) setValidationError('')
                     }}
-                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${
-                      paymentMethod === 'credit'
+                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${paymentMethod === 'credit'
                         ? 'border-[#0089FF] bg-[#F0F8FF]'
                         : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
-                    }`}
+                      }`}
                   >
                     <svg className={`w-6 h-6 ${paymentMethod === 'credit' ? 'text-[#0089FF]' : 'text-[#617289]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h4m4 0h4M7 19h10a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -477,11 +480,10 @@ export default function Register() {
                       setPaymentMethod('paypal')
                       if (validationError) setValidationError('')
                     }}
-                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${
-                      paymentMethod === 'paypal'
+                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${paymentMethod === 'paypal'
                         ? 'border-[#0089FF] bg-[#F0F8FF]'
                         : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
-                    }`}
+                      }`}
                   >
                     <svg className={`w-6 h-6 ${paymentMethod === 'paypal' ? 'text-[#0089FF]' : 'text-[#617289]'}`} fill="currentColor" viewBox="0 0 24 24">
                       <path d="M9.012 0c-1.264 0-2.258 1.026-2.258 2.289v2.885H3.693c-.913 0-1.66.747-1.66 1.66v2.582c0 .913.747 1.66 1.66 1.66h2.99v4.58c0 2.468 2.018 4.485 4.485 4.485h2.955v-2.89H12.81c-1.264 0-2.288-1.022-2.288-2.286V9.84l5.93-.004c.913 0 1.66-.747 1.66-1.66V5.594c0-.913-.747-1.66-1.66-1.66h-5.93V2.29C11.512 1.026 10.518 0 9.25 0z" />

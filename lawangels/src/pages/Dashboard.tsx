@@ -596,7 +596,7 @@ export default function Dashboard() {
                             </div>
                             <div className="space-y-3 text-sm">
                               <p className="text-gray-600 font-medium mb-3">Learning Content</p>
-                              {course.textbook.available && (
+                              {course.textbook?.available && (
                                 <div className="flex items-center gap-3 text-gray-600">
                                   <Book className="w-5 h-5 text-blue-600" />
                                   <span>Reading</span>
@@ -606,12 +606,12 @@ export default function Dashboard() {
                               <div className="flex items-center gap-3 text-gray-600">
                                 <Video className="w-5 h-5 text-purple-600" />
                                 <span>Videos</span>
-                                <span className="ml-auto font-semibold">{course.videos.completed}/{course.videos.total}</span>
+                                <span className="ml-auto font-semibold">View →</span>
                               </div>
                               <div className="flex items-center gap-3 text-gray-600">
                                 <CheckCircle className="w-5 h-5 text-green-600" />
                                 <span>Practice</span>
-                                <span className="ml-auto font-semibold">{course.quizzes.completed} completed</span>
+                                <span className="ml-auto font-semibold">View →</span>
                               </div>
                             </div>
                           </>

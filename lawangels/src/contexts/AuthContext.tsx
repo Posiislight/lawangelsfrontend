@@ -73,9 +73,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
     } catch (error: any) {
       console.error('Login error:', error)
-      const errorMessage = 
+      const errorMessage =
         error.response?.data?.non_field_errors?.[0] ||
-        error.response?.data?.detail || 
+        error.response?.data?.detail ||
         error.response?.data?.error ||
         error.message ||
         'Login failed'
@@ -89,23 +89,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const logout = async () => {
-    setState(prev => ({ ...prev, isLoading: true }))
-    try {
-      await authApi.logout()
-      setState({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: null,
-      })
-    } catch (error: any) {
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        error: 'Logout failed',
-      }))
-      throw error
-    }
+    // Clear local state immediately for instant feedback
+    setState({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+      error: null,
+    })
+
+    // Call API in background (fire-and-forget) - don't wait for it
+    authApi.logout().catch(error => {
+      console.error('Logout API error (non-blocking):', error)
+    })
   }
 
   const clearError = () => {
