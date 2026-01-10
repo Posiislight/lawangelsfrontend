@@ -59,7 +59,7 @@ export default function Flashcards() {
             <p className="text-gray-600 text-sm mt-1">Select a topic to study</p>
           </div>
           <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-medium">
-            {user?.email?.charAt(0).toUpperCase() || 'U'}
+            {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
         </div>
       </div>
