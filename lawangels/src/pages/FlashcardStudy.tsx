@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, X, HelpCircle, Check } from 'lucide-react'
 import { flashcardsApi, type Flashcard } from '../services/flashcardsApi'
 import DashboardLayout from '../components/DashboardLayout'
 
@@ -13,6 +13,7 @@ export default function FlashcardStudy() {
     const [showAnswer, setShowAnswer] = useState(false)
     const [loading, setLoading] = useState(true)
     const [correctCards, setCorrectCards] = useState<boolean[]>([])
+    const [deckTitle, setDeckTitle] = useState<string>('')
 
     useEffect(() => {
         loadStudySession()
@@ -24,6 +25,7 @@ export default function FlashcardStudy() {
             const data = await flashcardsApi.getStudySession(Number(deckId))
             setCards(data.cards)
             setCorrectCards(new Array(data.cards.length).fill(false))
+            setDeckTitle(data.deck?.subject || data.deck?.title || 'Flashcards')
         } catch (error) {
             console.error('Error loading study session:', error)
         } finally {
@@ -35,25 +37,22 @@ export default function FlashcardStudy() {
 
 
 
-    const handleNext = async (isCorrect?: boolean) => {
-        // Update progress
+    const handleNext = (isCorrect?: boolean) => {
+        // Update local state immediately
         if (showAnswer && typeof isCorrect === 'boolean') {
             const updatedCorrectCards = [...correctCards]
             updatedCorrectCards[currentIndex] = isCorrect
             setCorrectCards(updatedCorrectCards)
 
-            try {
-                await flashcardsApi.updateProgress(
-                    Number(deckId),
-                    currentIndex + 1,
-                    isCorrect
-                )
-            } catch (error) {
-                console.error('Error updating progress:', error)
-            }
+            // Fire-and-forget API call (don't await)
+            flashcardsApi.updateProgress(
+                Number(deckId),
+                currentIndex + 1,
+                isCorrect
+            ).catch(error => console.error('Error updating progress:', error))
         }
 
-        // Move to next card
+        // Move to next card immediately
         if (currentIndex < cards.length - 1) {
             setCurrentIndex(currentIndex + 1)
             setShowAnswer(false)
@@ -93,11 +92,11 @@ export default function FlashcardStudy() {
                 {/* Back button */}
                 <div className="w-full max-w-4xl mb-4">
                     <button
-                        onClick={() => navigate('/flashcards')}
+                        onClick={() => navigate(`/flashcards/topic/${encodeURIComponent(deckTitle)}`)}
                         className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        Back to Flashcards
+                        Back to {deckTitle} Flashcards
                     </button>
                 </div>
 
@@ -160,6 +159,50 @@ export default function FlashcardStudy() {
                             }`} />
                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-200/20 dark:bg-indigo-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
                     </div>
+
+                    {/* Self-Assessment Buttons - Show only when answer is revealed */}
+                    {showAnswer && (
+                        <div className="flex items-center justify-center gap-3 mt-4">
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleNext(false);
+                                }}
+                                className="flex items-center gap-2 px-5 py-3 rounded-full bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all duration-200 group"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <X className="w-4 h-4 text-white" />
+                                </div>
+                                <span className="text-sm font-medium text-red-700 dark:text-red-400">I was incorrect</span>
+                            </button>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleNext(false);
+                                }}
+                                className="flex items-center gap-2 px-5 py-3 rounded-full bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-all duration-200 group"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <HelpCircle className="w-4 h-4 text-white" />
+                                </div>
+                                <span className="text-sm font-medium text-orange-700 dark:text-orange-400">I was not sure</span>
+                            </button>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleNext(true);
+                                }}
+                                className="flex items-center gap-2 px-5 py-3 rounded-full bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200 group"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <Check className="w-4 h-4 text-white" />
+                                </div>
+                                <span className="text-sm font-medium text-green-700 dark:text-green-400">I was correct</span>
+                            </button>
+                        </div>
+                    )}
 
                     {/* Navigation controls */}
                     <div className="flex items-center justify-center gap-8 mt-2">
