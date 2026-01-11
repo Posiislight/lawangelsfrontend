@@ -337,12 +337,16 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             logger.info(f"[TIMING] [2] Check existing: {(time.time() - step_start)*1000:.2f}ms")
             
             if existing_attempt:
-                # If attempt exists but has no selected questions, populate them now
-                if existing_attempt.selected_questions.count() == 0:
+                # If attempt exists but has incorrect number of questions (e.g. 0 or old limit of 60), fix it now
+                current_count = existing_attempt.selected_questions.count()
+                total_questions_count = Question.objects.filter(exam_id=exam_id).count()
+                
+                if current_count != total_questions_count:
                     step_start = time.time()
-                    selected_question_ids = self._select_balanced_questions(exam_id, target_count=60)
+                    # For a mock exam, we want all questions in the correct order
+                    selected_question_ids = list(Question.objects.filter(exam_id=exam_id).order_by('question_number').values_list('id', flat=True))
                     existing_attempt.selected_questions.set(selected_question_ids)
-                    logger.info(f"[TIMING] [3] Populate existing with balanced questions: {(time.time() - step_start)*1000:.2f}ms")
+                    logger.info(f"[TIMING] [3] Updated existing attempt from {current_count} to {len(selected_question_ids)} questions: {(time.time() - step_start)*1000:.2f}ms")
                 
                 logger.info(f"User {request.user.username} resuming existing attempt for exam {exam_id}")
                 # Use minimal serializer for faster response
@@ -358,11 +362,12 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             )
             logger.info(f"[TIMING] [3] Create attempt DB: {(time.time() - step_start)*1000:.2f}ms")
             
-            # Step 4: Select 60 questions with equal topic distribution
+            # Step 4: Select ALL questions for the exam in order
             step_start = time.time()
-            selected_question_ids = self._select_balanced_questions(exam_id, target_count=60)
+            # For a mock exam, we want all questions in the correct order
+            selected_question_ids = list(Question.objects.filter(exam_id=exam_id).order_by('question_number').values_list('id', flat=True))
             num_questions = len(selected_question_ids)
-            logger.info(f"[TIMING] [4] Balanced topic sample {num_questions} questions: {(time.time() - step_start)*1000:.2f}ms")
+            logger.info(f"[TIMING] [4] Selected all {num_questions} questions for exam {exam_id}: {(time.time() - step_start)*1000:.2f}ms")
             
             # Step 5: Bulk set relations (optimized - use through model directly)
             step_start = time.time()
@@ -428,7 +433,7 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
     def questions(self, request, pk=None):
-        """Get the 40 randomly selected questions for this attempt
+        """Get all selected questions for this attempt
         
         Returns all question data including correct_answer and explanation
         for frontend to show/hide with JavaScript (no additional API calls needed)

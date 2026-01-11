@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, ArrowRight, Target, CheckCircle, TrendingUp, Clock, Loader2, ClipboardList } from 'lucide-react'
+import { Bell, ArrowRight, Target, CheckCircle, TrendingUp, Clock, Loader2, ClipboardList, Lock } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import MockTestStart from '../components/MockTestStart'
@@ -16,6 +16,7 @@ interface MockExamWithStats extends Exam {
   bestScore: number
   lastAttempt: string
   color: string
+  locked?: boolean
 }
 
 interface ExamSettings {
@@ -93,13 +94,48 @@ export default function MockQuestions() {
       try {
         setIsLoading(true)
         const { exams, userStats: stats } = await fetchMockExamsData()
-        setMockExams(exams)
+
+        // Generate locked exams (Mock 4-15)
+        const lockedExams: MockExamWithStats[] = Array.from({ length: 12 }, (_, i) => {
+          const num = i + 4
+          return {
+            id: -num, // unique negative id to avoid conflict
+            title: `Mock Test ${num}`,
+            description: 'Coming soon',
+            subject: 'mixed',
+            duration_minutes: 150,
+            total_questions: 90,
+            passing_score_percentage: 50,
+            is_active: false,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            attemptsTaken: 0,
+            averageScore: 0,
+            bestScore: 0,
+            lastAttempt: 'Not attempted',
+            color: 'gray',
+            locked: true,
+            questions: [],
+            speed_reader_seconds: 70
+          }
+        })
+
+        setMockExams([...exams, ...lockedExams])
         setUserStats(stats)
-        console.log('[MockQuestions] Fetched data via optimized endpoint:', exams.length, 'exams')
+        console.log('[MockQuestions] Fetched data + locked exams:', exams.length + lockedExams.length)
       } catch (error) {
         console.error('[MockQuestions] Error fetching mock exams:', error)
-        // Set empty state on error
-        setMockExams([])
+        // Set empty state with locked exams on error
+        const lockedExams: MockExamWithStats[] = Array.from({ length: 12 }, (_, i) => {
+          const num = i + 4
+          return {
+            id: -num, title: `Mock Test ${num}`, description: 'Coming soon', subject: 'mixed',
+            duration_minutes: 150, total_questions: 90, passing_score_percentage: 50, is_active: false,
+            created_at: '', updated_at: '', attemptsTaken: 0, averageScore: 0, bestScore: 0,
+            lastAttempt: 'Not attempted', color: 'gray', locked: true, questions: [], speed_reader_seconds: 70
+          }
+        })
+        setMockExams(lockedExams)
         setUserStats(null)
       } finally {
         setIsLoading(false)
@@ -131,6 +167,7 @@ export default function MockQuestions() {
     red: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-600', accent: 'bg-red-500' },
     yellow: { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-600', accent: 'bg-yellow-500' },
     indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-600', accent: 'bg-indigo-500' },
+    gray: { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-400', accent: 'bg-gray-400' },
   }
 
   // Handle exam selection and navigation
@@ -308,13 +345,18 @@ export default function MockQuestions() {
               {mockExams.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {mockExams.map((exam) => {
-                    const color = colorMap[exam.color as keyof typeof colorMap]
+                    const color = colorMap[exam.color as keyof typeof colorMap] || colorMap.gray
+                    const isLocked = exam.locked
 
                     return (
                       <div
                         key={exam.id}
-                        className="rounded-xl border-t-4 border-t-blue-500 overflow-hidden transition-all bg-white border border-gray-200 hover:shadow-lg cursor-pointer"
-                        onClick={() => handleStartExam(exam)}
+                        className={`rounded-xl border-t-4 transition-all bg-white border border-gray-200 
+                          ${isLocked
+                            ? 'border-t-gray-300 opacity-75 cursor-not-allowed'
+                            : `border-t-blue-500 hover:shadow-lg cursor-pointer`
+                          }`}
+                        onClick={() => !isLocked && handleStartExam(exam)}
                       >
                         <div className="p-6">
                           <div className="flex items-start justify-between mb-4">
@@ -322,7 +364,10 @@ export default function MockQuestions() {
                               <p className={`text-xs font-semibold uppercase tracking-wide ${color.text} mb-2`}>
                                 {formatSubjectName(exam.subject)}
                               </p>
-                              <h3 className="text-lg font-semibold text-gray-900 mb-1">{exam.title}</h3>
+                              <h3 className="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
+                                {exam.title}
+                                {isLocked && <Lock className="w-4 h-4 text-gray-400" />}
+                              </h3>
                             </div>
                           </div>
 
@@ -342,7 +387,7 @@ export default function MockQuestions() {
                               <span className="font-semibold text-gray-900">{exam.passing_score_percentage}%</span>
                             </div>
 
-                            {exam.attemptsTaken > 0 && (
+                            {!isLocked && exam.attemptsTaken > 0 && (
                               <>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                   <div
@@ -369,21 +414,44 @@ export default function MockQuestions() {
                               </>
                             )}
 
-                            <div className="flex items-center justify-between text-sm">
-                              <span className="text-gray-600">Last Attempt</span>
-                              <span className="font-semibold text-gray-900">{exam.lastAttempt}</span>
-                            </div>
+                            {!isLocked && (
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-600">Last Attempt</span>
+                                <span className="font-semibold text-gray-900">{exam.lastAttempt}</span>
+                              </div>
+                            )}
+
+                            {isLocked && (
+                              <div className="bg-gray-50 p-3 rounded-lg text-center">
+                                <p className="text-sm text-gray-500 italic">Content coming soon</p>
+                              </div>
+                            )}
+
                           </div>
 
                           <button
                             onClick={(e) => {
                               e.stopPropagation()
-                              handleStartExam(exam)
+                              if (!isLocked) handleStartExam(exam)
                             }}
-                            className={`w-full ${color.accent} text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
+                            disabled={isLocked}
+                            className={`w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 transition-opacity
+                                ${isLocked
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : `${color.accent} text-white hover:opacity-90`
+                              }`}
                           >
-                            {exam.attemptsTaken > 0 ? 'Retake Exam' : 'Start Exam'}
-                            <ArrowRight className="w-4 h-4" />
+                            {isLocked ? (
+                              <>
+                                <Lock className="w-4 h-4" />
+                                <span>Locked</span>
+                              </>
+                            ) : (
+                              <>
+                                {exam.attemptsTaken > 0 ? 'Retake Exam' : 'Start Exam'}
+                                <ArrowRight className="w-4 h-4" />
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>

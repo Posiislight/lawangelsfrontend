@@ -355,7 +355,7 @@ export default function MockExam({
   if (state.loading) {
     const steps: { step: LoadingStep; label: string; description: string }[] = [
       { step: 'creating-attempt', label: 'Initializing', description: 'Creating your exam session' },
-      { step: 'loading-questions', label: 'Loading Questions', description: 'Fetching your 40 questions' },
+      { step: 'loading-questions', label: 'Loading Questions', description: 'Fetching your 90 questions' },
       { step: 'loading-config', label: 'Preparing Timer', description: 'Setting up exam timer' },
     ]
 
