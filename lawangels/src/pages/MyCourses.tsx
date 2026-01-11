@@ -1,9 +1,9 @@
-import { Video, CheckCircle, Search, Filter, Loader2, BookOpen, FileText, HelpCircle, Layers, ClipboardList } from 'lucide-react'
+import { Video, CheckCircle, Search, Filter, Loader2, BookOpen, FileText, ClipboardList } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import DashboardLayout from '../components/DashboardLayout'
-import { summaryNotesApi, type SummaryNotes } from '../services/summaryNotesApi'
+
 
 // Brand colors
 const FLK1_COLOR = '#0AB5FF'
@@ -70,28 +70,24 @@ export default function MyCourses() {
   const [data, setData] = useState<MyCoursesResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [summaryNotes, setSummaryNotes] = useState<SummaryNotes[]>([])
+
 
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true)
-        // Fetch courses and summary notes in parallel
-        const [coursesResponse, notesData] = await Promise.all([
-          fetch(`${getApiBaseUrl()}/my-courses/`, {
-            method: 'GET',
-            credentials: 'include',
-            headers: getAuthHeaders(),
-          }),
-          summaryNotesApi.list().catch(() => [] as SummaryNotes[])
-        ])
+        // Fetch courses
+        const coursesResponse = await fetch(`${getApiBaseUrl()}/my-courses/`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: getAuthHeaders(),
+        })
 
         if (!coursesResponse.ok) {
           throw new Error(`HTTP ${coursesResponse.status}`)
         }
         const coursesData = await coursesResponse.json()
         setData(coursesData)
-        setSummaryNotes(notesData)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load courses')
       } finally {
@@ -101,15 +97,7 @@ export default function MyCourses() {
     loadData()
   }, [])
 
-  // Find matching summary notes for a course title
-  const findSummaryNotesForCourse = (courseTitle: string): SummaryNotes | undefined => {
-    const title = courseTitle.toLowerCase()
-    return summaryNotes.find(note =>
-      note.title.toLowerCase().includes(title) ||
-      title.includes(note.subject.toLowerCase()) ||
-      note.subject.toLowerCase().includes(title)
-    )
-  }
+
 
   // Filter courses based on status, category, and search term
   const filteredCourses = data?.courses
@@ -123,8 +111,7 @@ export default function MyCourses() {
     // Navigate to first available content for this course - prioritize textbook
     if (course.textbook.available) {
       navigate(`/textbook/${course.textbook.id}`)
-    } else if (course.flashcards.total_cards > 0) {
-      navigate(`/flashcards/topic/${encodeURIComponent(course.flashcards.topic)}`)
+
     } else {
       navigate('/video-tutorials')
     }
@@ -457,46 +444,9 @@ export default function MyCourses() {
                         </span>
                       </button>
 
-                      {/* Quiz Link */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          navigate('/quizzes')
-                        }}
-                        className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer transition-all"
-                      >
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <HelpCircle className="w-4 h-4" style={{ color: accentColor }} />
-                          <span>Quizzes</span>
-                        </div>
-                        <span className="text-xs font-medium text-gray-900">
-                          View →
-                        </span>
-                      </button>
 
-                      {/* Flashcards Link */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          const topic = course.flashcards?.topic
-                          if (topic && course.flashcards?.total_cards) {
-                            navigate(`/flashcards/topic/${encodeURIComponent(topic)}`)
-                          }
-                        }}
-                        disabled={!course.flashcards?.total_cards}
-                        className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${course.flashcards?.total_cards
-                          ? 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer'
-                          : 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-60'
-                          }`}
-                      >
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Layers className="w-4 h-4" style={{ color: course.flashcards?.total_cards ? accentColor : '#9CA3AF' }} />
-                          <span>Flashcards</span>
-                        </div>
-                        <span className={`text-xs font-medium ${course.flashcards?.total_cards ? 'text-gray-900' : 'text-gray-400'}`}>
-                          {course.flashcards?.total_cards ? 'View →' : 'Coming soon'}
-                        </span>
-                      </button>
+
+
 
                       {/* Practice Questions Link */}
                       <button
@@ -521,27 +471,7 @@ export default function MyCourses() {
                         </span>
                       </button>
 
-                      {/* Summary Notes Link */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          const matchingNotes = findSummaryNotesForCourse(course.title)
-                          if (matchingNotes) {
-                            navigate(`/summary-notes/${matchingNotes.id}`)
-                          } else {
-                            navigate('/summary-notes')
-                          }
-                        }}
-                        className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer transition-all"
-                      >
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <FileText className="w-4 h-4" style={{ color: accentColor }} />
-                          <span>Summary Notes</span>
-                        </div>
-                        <span className="text-xs font-medium text-gray-900">
-                          View →
-                        </span>
-                      </button>
+
                     </div>
                   </div>
                 </div>
