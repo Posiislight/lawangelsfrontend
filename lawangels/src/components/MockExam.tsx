@@ -86,7 +86,6 @@ export default function MockExam({
         authTokenRef.current = token
 
         // Create new attempt
-        console.log('Creating exam attempt...')
         const attempt = await fetch(`${apiBaseUrl}/exam-attempts/start/`, {
           method: 'POST',
           headers: {
@@ -106,50 +105,50 @@ export default function MockExam({
           return res.json()
         })
 
-        console.log('Attempt created:', attempt)
         setState(prev => ({ ...prev, loadingStep: 'loading-questions' }))
 
-        // Load the 40 randomly selected questions for this attempt
-        console.log('Fetching questions for attempt:', attempt.id)
-        const questions = await fetch(`${apiBaseUrl}/exam-attempts/${attempt.id}/questions/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          credentials: 'include',
-        }).then(res => {
-          if (!res.ok) {
-            if (res.status === 401) {
-              throw new Error('Authentication credentials are missing or invalid while fetching questions.')
+        // OPTIMIZATION: Fetch questions and config in parallel (they don't depend on each other)
+        const [questions, config] = await Promise.all([
+          // Fetch questions for this attempt
+          fetch(`${apiBaseUrl}/exam-attempts/${attempt.id}/questions/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken,
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            credentials: 'include',
+          }).then(res => {
+            if (!res.ok) {
+              if (res.status === 401) {
+                throw new Error('Authentication credentials are missing or invalid while fetching questions.')
+              }
+              throw new Error(`Failed to fetch questions. Status: ${res.status}`)
             }
-            throw new Error(`Failed to fetch questions. Status: ${res.status}`)
-          }
-          return res.json()
-        })
+            return res.json()
+          }),
 
-        console.log('Questions loaded:', questions.length)
-        setState(prev => ({ ...prev, loadingStep: 'loading-config' }))
-
-        // Load timing config
-        const config = await fetch(`${apiBaseUrl}/exams/config/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          credentials: 'include',
-        }).then(res => {
-          if (!res.ok) {
-            if (res.status === 401) {
-              throw new Error('Authentication credentials are missing or invalid while fetching exam timing config.')
+          // Fetch timing config (with fallback defaults)
+          fetch(`${apiBaseUrl}/exams/config/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken,
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            credentials: 'include',
+          }).then(res => {
+            if (!res.ok) {
+              // Use sensible defaults if config fails
+              console.warn('Config fetch failed, using defaults')
+              return { default_duration_minutes: 60, default_speed_reader_seconds: 70 }
             }
-            throw new Error(`Failed to fetch exam timing config. Status: ${res.status}`)
-          }
-          return res.json()
-        })
+            return res.json()
+          }).catch(() => {
+            // Fallback to defaults on any error
+            return { default_duration_minutes: 60, default_speed_reader_seconds: 70 }
+          })
+        ])
 
         setState(prev => ({
           ...prev,
@@ -158,8 +157,8 @@ export default function MockExam({
           questions: questions,
           attempt: attempt,
           attemptId: attempt.id,
-          timeLeft: Math.round(config.default_duration_minutes * 60 * (extraTimeEnabled ? 1.25 : 1)),
-          speedReaderTime: config.default_speed_reader_seconds,
+          timeLeft: Math.round((config.default_duration_minutes || 60) * 60 * (extraTimeEnabled ? 1.25 : 1)),
+          speedReaderTime: config.default_speed_reader_seconds || 70,
         }))
       } catch (error) {
         console.error('Error initializing exam:', error)
@@ -174,9 +173,13 @@ export default function MockExam({
     initializeExam()
   }, [])
 
-  // Main timer effect
+  // Main timer effect - pauses in learn-as-you-go mode when viewing feedback
   useEffect(() => {
     if (state.loading || !state.attempt) return
+
+    // Pause timer in learn-as-you-go mode when viewing feedback
+    const shouldPauseTimer = state.practiceMode === 'learn-as-you-go' && state.answerState === 'answered'
+    if (shouldPauseTimer) return
 
     const timer = setInterval(() => {
       setState(prev => ({
@@ -186,11 +189,11 @@ export default function MockExam({
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [state.loading, state.attempt])
+  }, [state.loading, state.attempt, state.practiceMode, state.answerState])
 
-  // Speed reader auto-advance effect
+  // Speed reader auto-advance effect - starts counting immediately when exam loads
   useEffect(() => {
-    if (!state.speedReaderEnabled || state.questions.length === 0 || state.answerState === 'unanswered') return
+    if (!state.speedReaderEnabled || state.questions.length === 0) return
 
     const speedTimer = setInterval(() => {
       setState(prev => {
@@ -215,7 +218,7 @@ export default function MockExam({
     }, 1000)
 
     return () => clearInterval(speedTimer)
-  }, [state.speedReaderEnabled, state.currentQuestion, state.questions.length, state.answerState])
+  }, [state.speedReaderEnabled, state.currentQuestion, state.questions.length])
 
   // Format time as HH:MM:SS
   const formatTime = (seconds: number) => {
@@ -226,21 +229,30 @@ export default function MockExam({
   }
 
   const handleSelectAnswer = (label: string) => {
-    // Only allow selecting if haven't answered yet
+    // Only allow selecting if haven't submitted yet
     if (state.answerState === 'unanswered') {
+      setState(prev => ({
+        ...prev,
+        selectedAnswer: label,
+      }))
+    }
+  }
+
+  const handleSubmitAnswer = () => {
+    // Only submit if an answer is selected and not already submitted
+    if (state.selectedAnswer && state.answerState === 'unanswered') {
       const question = state.questions[state.currentQuestion]
-      const isCorrect = label === question.correct_answer
+      const isCorrect = state.selectedAnswer === question.correct_answer
 
       setState(prev => {
         const updatedAnswers = { ...prev.answeredQuestions }
         updatedAnswers[prev.currentQuestion] = {
-          answer: label,
+          answer: prev.selectedAnswer!,
           isCorrect: isCorrect,
         }
 
         return {
           ...prev,
-          selectedAnswer: label,
           answerState: 'answered',
           answeredQuestions: updatedAnswers,
         }
@@ -263,7 +275,7 @@ export default function MockExam({
           headers,
           body: JSON.stringify({
             question_id: question.id,
-            selected_answer: label,
+            selected_answer: state.selectedAnswer,
             time_spent_seconds: 10,
           }),
           credentials: 'include',
@@ -358,7 +370,7 @@ export default function MockExam({
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#E17100] to-[#FE9A00] flex items-center justify-center animate-pulse">
               <Loader size={32} className="text-white animate-spin" />
             </div>
-            <p className="text-[#1D293D] font-bold text-lg">Law Angels Quiz</p>
+            <p className="text-[#1D293D] font-bold text-lg">Law Angels Mock</p>
           </div>
 
           {/* Steps Progress */}
@@ -431,7 +443,8 @@ export default function MockExam({
   const answeredCount = Object.keys(state.answeredQuestions).length
   const progressPercentage = (answeredCount / totalQuestions) * 100
 
-  const showFeedback = state.answerState === 'answered' || state.answerState === 'navigated'
+  // Only show feedback in learn-as-you-go mode
+  const showFeedback = (state.answerState === 'answered' || state.answerState === 'navigated') && state.practiceMode === 'learn-as-you-go'
   const isAnswerCorrect = state.answeredQuestions[state.currentQuestion]?.isCorrect
 
   return (
@@ -440,9 +453,12 @@ export default function MockExam({
       <header className="bg-[#0F172B] border-b border-[#1D293D] shadow-lg sticky top-0 z-40">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between mb-4">
-            <button className="flex items-center gap-3 text-[#CAD5E2] bg-[#0F172B] hover:text-white transition -mt-16">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="flex items-center gap-3 text-[#CAD5E2] bg-[#0F172B] hover:text-white transition -mt-16"
+            >
               <ArrowLeft size={16} />
-              <span className="text-sm font-medium">Back to Profile</span>
+              <span className="text-sm font-medium">Back to Dashboard</span>
             </button>
             <div className="bg-[#E17100] text-white px-4 py-2 rounded-lg text-xs font-medium mx-auto">
               Mock Test 1
@@ -543,15 +559,42 @@ export default function MockExam({
                         <span className="text-sm text-[#314158]">{option.text}</span>
                       </label>
 
-                      {/* Feedback removed for mock exam simulation - detailed review provided in Results page */}
+                      {/* Show explanation in learn-as-you-go mode */}
+                      {showFeedback && isSelected && (
+                        <div className={`mt-2 p-4 rounded-lg ${isAnswerCorrect ? 'bg-[#ECFDF5] border border-[#10B981]' : 'bg-[#FEF2F2] border border-[#EF4444]'}`}>
+                          <p className={`text-sm font-medium mb-1 ${isAnswerCorrect ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
+                            {isAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
+                          </p>
+                          {question.explanation && (
+                            <p className="text-sm text-[#314158]">{question.explanation}</p>
+                          )}
+                          {!isAnswerCorrect && (
+                            <p className="text-sm text-[#059669] mt-2">
+                              <span className="font-medium">Correct answer:</span> {question.correct_answer}
+                            </p>
+                          )}
+                        </div>
+                      )}
 
                     </div>
                   )
                 })}
               </div>
 
-              {/* Next Button Only */}
-              <div className="flex justify-center">
+              {/* Submit Answer and Next Buttons */}
+              <div className="flex justify-center gap-4">
+                {state.answerState === 'unanswered' && (
+                  <button
+                    onClick={handleSubmitAnswer}
+                    disabled={!state.selectedAnswer}
+                    className={`px-8 py-3 rounded-lg font-medium transition flex items-center gap-2 ${state.selectedAnswer
+                      ? 'bg-[#E17100] text-white hover:bg-[#C25F00]'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                  >
+                    Submit Answer
+                  </button>
+                )}
                 {state.answerState !== 'unanswered' && (
                   <button
                     onClick={handleNextQuestion}
