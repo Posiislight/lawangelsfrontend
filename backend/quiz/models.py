@@ -21,6 +21,7 @@ class Exam(models.Model):
     title = models.CharField(max_length=200, default='Mock Test 1')
     description = models.TextField(blank=True)
     subject = models.CharField(max_length=50, choices=SUBJECT_CHOICES, default='mixed')
+    category = models.CharField(max_length=10, choices=[('FLK1', 'FLK 1'), ('FLK2', 'FLK 2')], default='FLK1')
     duration_minutes = models.IntegerField(default=60, validators=[MinValueValidator(1), MaxValueValidator(480)])
     speed_reader_seconds = models.IntegerField(default=70, validators=[MinValueValidator(1), MaxValueValidator(600)])
     total_questions = models.IntegerField(default=0)

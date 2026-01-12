@@ -55,7 +55,7 @@ class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = [
-            'id', 'title', 'description', 'subject', 'duration_minutes',
+            'id', 'title', 'description', 'subject', 'category', 'duration_minutes',
             'speed_reader_seconds', 'passing_score_percentage', 'is_active',
             'total_questions'
         ]

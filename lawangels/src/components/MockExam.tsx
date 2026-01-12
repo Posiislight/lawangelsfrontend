@@ -157,7 +157,7 @@ export default function MockExam({
           questions: questions,
           attempt: attempt,
           attemptId: attempt.id,
-          timeLeft: Math.round((config.default_duration_minutes || 60) * 60 * (extraTimeEnabled ? 1.25 : 1)),
+          timeLeft: Math.round((attempt.exam?.duration_minutes || config.default_duration_minutes || 60) * 60 * (extraTimeEnabled ? 1.25 : 1)),
           speedReaderTime: config.default_speed_reader_seconds || 70,
         }))
       } catch (error) {

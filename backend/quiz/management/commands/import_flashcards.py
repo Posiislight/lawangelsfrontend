@@ -70,7 +70,13 @@ class Command(BaseCommand):
         
         for filename, info in FLASHCARD_MAPPING.items():
             # Find actual file
-            matching = [f for f in actual_files if info['subject'].lower().split()[0] in f.lower()]
+            # Try exact filename match first (case-insensitive check)
+            matching = [f for f in actual_files if f.lower() == filename.lower()]
+            
+            # Fallback to subject name matching if exact file not found
+            if not matching:
+                matching = [f for f in actual_files if info['subject'].lower().split()[0] in f.lower()]
+            
             if not matching:
                 self.stdout.write(self.style.WARNING(f'File not found for: {info["subject"]}'))
                 continue
@@ -121,7 +127,7 @@ class Command(BaseCommand):
                         total_cards += len(cards)
                         
                         self.stdout.write(self.style.SUCCESS(
-                            f'  ✓ {chapter_title}: {len(cards)} cards'
+                            f'  + {chapter_title}: {len(cards)} cards'
                         ))
             
             except Exception as e:
@@ -130,7 +136,7 @@ class Command(BaseCommand):
                 traceback.print_exc()
                 continue
         
-        self.stdout.write(self.style.SUCCESS(f'\n✅ Import complete!'))
+        self.stdout.write(self.style.SUCCESS(f'\n[OK] Import complete!'))
         self.stdout.write(self.style.SUCCESS(f'   Decks (chapters): {total_decks}'))
         self.stdout.write(self.style.SUCCESS(f'   Total cards: {total_cards}'))
     
@@ -147,28 +153,41 @@ class Command(BaseCommand):
                 continue
             
             # Check for chapter heading
-            chapter_match = re.match(r'^CHAPTER\s+\d+[:\s]+(.+)', text, re.IGNORECASE)
+            # Regex usually matches until newline if . is used without DOTALL
+            chapter_match = re.match(r'^(CHAPTER\s+\d+[:\s]*.+|CHAPTER\s+\d+)$', text.split('\n')[0], re.IGNORECASE)
+            
+            card_text_to_process = text
+            
             if chapter_match:
-                current_chapter = chapter_match.group(0).strip()
+                # We found a chapter heading
+                header = chapter_match.group(1).strip()
+                # Clean up colon if captured
+                if header.lower().startswith('chapter'):
+                    parts = header.split(':', 1)
+                    if len(parts) > 1:
+                        # Normalize title part
+                        current_chapter = f"{parts[0].strip()}: {parts[1].strip()}"
+                    else:
+                        current_chapter = header
+                else:
+                    current_chapter = header
+
                 if current_chapter not in chapters:
                     chapters[current_chapter] = []
-                continue
+                
+                # Check if there is content AFTER the header (e.g. "Chapter 1...\nQuestion...")
+                # Split text by newline. If > 1 line, the rest is card data.
+                lines = text.split('\n', 1)
+                if len(lines) > 1 and lines[1].strip():
+                    card_text_to_process = lines[1].strip()
+                else:
+                    continue
             
-            # Also check for just "CHAPTER X" without colon
-            if re.match(r'^CHAPTER\s+\d+$', text, re.IGNORECASE):
-                current_chapter = text.strip()
-                if current_chapter not in chapters:
-                    chapters[current_chapter] = []
-                continue
+            # Process as card (either non-chapter paragraph, or remainder of chapter paragraph)
             
-            # Ensure current chapter exists
-            if current_chapter not in chapters:
-                chapters[current_chapter] = []
-            
-            # Check if paragraph contains Q: ... A: ... pattern
-            if 'Q:' in text and 'A:' in text:
-                # Split by A: to get question and answer
-                parts = re.split(r'\nA:|(?<!\w)A:', text, maxsplit=1)
+            # Strategy 1: Explicit Q: and A:
+            if 'Q:' in card_text_to_process and 'A:' in card_text_to_process:
+                parts = re.split(r'\nA:|(?<!\w)A:', card_text_to_process, maxsplit=1)
                 if len(parts) == 2:
                     question = parts[0].replace('Q:', '').strip()
                     answer = parts[1].strip()
@@ -177,6 +196,21 @@ class Command(BaseCommand):
                             'question': question,
                             'answer': answer
                         })
+                continue
+                
+            # Strategy 2: Newline separation (Question \n Answer)
+            # Only if typical Q/A markers missing, and we have a split
+            if '\n' in card_text_to_process:
+                parts = card_text_to_process.split('\n', 1)
+                question = parts[0].strip()
+                answer = parts[1].strip()
+                # Basic heuristic: if both exist and question looks reasonably short/question-like
+                # or just accept any pair
+                if question and answer:
+                     chapters[current_chapter].append({
+                        'question': question,
+                        'answer': answer
+                     })
         
         # Remove empty chapters
         chapters = {k: v for k, v in chapters.items() if v}

@@ -70,6 +70,7 @@ export interface Exam {
   passing_score_percentage: number;
   total_questions: number;
   is_active: boolean;
+  category?: 'FLK1' | 'FLK2';
 }
 
 export interface ExamDetail extends Exam {

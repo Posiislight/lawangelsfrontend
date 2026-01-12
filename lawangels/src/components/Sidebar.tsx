@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { BookOpen, Clock, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, Lightbulb, ClipboardList, LogOut } from 'lucide-react'
+import { BookOpen, Home, HelpCircle, Menu, X, Book, Video, Grid, Brain, FileText, Bot, ClipboardList, LogOut } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
@@ -66,9 +66,7 @@ export default function Sidebar() {
           <Link to="/textbook" className="block">
             <NavItem icon={<Book className="w-5 h-5" />} label="Textbook" active={isActive('/textbook')} open={sidebarOpen} />
           </Link>
-          <Link to="/summary-notes" className="block">
-            <NavItem icon={<FileText className="w-5 h-5" />} label="Summary Notes" active={isActive('/summary-notes')} open={sidebarOpen} />
-          </Link>
+
           <Link to="/video-tutorials" className="block">
             <NavItem icon={<Video className="w-5 h-5" />} label="Video Tutorial" active={isActive('/video-tutorials')} open={sidebarOpen} />
           </Link>
@@ -91,12 +89,6 @@ export default function Sidebar() {
         <div className="space-y-2">
           <Link to="/angel-ai" className="block">
             <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" active={isActive('/angel-ai')} open={sidebarOpen} />
-          </Link>
-          <Link to="/sqe-tips" className="block">
-            <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" active={isActive('/sqe-tips')} open={sidebarOpen} />
-          </Link>
-          <Link to="/key-timeframes" className="block">
-            <NavItem icon={<Clock className="w-5 h-5" />} label="Key Timeframes" active={isActive('/key-timeframes')} open={sidebarOpen} />
           </Link>
         </div>
       </nav>

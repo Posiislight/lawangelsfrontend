@@ -299,7 +299,8 @@ class Command(BaseCommand):
             title=mock_config['title'],
             description=mock_config['description'],
             subject='mixed',
-            duration_minutes=180,  # 3 hours for 90 questions
+            category=mock_config.get('category', 'FLK1'),
+            duration_minutes=153,  # 2 hours 33 minutes for 90 questions
             speed_reader_seconds=120,
             passing_score_percentage=70,
             is_active=True,

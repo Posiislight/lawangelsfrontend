@@ -77,7 +77,8 @@ const formatRelativeTimeStatic = (dateString: string): string => {
 export default function MockQuestions() {
   const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
-  const [mockExams, setMockExams] = useState<MockExamWithStats[]>([])
+  const [activeTab, setActiveTab] = useState<'FLK1' | 'FLK2'>('FLK1')
+  const [mockExams, setMockExams] = useState<MockExamWithStats[]>([]) // Stores only REAL fetched exams
   const [userStats, setUserStats] = useState<UserStats | null>(null)
 
   // Flow state
@@ -88,54 +89,18 @@ export default function MockQuestions() {
     extraTimeEnabled: false,
   })
 
-  // OPTIMIZED: Single API call instead of 3 separate calls
+  // OPTIMIZED: Single API call
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
         const { exams, userStats: stats } = await fetchMockExamsData()
-
-        // Generate locked exams (Mock 4-15)
-        const lockedExams: MockExamWithStats[] = Array.from({ length: 12 }, (_, i) => {
-          const num = i + 4
-          return {
-            id: -num, // unique negative id to avoid conflict
-            title: `Mock Test ${num}`,
-            description: 'Coming soon',
-            subject: 'mixed',
-            duration_minutes: 150,
-            total_questions: 90,
-            passing_score_percentage: 50,
-            is_active: false,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            attemptsTaken: 0,
-            averageScore: 0,
-            bestScore: 0,
-            lastAttempt: 'Not attempted',
-            color: 'gray',
-            locked: true,
-            questions: [],
-            speed_reader_seconds: 70
-          }
-        })
-
-        setMockExams([...exams, ...lockedExams])
+        setMockExams(exams)
         setUserStats(stats)
-        console.log('[MockQuestions] Fetched data + locked exams:', exams.length + lockedExams.length)
+        console.log('[MockQuestions] Fetched real exams:', exams.length)
       } catch (error) {
         console.error('[MockQuestions] Error fetching mock exams:', error)
-        // Set empty state with locked exams on error
-        const lockedExams: MockExamWithStats[] = Array.from({ length: 12 }, (_, i) => {
-          const num = i + 4
-          return {
-            id: -num, title: `Mock Test ${num}`, description: 'Coming soon', subject: 'mixed',
-            duration_minutes: 150, total_questions: 90, passing_score_percentage: 50, is_active: false,
-            created_at: '', updated_at: '', attemptsTaken: 0, averageScore: 0, bestScore: 0,
-            lastAttempt: 'Not attempted', color: 'gray', locked: true, questions: [], speed_reader_seconds: 70
-          }
-        })
-        setMockExams(lockedExams)
+        setMockExams([])
         setUserStats(null)
       } finally {
         setIsLoading(false)
@@ -144,6 +109,59 @@ export default function MockQuestions() {
 
     fetchData()
   }, [])
+
+  // Helper to extract number from "Mock Test X" or "X"
+  const getExamNumber = (title: string): number => {
+    const match = title.match(/Mock Test (\d+)/i) || title.match(/^(\d+)$/)
+    return match ? parseInt(match[1]) : 999
+  }
+
+  // Generate displayed list based on active tab
+  const getDisplayedExams = () => {
+    // 1. Filter real exams for current category
+    // Existing exams without category are assumed FLK1
+    const relevantRealExams = mockExams.filter(exam => {
+      const examCat = exam.category || 'FLK1'
+      return examCat === activeTab
+    }).map(exam => ({
+      ...exam,
+      color: activeTab === 'FLK1' ? 'blue' : 'orange'
+    }))
+
+    const existingNumbers = new Set(relevantRealExams.map(e => getExamNumber(e.title)))
+
+    // 2. Generate placeholders for missing 1-15
+    const placeholders: MockExamWithStats[] = []
+    for (let i = 1; i <= 15; i++) {
+      if (!existingNumbers.has(i)) {
+        placeholders.push({
+          id: -((activeTab === 'FLK1' ? 100 : 200) + i),
+          title: `Mock Test ${i}`,
+          description: 'Coming soon',
+          subject: 'mixed',
+          category: activeTab,
+          duration_minutes: 153,
+          total_questions: 90,
+          passing_score_percentage: 50,
+          is_active: false,
+          attemptsTaken: 0,
+          averageScore: 0,
+          bestScore: 0,
+          lastAttempt: 'Not attempted',
+          color: activeTab === 'FLK1' ? 'blue' : 'orange',
+          locked: true,
+          speed_reader_seconds: 70
+        } as MockExamWithStats)
+      }
+    }
+
+    // 3. Merge and sort
+    const all = [...relevantRealExams, ...placeholders]
+    all.sort((a, b) => getExamNumber(a.title) - getExamNumber(b.title))
+    return all
+  }
+
+  const displayedExams = getDisplayedExams()
 
   const formatSubjectName = (subject: string): string => {
     const subjectNames: Record<string, string> = {
@@ -167,6 +185,7 @@ export default function MockQuestions() {
     red: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-600', accent: 'bg-red-500' },
     yellow: { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-600', accent: 'bg-yellow-500' },
     indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-600', accent: 'bg-indigo-500' },
+    orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600', accent: 'bg-orange-500' },
     gray: { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-400', accent: 'bg-gray-400' },
   }
 
@@ -268,6 +287,30 @@ export default function MockQuestions() {
 
       {/* Page Content */}
       <div className="p-8">
+        {/* Tabs */}
+        <div className="flex gap-4 mb-6 border-b border-gray-200">
+          <button
+            onClick={() => setActiveTab('FLK1')}
+            className={`pb-2 px-1 text-sm font-medium transition-colors relative ${activeTab === 'FLK1' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+              }`}
+          >
+            FLK 1
+            {activeTab === 'FLK1' && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-t-full"></span>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('FLK2')}
+            className={`pb-2 px-1 text-sm font-medium transition-colors relative ${activeTab === 'FLK2' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+              }`}
+          >
+            FLK 2
+            {activeTab === 'FLK2' && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-t-full"></span>
+            )}
+          </button>
+        </div>
+
         {isLoading ? (
           <>
             {/* Stats skeleton */}
@@ -340,11 +383,11 @@ export default function MockQuestions() {
             {/* All Mock Exams Section */}
             <div>
               <h2 className="text-2xl font-normal text-black mb-1">All Mock Exams</h2>
-              <p className="text-gray-600 text-sm mb-6">Take full-length mock exams to prepare for the SQE assessment</p>
+              <p className="text-gray-600 text-sm mb-6">Take full-length mock exams to prepare for the {activeTab === 'FLK1' ? 'Functioning Legal Knowledge 1' : 'Functioning Legal Knowledge 2'} assessment</p>
 
-              {mockExams.length > 0 ? (
+              {displayedExams.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {mockExams.map((exam) => {
+                  {displayedExams.map((exam) => {
                     const color = colorMap[exam.color as keyof typeof colorMap] || colorMap.gray
                     const isLocked = exam.locked
 
@@ -354,7 +397,7 @@ export default function MockQuestions() {
                         className={`rounded-xl border-t-4 transition-all bg-white border border-gray-200 
                           ${isLocked
                             ? 'border-t-gray-300 opacity-75 cursor-not-allowed'
-                            : `border-t-blue-500 hover:shadow-lg cursor-pointer`
+                            : `${color.accent.replace('bg-', 'border-t-')} hover:shadow-lg cursor-pointer`
                           }`}
                         onClick={() => !isLocked && handleStartExam(exam)}
                       >

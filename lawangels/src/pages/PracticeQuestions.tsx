@@ -647,7 +647,7 @@ export default function PracticeQuestions() {
                                         {course.name}
                                     </h3>
                                     <p className="text-sm text-gray-600 mt-1">
-                                        {course.topic_count} topics • {course.question_count} questions
+                                        {course.topic_count} courses • {course.question_count} questions
                                     </p>
                                 </div>
                                 <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-green-600 transition mt-2" />
