@@ -168,9 +168,17 @@ class Command(BaseCommand):
                 answer_match = re.search(r'^([A-E])\s+is\s+correct\s+option', line, re.IGNORECASE)
             
             if answer_match:
-                current_section = 'answer'
-                question_data['correct_answer'] = answer_match.group(1).upper()
-                continue
+                # Only switch section if we're not already in the explanation section
+                # (where "Option X is correct" text is expected as part of the explanation)
+                if current_section != 'explanation':
+                    current_section = 'answer'
+                    question_data['correct_answer'] = answer_match.group(1).upper()
+                    continue
+                else:
+                    # In explanation section, extract answer if not already set, but keep line for explanation
+                    if not question_data['correct_answer']:
+                        question_data['correct_answer'] = answer_match.group(1).upper()
+                    # Fall through to add this line to explanation_lines below
             
             # Check for option lines - handles multiple formats:
             # A. B. C. (uppercase with period)

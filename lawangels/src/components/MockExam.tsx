@@ -461,7 +461,7 @@ export default function MockExam({
               <span className="text-sm font-medium">Back to Dashboard</span>
             </button>
             <div className="bg-[#E17100] text-white px-4 py-2 rounded-lg text-xs font-medium mx-auto">
-              Mock Test 1
+              {state.attempt?.exam?.title || 'Mock Test'}
             </div>
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-2 bg-[#1D293D] px-6 py-3 rounded-xl border border-[#314158]">
