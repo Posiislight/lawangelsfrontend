@@ -218,9 +218,20 @@ class Command(BaseCommand):
             text = para.text.strip()
             
             # Check if this is a heading (chapter break)
-            if style_name.startswith('Heading 1') or (
-                style_name == 'Normal' and len(text) < 100 and text.isupper()
-            ):
+            # Only use Heading 1. Do NOT use uppercase Normal text as it triggers on subheadings.
+            if style_name.startswith('Heading 1'):
+                # Check if we should MERGE with previous "Chapter X" placeholder
+                # This handles cases where "CHAPTER 1" and "INTRODUCTION" are separate Heading 1s
+                is_placeholder = False
+                if current_chapter and not any(c.strip() for c in current_content):
+                     if re.match(r'^CHAPTER\s+\d+$', current_chapter, re.IGNORECASE):
+                         is_placeholder = True
+                
+                if is_placeholder:
+                    # Merge with previous
+                    current_chapter = f"{current_chapter}: {text}"
+                    continue
+
                 # Save previous chapter
                 if current_chapter and current_content:
                     chapters.append({

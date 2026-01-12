@@ -100,7 +100,8 @@ class TopicQuizAttempt(models.Model):
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='topic_quiz_attempts')
-    topic = models.CharField(max_length=50, choices=TOPIC_CHOICES, db_index=True)
+    # Dynamic topic slugs from PracticeQuestionTopic
+    topic = models.CharField(max_length=200, db_index=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_progress')
     
     # Game state
@@ -135,7 +136,7 @@ class TopicQuizAttempt(models.Model):
         verbose_name_plural = "Topic Quiz Attempts"
 
     def __str__(self):
-        return f"{self.user.username} - {self.get_topic_display()} ({self.status})"
+        return f"{self.user.username} - {self.topic} ({self.status})"
 
     def get_question_id_list(self):
         """Return list of question IDs"""

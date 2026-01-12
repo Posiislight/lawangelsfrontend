@@ -142,7 +142,7 @@ export default function MockQuestions() {
           category: activeTab,
           duration_minutes: 153,
           total_questions: 90,
-          passing_score_percentage: 50,
+          passing_score_percentage: 60,
           is_active: false,
           attemptsTaken: 0,
           averageScore: 0,

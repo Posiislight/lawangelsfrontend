@@ -566,7 +566,9 @@ export default function MockExam({
                             {isAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
                           </p>
                           {question.explanation && (
-                            <p className="text-sm text-[#314158]">{question.explanation}</p>
+                            <p className="text-sm text-[#314158] whitespace-pre-wrap leading-relaxed">
+                              {question.explanation.replace(/(Option [A-E])/g, '\n\n$1')}
+                            </p>
                           )}
                           {!isAnswerCorrect && (
                             <p className="text-sm text-[#059669] mt-2">
@@ -636,7 +638,9 @@ export default function MockExam({
                       className={`w-10 h-10 rounded-full font-medium transition flex items-center justify-center ${state.currentQuestion === i
                         ? 'bg-[#0F172B] text-white shadow-lg'
                         : state.answeredQuestions[i] !== undefined
-                          ? 'bg-[#10B981] text-white'
+                          ? state.practiceMode === 'real-exam'
+                            ? 'bg-[#314158] text-white' // Neutral for real exam mode
+                            : 'bg-[#10B981] text-white' // Green for learn-as-you-go
                           : 'bg-[#E2E8F0] text-[#45556C]'
                         }`}
                     >

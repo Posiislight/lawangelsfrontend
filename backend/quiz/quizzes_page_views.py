@@ -6,7 +6,7 @@ from django.db.models import Count, Max
 from django.core.cache import cache
 import logging
 
-from .models import Question
+from .practice_question_models import PracticeQuestion, PracticeQuestionTopic
 from .topic_models import UserGameProfile, TopicQuizAttempt
 from .topic_serializers import (
     TopicSummarySerializer,
@@ -56,13 +56,21 @@ class QuizzesPageViewSet(viewsets.ViewSet):
         """
         user = request.user
         
+
         # Check cache for topic counts (static data - cache for 30 minutes)
+        # For PracticeQuestion, we need to count questions per TOPIC slug.
         topic_count_map = cache.get('quiz_topic_counts')
         if not topic_count_map:
-            topic_counts = Question.objects.values('topic').annotate(
-                question_count=Count('id')
-            )
-            topic_count_map = {tc['topic']: tc['question_count'] for tc in topic_counts}
+            # Group by topic slug and count unique questions
+            # PracticeQuestion -> Area -> Topic
+            # unique question IDs per topic slug
+            
+            # Efficient way:
+            topic_counts = PracticeQuestionTopic.objects.annotate(
+                total_qn_count=Count('areas__questions')
+            ).values('slug', 'total_qn_count')
+            
+            topic_count_map = {tc['slug']: tc['total_qn_count'] for tc in topic_counts}
             cache.set('quiz_topic_counts', topic_count_map, 1800)  # 30 min cache
         
         # Query 1: Get or create user's game profile
@@ -87,9 +95,17 @@ class QuizzesPageViewSet(viewsets.ViewSet):
         # Query 3: Get recent attempts (last 6)
         recent_attempts = TopicQuizAttempt.objects.filter(user=user).order_by('-started_at')[:6]
         
-        # Build topics list (no additional queries - all data is pre-fetched)
+        # Build topics list
+        # Fetch all topics that have questions
+        all_topics = PracticeQuestionTopic.objects.annotate(
+            total_questions=Count('areas__questions')
+        ).filter(total_questions__gt=0).order_by('name')
+
         topics = []
-        for topic_key, topic_display in TopicQuizAttempt.TOPIC_CHOICES:
+        for topic_obj in all_topics:
+            topic_key = topic_obj.slug
+            topic_display = topic_obj.name
+            
             user_data = user_scores_map.get(topic_key, {'best_score': None, 'attempts': 0})
             question_count = topic_count_map.get(topic_key, 0)
             
@@ -112,10 +128,15 @@ class QuizzesPageViewSet(viewsets.ViewSet):
         # Build recent attempts list
         attempts_data = []
         for attempt in recent_attempts:
+            # attempt.topic is now the slug. "Topic Display" can be just the slug formatted or raw.
+            # Frontend uses topic_display for UI.
+            # We could try to map slug -> proper name if we had a map, but slug title-case is decent fallback.
+            t_disp = attempt.topic.replace('-', ' ').title() # Basic fallback
+            
             attempts_data.append({
                 'id': attempt.id,
                 'topic': attempt.topic,
-                'topic_display': attempt.get_topic_display(),
+                'topic_display': t_disp, # Fallback
                 'status': attempt.status,
                 'correct_count': attempt.correct_count,
                 'wrong_count': attempt.wrong_count,

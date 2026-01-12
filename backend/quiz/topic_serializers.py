@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .topic_models import UserGameProfile, TopicQuizAttempt, TopicQuizAnswer
-from .models import Question
+from .practice_question_models import PracticeQuestion
 
 
 class UserGameProfileSerializer(serializers.ModelSerializer):
@@ -50,7 +50,8 @@ class TopicQuizAnswerSerializer(serializers.ModelSerializer):
 
 class TopicQuizAttemptSerializer(serializers.ModelSerializer):
     """Serializer for topic quiz attempts"""
-    topic_display = serializers.CharField(source='get_topic_display', read_only=True)
+    # get_topic_display is gone since we removed choices
+    topic_display = serializers.CharField(source='topic', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     answers = TopicQuizAnswerSerializer(many=True, read_only=True)
     questions_remaining = serializers.SerializerMethodField()
@@ -81,35 +82,25 @@ class TopicQuizAttemptSerializer(serializers.ModelSerializer):
         return round((obj.current_question_index / obj.total_questions) * 100, 1)
 
 
+
 class TopicQuizQuestionSerializer(serializers.ModelSerializer):
     """Serializer for questions during a topic quiz (without correct answer initially)"""
-    options = serializers.SerializerMethodField()
-    
     class Meta:
-        model = Question
-        fields = ['id', 'question_number', 'text', 'difficulty', 'topic', 'options']
+        model = PracticeQuestion
+        fields = ['id', 'question_id', 'text', 'difficulty', 'options']
 
-    def get_options(self, obj):
-        return [
-            {'label': opt.label, 'text': opt.text}
-            for opt in obj.options.all().order_by('label')
-        ]
+    # PracticeQuestion.options is already a JSON list [{label, text}, ...]
+    # So we don't need a special method, but let's ensure it matches frontend expectations
+    # Frontend expects: {label: string, text: string} which matches the JSON structure
 
 
 class TopicQuizQuestionWithAnswerSerializer(serializers.ModelSerializer):
     """Serializer for questions after answering (includes correct answer and explanation)"""
-    options = serializers.SerializerMethodField()
-    
     class Meta:
-        model = Question
-        fields = ['id', 'question_number', 'text', 'difficulty', 'topic', 'options', 
+        model = PracticeQuestion
+        fields = ['id', 'question_id', 'text', 'difficulty', 'options', 
                   'correct_answer', 'explanation']
 
-    def get_options(self, obj):
-        return [
-            {'label': opt.label, 'text': opt.text}
-            for opt in obj.options.all().order_by('label')
-        ]
 
 
 class SubmitAnswerRequestSerializer(serializers.Serializer):

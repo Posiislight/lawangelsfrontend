@@ -161,21 +161,21 @@ export default function Results() {
 
   // Get motivational message based on score
   const getMotivationalContent = () => {
-    if (scorePercentage >= 80) {
+    if (scorePercentage >= 60) {
       return {
         icon: <Trophy className="w-6 h-6 text-green-600" />,
         title: 'Excellent Work!',
-        message: "You're ready for the exam. Keep up the great work!",
+        message: "You've passed! Keep up the great work!",
         bgColor: 'bg-gradient-to-br from-green-50 to-emerald-50',
         borderColor: 'border-green-200',
         msgCardBg: 'bg-green-50/50',
         msgCardBorder: 'border-green-600'
       }
-    } else if (scorePercentage >= 60) {
+    } else if (scorePercentage >= 50) {
       return {
         icon: <TrendingUp className="w-6 h-6 text-blue-600" />,
         title: 'Good Progress!',
-        message: 'You\'re on the right track. Review the explanations for missed questions.',
+        message: 'You\'re close to passing. Review the explanations for missed questions.',
         bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50',
         borderColor: 'border-blue-200',
         msgCardBg: 'bg-blue-50/50',
@@ -256,10 +256,9 @@ export default function Results() {
                   fill="none"
                 />
                 <circle
-                  cx="75"
                   cy="75"
                   r={radius}
-                  stroke={scorePercentage >= 70 ? '#F97316' : '#EF4444'}
+                  stroke={scorePercentage >= 60 ? '#10B981' : '#EF4444'}
                   strokeWidth="12"
                   fill="none"
                   strokeDasharray={circumference}
@@ -512,7 +511,9 @@ export default function Results() {
                         {answer.question?.explanation && (
                           <div className="bg-blue-50 p-4 rounded-lg">
                             <p className="text-sm font-medium text-blue-800 mb-1">Explanation</p>
-                            <p className="text-sm text-blue-700">{answer.question.explanation}</p>
+                            <p className="text-sm text-blue-700 whitespace-pre-wrap leading-relaxed">
+                              {answer.question.explanation.replace(/(Option [A-E])/g, '\n\n$1')}
+                            </p>
                           </div>
                         )}
                       </div>

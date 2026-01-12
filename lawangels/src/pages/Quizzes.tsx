@@ -11,26 +11,40 @@ import type { TopicSummary, TopicQuizAttempt, UserGameProfile } from '../service
 
 // Topic icon mapping
 const TOPIC_ICONS: Record<string, React.ReactNode> = {
-  taxation: <Building2 className="w-6 h-6" />,
-  criminal_law: <Scale className="w-6 h-6" />,
-  criminal_practice: <Target className="w-6 h-6" />,
-  land_law: <Building2 className="w-6 h-6" />,
-  solicitors_accounts: <FileText className="w-6 h-6" />,
-  professional_ethics: <BookOpen className="w-6 h-6" />,
-  trusts: <Users className="w-6 h-6" />,
-  wills: <FileText className="w-6 h-6" />,
+  'taxation': <Building2 className="w-6 h-6" />,
+  'criminal-law': <Scale className="w-6 h-6" />,
+  'criminal-practice': <Target className="w-6 h-6" />,
+  'land-law': <Building2 className="w-6 h-6" />,
+  'solicitors-accounts': <FileText className="w-6 h-6" />,
+  'professional-ethics': <BookOpen className="w-6 h-6" />,
+  'trusts': <Users className="w-6 h-6" />,
+  'wills': <FileText className="w-6 h-6" />,
+  'business-law': <Building2 className="w-6 h-6" />,
+  'civil-dispute-resolution': <Scale className="w-6 h-6" />,
+  'constitutional-and-administrative-law': <Scale className="w-6 h-6" />,
+  'contract-law': <FileText className="w-6 h-6" />,
+  'legal-services': <Users className="w-6 h-6" />,
+  'the-legal-system': <Scale className="w-6 h-6" />,
+  'tort-law': <Scale className="w-6 h-6" />,
 }
 
 // Topic color mapping
 const TOPIC_COLORS: Record<string, { bg: string; border: string; text: string; iconBg: string; accent: string }> = {
-  taxation: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', iconBg: 'bg-amber-100', accent: 'bg-amber-500' },
-  criminal_law: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', iconBg: 'bg-red-100', accent: 'bg-red-500' },
-  criminal_practice: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', iconBg: 'bg-orange-100', accent: 'bg-orange-500' },
-  land_law: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', iconBg: 'bg-green-100', accent: 'bg-green-500' },
-  solicitors_accounts: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', iconBg: 'bg-blue-100', accent: 'bg-blue-500' },
-  professional_ethics: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700', iconBg: 'bg-purple-100', accent: 'bg-purple-500' },
-  trusts: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', iconBg: 'bg-teal-100', accent: 'bg-teal-500' },
-  wills: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', iconBg: 'bg-indigo-100', accent: 'bg-indigo-500' },
+  'taxation': { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', iconBg: 'bg-amber-100', accent: 'bg-amber-500' },
+  'criminal-law': { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', iconBg: 'bg-red-100', accent: 'bg-red-500' },
+  'criminal-practice': { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', iconBg: 'bg-orange-100', accent: 'bg-orange-500' },
+  'land-law': { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', iconBg: 'bg-green-100', accent: 'bg-green-500' },
+  'solicitors-accounts': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', iconBg: 'bg-blue-100', accent: 'bg-blue-500' },
+  'professional-ethics': { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700', iconBg: 'bg-purple-100', accent: 'bg-purple-500' },
+  'trusts': { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', iconBg: 'bg-teal-100', accent: 'bg-teal-500' },
+  'wills': { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', iconBg: 'bg-indigo-100', accent: 'bg-indigo-500' },
+  'business-law': { bg: 'bg-cyan-50', border: 'border-cyan-200', text: 'text-cyan-700', iconBg: 'bg-cyan-100', accent: 'bg-cyan-500' },
+  'civil-dispute-resolution': { bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-700', iconBg: 'bg-rose-100', accent: 'bg-rose-500' },
+  'constitutional-and-administrative-law': { bg: 'bg-slate-50', border: 'border-slate-200', text: 'text-slate-700', iconBg: 'bg-slate-100', accent: 'bg-slate-500' },
+  'contract-law': { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', iconBg: 'bg-emerald-100', accent: 'bg-emerald-500' },
+  'legal-services': { bg: 'bg-violet-50', border: 'border-violet-200', text: 'text-violet-700', iconBg: 'bg-violet-100', accent: 'bg-violet-500' },
+  'the-legal-system': { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-700', iconBg: 'bg-gray-100', accent: 'bg-gray-500' },
+  'tort-law': { bg: 'bg-lime-50', border: 'border-lime-200', text: 'text-lime-700', iconBg: 'bg-lime-100', accent: 'bg-lime-500' },
 }
 
 // Helper to fetch optimized quizzes page data
