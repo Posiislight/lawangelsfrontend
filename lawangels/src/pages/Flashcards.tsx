@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { ChevronRight, RotateCw, Scale, Gavel, Home, FileText, Building, Users } from 'lucide-react'
+import { ChevronRight, RotateCw, Scale, Gavel, Home, FileText, Building, Users, Briefcase, Landmark, Scroll, Shield, AlertTriangle } from 'lucide-react'
 import DashboardLayout from '../components/DashboardLayout'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,14 @@ const subjectIcons: Record<string, React.ReactNode> = {
   'Property Practice': <Building className="w-10 h-10" />,
   'Wills & Administration': <FileText className="w-10 h-10" />,
   'Trusts': <Users className="w-10 h-10" />,
+  'Business Law': <Briefcase className="w-10 h-10" />,
+  'Constitutional Law': <Landmark className="w-10 h-10" />,
+  'Contract Law': <Scroll className="w-10 h-10" />,
+  'Dispute Resolution': <Scale className="w-10 h-10" />,
+  'The Legal System': <Landmark className="w-10 h-10" />,
+  'Legal Services': <Building className="w-10 h-10" />,
+  'Professional Ethics': <Shield className="w-10 h-10" />,
+  'Tort Law': <AlertTriangle className="w-10 h-10" />,
 }
 
 export default function Flashcards() {
@@ -20,6 +28,7 @@ export default function Flashcards() {
   const navigate = useNavigate()
   const [topics, setTopics] = useState<FlashcardTopic[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'FLK1' | 'FLK2'>('FLK1')
 
   useEffect(() => {
     loadTopics()
@@ -45,9 +54,7 @@ export default function Flashcards() {
     return colors[category as keyof typeof colors] || colors['FLK1']
   }
 
-  const getIconForSubject = (subject: string) => {
-    return subjectIcons[subject] || <Scale className="w-10 h-10" />
-  }
+  const filteredTopics = topics.filter(topic => topic.category === activeTab)
 
   return (
     <DashboardLayout>
@@ -66,8 +73,33 @@ export default function Flashcards() {
 
       {/* Page Content */}
       <div className="p-8">
-        <h2 className="text-2xl font-normal text-black mb-1">Choose a Topic</h2>
-        <p className="text-gray-600 text-sm mb-6">Each topic contains multiple chapters with flashcards</p>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-normal text-black mb-1">Choose a Topic</h2>
+            <p className="text-gray-600 text-sm">Each topic contains multiple chapters with flashcards</p>
+          </div>
+
+          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+            <button
+              onClick={() => setActiveTab('FLK1')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'FLK1'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-900'
+                }`}
+            >
+              FLK 1
+            </button>
+            <button
+              onClick={() => setActiveTab('FLK2')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'FLK2'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-900'
+                }`}
+            >
+              FLK 2
+            </button>
+          </div>
+        </div>
 
         {loading ? (
           <>
@@ -114,7 +146,7 @@ export default function Flashcards() {
           </>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topics.map((topic) => {
+            {filteredTopics.map((topic) => {
               const color = getColorForCategory(topic.category)
 
               return (
@@ -125,7 +157,9 @@ export default function Flashcards() {
                 >
                   {/* Header with gradient */}
                   <div className={`bg-gradient-to-r ${color.gradient} p-6 text-white`}>
-                    <div className="mb-3">{getIconForSubject(topic.subject)}</div>
+                    <div className="mb-3">
+                      {subjectIcons[topic.subject] || <Scale className="w-10 h-10" />}
+                    </div>
                     <h3 className="text-xl font-semibold">{topic.subject}</h3>
                     <p className="text-white/80 text-sm mt-1">{topic.category}</p>
                   </div>

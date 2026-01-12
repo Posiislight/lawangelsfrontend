@@ -1,7 +1,7 @@
 from docx import Document
 import os
 
-filepath = os.path.join('backend', 'flashcards', 'TRUST FLASHCARDS.docx')
+filepath = os.path.join('backend', 'flashcards', 'flk1', 'BUSINESS LAW FLASHCARDS (1).docx')
 doc = Document(filepath)
 
 print(f"Paragraphs: {len(doc.paragraphs)}")
