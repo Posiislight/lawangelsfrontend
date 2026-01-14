@@ -284,17 +284,17 @@ export default function MockQuestions() {
   return (
     <DashboardLayout>
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between gap-8">
+      <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
-              <ClipboardList className="w-6 h-6 text-blue-600" />
+            <h1 className="text-xl md:text-2xl font-normal text-gray-900 flex items-center gap-2">
+              <ClipboardList className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
               Mock Questions
             </h1>
-            <p className="text-gray-600">Full-length mock exams simulating the real SQE experience</p>
+            <p className="text-gray-600 text-sm mt-1">Full-length mock exams simulating the real SQE experience</p>
           </div>
 
-          <div className="flex-1 flex justify-center">
+          <div className="hidden md:flex flex-1 justify-center">
             <div className="relative w-80">
               <input
                 type="text"
@@ -307,7 +307,7 @@ export default function MockQuestions() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
               <Bell className="w-6 h-6" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -320,12 +320,12 @@ export default function MockQuestions() {
       </div>
 
       {/* Page Content */}
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         {/* Tabs */}
-        <div className="flex gap-4 mb-6 border-b border-gray-200">
+        <div className="flex gap-4 mb-6 border-b border-gray-200 overflow-x-auto">
           <button
             onClick={() => setActiveTab('FLK1')}
-            className={`pb-2 px-1 text-sm font-medium transition-colors relative ${activeTab === 'FLK1' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+            className={`pb-2 px-1 text-sm font-medium transition-colors relative whitespace-nowrap flex-shrink-0 ${activeTab === 'FLK1' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
               }`}
           >
             FLK 1
@@ -335,7 +335,7 @@ export default function MockQuestions() {
           </button>
           <button
             onClick={() => setActiveTab('FLK2')}
-            className={`pb-2 px-1 text-sm font-medium transition-colors relative ${activeTab === 'FLK2' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+            className={`pb-2 px-1 text-sm font-medium transition-colors relative whitespace-nowrap flex-shrink-0 ${activeTab === 'FLK2' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
               }`}
           >
             FLK 2
@@ -354,7 +354,7 @@ export default function MockQuestions() {
             </div>
 
             {/* Exam cards skeleton */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="rounded-xl border-t-4 border-t-gray-300 overflow-hidden bg-white border border-gray-200">
                   <div className="p-6">
@@ -382,7 +382,7 @@ export default function MockQuestions() {
             <div className="mb-6">
               <div className="h-7 w-48 bg-gray-200 rounded animate-pulse"></div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="bg-white rounded-lg p-6 border border-gray-200">
                   <div className="flex items-center gap-4 mb-4">
@@ -416,11 +416,11 @@ export default function MockQuestions() {
           <>
             {/* All Mock Exams Section */}
             <div>
-              <h2 className="text-2xl font-normal text-black mb-1">All Mock Exams</h2>
+              <h2 className="text-xl md:text-2xl font-normal text-black mb-1">All Mock Exams</h2>
               <p className="text-gray-600 text-sm mb-6">Take full-length mock exams to prepare for the {activeTab === 'FLK1' ? 'Functioning Legal Knowledge 1' : 'Functioning Legal Knowledge 2'} assessment</p>
 
               {displayedExams.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                   {displayedExams.map((exam) => {
                     const color = colorMap[exam.color as keyof typeof colorMap] || colorMap.gray
                     const isLocked = exam.locked
@@ -551,10 +551,10 @@ export default function MockQuestions() {
             </div>
 
             {/* Exam Preparation Stats */}
-            <div className="mt-12">
-              <h2 className="text-2xl font-normal text-black mb-6">Your Mock Exam Stats</h2>
+            <div className="mt-8 md:mt-12">
+              <h2 className="text-xl md:text-2xl font-normal text-black mb-4 md:mb-6">Your Mock Exam Stats</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">

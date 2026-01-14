@@ -52,6 +52,12 @@ export default function PracticeQuestions() {
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
     const [showFeedback, setShowFeedback] = useState(false)
     const [answeredQuestions, setAnsweredQuestions] = useState<Record<string, AnsweredQuestion>>({})
+    const [isMobileAreasOpen, setIsMobileAreasOpen] = useState(false)
+
+    // Close mobile areas menu when selecting an area
+    useEffect(() => {
+        setIsMobileAreasOpen(false)
+    }, [selectedAreaIndex])
 
     // Determine view mode from URL params
     const viewMode: ViewMode = topicSlug ? 'practice' : courseSlug ? 'topics' : 'courses'
@@ -199,7 +205,7 @@ export default function PracticeQuestions() {
     if (loading) {
         return (
             <DashboardLayout>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-8">
                     {/* Header skeleton */}
                     <div className="mb-8">
                         <div className="h-8 w-64 bg-gray-200 rounded-lg animate-pulse mb-2"></div>
@@ -207,7 +213,7 @@ export default function PracticeQuestions() {
                     </div>
 
                     {/* Course cards skeleton */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                                 <div className="flex items-center gap-4 mb-4">
@@ -301,20 +307,40 @@ export default function PracticeQuestions() {
 
         return (
             <DashboardLayout>
-                <div className="flex h-full">
+                <div className="flex h-full relative">
+                    {/* Mobile Areas Toggle Layer */}
+                    {isMobileAreasOpen && (
+                        <div
+                            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                            onClick={() => setIsMobileAreasOpen(false)}
+                        />
+                    )}
+
                     {/* Left Sidebar - Areas */}
-                    <div className="w-72 bg-white border-r border-gray-200 flex flex-col">
+                    <div className={`
+                        fixed md:static inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 transform
+                        ${isMobileAreasOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+                    `}>
                         {/* Header */}
-                        <div className="p-4 border-b border-gray-200">
+                        <div className="p-4 border-b border-gray-200 flex items-center justify-between md:block">
+                            <div>
+                                <button
+                                    onClick={() => navigate(`/practice-questions/${courseSlug}`)}
+                                    className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-3"
+                                >
+                                    <ArrowLeft className="w-4 h-4" />
+                                    <span className="text-sm">Back to Topics</span>
+                                </button>
+                                <h2 className="font-semibold text-gray-900">{topicData.topic.name}</h2>
+                                <p className="text-xs text-gray-500">{topicData.course.name}</p>
+                            </div>
+                            {/* Close button for mobile */}
                             <button
-                                onClick={() => navigate(`/practice-questions/${courseSlug}`)}
-                                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-3"
+                                onClick={() => setIsMobileAreasOpen(false)}
+                                className="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
                             >
-                                <ArrowLeft className="w-4 h-4" />
-                                <span className="text-sm">Back to Topics</span>
+                                <XCircle className="w-6 h-6" />
                             </button>
-                            <h2 className="font-semibold text-gray-900">{topicData.topic.name}</h2>
-                            <p className="text-xs text-gray-500">{topicData.course.name}</p>
                         </div>
 
                         {/* Areas List */}
@@ -359,7 +385,7 @@ export default function PracticeQuestions() {
                         </div>
 
                         {/* Overall Stats */}
-                        <div className="p-4 border-t border-gray-200 bg-gray-50">
+                        <div className="p-4 border-t border-gray-200 bg-gray-50 safe-pb-mobile">
                             <div className="flex justify-between text-sm">
                                 <span className="text-gray-600">Total Progress</span>
                                 <span className="font-semibold text-green-600">
@@ -370,21 +396,31 @@ export default function PracticeQuestions() {
                     </div>
 
                     {/* Main Content */}
-                    <div className="flex-1 overflow-y-auto bg-gray-50">
+                    <div className="flex-1 overflow-y-auto bg-gray-50 h-[calc(100vh-65px)] md:h-auto">
                         {/* Header */}
-                        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-4">
+                        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 md:px-6 py-4">
                             <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className="font-semibold text-gray-900">
-                                        {currentArea.letter}. {currentArea.name}
-                                    </h3>
-                                    <p className="text-sm text-gray-500">
-                                        Question {currentQuestionIndex + 1} of {currentArea.questions?.length || 0}
-                                    </p>
+                                <div className="flex items-center gap-3">
+                                    {/* Mobile Areas Toggle */}
+                                    <button
+                                        onClick={() => setIsMobileAreasOpen(true)}
+                                        className="md:hidden p-2 -ml-2 hover:bg-gray-100 rounded-lg text-gray-600"
+                                    >
+                                        <BookOpen className="w-5 h-5" />
+                                    </button>
+
+                                    <div>
+                                        <h3 className="font-semibold text-gray-900 text-sm md:text-base line-clamp-1">
+                                            {currentArea.letter}. {currentArea.name}
+                                        </h3>
+                                        <p className="text-xs md:text-sm text-gray-500">
+                                            Question {currentQuestionIndex + 1} of {currentArea.questions?.length || 0}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className="text-sm text-gray-500">Score for this area</p>
-                                    <p className="text-lg font-semibold text-green-600">
+                                <div className="text-right flex-shrink-0">
+                                    <p className="text-xs md:text-sm text-gray-500">Area Score</p>
+                                    <p className="text-base md:text-lg font-semibold text-green-600">
                                         {areaStats.correct}/{areaStats.answered}
                                     </p>
                                 </div>
@@ -392,21 +428,21 @@ export default function PracticeQuestions() {
                         </div>
 
                         {/* Question Card */}
-                        <div className="p-6">
+                        <div className="p-4 md:p-6 pb-20 md:pb-6">
                             <div className="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden max-w-4xl mx-auto">
-                                <div className="p-8">
+                                <div className="p-4 md:p-8">
                                     {/* Question Header */}
-                                    <div className="flex gap-4 mb-8">
-                                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-600 text-white font-medium flex-shrink-0">
+                                    <div className="flex gap-4 mb-6 md:mb-8">
+                                        <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-600 text-white text-sm md:text-base font-medium flex-shrink-0">
                                             {currentQuestionIndex + 1}
                                         </div>
                                         <div className="flex-1">
                                             {currentQuestion.title && (
-                                                <h4 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
+                                                <h4 className="text-base md:text-lg font-bold text-gray-900 mb-2 md:mb-3 leading-snug">
                                                     {currentQuestion.title}
                                                 </h4>
                                             )}
-                                            <p className="text-lg text-gray-800 leading-relaxed">
+                                            <p className="text-base md:text-lg text-gray-800 leading-relaxed">
                                                 {currentQuestion.text}
                                             </p>
                                         </div>
@@ -571,28 +607,30 @@ export default function PracticeQuestions() {
         return (
             <DashboardLayout>
                 {/* Header */}
-                <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-                    <div className="text-center max-w-5xl mx-auto relative">
+                <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 md:px-8 py-4 md:py-6">
+                    <div className="text-center max-w-5xl mx-auto relative flex flex-col md:block items-center">
                         <button
                             onClick={() => navigate('/practice-questions')}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition"
+                            className="self-start md:self-auto md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-2 md:mb-0"
                         >
                             <ArrowLeft className="w-5 h-5" />
                             <span>Back</span>
                         </button>
-                        <h1 className="text-2xl font-semibold text-gray-900">{course?.name || 'Topics'}</h1>
-                        <p className="text-sm text-gray-500 mt-1">Select a topic to practice</p>
+                        <div>
+                            <h1 className="text-xl md:text-2xl font-semibold text-gray-900">{course?.name || 'Topics'}</h1>
+                            <p className="text-sm text-gray-500 mt-1">Select a topic to practice</p>
+                        </div>
                     </div>
                 </div>
 
                 {/* Topics Grid */}
-                <div className="p-8 max-w-5xl mx-auto">
+                <div className="p-4 md:p-8 max-w-5xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {course?.topics.map((topic) => (
                             <Link
                                 key={topic.slug}
                                 to={`/practice-questions/${courseSlug}/${topic.slug}`}
-                                className="bg-white rounded-xl border border-gray-200 p-6 hover:border-green-500 hover:shadow-md transition group"
+                                className="bg-white rounded-xl border border-gray-200 p-6 hover:border-green-500 hover:shadow-md transition group text-left"
                             >
                                 <div className="flex items-center justify-between mb-3">
                                     <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition">
@@ -615,23 +653,25 @@ export default function PracticeQuestions() {
     return (
         <DashboardLayout>
             {/* Header */}
-            <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-                <div className="text-center max-w-5xl mx-auto relative">
+            <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 md:px-8 py-4 md:py-6">
+                <div className="text-center max-w-5xl mx-auto relative flex flex-col md:block items-center">
                     <Link
                         to="/practice"
-                        className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition"
+                        className="self-start md:self-auto md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-2 md:mb-0"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         <span>Back</span>
                     </Link>
-                    <h1 className="text-2xl font-semibold text-gray-900">Practice Questions</h1>
-                    <p className="text-sm text-gray-500 mt-1">Select a course to start practicing</p>
+                    <div>
+                        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">Practice Questions</h1>
+                        <p className="text-sm text-gray-500 mt-1">Select a course to start practicing</p>
+                    </div>
                 </div>
             </div>
 
             {/* Courses Grid */}
-            <div className="p-8 max-w-5xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 md:p-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     {courses.map((course) => (
                         <Link
                             key={course.slug}

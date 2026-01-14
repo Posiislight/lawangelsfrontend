@@ -59,41 +59,41 @@ export default function Flashcards() {
   return (
     <DashboardLayout>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-5">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-normal text-black">Flashcards</h1>
+            <h1 className="text-2xl md:text-3xl font-normal text-black">Flashcards</h1>
             <p className="text-gray-600 text-sm mt-1">Select a topic to study</p>
           </div>
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-medium">
+          <div className="hidden md:flex w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full items-center justify-center text-white font-medium">
             {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
         </div>
       </div>
 
       {/* Page Content */}
-      <div className="p-8">
-        <div className="flex items-center justify-between mb-6">
+      <div className="p-4 md:p-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-normal text-black mb-1">Choose a Topic</h2>
+            <h2 className="text-xl md:text-2xl font-normal text-black mb-1">Choose a Topic</h2>
             <p className="text-gray-600 text-sm">Each topic contains multiple chapters with flashcards</p>
           </div>
 
-          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg self-start md:self-auto">
             <button
               onClick={() => setActiveTab('FLK1')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'FLK1'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-900'
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex-1 md:flex-none ${activeTab === 'FLK1'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-500 hover:text-gray-900'
                 }`}
             >
               FLK 1
             </button>
             <button
               onClick={() => setActiveTab('FLK2')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'FLK2'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-900'
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex-1 md:flex-none ${activeTab === 'FLK2'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-500 hover:text-gray-900'
                 }`}
             >
               FLK 2

@@ -317,7 +317,7 @@ export default function Results() {
       {/* Main Content */}
       <main className="px-4 py-6 max-w-4xl mx-auto space-y-6">
         {/* Action Buttons - Top */}
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           <button
             onClick={() => navigate('/dashboard')}
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"
@@ -384,7 +384,7 @@ export default function Results() {
           </div>
 
           {/* Stats Row */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-6">
             <div
               style={{ background: 'linear-gradient(135deg, #ECFDF5 0%, rgba(208, 250, 229, 0.5) 100%)' }}
               className="rounded-xl p-4 text-center shadow-sm border border-green-900/50"
@@ -453,7 +453,7 @@ export default function Results() {
           </div>
 
           {/* Time Stats */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div className="bg-gray-50 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-6 h-6 bg-[#0F172B] rounded-lg flex items-center justify-center p-4">
@@ -534,9 +534,9 @@ export default function Results() {
 
         {/* Review Your Answers */}
         <div className="bg-white rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Review Your Answers</h2>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setFilter('all')}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${filter === 'all' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -661,7 +661,7 @@ export default function Results() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           <button
             onClick={() => navigate('/dashboard')}
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"

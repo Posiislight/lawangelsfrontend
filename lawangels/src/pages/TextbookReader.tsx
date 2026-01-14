@@ -35,6 +35,14 @@ export default function TextbookReader() {
     const [pageLoading, setPageLoading] = useState(false)
     const [showAudioSettings, setShowAudioSettings] = useState(false)
     const [pageText, setPageText] = useState<string>('')
+    const [containerWidth, setContainerWidth] = useState<number>(window.innerWidth)
+    const isMobile = containerWidth < 768
+
+    useEffect(() => {
+        const handleResize = () => setContainerWidth(window.innerWidth)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     // Audio reader hook
     const audioReader = useAudioReader()
@@ -198,7 +206,7 @@ export default function TextbookReader() {
         <div className="min-h-screen bg-gray-100 flex flex-col font-worksans">
             {/* Header */}
             <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-4">
                     <button
                         onClick={() => navigate('/textbook')}
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -213,7 +221,7 @@ export default function TextbookReader() {
                         <List className="w-5 h-5" />
                     </button>
 
-                    <div className="border-l border-gray-200 pl-4">
+                    <div className="hidden md:block border-l border-gray-200 pl-4">
                         <div className="flex items-center gap-2">
                             <BookOpen className="w-5 h-5 text-gray-500" />
                             <div>
@@ -359,8 +367,8 @@ export default function TextbookReader() {
                     </div>
                 )}
 
-                {/* Fullscreen Toggle */}
-                <div className="flex items-center border-l border-gray-200 pl-4">
+                {/* Fullscreen Toggle - Hidden on mobile */}
+                <div className="hidden md:flex items-center border-l border-gray-200 pl-4">
                     <button
                         onClick={toggleFullscreen}
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -376,10 +384,13 @@ export default function TextbookReader() {
             </header>
 
             {/* Main Content */}
-            <div className="flex flex-1 overflow-hidden">
+            <div className="flex flex-1 overflow-hidden relative">
                 {/* Sidebar - Table of Contents */}
                 {showSidebar && (
-                    <aside className="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+                    <aside className={`
+                        w-64 bg-white border-r border-gray-200 overflow-y-auto
+                        ${isMobile ? 'absolute inset-y-0 left-0 z-40 shadow-xl' : 'relative'}
+                    `}>
                         <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                                 Table of Contents
@@ -472,7 +483,8 @@ export default function TextbookReader() {
                     >
                         <Page
                             pageNumber={pageNumber}
-                            scale={0.85}
+                            scale={isMobile ? undefined : 1.2}
+                            width={isMobile ? containerWidth - 16 : undefined}
                             className="shadow-xl"
                             renderTextLayer={false}
                             renderAnnotationLayer={false}

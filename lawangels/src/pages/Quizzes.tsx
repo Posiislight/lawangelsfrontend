@@ -147,37 +147,47 @@ export default function Quizzes() {
     <DashboardLayout>
       <div className="font-worksans">
         {/* Header */}
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between gap-8">
-            <div>
-              <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
-                <Gamepad2 className="w-6 h-6 text-cyan-500" />
-                Topic Quizzes
-              </h1>
-              <p className="text-gray-600">Gamified learning - earn points and level up!</p>
+        <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-xl md:text-2xl font-normal text-gray-900 flex items-center gap-2">
+                  <Gamepad2 className="w-5 h-5 md:w-6 md:h-6 text-cyan-500" />
+                  Topic Quizzes
+                </h1>
+                <p className="text-gray-600 text-sm hidden md:block">Gamified learning - earn points and level up!</p>
+              </div>
+
+              {/* Mobile Profile/Bell - Visible only on mobile */}
+              <div className="flex items-center gap-2 md:hidden">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-sm">
+                  {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
+              </div>
             </div>
 
-            {/* User Stats Badge */}
+            {/* User Stats Badge - Scrollable on mobile */}
             {profile && (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 bg-slate-100 rounded-full px-4 py-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">{profile.current_level}</span>
+              <div className="flex items-center gap-3 md:gap-4 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                <div className="flex items-center gap-2 bg-slate-100 rounded-full px-3 py-1.5 md:px-4 md:py-2 flex-shrink-0">
+                  <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xs md:text-sm">{profile.current_level}</span>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Level</p>
-                    <p className="text-sm font-medium text-gray-900">{profile.rank_display}</p>
+                    <p className="text-[10px] md:text-xs text-gray-500">Level</p>
+                    <p className="text-xs md:text-sm font-medium text-gray-900 whitespace-nowrap">{profile.rank_display}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 bg-amber-100 rounded-full px-4 py-2">
-                  <Zap className="w-5 h-5 text-amber-600" />
-                  <span className="font-bold text-amber-700">{profile.total_points} pts</span>
+                <div className="flex items-center gap-2 bg-amber-100 rounded-full px-3 py-1.5 md:px-4 md:py-2 flex-shrink-0">
+                  <Zap className="w-4 h-4 md:w-5 md:h-5 text-amber-600" />
+                  <span className="font-bold text-amber-700 text-sm">{profile.total_points} pts</span>
                 </div>
               </div>
             )}
 
-            <div className="flex items-center gap-4">
+            {/* Desktop Profile/Bell */}
+            <div className="hidden md:flex items-center gap-4">
               <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell className="w-6 h-6" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -190,11 +200,11 @@ export default function Quizzes() {
         </div>
 
         {/* Page Content */}
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {isLoading ? (
             <>
               {/* Stats skeleton */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
                     <div className="flex items-center gap-3">
@@ -248,14 +258,14 @@ export default function Quizzes() {
             <>
               {/* Stats Overview */}
               {profile && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
                   <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                         <Trophy className="w-5 h-5 text-green-600" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-gray-900">{profile.total_quizzes_completed}</p>
+                        <p className="text-xl md:text-2xl font-bold text-gray-900">{profile.total_quizzes_completed}</p>
                         <p className="text-xs text-gray-500">Quizzes Completed</p>
                       </div>
                     </div>
@@ -267,7 +277,7 @@ export default function Quizzes() {
                         <Target className="w-5 h-5 text-cyan-600" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-gray-900">{profile.total_correct_answers}</p>
+                        <p className="text-xl md:text-2xl font-bold text-gray-900">{profile.total_correct_answers}</p>
                         <p className="text-xs text-gray-500">Correct Answers</p>
                       </div>
                     </div>
@@ -279,7 +289,7 @@ export default function Quizzes() {
                         <Flame className="w-5 h-5 text-amber-600" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-gray-900">{profile.longest_streak}</p>
+                        <p className="text-xl md:text-2xl font-bold text-gray-900">{profile.longest_streak}</p>
                         <p className="text-xs text-gray-500">Best Streak</p>
                       </div>
                     </div>
@@ -291,7 +301,7 @@ export default function Quizzes() {
                         <Star className="w-5 h-5 text-purple-600" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-gray-900">
+                        <p className="text-xl md:text-2xl font-bold text-gray-900">
                           {profile.total_correct_answers + profile.total_wrong_answers > 0
                             ? Math.round((profile.total_correct_answers / (profile.total_correct_answers + profile.total_wrong_answers)) * 100)
                             : 0}%

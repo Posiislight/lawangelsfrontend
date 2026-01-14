@@ -125,20 +125,20 @@ export default function MyCourses() {
     return (
       <DashboardLayout>
         {/* Header skeleton */}
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between gap-8">
+        <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
             <div>
               <div className="h-7 w-40 bg-gray-200 rounded animate-pulse mb-2"></div>
               <div className="h-4 w-64 bg-gray-100 rounded animate-pulse"></div>
             </div>
-            <div className="w-80 h-10 bg-gray-100 rounded-lg animate-pulse"></div>
-            <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+            <div className="hidden md:block w-80 h-10 bg-gray-100 rounded-lg animate-pulse"></div>
+            <div className="hidden md:block w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
           </div>
         </div>
 
         {/* Filter buttons skeleton */}
-        <div className="px-8 pt-6 pb-4 bg-white border-b border-gray-200">
-          <div className="flex items-center gap-3">
+        <div className="px-4 md:px-8 pt-4 md:pt-6 pb-4 bg-white border-b border-gray-200">
+          <div className="flex items-center gap-3 overflow-x-auto pb-2">
             <div className="w-5 h-5 bg-gray-200 rounded animate-pulse"></div>
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-9 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
@@ -151,8 +151,8 @@ export default function MyCourses() {
         </div>
 
         {/* Courses grid skeleton */}
-        <div className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="p-4 md:p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
                 {/* Color bar */}
@@ -185,7 +185,7 @@ export default function MyCourses() {
           </div>
 
           {/* Stats skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="bg-white rounded-xl p-5 border border-gray-200">
                 <div className="h-4 w-20 bg-gray-100 rounded animate-pulse mb-2"></div>
@@ -234,18 +234,18 @@ export default function MyCourses() {
   return (
     <DashboardLayout>
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between gap-8">
+      <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
-              <BookOpen className="w-6 h-6 text-blue-600" />
+            <h1 className="text-xl md:text-2xl font-semibold text-gray-900 flex items-center gap-2">
+              <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
               My Courses
             </h1>
             <p className="text-gray-600 text-sm mt-1">Track your learning progress across all content</p>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex-1 flex justify-center">
+          {/* Search Bar - Hidden on mobile */}
+          <div className="hidden md:flex flex-1 justify-center">
             <div className="relative w-80">
               <input
                 type="text"
@@ -258,23 +258,23 @@ export default function MyCourses() {
             </div>
           </div>
 
-          {/* User Avatar */}
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
+          {/* User Avatar - Hidden on mobile */}
+          <div className="hidden md:flex w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 items-center justify-center text-white font-bold">
             {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
         </div>
       </div>
 
       {/* Filter Buttons */}
-      <div className="px-8 pt-6 pb-4 bg-white border-b border-gray-200">
-        <div className="flex flex-wrap items-center gap-3">
-          <Filter className="w-5 h-5 text-gray-600" />
+      <div className="px-4 md:px-8 pt-4 md:pt-6 pb-4 bg-white border-b border-gray-200">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
+          <Filter className="w-5 h-5 text-gray-600 flex-shrink-0" />
 
           {/* Status Filters */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2 flex-wrap">
             <button
               onClick={() => setFilterStatus('all')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'all'
+              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors ${filterStatus === 'all'
                 ? 'bg-gray-900 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
@@ -283,7 +283,7 @@ export default function MyCourses() {
             </button>
             <button
               onClick={() => setFilterStatus('in_progress')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'in_progress'
+              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors ${filterStatus === 'in_progress'
                 ? 'bg-blue-600 text-white'
                 : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
                 }`}
@@ -292,7 +292,7 @@ export default function MyCourses() {
             </button>
             <button
               onClick={() => setFilterStatus('completed')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'completed'
+              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors ${filterStatus === 'completed'
                 ? 'bg-green-600 text-white'
                 : 'bg-green-50 text-green-600 hover:bg-green-100'
                 }`}
@@ -301,7 +301,7 @@ export default function MyCourses() {
             </button>
             <button
               onClick={() => setFilterStatus('not_started')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === 'not_started'
+              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-colors ${filterStatus === 'not_started'
                 ? 'bg-gray-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
@@ -310,7 +310,7 @@ export default function MyCourses() {
             </button>
           </div>
 
-          <div className="h-6 w-px bg-gray-300 mx-2" />
+          <div className="hidden md:block h-6 w-px bg-gray-300 mx-2" />
 
           {/* Category Filters */}
           <div className="flex items-center gap-2">
@@ -350,9 +350,9 @@ export default function MyCourses() {
       </div>
 
       {/* Courses Grid */}
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         {filteredCourses.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
             {filteredCourses.map((course) => {
               const accentColor = getAccentColor(course.category)
 
@@ -487,7 +487,7 @@ export default function MyCourses() {
         )}
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
           <div className="bg-white rounded-xl p-5 border border-gray-200">
             <p className="text-sm text-gray-600 mb-2">Total Courses</p>
             <p className="text-3xl font-bold text-gray-900">{stats.total}</p>

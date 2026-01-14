@@ -1,5 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, Send, Plus, Loader2, Trash2 } from 'lucide-react'
+import { useSidebar } from '../contexts/SidebarContext'
+import { Bell, Send, Plus, Loader2, Trash2, ArrowLeft } from 'lucide-react'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import { angelAiApi, type Chat } from '../services/angelAiApi'
@@ -8,6 +9,7 @@ import ReactMarkdown from 'react-markdown'
 
 export default function AngelAI() {
   const { user } = useAuth()
+  const { isMobile } = useSidebar()
   const [chats, setChats] = useState<Chat[]>([])
   const [currentChatIndex, setCurrentChatIndex] = useState<number | null>(null)
   const [messageInput, setMessageInput] = useState('')
@@ -108,6 +110,11 @@ export default function AngelAI() {
       })
       setError('Failed to delete chat')
     })
+  }
+
+  // Handle mobile back navigation
+  const handleMobileBack = () => {
+    setCurrentChatIndex(null)
   }
 
   const sendMessage = async (messageText?: string) => {
@@ -217,17 +224,17 @@ export default function AngelAI() {
   return (
     <DashboardLayout>
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between gap-8">
+      <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
-              <img src={lawAngelsLogo} alt="Law Angels" className="w-8 h-8 object-contain" />
+            <h1 className="text-xl md:text-2xl font-normal text-gray-900 flex items-center gap-2">
+              <img src={lawAngelsLogo} alt="Law Angels" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
               Angel AI
             </h1>
-            <p className="text-gray-600">Your personal law tutor powered by Law Angels textbooks</p>
+            <p className="text-gray-600 text-sm mt-1">Your personal law tutor powered by Law Angels textbooks</p>
           </div>
 
-          <div className="flex-1 flex justify-center">
+          <div className="hidden md:flex flex-1 justify-center">
             <div className="relative w-80">
               <input
                 type="text"
@@ -240,7 +247,7 @@ export default function AngelAI() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
               <Bell className="w-6 h-6" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -253,9 +260,12 @@ export default function AngelAI() {
       </div>
 
       {/* Page Content */}
-      <div className="flex-1 overflow-hidden flex gap-6 p-8 h-[calc(100vh-120px)]">
-        {/* Chat List Sidebar */}
-        <div className="w-80 bg-white rounded-lg border border-gray-200 flex flex-col">
+      <div className="flex-1 overflow-hidden flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-8 h-[calc(100vh-140px)] md:h-[calc(100vh-120px)]">
+        {/* Chat List Sidebar - Hidden on mobile when chat is active */}
+        <div className={`
+          ${isMobile && currentChatIndex !== null ? 'hidden' : 'flex'} 
+          w-full md:w-80 bg-white rounded-lg border border-gray-200 flex-col
+        `}>
           <div className="p-4 border-b border-gray-200">
             <button
               onClick={createNewChat}
@@ -301,8 +311,25 @@ export default function AngelAI() {
           </div>
         </div>
 
-        {/* Chat Area */}
-        <div className="flex-1 bg-white rounded-lg border border-gray-200 flex flex-col min-h-0">
+        {/* Chat Area - Hidden on mobile when no chat is active (and showing list) */}
+        <div className={`
+          ${isMobile && currentChatIndex === null ? 'hidden' : 'flex'}
+          flex-1 bg-white rounded-lg border border-gray-200 flex-col min-h-0
+        `}>
+          {/* Mobile Back Button */}
+          {isMobile && (
+            <div className="p-3 border-b border-gray-100 flex items-center gap-2">
+              <button
+                onClick={handleMobileBack}
+                className="p-2 hover:bg-gray-100 rounded-lg text-gray-600"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <span className="font-semibold text-gray-900">
+                {currentChat?.title || 'Chat'}
+              </span>
+            </div>
+          )}
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {currentChat ? (

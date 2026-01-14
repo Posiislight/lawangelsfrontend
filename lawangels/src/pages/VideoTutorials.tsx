@@ -61,25 +61,25 @@ export default function VideoTutorials() {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="p-6 md:p-8 max-w-7xl mx-auto">
+        <div className="p-4 md:p-8 max-w-7xl mx-auto">
           {/* Header skeleton */}
-          <div className="mb-8">
-            <div className="h-8 w-64 bg-gray-200 rounded-lg animate-pulse mb-2"></div>
-            <div className="h-4 w-96 bg-gray-100 rounded animate-pulse"></div>
+          <div className="mb-6 md:mb-8">
+            <div className="h-7 w-48 md:h-8 md:w-64 bg-gray-200 rounded-lg animate-pulse mb-2"></div>
+            <div className="h-3 w-64 md:h-4 md:w-96 bg-gray-100 rounded animate-pulse"></div>
           </div>
 
           {/* Stats skeleton */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-200 p-4">
-                <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
-                <div className="h-4 w-24 bg-gray-100 rounded animate-pulse"></div>
+                <div className="h-6 w-12 md:h-8 md:w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
+                <div className="h-3 w-20 md:h-4 md:w-24 bg-gray-100 rounded animate-pulse"></div>
               </div>
             ))}
           </div>
 
           {/* Course cards skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                 <div className="h-40 w-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-shimmer bg-[length:200%_100%]"></div>
@@ -134,18 +134,18 @@ export default function VideoTutorials() {
   return (
     <DashboardLayout>
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between gap-8">
+      <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
-              <Video className="w-6 h-6 text-blue-600" />
+            <h1 className="text-xl md:text-2xl font-normal text-gray-900 flex items-center gap-2">
+              <Video className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
               Video Tutorials
             </h1>
-            <p className="text-gray-600">Learn from expert instructors with comprehensive video lectures</p>
+            <p className="text-gray-600 text-sm mt-1">Learn from expert instructors with comprehensive video lectures</p>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex-1 flex justify-center">
+          {/* Search Bar - Hidden on mobile */}
+          <div className="hidden md:flex flex-1 justify-center">
             <div className="relative w-80">
               <input
                 type="text"
@@ -158,7 +158,8 @@ export default function VideoTutorials() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Desktop Profile/Bell */}
+          <div className="hidden md:flex items-center gap-4">
             <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
               <Bell className="w-6 h-6" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -171,14 +172,14 @@ export default function VideoTutorials() {
       </div>
 
       {/* Page Content */}
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         {/* Continue Watching Section */}
         {stats && stats.continue_watching.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-normal text-black mb-1">Continue Watching</h2>
-            <p className="text-gray-600 text-sm mb-6">Pick up where you left off</p>
+            <h2 className="text-xl md:text-2xl font-normal text-black mb-1">Continue Watching</h2>
+            <p className="text-gray-600 text-sm mb-4 md:mb-6">Pick up where you left off</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
               {stats.continue_watching.map((item) => (
                 <div
                   key={item.video_id}
@@ -206,10 +207,10 @@ export default function VideoTutorials() {
         )}
 
         {/* Category Filter Tabs */}
-        <div className="flex items-center gap-2 mb-8">
+        <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
           <button
             onClick={() => setCategoryFilter('all')}
-            className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-2`}
+            className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-2 whitespace-nowrap`}
             style={{
               backgroundColor: categoryFilter === 'all' ? ALL_COLOR : '#F3F4F6',
               color: categoryFilter === 'all' ? 'white' : '#4B5563'
@@ -220,7 +221,7 @@ export default function VideoTutorials() {
           </button>
           <button
             onClick={() => setCategoryFilter('FLK1')}
-            className="px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-2"
+            className="px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-2 whitespace-nowrap"
             style={{
               backgroundColor: categoryFilter === 'FLK1' ? FLK1_COLOR : `${FLK1_COLOR}15`,
               color: categoryFilter === 'FLK1' ? 'white' : FLK1_COLOR
@@ -231,7 +232,7 @@ export default function VideoTutorials() {
           </button>
           <button
             onClick={() => setCategoryFilter('FLK2')}
-            className="px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-2"
+            className="px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-2 whitespace-nowrap"
             style={{
               backgroundColor: categoryFilter === 'FLK2' ? FLK2_COLOR : `${FLK2_COLOR}15`,
               color: categoryFilter === 'FLK2' ? 'white' : FLK2_COLOR
@@ -246,12 +247,12 @@ export default function VideoTutorials() {
         {(categoryFilter === 'all' || categoryFilter === 'FLK1') && filteredCourses.filter(c => c.category === 'FLK1').length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-2">
-              <BookOpen className="w-7 h-7" style={{ color: FLK1_COLOR }} />
-              <h2 className="text-2xl font-semibold text-gray-900">FLK1 — Functioning Legal Knowledge 1</h2>
+              <BookOpen className="w-6 h-6 md:w-7 md:h-7" style={{ color: FLK1_COLOR }} />
+              <h2 className="text-xl md:text-2xl font-semibold text-gray-900">FLK1 — Functioning Legal Knowledge 1</h2>
             </div>
             <p className="text-gray-600 text-sm mb-6">Foundation legal knowledge: Business Law, Contract Law, Torts, and more</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {filteredCourses.filter(c => c.category === 'FLK1').map((course) => (
                 <div
                   key={course.id}
@@ -301,12 +302,12 @@ export default function VideoTutorials() {
         {(categoryFilter === 'all' || categoryFilter === 'FLK2') && filteredCourses.filter(c => c.category === 'FLK2').length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-2">
-              <BookOpen className="w-7 h-7" style={{ color: FLK2_COLOR }} />
-              <h2 className="text-2xl font-semibold text-gray-900">FLK2 — Functioning Legal Knowledge 2</h2>
+              <BookOpen className="w-6 h-6 md:w-7 md:h-7" style={{ color: FLK2_COLOR }} />
+              <h2 className="text-xl md:text-2xl font-semibold text-gray-900">FLK2 — Functioning Legal Knowledge 2</h2>
             </div>
             <p className="text-gray-600 text-sm mb-6">Advanced legal practice: Property, Wills, Solicitors' Accounts, & more</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {filteredCourses.filter(c => c.category === 'FLK2').map((course) => (
                 <div
                   key={course.id}
@@ -364,9 +365,9 @@ export default function VideoTutorials() {
         {/* Learning Stats */}
         {stats && (
           <div className="mt-12">
-            <h2 className="text-2xl font-normal text-black mb-6">Your Video Stats</h2>
+            <h2 className="text-xl md:text-2xl font-normal text-black mb-6">Your Video Stats</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">

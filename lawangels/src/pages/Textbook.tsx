@@ -73,18 +73,18 @@ export default function Textbook() {
     <DashboardLayout>
       <div className="font-worksans min-h-0 flex flex-col h-full">
         {/* Header */}
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-          <div className="flex items-center justify-between gap-8">
+        <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
             <div>
-              <h1 className="text-2xl font-normal text-gray-900 flex items-center gap-2">
-                <BookOpen className="w-6 h-6 text-blue-500" />
+              <h1 className="text-xl md:text-2xl font-normal text-gray-900 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-blue-500" />
                 Textbook Library
               </h1>
-              <p className="text-gray-600">Comprehensive study materials for SQE preparation</p>
+              <p className="text-gray-600 text-sm mt-1">Comprehensive study materials for SQE preparation</p>
             </div>
 
-            {/* Search Bar */}
-            <div className="flex-1 flex justify-center">
+            {/* Search Bar - Hidden on mobile */}
+            <div className="hidden md:flex flex-1 justify-center">
               <div className="relative w-80">
                 <input
                   type="text"
@@ -99,7 +99,8 @@ export default function Textbook() {
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            {/* Desktop Profile/Bell */}
+            <div className="hidden md:flex items-center gap-4">
               <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell className="w-6 h-6" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -112,17 +113,17 @@ export default function Textbook() {
         </div>
 
         {/* Page Content */}
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {/* Category Filter Tabs */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <Filter className="w-5 h-5 text-gray-500" />
+          <div className="mb-6 md:mb-8">
+            <div className="flex items-center gap-2 mb-3 md:mb-4">
+              <Filter className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
               <span className="text-sm font-medium text-gray-600">Filter by:</span>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
               <button
                 onClick={() => setSelectedCategory('ALL')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === 'ALL'
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${selectedCategory === 'ALL'
                   ? 'bg-gray-900 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
@@ -131,7 +132,7 @@ export default function Textbook() {
               </button>
               <button
                 onClick={() => setSelectedCategory('FLK1')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === 'FLK1'
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${selectedCategory === 'FLK1'
                   ? 'bg-blue-600 text-white'
                   : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
                   }`}
@@ -140,7 +141,7 @@ export default function Textbook() {
               </button>
               <button
                 onClick={() => setSelectedCategory('FLK2')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === 'FLK2'
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${selectedCategory === 'FLK2'
                   ? 'bg-green-600 text-white'
                   : 'bg-green-50 text-green-700 hover:bg-green-100'
                   }`}
@@ -153,7 +154,7 @@ export default function Textbook() {
           {loading ? (
             <>
               {/* Textbook cards skeleton */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                   <div key={i} className="rounded-xl border-t-4 border-t-gray-300 overflow-hidden bg-white border border-gray-200">
                     <div className="p-6">
@@ -197,7 +198,7 @@ export default function Textbook() {
           ) : (
             <>
               {/* Textbooks Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
                 {filteredTextbooks.map((textbook) => {
                   const categoryStyle = CATEGORY_STYLES[textbook.category]
 

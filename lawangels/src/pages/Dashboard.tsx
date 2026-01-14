@@ -149,13 +149,13 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between gap-8">
+      <div className="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-4 md:px-8 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
           <div>
-            <h1 className="text-2xl font-normal text-gray-900">
+            <h1 className="text-xl md:text-2xl font-normal text-gray-900">
               Welcome {user?.first_name || 'Student'}! 👋
             </h1>
-            <p className="text-gray-600">
+            <p className="text-sm md:text-base text-gray-600">
               {userStats?.currentStreak && userStats.currentStreak > 0
                 ? `${userStats.currentStreak} day streak! Keep up the momentum!`
                 : 'Keep up the momentum!'
@@ -163,8 +163,8 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {/* Search Bar - Centered */}
-          <div className="flex-1 flex justify-center">
+          {/* Search Bar - Hidden on mobile, centered on desktop */}
+          <div className="hidden md:flex flex-1 justify-center">
             <GlobalSearch placeholder="Search courses, topics..." className="w-80" />
           </div>
 
@@ -173,7 +173,7 @@ export default function Dashboard() {
               <Bell className="w-6 h-6" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold">
+            <div className="hidden md:flex w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 items-center justify-center text-white font-bold">
               {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function Dashboard() {
       </div>
 
       {/* Tab Switch */}
-      <div className="px-1 pt-1 pb-1 border-gray-800 flex gap-2 rounded-lg bg-gray-200  w-max ml-8 mt-4">
+      <div className="px-1 pt-1 pb-1 border-gray-800 flex gap-2 rounded-lg bg-gray-200 w-max ml-4 md:ml-8 mt-4">
         <button
           onClick={() => setActiveTab('overview')}
           className={`pb-2 px-2 text-sm font-medium transition-colors focus:outline-none border-none ${activeTab === 'overview'
@@ -203,7 +203,7 @@ export default function Dashboard() {
       </div>
 
       {/* Page Content */}
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         {isLoading ? (
           <>
             {/* Stats skeleton */}
@@ -291,7 +291,7 @@ export default function Dashboard() {
           </>) : activeTab === 'overview' ? (
             <>
               {/* Stats Grid - Now with real data */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                 <StatCard
                   label="Exams Completed"
                   value={`${userStats?.completedExams || 0}/${userStats?.totalExams || 0}`}
@@ -328,7 +328,7 @@ export default function Dashboard() {
                 <h2 className="text-2xl font-normal text-black mb-1">Choose Your Learning Mode</h2>
                 <p className="text-gray-500 mb-6">Select how you'd like to study today</p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                   {learningModes.map((mode, idx) => (
                     <a key={idx} href={mode.href} className={`relative rounded-2xl p-8 border ${mode.bgColor} block hover:shadow-md transition-shadow`}>
                       <div className="absolute left-8 top-1/4 -translate-y-1/2 text-6xl font-extrabold text-gray-400 opacity-60 select-none">{`0${idx + 1}`}</div>
@@ -351,7 +351,7 @@ export default function Dashboard() {
 
               {/* Quick Stats Cards */}
               <div className="mb-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                   {quickStats.map((stat, idx) => {
                     const IconComponent = stat.icon
                     return (
@@ -392,7 +392,7 @@ export default function Dashboard() {
                   <h2 className="text-2xl font-normal text-black mb-1">Recent Activity</h2>
                   <p className="text-gray-600 text-sm mb-6">Your latest exam attempts and practice sessions</p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     {recentActivity.slice(0, 3).map((activity) => {
                       const borderColor = activity.type === 'quiz_passed' ? 'border-t-green-500' :
                         activity.type === 'quiz_failed' ? 'border-t-red-500' : 'border-t-blue-500'
@@ -435,7 +435,7 @@ export default function Dashboard() {
                   <h2 className="text-2xl font-normal text-black mb-1">Pick Up Where You Left Off</h2>
                   <p className="text-gray-600 text-sm mb-6">Continue your learning journey across reading, videos, and practice</p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     {/* Reading Card */}
                     {continueLearning.reading && (
                       <div className="rounded-lg p-6 border-t-4 border-t-blue-500 border border-blue-600 bg-white">
@@ -518,7 +518,7 @@ export default function Dashboard() {
                     </a>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {upcomingExams.map((exam) => (
                       <div key={exam.id} className="rounded-3xl p-4 border border-gray-200 bg-white relative hover:shadow-md transition-shadow">
                         <div className="flex items-start justify-between mb-4">
@@ -569,7 +569,7 @@ export default function Dashboard() {
                     </a>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {courses.slice(0, 3).map((course) => (
                       <div key={course.id} className={`rounded-3xl p-4 border border-gray-200 ${course.status === 'not_started' ? 'bg-gray-50' : 'bg-white'} relative`}>
                         <div className="flex items-start justify-between mb-4">
