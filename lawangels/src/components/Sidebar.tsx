@@ -37,14 +37,14 @@ export default function Sidebar() {
         {/* Overlay backdrop */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-40 transition-opacity"
+            className="fixed inset-0 bg-black/50 z-[150] transition-opacity"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
         {/* Mobile drawer */}
         <div
-          className={`fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          className={`fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 z-[200] transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
         >
           {/* Logo */}
