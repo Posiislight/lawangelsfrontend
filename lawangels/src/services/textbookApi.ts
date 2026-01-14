@@ -40,6 +40,7 @@ export interface Textbook {
     icon: string;
     order: number;
     chapters: Chapter[];
+    cdn_url: string | null;
     created_at: string;
     updated_at: string;
 }

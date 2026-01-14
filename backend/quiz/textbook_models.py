@@ -19,6 +19,13 @@ class Textbook(models.Model):
     order = models.IntegerField(default=0)
     # Table of contents - list of {title: str, page: int}
     chapters = models.JSONField(default=list, blank=True)
+    # CDN URL for faster PDF delivery
+    cdn_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="CDN URL for the PDF file (e.g., from Bunny.net)"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

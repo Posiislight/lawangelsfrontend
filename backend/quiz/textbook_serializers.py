@@ -20,6 +20,7 @@ class TextbookSerializer(serializers.ModelSerializer):
             'icon',
             'order',
             'chapters',
+            'cdn_url',
             'created_at',
             'updated_at',
         ]

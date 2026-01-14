@@ -58,9 +58,14 @@ export default function TextbookReader() {
                 setLoading(true)
                 const data = await textbookApi.getTextbook(parseInt(id))
                 setTextbook(data)
-                // Construct PDF URL
-                const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-                setPdfUrl(`${baseUrl}/textbooks/${id}/pdf/`)
+
+                // Prefer CDN URL for faster loading, fallback to API streaming
+                if (data.cdn_url) {
+                    setPdfUrl(data.cdn_url)
+                } else {
+                    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+                    setPdfUrl(`${baseUrl}/textbooks/${id}/pdf/`)
+                }
 
                 setError(null)
             } catch (err) {
