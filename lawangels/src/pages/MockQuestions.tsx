@@ -88,6 +88,7 @@ export default function MockQuestions() {
     practiceMode: 'real-exam',
     extraTimeEnabled: false,
   })
+  const [resumeProgress, setResumeProgress] = useState<any>(null)
 
   // OPTIMIZED: Single API call
   useEffect(() => {
@@ -189,10 +190,41 @@ export default function MockQuestions() {
     gray: { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-400', accent: 'bg-gray-400' },
   }
 
+  // Check if there's saved progress for an exam
+  const getSavedProgress = (examId: number) => {
+    const saved = localStorage.getItem(`exam_progress_${examId}`)
+    if (saved) {
+      const data = JSON.parse(saved)
+      // Check if saved within last 24 hours
+      const savedAt = new Date(data.savedAt)
+      const now = new Date()
+      const hoursDiff = (now.getTime() - savedAt.getTime()) / (1000 * 60 * 60)
+      if (hoursDiff < 24) {
+        return data
+      } else {
+        // Clear expired progress
+        localStorage.removeItem(`exam_progress_${examId}`)
+      }
+    }
+    return null
+  }
+
+
   // Handle exam selection and navigation
   const handleStartExam = (exam: MockExamWithStats) => {
-    setSelectedExam(exam)
-    setCurrentView('start')
+    // Check for saved progress
+    const savedProgress = getSavedProgress(exam.id)
+    if (savedProgress) {
+      // Resume directly to exam with saved progress
+      setSelectedExam(exam)
+      setResumeProgress(savedProgress)
+      setCurrentView('exam')
+    } else {
+      // Normal flow: start -> customize -> exam
+      setSelectedExam(exam)
+      setResumeProgress(null)
+      setCurrentView('start')
+    }
   }
 
   const handleContinueToCustomize = () => {
@@ -242,6 +274,8 @@ export default function MockQuestions() {
         examId={selectedExam.id}
         practiceMode={examSettings.practiceMode}
         extraTimeEnabled={examSettings.extraTimeEnabled}
+        onExit={handleBackToList}
+        savedProgress={resumeProgress}
       />
     )
   }
@@ -481,13 +515,20 @@ export default function MockQuestions() {
                             className={`w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 transition-opacity
                                 ${isLocked
                                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : `${color.accent} text-white hover:opacity-90`
+                                : getSavedProgress(exam.id)
+                                  ? 'bg-[#E17100] text-white hover:opacity-90'
+                                  : `${color.accent} text-white hover:opacity-90`
                               }`}
                           >
                             {isLocked ? (
                               <>
                                 <Lock className="w-4 h-4" />
                                 <span>Locked</span>
+                              </>
+                            ) : getSavedProgress(exam.id) ? (
+                              <>
+                                Continue Exam
+                                <ArrowRight className="w-4 h-4" />
                               </>
                             ) : (
                               <>

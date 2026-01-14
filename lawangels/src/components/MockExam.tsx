@@ -9,10 +9,21 @@ import type { PracticeMode } from './MockExamCustomization'
 type AnswerState = 'unanswered' | 'answered' | 'navigated'
 type LoadingStep = 'initializing' | 'creating-attempt' | 'loading-questions' | 'loading-config' | 'ready'
 
+interface SavedProgress {
+  attemptId: number
+  examId: number
+  currentQuestion: number
+  answeredQuestions: Record<number, { answer: string; isCorrect: boolean }>
+  timeLeft: number
+  savedAt: string
+}
+
 interface MockExamProps {
   examId?: number
   practiceMode?: PracticeMode
   extraTimeEnabled?: boolean
+  onExit?: () => void
+  savedProgress?: SavedProgress | null
 }
 
 interface ExamState {
@@ -36,7 +47,9 @@ interface ExamState {
 export default function MockExam({
   examId = 1,
   practiceMode = 'learn-as-you-go',
-  extraTimeEnabled = false
+  extraTimeEnabled = false,
+  onExit,
+  savedProgress
 }: MockExamProps) {
   const navigate = useNavigate()
   const [state, setState] = useState<ExamState>({
@@ -44,15 +57,15 @@ export default function MockExam({
     loadingStep: 'initializing',
     error: null,
     examId: examId,
-    attemptId: null,
+    attemptId: savedProgress?.attemptId || null,
     questions: [],
     attempt: null,
-    timeLeft: 3600,
+    timeLeft: savedProgress?.timeLeft || 3600,
     speedReaderEnabled: false,
-    currentQuestion: 0,
+    currentQuestion: savedProgress?.currentQuestion || 0,
     selectedAnswer: null,
     answerState: 'unanswered',
-    answeredQuestions: {},
+    answeredQuestions: savedProgress?.answeredQuestions || {},
     speedReaderTime: 70,
     practiceMode: practiceMode,
   })
@@ -672,7 +685,32 @@ export default function MockExam({
             </div>
 
             {/* Finish Exam Button */}
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  // Save progress to localStorage for quick resume
+                  const progressData = {
+                    attemptId: state.attemptId,
+                    examId: state.examId,
+                    currentQuestion: state.currentQuestion,
+                    answeredQuestions: state.answeredQuestions,
+                    timeLeft: state.timeLeft,
+                    savedAt: new Date().toISOString()
+                  }
+                  localStorage.setItem(`exam_progress_${state.examId}`, JSON.stringify(progressData))
+
+                  // Show confirmation and navigate back
+                  alert('Your progress has been saved! You can continue this exam later.')
+                  if (onExit) {
+                    onExit()
+                  } else {
+                    navigate('/mock-questions')
+                  }
+                }}
+                className="px-6 py-3 bg-white border-2 border-[#E17100] text-[#E17100] rounded-lg font-medium hover:bg-[#FFF7ED] transition"
+              >
+                Save & Exit
+              </button>
               <button
                 onClick={handleConfirmFinish}
                 className="px-8 py-3 bg-[#10B981] text-white rounded-lg font-medium hover:bg-[#059669] transition shadow-lg"

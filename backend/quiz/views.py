@@ -597,15 +597,32 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             fetch_time = (time.time() - start_time) * 1000
             start_time = time.time()
             
-            # Refresh attempt with optimized queries to get answers and questions efficiently
-            attempt = ExamAttempt.objects.select_related(
-                'user', 'exam'
-            ).prefetch_related(
-                'selected_questions__options',
-                'answers__question__options'
-            ).get(id=attempt.id)
+            # OPTIMIZED: Fetch question IDs first, then direct query
+            # Avoids slow M2M traversal through selected_questions
+            question_ids = list(attempt.selected_questions.values_list('id', flat=True))
             
-            serializer = ExamAttemptReviewSerializer(attempt)
+            # Re-fetch attempt with minimal relations (exam only)
+            # Questions and answers will be fetched separately for better query planning
+            attempt = ExamAttempt.objects.select_related('exam').get(id=attempt.id)
+            
+            # Pre-fetch answers with their questions and options in one query
+            answers = list(QuestionAnswer.objects.filter(
+                exam_attempt=attempt
+            ).select_related('question').prefetch_related('question__options'))
+            
+            # Pre-fetch questions directly (faster than M2M traversal)
+            questions = list(Question.objects.filter(
+                id__in=question_ids
+            ).prefetch_related('options').order_by('question_number'))
+            
+            # Attach pre-fetched data to attempt for serializer
+            attempt._prefetched_answers = answers
+            attempt._prefetched_questions = questions
+            
+            serializer = ExamAttemptReviewSerializer(attempt, context={
+                'prefetched_answers': answers,
+                'prefetched_questions': questions
+            })
             serialization_time = (time.time() - start_time) * 1000
             
             # Only log detailed metrics in DEBUG mode (production performance)

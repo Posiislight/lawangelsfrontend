@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Home, RefreshCw, ChevronDown, ChevronUp, Loader, Trophy, TrendingUp, BarChart3, Timer, Target, CheckCheckIcon } from 'lucide-react'
+import { Home, RefreshCw, ChevronDown, ChevronUp, Trophy, TrendingUp, BarChart3, Timer, Target, CheckCheckIcon } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { ExamAttempt, QuestionAnswer } from '../services/quizApi'
 
@@ -140,9 +140,43 @@ export default function Results() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0F172B]">
-        <div className="flex flex-col items-center gap-4">
-          <Loader size={48} className="text-[#00BCD4] animate-spin" />
-          <p className="text-white font-medium">Loading results...</p>
+        <div className="flex flex-col items-center gap-6 max-w-md text-center">
+          {/* Animated progress ring */}
+          <div className="relative">
+            <div className="w-20 h-20 rounded-full border-4 border-[#1E293B] flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#00BCD4] animate-spin" />
+              <Trophy className="w-8 h-8 text-[#00BCD4]" />
+            </div>
+          </div>
+
+          {/* Step progress */}
+          <div className="space-y-3 w-full">
+            <h2 className="text-xl font-bold text-white">Calculating Your Results</h2>
+            <div className="flex items-center gap-3 text-left">
+              <div className="w-6 h-6 rounded-full bg-[#00BCD4] flex items-center justify-center flex-shrink-0">
+                <CheckCheckIcon className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-gray-300">Loading exam data...</span>
+            </div>
+            <div className="flex items-center gap-3 text-left">
+              <div className="w-6 h-6 rounded-full bg-[#1E293B] flex items-center justify-center flex-shrink-0 animate-pulse">
+                <BarChart3 className="w-4 h-4 text-[#00BCD4]" />
+              </div>
+              <span className="text-gray-400">Analyzing your performance...</span>
+            </div>
+            <div className="flex items-center gap-3 text-left">
+              <div className="w-6 h-6 rounded-full bg-[#1E293B] flex items-center justify-center flex-shrink-0">
+                <Target className="w-4 h-4 text-gray-500" />
+              </div>
+              <span className="text-gray-500">Generating insights...</span>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="w-full bg-[#1E293B] rounded-full h-2 overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] rounded-full animate-pulse" style={{ width: '60%' }} />
+          </div>
+          <p className="text-gray-400 text-sm">This may take a moment...</p>
         </div>
       </div>
     )
@@ -282,6 +316,24 @@ export default function Results() {
 
       {/* Main Content */}
       <main className="px-4 py-6 max-w-4xl mx-auto space-y-6">
+        {/* Action Buttons - Top */}
+        <div className="flex gap-4">
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"
+          >
+            <Home className="w-5 h-5" />
+            Back to Dashboard
+          </button>
+          <button
+            onClick={() => navigate(`/mock-questions`)}
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#0AB5FF] rounded-xl text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
+          >
+            <RefreshCw className="w-5 h-5" />
+            Retake Test
+          </button>
+        </div>
+
         {/* Score Card */}
         <div
           style={{ background: 'linear-gradient(135deg, rgba(15, 23, 43, 0.05) 0%, rgba(0, 0, 0, 0) 50%, rgba(225, 113, 0, 0.05) 100%)' }}

@@ -148,12 +148,13 @@ class ExamAttemptLightSerializer(serializers.ModelSerializer):
 class ExamAttemptReviewSerializer(serializers.ModelSerializer):
     """Serializer for exam attempt review (includes full question details)
     
-    OPTIMIZED: Uses ExamMinimalSerializer to avoid N+1 query from get_questions_count()
+    OPTIMIZED: 
+    - Uses prefetched data from context when available
+    - Avoids re-querying by using pre-computed lists
     """
     exam = ExamMinimalSerializer(read_only=True)
-    answers = QuestionAnswerDetailSerializer(many=True, read_only=True)
-    # Use full detail serializer (with explanations/correct answers) for review
-    questions = QuestionDetailSerializer(many=True, read_only=True, source='selected_questions')
+    answers = serializers.SerializerMethodField()
+    questions = serializers.SerializerMethodField()
     
     class Meta:
         model = ExamAttempt
@@ -161,6 +162,20 @@ class ExamAttemptReviewSerializer(serializers.ModelSerializer):
             'id', 'exam', 'user', 'started_at', 'ended_at', 'status',
             'score', 'time_spent_seconds', 'speed_reader_enabled', 'answers', 'questions'
         ]
+    
+    def get_answers(self, obj):
+        # Use prefetched data if available in context
+        prefetched = self.context.get('prefetched_answers')
+        if prefetched is not None:
+            return QuestionAnswerDetailSerializer(prefetched, many=True).data
+        return QuestionAnswerDetailSerializer(obj.answers.all(), many=True).data
+    
+    def get_questions(self, obj):
+        # Use prefetched data if available in context
+        prefetched = self.context.get('prefetched_questions')
+        if prefetched is not None:
+            return QuestionDetailSerializer(prefetched, many=True).data
+        return QuestionDetailSerializer(obj.selected_questions.all(), many=True).data
 
 
 class ExamAttemptDashboardSerializer(serializers.ModelSerializer):
