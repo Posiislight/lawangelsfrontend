@@ -1,0 +1,84 @@
+services:
+  # PRODUCTION BACKEND
+  - type: web
+    name: quiz-backend
+    env: python
+    plan: free
+    branch: main
+    
+    # Build command
+    buildCommand: pip install -r requirements.txt
+    
+    # Start command
+    startCommand: gunicorn lawangels.lawangels.wsgi:application --bind 0.0.0.0:$PORT --config gunicorn_config.py
+    
+    # Environment variables (add these in Render dashboard)
+    envVars:
+      - key: DJANGO_ENV
+        value: production
+      - key: DEBUG
+        value: false
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PORT
+        value: 8000
+      - key: TIME_ZONE
+        value: UTC
+      - key: GUNICORN_WORKERS
+        value: 2
+      - key: LOG_LEVEL
+        value: info
+      
+      # Database configuration - set via Render Dashboard (Supabase)
+      - key: DATABASE_URL
+        sync: false
+      
+      # Django security settings
+      - key: SECRET_KEY
+        sync: false
+      - key: ALLOWED_HOSTS
+        value: quiz-backend.onrender.com,localhost,lawangels.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://lawangelsfrontend-wy6w.vercel.app,https://lawangels.com
+
+  # STAGING BACKEND
+  - type: web
+    name: quiz-backend-staging
+    env: python
+    plan: free
+    branch: develop
+    
+    # Build command
+    buildCommand: pip install -r requirements.txt
+    
+    # Start command  
+    startCommand: gunicorn lawangels.lawangels.wsgi:application --bind 0.0.0.0:$PORT --config gunicorn_config.py
+    
+    # Environment variables
+    envVars:
+      - key: DJANGO_ENV
+        value: staging
+      - key: DEBUG
+        value: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PORT
+        value: 8000
+      - key: TIME_ZONE
+        value: UTC
+      - key: GUNICORN_WORKERS
+        value: 2
+      - key: LOG_LEVEL
+        value: debug
+      
+      # Using SAME prod database for now
+      - key: DATABASE_URL
+        sync: false
+      
+      # Django security settings
+      - key: SECRET_KEY
+        sync: false
+      - key: ALLOWED_HOSTS
+        value: quiz-backend-staging.onrender.com,localhost,staging.lawangels.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://lawangelsfrontend-staging.vercel.app,https://staging.lawangels.com
