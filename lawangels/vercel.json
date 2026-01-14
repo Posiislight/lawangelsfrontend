@@ -3,7 +3,7 @@
   "outputDirectory": "dist",
   "framework": null,
   "env": {
-    "VITE_API_URL": "https://quiz-backend.onrender.com/api"
+    "VITE_API_URL": "https://api.lawangelsuk.com/api"
   },
   "rewrites": [
     {

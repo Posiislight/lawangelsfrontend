@@ -263,94 +263,96 @@ export default function TextbookReader() {
                     </button>
                 </div>
 
-                {/* Audio Controls */}
-                <div className="flex items-center gap-2 border-l border-gray-200 pl-4">
-                    {/* Play/Pause Button */}
-                    <button
-                        onClick={handlePlayPause}
-                        disabled={!pageText || pageLoading}
-                        className={`p-2 rounded-lg transition-colors ${audioReader.isPlaying || audioReader.isPaused
-                            ? 'bg-blue-100 text-blue-600'
-                            : 'hover:bg-gray-100 text-gray-600'
-                            } disabled:opacity-50 disabled:cursor-not-allowed`}
-                        title={audioReader.isPlaying ? 'Pause' : audioReader.isPaused ? 'Resume' : 'Read Aloud'}
-                    >
-                        {audioReader.isPlaying ? (
-                            <Pause className="w-5 h-5" />
-                        ) : (
-                            <Play className="w-5 h-5" />
+                {/* Audio Controls - Only show if browser supports Web Speech API */}
+                {audioReader.isSupported && (
+                    <div className="flex items-center gap-2 border-l border-gray-200 pl-4">
+                        {/* Play/Pause Button */}
+                        <button
+                            onClick={handlePlayPause}
+                            disabled={!pageText || pageLoading}
+                            className={`p-2 rounded-lg transition-colors ${audioReader.isPlaying || audioReader.isPaused
+                                ? 'bg-blue-100 text-blue-600'
+                                : 'hover:bg-gray-100 text-gray-600'
+                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                            title={audioReader.isPlaying ? 'Pause' : audioReader.isPaused ? 'Resume' : 'Read Aloud'}
+                        >
+                            {audioReader.isPlaying ? (
+                                <Pause className="w-5 h-5" />
+                            ) : (
+                                <Play className="w-5 h-5" />
+                            )}
+                        </button>
+
+                        {/* Stop Button */}
+                        {(audioReader.isPlaying || audioReader.isPaused) && (
+                            <button
+                                onClick={audioReader.stop}
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600"
+                                title="Stop"
+                            >
+                                <Square className="w-5 h-5" />
+                            </button>
                         )}
-                    </button>
 
-                    {/* Stop Button */}
-                    {(audioReader.isPlaying || audioReader.isPaused) && (
-                        <button
-                            onClick={audioReader.stop}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600"
-                            title="Stop"
-                        >
-                            <Square className="w-5 h-5" />
-                        </button>
-                    )}
+                        {/* Speed Control */}
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowAudioSettings(!showAudioSettings)}
+                                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors ${showAudioSettings ? 'bg-gray-100' : 'hover:bg-gray-100'
+                                    } text-gray-600`}
+                                title="Audio Settings"
+                            >
+                                <Volume2 className="w-5 h-5" />
+                                <span className="text-sm font-medium">Audio Options</span>
+                            </button>
 
-                    {/* Speed Control */}
-                    <div className="relative">
-                        <button
-                            onClick={() => setShowAudioSettings(!showAudioSettings)}
-                            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors ${showAudioSettings ? 'bg-gray-100' : 'hover:bg-gray-100'
-                                } text-gray-600`}
-                            title="Audio Settings"
-                        >
-                            <Volume2 className="w-5 h-5" />
-                            <span className="text-sm font-medium">Audio Options</span>
-                        </button>
+                            {/* Audio Settings Dropdown */}
+                            {showAudioSettings && (
+                                <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 p-4 z-50">
+                                    <div className="mb-4">
+                                        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
+                                            Speed: {audioReader.rate}x
+                                        </label>
+                                        <input
+                                            type="range"
+                                            min="0.5"
+                                            max="2"
+                                            step="0.25"
+                                            value={audioReader.rate}
+                                            onChange={(e) => audioReader.setRate(parseFloat(e.target.value))}
+                                            className="w-full"
+                                        />
+                                        <div className="flex justify-between text-xs text-gray-400">
+                                            <span>0.5x</span>
+                                            <span>1x</span>
+                                            <span>2x</span>
+                                        </div>
+                                    </div>
 
-                        {/* Audio Settings Dropdown */}
-                        {showAudioSettings && (
-                            <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 p-4 z-50">
-                                <div className="mb-4">
-                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
-                                        Speed: {audioReader.rate}x
-                                    </label>
-                                    <input
-                                        type="range"
-                                        min="0.5"
-                                        max="2"
-                                        step="0.25"
-                                        value={audioReader.rate}
-                                        onChange={(e) => audioReader.setRate(parseFloat(e.target.value))}
-                                        className="w-full"
-                                    />
-                                    <div className="flex justify-between text-xs text-gray-400">
-                                        <span>0.5x</span>
-                                        <span>1x</span>
-                                        <span>2x</span>
+                                    <div>
+                                        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
+                                            Voice
+                                        </label>
+                                        <select
+                                            value={audioReader.selectedVoice?.name || ''}
+                                            onChange={(e) => {
+                                                const voice = audioReader.voices.find(v => v.name === e.target.value)
+                                                if (voice) audioReader.setVoice(voice)
+                                            }}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            {audioReader.voices.map((voice) => (
+                                                <option key={voice.name} value={voice.name}>
+                                                    {voice.name} ({voice.lang})
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
-
-                                <div>
-                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
-                                        Voice
-                                    </label>
-                                    <select
-                                        value={audioReader.selectedVoice?.name || ''}
-                                        onChange={(e) => {
-                                            const voice = audioReader.voices.find(v => v.name === e.target.value)
-                                            if (voice) audioReader.setVoice(voice)
-                                        }}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    >
-                                        {audioReader.voices.map((voice) => (
-                                            <option key={voice.name} value={voice.name}>
-                                                {voice.name} ({voice.lang})
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Fullscreen Toggle */}
                 <div className="flex items-center border-l border-gray-200 pl-4">
