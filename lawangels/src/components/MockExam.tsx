@@ -464,60 +464,82 @@ export default function MockExam({
     <div className="min-h-screen bg-[#FFFFFF]">
       {/* Header */}
       <header className="bg-[#0F172B] border-b border-[#1D293D] shadow-lg sticky top-0 z-40">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="flex items-center gap-3 text-[#CAD5E2] bg-[#0F172B] hover:text-white transition -mt-16"
-            >
-              <ArrowLeft size={16} />
-              <span className="text-sm font-medium">Back to Dashboard</span>
-            </button>
-            <div className="bg-[#E17100] text-white px-4 py-2 rounded-lg text-xs font-medium mx-auto">
-              {state.attempt?.exam?.title || 'Mock Test'}
+        <div className="px-4 md:px-6 py-3 md:py-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+            {/* Top Row: Back + Title (Mobile) / Left Side (Desktop) */}
+            <div className="flex items-center justify-between md:justify-start w-full md:w-auto gap-4">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="flex items-center gap-2 text-[#CAD5E2] hover:text-white transition"
+              >
+                <ArrowLeft size={16} />
+                <span className="text-sm font-medium hidden md:inline">Dashboard</span>
+              </button>
+
+              <div className="bg-[#E17100] text-white px-3 py-1.5 rounded-lg text-xs font-medium truncate max-w-[200px]">
+                {state.attempt?.exam?.title || 'Mock Test'}
+              </div>
+
+              {/* Mobile Timer (Small) */}
+              <div className="flex md:hidden items-center gap-2 bg-[#1D293D] px-3 py-1.5 rounded-lg border border-[#314158]">
+                <Clock size={14} className="text-[#FE9A00]" />
+                <span className="text-white text-xs font-medium font-mono">{formatTime(state.timeLeft)}</span>
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-4">
+
+            {/* Center Info (Desktop Only) */}
+            <div className="hidden md:flex items-center gap-4">
               <div className="flex items-center gap-2 bg-[#1D293D] px-6 py-3 rounded-xl border border-[#314158]">
                 <Clock size={16} className="text-[#FE9A00]" />
-                <span className="text-white font-medium">{formatTime(state.timeLeft)}</span>
+                <span className="text-white font-medium font-mono">{formatTime(state.timeLeft)}</span>
               </div>
 
               <div className="text-[#CAD5E2] text-sm font-medium bg-[#1D293D] px-6 py-3 rounded-xl border border-[#314158]">
-                Question {state.currentQuestion + 1}
+                Question {state.currentQuestion + 1} / {state.questions.length}
               </div>
             </div>
-          </div>
 
-          {/* Speed Reader Toggle */}
-          <div className="flex items-center justify-center gap-3 bg-[#1D293D] px-6 py-3 rounded-xl border border-[#314158] w-fit left-2 -mt-16">
-            <button
-              onClick={() => setState(prev => ({ ...prev, speedReaderEnabled: !prev.speedReaderEnabled }))}
-              className={`relative inline-flex h-5 w-8 items-center rounded-full transition-colors ${state.speedReaderEnabled ? 'bg-[#FE9A00]' : 'bg-[#CBCED4]'
-                }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${state.speedReaderEnabled ? 'translate-x-3.5' : 'translate-x-0.5'
-                  }`}
-              />
-            </button>
-            <Zap size={16} className="text-[#FE9A00]" />
-            <span className="text-[#E2E8F0] text-sm font-medium">Speed Reader</span>
+            {/* Right Controls */}
+            <div className="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto">
+              <div className="flex md:hidden text-[#CAD5E2] text-xs font-medium bg-[#1D293D] px-3 py-1.5 rounded-lg border border-[#314158]">
+                Q{state.currentQuestion + 1}/{state.questions.length}
+              </div>
+
+              {/* Speed Reader Toggle */}
+              <div className="flex items-center gap-2 bg-[#1D293D] px-3 md:px-6 py-1.5 md:py-3 rounded-lg md:rounded-xl border border-[#314158]">
+                <button
+                  onClick={() => setState(prev => ({ ...prev, speedReaderEnabled: !prev.speedReaderEnabled }))}
+                  className={`relative inline-flex h-4 w-7 md:h-5 md:w-8 items-center rounded-full transition-colors ${state.speedReaderEnabled ? 'bg-[#FE9A00]' : 'bg-[#CBCED4]'
+                    }`}
+                >
+                  <span
+                    className={`inline-block h-3 w-3 md:h-4 md:w-4 transform rounded-full bg-white transition-transform ${state.speedReaderEnabled ? 'translate-x-[14px] md:translate-x-3.5' : 'translate-x-0.5'
+                      }`}
+                  />
+                </button>
+                <div className="flex items-center gap-1">
+                  <Zap size={14} className="text-[#FE9A00] md:w-4 md:h-4" />
+                  <span className="text-[#E2E8F0] text-xs md:text-sm font-medium hidden sm:inline">Speed Reader</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 py-8">
+      <main className="flex-1 px-4 md:px-6 py-4 md:py-8">
         <div className="max-w-4xl mx-auto bg-[#FFFFFF]">
           {/* Speed Reader Banner */}
           {state.speedReaderEnabled && (
-            <div className="bg-[#FEF3C7] border-l-4 border-[#F59E0B] px-6 py-4 mb-6 rounded-lg">
-              <div className="flex items-center justify-between gap-4">
+            <div className="bg-[#FEF3C7] border-l-4 border-[#F59E0B] px-4 md:px-6 py-3 md:py-4 mb-6 rounded-lg">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   <Zap size={20} className="text-[#E17100]" />
                   <span className="text-sm font-medium text-[#92400E]">Speed Reader Mode Active - Auto advance in {state.speedReaderTime} seconds</span>
                 </div>
-                <div className="w-64 bg-[#E5E7EB] rounded-full h-2 overflow-hidden flex-shrink-0">
+                <div className="w-full md:w-64 bg-[#E5E7EB] rounded-full h-2 overflow-hidden flex-shrink-0">
                   <div
                     className="bg-[#E17100] h-full transition-all duration-300"
                     style={{ width: `${(state.speedReaderTime / 70) * 100}%` }}
@@ -529,9 +551,9 @@ export default function MockExam({
 
           {/* Question Card */}
           <div className="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
-            <div className="p-8">
+            <div className="p-4 md:p-8">
               {/* Question Header */}
-              <div className="flex gap-4 mb-8">
+              <div className="flex gap-4 mb-6 md:mb-8">
                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#0F172B] text-white font-medium text-sm flex-shrink-0">
                   {state.currentQuestion + 1}
                 </div>
@@ -550,7 +572,7 @@ export default function MockExam({
                   return (
                     <div key={option.label}>
                       <label
-                        className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${showCorrectHighlight
+                        className={`flex items-start gap-3 p-3 md:p-4 rounded-lg border-2 cursor-pointer transition-all ${showCorrectHighlight
                           ? 'bg-[#ECFDF5] border-[#10B981]'
                           : showIncorrectHighlight
                             ? 'bg-[#FEF2F2] border-[#EF4444]'
@@ -559,17 +581,22 @@ export default function MockExam({
                               : 'bg-white border-[#E2E8F0] hover:border-[#CAD5E2]'
                           } ${state.answerState !== 'unanswered' ? 'cursor-not-allowed' : ''}`}
                       >
-                        <input
-                          type="radio"
-                          name="answer"
-                          value={option.label}
-                          checked={isSelected}
-                          onChange={() => handleSelectAnswer(option.label)}
-                          disabled={state.answerState !== 'unanswered'}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm font-medium text-[#314158] min-w-6">{option.label}</span>
-                        <span className="text-sm text-[#314158]">{option.text}</span>
+                        <div className="flex-shrink-0 mt-0.5">
+                          <input
+                            type="radio"
+                            name="answer"
+                            value={option.label}
+                            checked={isSelected}
+                            onChange={() => handleSelectAnswer(option.label)}
+                            disabled={state.answerState !== 'unanswered'}
+                            className="w-4 h-4"
+                          />
+                        </div>
+
+                        <div className="flex-1">
+                          <span className="text-sm font-medium text-[#314158] mr-2">{option.label}.</span>
+                          <span className="text-sm text-[#314158]">{option.text}</span>
+                        </div>
                       </label>
 
                       {/* Show explanation in learn-as-you-go mode */}
@@ -597,12 +624,12 @@ export default function MockExam({
               </div>
 
               {/* Submit Answer and Next Buttons */}
-              <div className="flex justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
                 {state.answerState === 'unanswered' && (
                   <button
                     onClick={handleSubmitAnswer}
                     disabled={!state.selectedAnswer}
-                    className={`px-8 py-3 rounded-lg font-medium transition flex items-center gap-2 ${state.selectedAnswer
+                    className={`w-full sm:w-auto px-8 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 ${state.selectedAnswer
                       ? 'bg-[#E17100] text-white hover:bg-[#C25F00]'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
@@ -614,7 +641,7 @@ export default function MockExam({
                   <button
                     onClick={handleNextQuestion}
                     disabled={state.currentQuestion >= totalQuestions - 1}
-                    className={`px-8 py-3 rounded-lg font-medium transition flex items-center gap-2 ${state.currentQuestion < totalQuestions - 1
+                    className={`w-full sm:w-auto px-8 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 ${state.currentQuestion < totalQuestions - 1
                       ? 'bg-[#0F172B] text-white hover:bg-[#1a1f3a]'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
@@ -628,50 +655,68 @@ export default function MockExam({
           </div>
 
           {/* Navigation Footer */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-white rounded-xl shadow-lg p-4 md:p-6">
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={handlePreviousQuestion}
                 disabled={state.currentQuestion === 0}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${state.currentQuestion === 0
+                className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg border transition ${state.currentQuestion === 0
                   ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
                   : 'bg-white text-[#0A0A0A] border-[#CAD5E2] hover:border-[#314158]'
                   }`}
               >
                 <ChevronLeft size={18} />
-                <span className="text-sm font-medium">Previous</span>
+                <span className="text-sm font-medium hidden sm:inline">Previous</span>
               </button>
 
-              <div className="flex items-center gap-2">
-                <div className="flex gap-2 flex-wrap justify-center">
+              {/* Question Navigator - Desktop Grid / Mobile Dropdown */}
+              <div className="flex-1 mx-4 flex justify-center">
+                {/* Desktop: Dots */}
+                <div className="hidden md:flex gap-2 flex-wrap justify-center max-h-32 overflow-y-auto">
                   {[...Array(totalQuestions)].map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setState(prev => ({ ...prev, currentQuestion: i }))}
-                      className={`w-10 h-10 rounded-full font-medium transition flex items-center justify-center ${state.currentQuestion === i
+                      className={`w-8 h-8 rounded-full text-xs font-medium transition flex items-center justify-center ${state.currentQuestion === i
                         ? 'bg-[#0F172B] text-white shadow-lg'
                         : state.answeredQuestions[i] !== undefined
                           ? state.practiceMode === 'real-exam'
-                            ? 'bg-[#314158] text-white' // Neutral for real exam mode
-                            : 'bg-[#10B981] text-white' // Green for learn-as-you-go
-                          : 'bg-[#E2E8F0] text-[#45556C]'
+                            ? 'bg-[#314158] text-white'
+                            : 'bg-[#10B981] text-white'
+                          : 'bg-[#E2E8F0] text-[#45556C] hover:bg-gray-300'
                         }`}
                     >
                       {i + 1}
                     </button>
                   ))}
                 </div>
+
+                {/* Mobile: Dropdown/Select */}
+                <div className="md:hidden w-full max-w-[200px]">
+                  <select
+                    value={state.currentQuestion}
+                    onChange={(e) => setState(prev => ({ ...prev, currentQuestion: parseInt(e.target.value) }))}
+                    className="w-full p-2 border border-gray-300 rounded-lg text-sm bg-white"
+                  >
+                    {[...Array(totalQuestions)].map((_, i) => (
+                      <option key={i} value={i}>
+                        Question {i + 1}
+                        {state.answeredQuestions[i] ? ' (Answered)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <button
                 onClick={handleNextQuestion}
                 disabled={state.currentQuestion >= totalQuestions - 1}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${state.currentQuestion >= totalQuestions - 1
+                className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg border transition ${state.currentQuestion >= totalQuestions - 1
                   ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
                   : 'bg-white text-[#0A0A0A] border-[#CAD5E2] hover:border-[#314158]'
                   }`}
               >
-                <span className="text-sm font-medium">Next</span>
+                <span className="text-sm font-medium hidden sm:inline">Next</span>
                 <ChevronRight size={18} />
               </button>
             </div>
@@ -685,7 +730,7 @@ export default function MockExam({
             </div>
 
             {/* Finish Exam Button */}
-            <div className="flex justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
               <button
                 onClick={() => {
                   // Save progress to localStorage for quick resume
@@ -707,13 +752,13 @@ export default function MockExam({
                     navigate('/mock-questions')
                   }
                 }}
-                className="px-6 py-3 bg-white border-2 border-[#E17100] text-[#E17100] rounded-lg font-medium hover:bg-[#FFF7ED] transition"
+                className="w-full sm:w-auto px-6 py-3 bg-white border-2 border-[#E17100] text-[#E17100] rounded-lg font-medium hover:bg-[#FFF7ED] transition"
               >
                 Save & Exit
               </button>
               <button
                 onClick={handleConfirmFinish}
-                className="px-8 py-3 bg-[#10B981] text-white rounded-lg font-medium hover:bg-[#059669] transition shadow-lg"
+                className="w-full sm:w-auto px-8 py-3 bg-[#10B981] text-white rounded-lg font-medium hover:bg-[#059669] transition shadow-lg"
               >
                 Finish Exam
               </button>

@@ -88,25 +88,25 @@ export default function FlashcardStudy() {
 
     return (
         <DashboardLayout>
-            <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6">
+            <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex flex-col items-center justify-center p-4 md:p-6">
                 {/* Back button */}
                 <div className="w-full max-w-4xl mb-4">
                     <button
                         onClick={() => navigate(`/flashcards/topic/${encodeURIComponent(deckTitle)}`)}
-                        className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+                        className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base"
                     >
-                        <ArrowLeft className="w-5 h-5" />
+                        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                         Back to {deckTitle} Flashcards
                     </button>
                 </div>
 
-                <div className="w-full max-w-4xl flex flex-col gap-8">
+                <div className="w-full max-w-4xl flex flex-col gap-4 md:gap-8">
                     {/* Progress bar */}
-                    <div className="flex gap-2 w-full">
+                    <div className="flex gap-1 md:gap-2 w-full">
                         {cards.map((_, index) => (
                             <div
                                 key={index}
-                                className={`h-2 flex-1 rounded-full transition-colors duration-300 ${index < currentIndex
+                                className={`h-1.5 md:h-2 flex-1 rounded-full transition-colors duration-300 ${index < currentIndex
                                     ? correctCards[index]
                                         ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]'
                                         : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'
@@ -121,12 +121,12 @@ export default function FlashcardStudy() {
                     {/* Flashcard - Click to flip */}
                     <div
                         onClick={() => setShowAnswer(!showAnswer)}
-                        className="relative w-full min-h-[400px] bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 rounded-3xl flex flex-col justify-between p-8 shadow-xl border border-white/50 dark:border-white/10 overflow-hidden ring-1 ring-black/5 dark:ring-white/5 transition-all duration-300 cursor-pointer hover:shadow-2xl"
+                        className="relative w-full min-h-[300px] md:min-h-[400px] bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 rounded-3xl flex flex-col justify-between p-6 md:p-8 shadow-xl border border-white/50 dark:border-white/10 overflow-hidden ring-1 ring-black/5 dark:ring-white/5 transition-all duration-300 cursor-pointer hover:shadow-2xl"
                     >
                         {/* Top indicator */}
                         <div className="w-full flex justify-between items-start z-10">
                             <div />
-                            <span className={`text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full ${showAnswer
+                            <span className={`text-[10px] md:text-xs font-bold tracking-widest uppercase px-2 md:px-3 py-1 rounded-full ${showAnswer
                                 ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
                                 : 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
                                 }`}>
@@ -135,8 +135,8 @@ export default function FlashcardStudy() {
                         </div>
 
                         {/* Card content */}
-                        <div className="flex-1 flex flex-col items-center justify-center w-full text-center z-10">
-                            <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-slate-800 dark:text-white tracking-tight leading-relaxed max-w-3xl drop-shadow-sm overflow-y-auto max-h-[280px]">
+                        <div className="flex-1 flex flex-col items-center justify-center w-full text-center z-10 py-4">
+                            <h1 className="text-lg md:text-2xl lg:text-3xl font-medium text-slate-800 dark:text-white tracking-tight leading-relaxed max-w-3xl drop-shadow-sm overflow-y-auto max-h-[220px] md:max-h-[280px]">
                                 {showAnswer ? currentCard?.answer : currentCard?.question}
                             </h1>
                         </div>
@@ -162,18 +162,18 @@ export default function FlashcardStudy() {
 
                     {/* Self-Assessment Buttons - Show only when answer is revealed */}
                     {showAnswer && (
-                        <div className="flex items-center justify-center gap-3 mt-4">
+                        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-2 md:mt-4">
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleNext(false);
                                 }}
-                                className="flex items-center gap-2 px-5 py-3 rounded-full bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all duration-200 group"
+                                className="flex-1 min-w-[120px] md:min-w-0 flex items-center justify-center gap-2 px-3 md:px-5 py-3 rounded-full bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all duration-200 group"
                             >
-                                <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <X className="w-4 h-4 text-white" />
+                                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-red-500 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                                    <X className="w-3 h-3 md:w-4 md:h-4 text-white" />
                                 </div>
-                                <span className="text-sm font-medium text-red-700 dark:text-red-400">I was incorrect</span>
+                                <span className="text-xs md:text-sm font-medium text-red-700 dark:text-red-400">Incorrect</span>
                             </button>
 
                             <button
@@ -181,12 +181,12 @@ export default function FlashcardStudy() {
                                     e.stopPropagation();
                                     handleNext(false);
                                 }}
-                                className="flex items-center gap-2 px-5 py-3 rounded-full bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-all duration-200 group"
+                                className="flex-1 min-w-[120px] md:min-w-0 flex items-center justify-center gap-2 px-3 md:px-5 py-3 rounded-full bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-all duration-200 group"
                             >
-                                <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <HelpCircle className="w-4 h-4 text-white" />
+                                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                                    <HelpCircle className="w-3 h-3 md:w-4 md:h-4 text-white" />
                                 </div>
-                                <span className="text-sm font-medium text-orange-700 dark:text-orange-400">I was not sure</span>
+                                <span className="text-xs md:text-sm font-medium text-orange-700 dark:text-orange-400">Not sure</span>
                             </button>
 
                             <button
@@ -194,29 +194,29 @@ export default function FlashcardStudy() {
                                     e.stopPropagation();
                                     handleNext(true);
                                 }}
-                                className="flex items-center gap-2 px-5 py-3 rounded-full bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200 group"
+                                className="flex-1 min-w-[120px] md:min-w-0 flex items-center justify-center gap-2 px-3 md:px-5 py-3 rounded-full bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200 group"
                             >
-                                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <Check className="w-4 h-4 text-white" />
+                                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-500 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                                    <Check className="w-3 h-3 md:w-4 md:h-4 text-white" />
                                 </div>
-                                <span className="text-sm font-medium text-green-700 dark:text-green-400">I was correct</span>
+                                <span className="text-xs md:text-sm font-medium text-green-700 dark:text-green-400">Correct</span>
                             </button>
                         </div>
                     )}
 
                     {/* Navigation controls */}
-                    <div className="flex items-center justify-center gap-8 mt-2">
+                    <div className="flex items-center justify-center gap-4 md:gap-8 mt-2">
                         <button
                             onClick={handlePrevious}
                             disabled={currentIndex === 0}
-                            className="group p-4 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800 hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="group p-3 md:p-4 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800 hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <ChevronLeft className={`w-5 h-5 group-active:-translate-x-0.5 transition-transform ${currentIndex === 0 ? 'text-slate-300 dark:text-slate-600' : 'text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400'
+                            <ChevronLeft className={`w-4 h-4 md:w-5 md:h-5 group-active:-translate-x-0.5 transition-transform ${currentIndex === 0 ? 'text-slate-300 dark:text-slate-600' : 'text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400'
                                 }`} />
                         </button>
 
                         <div className="flex flex-col items-center">
-                            <span className="text-lg font-bold text-slate-700 dark:text-slate-200 tabular-nums">
+                            <span className="text-base md:text-lg font-bold text-slate-700 dark:text-slate-200 tabular-nums">
                                 {currentIndex + 1} / {cards.length}
                             </span>
                             <span className="text-xs text-slate-400 font-medium">Cards</span>
@@ -225,9 +225,9 @@ export default function FlashcardStudy() {
                         <button
                             onClick={() => handleNext()}
                             disabled={currentIndex === cards.length - 1}
-                            className="group p-4 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="group p-3 md:p-4 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <ChevronRight className={`w-5 h-5 group-active:translate-x-0.5 transition-transform ${currentIndex === cards.length - 1 ? 'text-slate-300 dark:text-slate-600' : 'text-slate-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-300'
+                            <ChevronRight className={`w-4 h-4 md:w-5 md:h-5 group-active:translate-x-0.5 transition-transform ${currentIndex === cards.length - 1 ? 'text-slate-300 dark:text-slate-600' : 'text-slate-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-300'
                                 }`} />
                         </button>
                     </div>

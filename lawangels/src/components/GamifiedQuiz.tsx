@@ -202,35 +202,50 @@ export default function GamifiedQuiz() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-200 via-orange-100 to-amber-200 p-3 md:p-4 font-worksans">
+        <div className="min-h-screen bg-gradient-to-br from-amber-200 via-orange-100 to-amber-200 p-3 md:p-4 font-worksans overflow-x-hidden">
             {/* Header Bar */}
             <div className="max-w-4xl mx-auto mb-4">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    {/* User Badge */}
-                    <div className="flex items-center bg-white rounded-full pl-2 pr-6 py-2 shadow-md border-2 border-slate-100">
-                        <div className="relative">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold shadow-sm">
-                                {state.currentStreak > 0 ? '🔥' : '📚'}
+                    {/* Top Row on Mobile: Badge + Stats */}
+                    <div className="w-full md:w-auto flex justify-between md:justify-start items-center gap-4">
+                        {/* User Badge */}
+                        <div className="flex items-center bg-white rounded-full pl-2 pr-6 py-2 shadow-md border-2 border-slate-100">
+                            <div className="relative">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold shadow-sm">
+                                    {state.currentStreak > 0 ? '🔥' : '📚'}
+                                </div>
+                                <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-xs font-bold text-slate-800 w-5 h-5 flex items-center justify-center rounded-full border border-white">
+                                    {state.questionNumber}
+                                </div>
                             </div>
-                            <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-xs font-bold text-slate-800 w-5 h-5 flex items-center justify-center rounded-full border border-white">
-                                {state.questionNumber}
+                            <div className="ml-3">
+                                <p className="text-sm font-bold text-slate-600">
+                                    {state.currentStreak > 0 ? `${state.currentStreak} Streak!` : 'Quiz Mode'}
+                                </p>
+                                <div className="w-24 h-2 bg-slate-200 rounded-full mt-1 overflow-hidden">
+                                    <div
+                                        className="h-full bg-cyan-500 rounded-full transition-all duration-500"
+                                        style={{ width: `${getProgressPercentage()}%` }}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="ml-3">
-                            <p className="text-sm font-bold text-slate-600">
-                                {state.currentStreak > 0 ? `${state.currentStreak} Streak!` : 'Quiz Mode'}
-                            </p>
-                            <div className="w-24 h-2 bg-slate-200 rounded-full mt-1 overflow-hidden">
-                                <div
-                                    className="h-full bg-cyan-500 rounded-full transition-all duration-500"
-                                    style={{ width: `${getProgressPercentage()}%` }}
-                                />
+
+                        {/* Lives & Points (Visible on mobile right side) */}
+                        <div className="flex md:hidden items-center gap-2">
+                            <div className="flex items-center bg-red-100 text-red-500 px-2 py-1.5 rounded-xl border border-red-200">
+                                <Heart className={`w-4 h-4 mr-1 ${state.livesRemaining < 3 ? 'animate-pulse' : ''}`} fill="currentColor" />
+                                <span className="font-bold text-sm">{state.livesRemaining}</span>
+                            </div>
+                            <div className="flex items-center bg-cyan-500 text-white px-2 py-1.5 rounded-xl shadow-lg">
+                                <Zap className="w-4 h-4 mr-1" />
+                                <span className="font-bold text-sm">{state.pointsEarned}</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Progress Bar */}
-                    <div className="flex-1 px-4 md:px-12 w-full max-w-2xl">
+                    {/* Progress Bar (Full width on mobile, middle on desktop) */}
+                    <div className="flex-1 px-2 md:px-12 w-full max-w-2xl">
                         <div className="relative pt-6 pb-2">
                             <div className="flex justify-between mb-2 text-xs font-bold text-slate-400 uppercase tracking-wide">
                                 <span>Start</span>
@@ -264,8 +279,8 @@ export default function GamifiedQuiz() {
                         </div>
                     </div>
 
-                    {/* Lives & Points */}
-                    <div className="flex items-center gap-3">
+                    {/* Lives & Points (Desktop Only) */}
+                    <div className="hidden md:flex items-center gap-3">
                         <div className="flex items-center bg-red-100 text-red-500 px-3 py-1.5 rounded-xl border border-red-200">
                             <Heart className={`w-5 h-5 mr-1 ${state.livesRemaining < 3 ? 'animate-pulse' : ''}`} fill="currentColor" />
                             <span className="font-bold text-lg">{state.livesRemaining}</span>

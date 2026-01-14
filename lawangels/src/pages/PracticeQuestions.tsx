@@ -511,7 +511,7 @@ export default function PracticeQuestions() {
                                         </div>
                                     )}
 
-                                    {/* Submit Answer Button - Shows when answer selected but not submitted */}
+                                    {/* Submit Answer Button */}
                                     {selectedAnswer && !showFeedback && (
                                         <div className="flex justify-center mb-4">
                                             <button
@@ -547,25 +547,27 @@ export default function PracticeQuestions() {
                                             </button>
                                         )}
 
-                                        <button
-                                            onClick={handleNextQuestion}
-                                            disabled={currentQuestionIndex >= (currentArea.questions?.length || 0) - 1}
-                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg ${currentQuestionIndex >= (currentArea.questions?.length || 0) - 1
-                                                ? 'text-gray-400 cursor-not-allowed'
-                                                : 'text-gray-700 hover:bg-gray-100'
-                                                }`}
-                                        >
-                                            Next
-                                            <ChevronRight className="w-4 h-4" />
-                                        </button>
+                                        {!showFeedback && (
+                                            <button
+                                                onClick={handleNextQuestion}
+                                                disabled={currentQuestionIndex >= (currentArea.questions?.length || 0) - 1}
+                                                className={`flex items-center gap-2 px-4 py-2 rounded-lg ${currentQuestionIndex >= (currentArea.questions?.length || 0) - 1
+                                                    ? 'text-gray-400 cursor-not-allowed'
+                                                    : 'text-gray-700 hover:bg-gray-100'
+                                                    }`}
+                                            >
+                                                Skip / Next
+                                                <ChevronRight className="w-4 h-4" />
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
                             {/* Question Navigation Dots */}
                             <div className="bg-white rounded-xl shadow p-4 max-w-4xl mx-auto">
-                                <div className="flex gap-2 flex-wrap justify-center">
-                                    {currentArea.questions?.slice(0, 30).map((_, i) => {
+                                <div className="flex gap-2 flex-wrap justify-center max-h-40 overflow-y-auto">
+                                    {currentArea.questions?.map((_, i) => {
                                         const key = `${selectedAreaIndex}-${i}`
                                         const answered = answeredQuestions[key]
 
@@ -586,11 +588,6 @@ export default function PracticeQuestions() {
                                             </button>
                                         )
                                     })}
-                                    {(currentArea.questions?.length || 0) > 30 && (
-                                        <span className="text-gray-500 self-center text-sm">
-                                            +{(currentArea.questions?.length || 0) - 30} more
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                         </div>

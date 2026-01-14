@@ -316,7 +316,7 @@ export default function TextbookReader() {
                                 title="Audio Settings"
                             >
                                 <Volume2 className="w-5 h-5" />
-                                <span className="text-sm font-medium">Audio Options</span>
+                                <span className="text-sm font-medium hidden md:inline">Audio Options</span>
                             </button>
 
                             {/* Audio Settings Dropdown */}
@@ -386,81 +386,100 @@ export default function TextbookReader() {
             {/* Main Content */}
             <div className="flex flex-1 overflow-hidden relative">
                 {/* Sidebar - Table of Contents */}
-                {showSidebar && (
-                    <aside className={`
-                        w-64 bg-white border-r border-gray-200 overflow-y-auto
-                        ${isMobile ? 'absolute inset-y-0 left-0 z-40 shadow-xl' : 'relative'}
-                    `}>
-                        <div className="p-4 border-b border-gray-100">
-                            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                Table of Contents
-                            </h3>
-                        </div>
-                        <div className="p-2">
-                            {/* Display actual chapters from the textbook */}
-                            {textbook.chapters && textbook.chapters.length > 0 ? (
-                                textbook.chapters.map((chapter, index) => {
-                                    const nextChapter = textbook.chapters[index + 1]
-                                    const isCurrentChapter = nextChapter
-                                        ? pageNumber >= chapter.page && pageNumber < nextChapter.page
-                                        : pageNumber >= chapter.page
-
-                                    return (
-                                        <button
-                                            key={index}
-                                            onClick={() => {
-                                                setPageLoading(true)
-                                                setPageNumber(chapter.page)
-                                            }}
-                                            className={`w-full px-3 py-2.5 rounded-lg text-left text-sm transition-colors flex items-start gap-3 mb-1 ${isCurrentChapter
-                                                ? 'bg-blue-50 text-blue-700 font-medium border-l-2 border-blue-500'
-                                                : 'hover:bg-gray-50 text-gray-700'
-                                                }`}
-                                        >
-                                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${isCurrentChapter ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
-                                                {index + 1}
-                                            </span>
-                                            <div className="min-w-0 flex-1">
-                                                <p className="font-medium leading-tight">{chapter.title}</p>
-                                                <p className="text-xs text-gray-500 mt-0.5">Page {chapter.page}</p>
-                                            </div>
-                                        </button>
-                                    )
-                                })
-                            ) : (
-                                <p className="text-sm text-gray-500 px-3 py-2">No chapters available</p>
-                            )}
-                        </div>
-
-
-                        {/* Quick page nav - Chapter pages */}
-                        {textbook.chapters && textbook.chapters.length > 0 && (
-                            <div className="p-4 border-t border-gray-100">
-                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                                    Jump to Chapter
-                                </p>
-                                <div className="grid grid-cols-4 gap-1">
-                                    {textbook.chapters.map((chapter, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => {
-                                                setPageLoading(true)
-                                                setPageNumber(chapter.page)
-                                            }}
-                                            className={`p-1.5 rounded text-xs font-medium transition-colors ${pageNumber === chapter.page
-                                                ? 'bg-blue-500 text-white'
-                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                                }`}
-                                            title={chapter.title}
-                                        >
-                                            {index + 1}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </aside>
+                {/* Mobile Sidebar Backdrop */}
+                {isMobile && showSidebar && (
+                    <div
+                        className="fixed inset-0 bg-black/50 z-30"
+                        onClick={() => setShowSidebar(false)}
+                    />
                 )}
+
+                <aside className={`
+                    bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300
+                    ${isMobile
+                        ? `fixed inset-y-0 left-0 z-40 w-64 shadow-2xl transform ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`
+                        : `${showSidebar ? 'w-64' : 'w-0 border-none'} relative`
+                    }
+                `}>
+                    <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Table of Contents
+                        </h3>
+                        {isMobile && (
+                            <button
+                                onClick={() => setShowSidebar(false)}
+                                className="p-1 hover:bg-gray-100 rounded text-gray-500"
+                            >
+                                <ChevronLeft className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
+                    <div className="p-2">
+                        {/* Display actual chapters from the textbook */}
+                        {textbook.chapters && textbook.chapters.length > 0 ? (
+                            textbook.chapters.map((chapter, index) => {
+                                const nextChapter = textbook.chapters[index + 1]
+                                const isCurrentChapter = nextChapter
+                                    ? pageNumber >= chapter.page && pageNumber < nextChapter.page
+                                    : pageNumber >= chapter.page
+
+                                return (
+                                    <button
+                                        key={index}
+                                        onClick={() => {
+                                            setPageLoading(true)
+                                            setPageNumber(chapter.page)
+                                            if (isMobile) setShowSidebar(false)
+                                        }}
+                                        className={`w-full px-3 py-2.5 rounded-lg text-left text-sm transition-colors flex items-start gap-3 mb-1 ${isCurrentChapter
+                                            ? 'bg-blue-50 text-blue-700 font-medium border-l-2 border-blue-500'
+                                            : 'hover:bg-gray-50 text-gray-700'
+                                            }`}
+                                    >
+                                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${isCurrentChapter ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                                            {index + 1}
+                                        </span>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="font-medium leading-tight">{chapter.title}</p>
+                                            <p className="text-xs text-gray-500 mt-0.5">Page {chapter.page}</p>
+                                        </div>
+                                    </button>
+                                )
+                            })
+                        ) : (
+                            <p className="text-sm text-gray-500 px-3 py-2">No chapters available</p>
+                        )}
+                    </div>
+
+
+                    {/* Quick page nav - Chapter pages */}
+                    {textbook.chapters && textbook.chapters.length > 0 && (
+                        <div className="p-4 border-t border-gray-100">
+                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                                Jump to Chapter
+                            </p>
+                            <div className="grid grid-cols-4 gap-1">
+                                {textbook.chapters.map((chapter, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => {
+                                            setPageLoading(true)
+                                            setPageNumber(chapter.page)
+                                            if (isMobile) setShowSidebar(false)
+                                        }}
+                                        className={`p-1.5 rounded text-xs font-medium transition-colors ${pageNumber === chapter.page
+                                            ? 'bg-blue-500 text-white'
+                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                            }`}
+                                        title={chapter.title}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </aside>
 
                 {/* PDF Viewer */}
                 <main className="flex-1 bg-gray-200 flex justify-center items-start p-2 relative" style={{ height: 'calc(100vh - 60px)', overflow: 'auto' }}>

@@ -144,9 +144,9 @@ export default function VideoTutorials() {
             <p className="text-gray-600 text-sm mt-1">Learn from expert instructors with comprehensive video lectures</p>
           </div>
 
-          {/* Search Bar - Hidden on mobile */}
-          <div className="hidden md:flex flex-1 justify-center">
-            <div className="relative w-80">
+          {/* Search Bar */}
+          <div className="flex flex-1 justify-center w-full md:w-auto">
+            <div className="relative w-full md:w-80">
               <input
                 type="text"
                 placeholder="Search videos, topics..."

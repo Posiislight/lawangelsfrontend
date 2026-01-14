@@ -138,24 +138,37 @@ export default function VideoWatch() {
     return (
         <DashboardLayout>
             {/* Header */}
-            <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-4">
-                <div className="flex items-center justify-between">
-                    <Link
-                        to="/video-tutorials"
-                        className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-                    >
-                        <ArrowLeft className="w-5 h-5" />
-                        <span>Dashboard</span>
-                    </Link>
+            <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3 md:px-8 md:py-4 shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-0">
+                    <div className="flex items-center justify-between">
+                        <Link
+                            to="/video-tutorials"
+                            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                            <span className="hidden sm:inline">Dashboard</span>
+                        </Link>
 
-                    <div className="text-center">
-                        <h1 className="text-xl font-semibold text-gray-900">Video Tutorials</h1>
-                        <p className="text-sm text-gray-600">
+                        {/* Mobile Progress (shown in top row) */}
+                        <div className="flex md:hidden items-center gap-2">
+                            <span className="text-xs font-semibold text-blue-600">{progressPercentage}% Complete</span>
+                            <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-blue-500 rounded-full transition-all"
+                                    style={{ width: `${progressPercentage}%` }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="text-left md:text-center">
+                        <h1 className="text-lg md:text-xl font-semibold text-gray-900 line-clamp-1">Video Tutorials</h1>
+                        <p className="text-xs md:text-sm text-gray-600 truncate max-w-[300px] md:max-w-none">
                             {courseVideos.course_title} • Video {video.video_number} of {video.total_course_videos}
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2">
                         <span className="text-sm text-gray-600">Progress</span>
                         <span className="font-semibold text-blue-600">{progressPercentage}%</span>
                         <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -169,12 +182,12 @@ export default function VideoWatch() {
             </div>
 
             {/* Main Content */}
-            <div className="p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="p-4 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
                     {/* Left Column - Video Player */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 space-y-4 md:space-y-6">
                         {/* Video Player */}
-                        <div className="bg-gray-900 rounded-xl overflow-hidden aspect-video relative">
+                        <div className="bg-gray-900 rounded-xl overflow-hidden aspect-video relative shadow-lg">
                             <iframe
                                 ref={iframeRef}
                                 src={video.embed_url || `https://iframe.videodelivery.net/${video.cloudflare_video_id}?autoplay=false`}
@@ -185,13 +198,13 @@ export default function VideoWatch() {
                         </div>
 
                         {/* Video Info Card */}
-                        <div className="bg-white rounded-xl border border-gray-200 p-6">
-                            <div className="flex items-start justify-between mb-4">
-                                <div>
-                                    <p className="text-sm text-gray-500 mb-1">
+                        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 shadow-sm">
+                            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                                <div className="flex-1">
+                                    <p className="text-xs md:text-sm text-gray-500 mb-1">
                                         Video {video.video_number} of {video.total_course_videos}
                                     </p>
-                                    <h2 className="text-xl font-semibold text-gray-900">{video.title}</h2>
+                                    <h2 className="text-lg md:text-xl font-semibold text-gray-900 leading-snug">{video.title}</h2>
                                     <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
                                         <span className="flex items-center gap-1">
                                             <Clock className="w-4 h-4" />
@@ -203,9 +216,9 @@ export default function VideoWatch() {
                                 <button
                                     onClick={handleMarkComplete}
                                     disabled={video.is_completed || isCompleting}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${video.is_completed
+                                    className={`w-full md:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-colors ${video.is_completed
                                         ? 'bg-green-100 text-green-700 cursor-default'
-                                        : 'bg-emerald-500 text-white hover:bg-emerald-600'
+                                        : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm'
                                         }`}
                                 >
                                     <CheckCircle className="w-5 h-5" />
@@ -217,7 +230,7 @@ export default function VideoWatch() {
                             {video.description && (
                                 <div className="mt-6">
                                     <h3 className="font-semibold text-gray-900 mb-2">About this video</h3>
-                                    <p className="text-gray-600">{video.description}</p>
+                                    <p className="text-gray-600 text-sm md:text-base leading-relaxed">{video.description}</p>
                                 </div>
                             )}
 
@@ -225,11 +238,11 @@ export default function VideoWatch() {
                             {video.key_topics && video.key_topics.length > 0 && (
                                 <div className="mt-6">
                                     <h3 className="font-semibold text-gray-900 mb-3">Key Topics Covered</h3>
-                                    <div className="grid grid-cols-2 gap-2">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                         {video.key_topics.map((topic, idx) => (
                                             <div key={idx} className="flex items-center gap-2">
-                                                <span className="w-2 h-2 bg-cyan-500 rounded-full" />
-                                                <span className="text-gray-700">{topic}</span>
+                                                <span className="w-2 h-2 bg-cyan-500 rounded-full flex-shrink-0" />
+                                                <span className="text-gray-700 text-sm">{topic}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -237,11 +250,11 @@ export default function VideoWatch() {
                             )}
 
                             {/* Navigation */}
-                            <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-8 pt-6 border-t border-gray-200">
                                 <button
                                     onClick={() => handleNavigate(video.previous_video_id)}
                                     disabled={!video.previous_video_id}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${video.previous_video_id
+                                    className={`w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${video.previous_video_id
                                         ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
                                         : 'border-gray-200 text-gray-400 cursor-not-allowed'
                                         }`}
@@ -253,8 +266,8 @@ export default function VideoWatch() {
                                 <button
                                     onClick={() => handleNavigate(video.next_video_id)}
                                     disabled={!video.next_video_id}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${video.next_video_id
-                                        ? 'bg-cyan-500 text-white hover:bg-cyan-600'
+                                    className={`w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-colors ${video.next_video_id
+                                        ? 'bg-cyan-500 text-white hover:bg-cyan-600 shadow-sm'
                                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                         }`}
                                 >
@@ -267,13 +280,16 @@ export default function VideoWatch() {
 
                     {/* Right Column - Course Playlist */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-xl border border-gray-200 sticky top-24">
+                        <div className="bg-white rounded-xl border border-gray-200 sticky top-24 shadow-sm">
                             {/* Playlist Header */}
-                            <div className="p-4 border-b border-gray-200">
-                                <h3 className="font-semibold text-gray-900">{courseVideos.course_title}</h3>
-                                <p className="text-sm text-gray-600 mt-1">
-                                    {completedCount} of {totalCount} videos completed
-                                </p>
+                            <div className="p-4 border-b border-gray-200 bg-gray-50/50">
+                                <h3 className="font-semibold text-gray-900 line-clamp-1">{courseVideos.course_title}</h3>
+                                <div className="flex items-center justify-between mt-1">
+                                    <p className="text-sm text-gray-600">
+                                        {completedCount} of {totalCount} completed
+                                    </p>
+                                    <span className="text-xs font-medium text-emerald-600">{progressPercentage}%</span>
+                                </div>
                                 <div className="w-full h-1.5 bg-gray-200 rounded-full mt-2 overflow-hidden">
                                     <div
                                         className="h-full bg-emerald-500 rounded-full transition-all"
@@ -283,7 +299,7 @@ export default function VideoWatch() {
                             </div>
 
                             {/* Video List */}
-                            <div className="max-h-[600px] overflow-y-auto">
+                            <div className="max-h-[400px] lg:max-h-[600px] overflow-y-auto">
                                 {courseVideos.videos.map((v, idx) => {
                                     const isCurrentVideo = v.id === video.id
                                     const isCompleted = v.is_completed
@@ -305,9 +321,9 @@ export default function VideoWatch() {
                                                     : 'bg-gray-100'
                                                 }`}>
                                                 {isCompleted ? (
-                                                    <CheckCircle className="w-5 h-5 text-emerald-600" />
+                                                    <CheckCircle className="w-4 h-4 text-emerald-600" />
                                                 ) : (
-                                                    <Play className={`w-4 h-4 ${isCurrentVideo ? 'text-white' : 'text-gray-400'}`} />
+                                                    <Play className={`w-3.5 h-3.5 ${isCurrentVideo ? 'text-white' : 'text-gray-400'}`} />
                                                 )}
                                             </div>
 
@@ -317,7 +333,7 @@ export default function VideoWatch() {
                                                     }`}>
                                                     Video {idx + 1}
                                                 </p>
-                                                <p className={`font-medium truncate ${isCurrentVideo ? 'text-cyan-700' : 'text-gray-900'
+                                                <p className={`text-sm font-medium line-clamp-2 ${isCurrentVideo ? 'text-cyan-700' : 'text-gray-900'
                                                     }`}>
                                                     {v.title}
                                                 </p>
