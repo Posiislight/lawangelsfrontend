@@ -118,27 +118,39 @@ if DATABASE_URL:
         'options': '-c statement_timeout=30000',
     }
 else:
-    # Fallback to individual environment variables
-    # Using port 6543 for Transaction Pooler mode (more concurrent connections)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME', 'postgres'),
-            'USER': os.getenv('DB_USER', 'postgres.kfviwdoyiknsnnnadkpe'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': os.getenv('DB_HOST', 'aws-1-eu-west-2.pooler.supabase.com'),
-            'PORT': os.getenv('DB_PORT', '6543'),  # Transaction pooler port (was 5432 for Session mode)
-            'CONN_MAX_AGE': 0,  # Must be 0 for transaction pooler mode
-            'CONN_HEALTH_CHECKS': True,
-            'OPTIONS': {
-                'sslmode': 'require',
-                'connect_timeout': 30,
-                'keepalives': 1,
-                'keepalives_idle': 30,
-                'options': '-c statement_timeout=30000',
+    # Fallback to individual environment variables or dummy DB for build
+    # During build (collectstatic), we don't need a real database connection
+    db_password = os.getenv('DB_PASSWORD')
+    if not db_password:
+        # Use SQLite dummy database during build when no DB credentials are available
+        # This allows collectstatic to run without database connection
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
             }
         }
-    }
+    else:
+        # Using port 6543 for Transaction Pooler mode (more concurrent connections)
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': os.getenv('DB_NAME', 'postgres'),
+                'USER': os.getenv('DB_USER', 'postgres.kfviwdoyiknsnnnadkpe'),
+                'PASSWORD': db_password,
+                'HOST': os.getenv('DB_HOST', 'aws-1-eu-west-2.pooler.supabase.com'),
+                'PORT': os.getenv('DB_PORT', '6543'),  # Transaction pooler port (was 5432 for Session mode)
+                'CONN_MAX_AGE': 0,  # Must be 0 for transaction pooler mode
+                'CONN_HEALTH_CHECKS': True,
+                'OPTIONS': {
+                    'sslmode': 'require',
+                    'connect_timeout': 30,
+                    'keepalives': 1,
+                    'keepalives_idle': 30,
+                    'options': '-c statement_timeout=30000',
+                }
+            }
+        }
 
 # ============================================================================
 # CACHE CONFIGURATION - PRODUCTION
