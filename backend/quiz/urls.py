@@ -14,6 +14,7 @@ from . import health_views
 from . import summary_notes_views
 from . import flashcard_views
 from . import practice_questions_views
+from . import billing_views
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
@@ -90,7 +91,14 @@ urlpatterns = [
     # Health check for warm-up pings (no auth required)
     path('health/', health_views.health_check, name='health-check'),
     
+    # Billing/Subscription routes
+    path('billing/status/', billing_views.SubscriptionStatusView.as_view(), name='billing-status'),
+    path('billing/create-checkout-session/', billing_views.CreateCheckoutSessionView.as_view(), name='billing-checkout'),
+    path('billing/create-portal-session/', billing_views.CreatePortalSessionView.as_view(), name='billing-portal'),
+    path('billing/webhook/', billing_views.stripe_webhook, name='billing-webhook'),
+    
     # Router must come AFTER custom routes
     path('', include(router.urls)),
 ]
+
 

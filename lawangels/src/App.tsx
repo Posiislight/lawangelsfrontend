@@ -43,6 +43,7 @@ import GamifiedQuizResults from './pages/GamifiedQuizResults'
 import TextbookReader from './pages/TextbookReader'
 import SummaryNotes from './pages/SummaryNotes'
 import SummaryNotesReader from './pages/SummaryNotesReader'
+import BillingPage from './pages/BillingPage'
 import { warmUpBackend } from './services/warmUpService'
 
 function App() {
@@ -274,6 +275,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <KeyTimeframes />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Billing - Protected */}
+          <Route
+            path="/billing"
+            element={
+              <ProtectedRoute>
+                <BillingPage />
               </ProtectedRoute>
             }
           />
