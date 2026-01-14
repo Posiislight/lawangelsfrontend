@@ -254,15 +254,34 @@ The Law Angels Team
 """
             
             try:
-                send_mail(
-                    subject=subject,
-                    message=message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    html_message=html_message,
-                    fail_silently=False,
-                )
-                logger.info(f"Password reset email sent to: {email}")
+                # Try Resend API first (more reliable than SMTP)
+                resend_api_key = os.environ.get('RESEND_API_KEY') or os.environ.get('EMAIL_HOST_PASSWORD')
+                
+                if resend_api_key and resend_api_key.startswith('re_'):
+                    import resend
+                    resend.api_key = resend_api_key
+                    
+                    from_email = os.environ.get('DEFAULT_FROM_EMAIL', 'Law Angels <noreply@lawangelsuk.com>')
+                    
+                    resend.Emails.send({
+                        "from": from_email,
+                        "to": [email],
+                        "subject": subject,
+                        "html": html_message,
+                        "text": message,
+                    })
+                    logger.info(f"Password reset email sent via Resend API to: {email}")
+                else:
+                    # Fallback to Django SMTP
+                    send_mail(
+                        subject=subject,
+                        message=message,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[email],
+                        html_message=html_message,
+                        fail_silently=False,
+                    )
+                    logger.info(f"Password reset email sent via SMTP to: {email}")
             except Exception as mail_error:
                 logger.error(f"Failed to send password reset email: {str(mail_error)}")
                 return Response(
