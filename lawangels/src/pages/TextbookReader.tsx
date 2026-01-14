@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
-    ChevronLeft, ChevronRight, Maximize2, Minimize2, Loader2, ArrowLeft, BookOpen, List
+    ChevronLeft, ChevronRight, Maximize2, Minimize2, Loader2, ArrowLeft, BookOpen, List,
+    Play, Pause, Square, Volume2
 } from 'lucide-react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { textbookApi } from '../services/textbookApi'
 import type { Textbook } from '../services/textbookApi'
+import { useAudioReader } from '../hooks/useAudioReader'
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
@@ -31,6 +33,11 @@ export default function TextbookReader() {
     const [showSidebar, setShowSidebar] = useState(true)
     const [pdfLoading, setPdfLoading] = useState(true)
     const [pageLoading, setPageLoading] = useState(false)
+    const [showAudioSettings, setShowAudioSettings] = useState(false)
+    const [pageText, setPageText] = useState<string>('')
+
+    // Audio reader hook
+    const audioReader = useAudioReader()
 
     // PDF URL with auth token
     const [pdfUrl, setPdfUrl] = useState<string>('')
@@ -93,9 +100,31 @@ export default function TextbookReader() {
         setPageLoading(true)
     }, [])
 
-    const onPageLoadSuccess = useCallback(() => {
+    const onPageLoadSuccess = useCallback(async (page: any) => {
         setPageLoading(false)
+        // Extract text from the page for audio reader
+        try {
+            const textContent = await page.getTextContent()
+            const text = textContent.items.map((item: any) => item.str).join(' ')
+            setPageText(text)
+        } catch (err) {
+            console.error('Error extracting text:', err)
+            setPageText('')
+        }
     }, [])
+
+    // Handle audio playback
+    const handlePlayPause = () => {
+        if (audioReader.isPlaying) {
+            audioReader.pause()
+        } else if (audioReader.isPaused) {
+            audioReader.resume()
+        } else {
+            if (pageText) {
+                audioReader.speak(pageText)
+            }
+        }
+    }
 
     const goToPreviousPage = () => {
         if (pageNumber > 1) {
@@ -234,8 +263,96 @@ export default function TextbookReader() {
                     </button>
                 </div>
 
-                {/* Fullscreen Toggle Only */}
-                <div className="flex items-center">
+                {/* Audio Controls */}
+                <div className="flex items-center gap-2 border-l border-gray-200 pl-4">
+                    {/* Play/Pause Button */}
+                    <button
+                        onClick={handlePlayPause}
+                        disabled={!pageText || pageLoading}
+                        className={`p-2 rounded-lg transition-colors ${audioReader.isPlaying || audioReader.isPaused
+                            ? 'bg-blue-100 text-blue-600'
+                            : 'hover:bg-gray-100 text-gray-600'
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        title={audioReader.isPlaying ? 'Pause' : audioReader.isPaused ? 'Resume' : 'Read Aloud'}
+                    >
+                        {audioReader.isPlaying ? (
+                            <Pause className="w-5 h-5" />
+                        ) : (
+                            <Play className="w-5 h-5" />
+                        )}
+                    </button>
+
+                    {/* Stop Button */}
+                    {(audioReader.isPlaying || audioReader.isPaused) && (
+                        <button
+                            onClick={audioReader.stop}
+                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600"
+                            title="Stop"
+                        >
+                            <Square className="w-5 h-5" />
+                        </button>
+                    )}
+
+                    {/* Speed Control */}
+                    <div className="relative">
+                        <button
+                            onClick={() => setShowAudioSettings(!showAudioSettings)}
+                            className={`p-2 rounded-lg transition-colors ${showAudioSettings ? 'bg-gray-100' : 'hover:bg-gray-100'
+                                } text-gray-600`}
+                            title="Audio Settings"
+                        >
+                            <Volume2 className="w-5 h-5" />
+                        </button>
+
+                        {/* Audio Settings Dropdown */}
+                        {showAudioSettings && (
+                            <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 p-4 z-50">
+                                <div className="mb-4">
+                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
+                                        Speed: {audioReader.rate}x
+                                    </label>
+                                    <input
+                                        type="range"
+                                        min="0.5"
+                                        max="2"
+                                        step="0.25"
+                                        value={audioReader.rate}
+                                        onChange={(e) => audioReader.setRate(parseFloat(e.target.value))}
+                                        className="w-full"
+                                    />
+                                    <div className="flex justify-between text-xs text-gray-400">
+                                        <span>0.5x</span>
+                                        <span>1x</span>
+                                        <span>2x</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
+                                        Voice
+                                    </label>
+                                    <select
+                                        value={audioReader.selectedVoice?.name || ''}
+                                        onChange={(e) => {
+                                            const voice = audioReader.voices.find(v => v.name === e.target.value)
+                                            if (voice) audioReader.setVoice(voice)
+                                        }}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        {audioReader.voices.map((voice) => (
+                                            <option key={voice.name} value={voice.name}>
+                                                {voice.name} ({voice.lang})
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Fullscreen Toggle */}
+                <div className="flex items-center border-l border-gray-200 pl-4">
                     <button
                         onClick={toggleFullscreen}
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
