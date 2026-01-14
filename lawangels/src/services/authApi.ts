@@ -142,6 +142,33 @@ export const authApi = {
       return { isAuthenticated: false, user: null }
     }
   },
+
+  async forgotPassword(email: string) {
+    try {
+      await fetchCsrfToken()
+      const response = await apiClient.post('auth/forgot_password/', { email })
+      return response.data
+    } catch (error: any) {
+      console.error('Forgot password error:', error)
+      throw error.response?.data || { success: false, message: 'Failed to send reset email' }
+    }
+  },
+
+  async resetPassword(uid: string, token: string, password: string, password2: string) {
+    try {
+      await fetchCsrfToken()
+      const response = await apiClient.post('auth/reset_password/', {
+        uid,
+        token,
+        password,
+        password2,
+      })
+      return response.data
+    } catch (error: any) {
+      console.error('Reset password error:', error)
+      throw error.response?.data || { success: false, message: 'Failed to reset password' }
+    }
+  },
 }
 
 // User type
@@ -160,3 +187,4 @@ export interface AuthState {
   isLoading: boolean
   error: string | null
 }
+

@@ -125,11 +125,18 @@ export default function Login() {
               />
             </div>
 
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <Link to="/forgot-password" className="text-sm text-[#0089FF] hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+
             {/* Sign In Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#0089FF] hover:bg-[#0077DD] disabled:bg-[#0089FF]/50 text-white font-semibold py-3 rounded-full transition mt-6 flex items-center justify-center gap-2"
+              className="w-full bg-[#0089FF] hover:bg-[#0077DD] disabled:bg-[#0089FF]/50 text-white font-semibold py-3 rounded-full transition mt-2 flex items-center justify-center gap-2"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
               {!isLoading && (
