@@ -236,7 +236,7 @@ D. Yes, but only if she can prove the owner acted with malice or intent to cause
 E. No, because the interference relates only to personal discomfort, not physical damage.
 Correct Answer: A.
 Explanation: A is correct. Private nuisance protects against unreasonable interference with the use or enjoyment of land. Continuous vibrations causing physical damage (cracks) are a classic example of a substantial interference. While the area's character (C) is relevant to reasonableness, it is not an absolute bar, and physical damage strongly indicates an actionable nuisance. B is incorrect. Operating with permits is not an automatic defence to a common law nuisance claim. Option D is incorrect. Malice is not a necessary element. While some claims rely on personal discomfort, the presence of physical damage here strengthens the claim significantly, making E incorrect.
-Question 14 - TORT
+Question 14 (TORT)
 A group of 200 protestors from the "Climate Action Collective" staged a slow-march demonstration along the entire length of the Cromwell Road, a major arterial route into central London. The protest lasted for five hours during the morning rush period, bringing all traffic to a complete standstill. Thousands of motorists were delayed. Among them was Felix, a self-employed courier, who missed three pre-booked, time-sensitive deliveries. As a result, he had to pay penalty fees under his contracts and lost a major client, causing significant financial loss.
 Does Felix have a viable cause of action in public nuisance against the Climate Action Collective?
 A. No, because the protest was an exercise of the right to peaceful assembly, which takes precedence.
@@ -420,7 +420,7 @@ Option B is incorrect. The loss is not guaranteed to be recovered; it is subject
 Option D is incorrect. Aidan would recover the £200,000 he paid if he rejected the system and recovered the money as restitution, but he would also be entitled to the loss of profit suffered during the delay, provided it was foreseeable.
 Option E is incorrect. Punitive (exemplary) damages are generally not available in English contract law, regardless of the wilfulness of the breach.
 
-Question 24 - (PROFESSIONAL ETHICS)
+Question 24 (PROFESSIONAL ETHICS)
 Emily is instructed by a manufacturer to draft a long-term supply contract with a distributor, and her retainer outlines fees and the general scope of her legal work. Several days later, the distributor independently contacts her to advise on the same contract from its perspective. Believing both parties to be cooperative, Emily accepts the second instruction. As negotiations progress, the manufacturer instructs her to include minimum purchase obligations, while the distributor instructs her to resist such obligations. Emily attempts to maintain neutrality but finds her drafting choices increasingly favouring one side or the other. She becomes concerned that she cannot advocate each party’s commercial objectives independently. When discussions become tense, both clients learn she has been acting for the other. 
 What should Emily have done in this instance?
 A. Decline to act for both clients unless they gave informed consent 
@@ -1127,7 +1127,7 @@ C is incorrect for the same reason; Corporation Tax does not apply to sole trade
 D is incorrect because while some savings interest may be tax-free due to the Personal Savings Allowance, it is still classed as savings income for the tax calculation and is not automatically entirely tax-free.
 E is incorrect because the UK tax system categorises income into different "slices" (non-savings, savings, dividends) which are taxed in a specific order and at different rates.
 
-Questio 59 (BUSINESS LAW)
+Question 59 (BUSINESS LAW)
 Ben has run his own unincorporated bakery as a sole trader for 15 years. He sells the entire business as a going concern, realising a chargeable gain of £900,000 on the business assets. He has not used any Business Asset Disposal Relief (BADR) before.
 What is the rate of Capital Gains Tax (CGT) that Ben will pay on this gain?
 A. 10%

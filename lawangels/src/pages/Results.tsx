@@ -24,7 +24,29 @@ interface AnswerWithQuestion extends QuestionAnswer {
 
 type AnswerFilter = 'all' | 'wrong' | 'right'
 
+
+const TOPIC_LABELS: Record<string, string> = {
+  'taxation': 'Taxation',
+  'criminal_law': 'Criminal Law',
+  'criminal_practice': 'Criminal Practice',
+  'land_law': 'Land Law',
+  'solicitors_accounts': 'Solicitors Accounts',
+  'professional_ethics': 'Professional Ethics',
+  'trusts': 'Trusts & Equity',
+  'wills': 'Wills & Administration',
+  'property': 'Property Transactions',
+  'commercial': 'Commercial Law',
+  'mixed': 'Mixed Topics',
+  'contract_law': 'Contract Law',
+  'business_law': 'Business Law',
+  'legal_services': 'Legal Services',
+  'tort': 'Tort',
+  'dispute_resolution': 'Dispute Resolution',
+  'constitutional_law': 'Constitutional Law'
+}
+
 export default function Results() {
+
   const { attemptId } = useParams<{ attemptId: string }>()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
@@ -195,6 +217,28 @@ export default function Results() {
   }
 
   const motivational = getMotivationalContent()
+
+  // Calculate topic stats
+  const topicStats = answers.reduce((acc, answer) => {
+    // Topic is now correctly set in DB (e.g. 'contract_law', 'business_law')
+    let topicLabel = answer.question.topic || 'Other Topics'
+
+    // Normalize: If we have manual overrides in TOPIC_LABELS, use them
+    // Otherwise convert snake_case to Title Case
+    topicLabel = TOPIC_LABELS[topicLabel] || topicLabel.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
+    // Use the label as the key for grouping
+    const topicKey = topicLabel
+
+    if (!acc[topicKey]) {
+      acc[topicKey] = { total: 0, correct: 0 }
+    }
+    acc[topicKey].total++
+    if (answer.is_correct) {
+      acc[topicKey].correct++
+    }
+    return acc
+  }, {} as Record<string, { total: number; correct: number }>)
 
   // Filter answers
   const filteredAnswers = answers.filter(answer => {
@@ -394,6 +438,45 @@ export default function Results() {
             <div className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
               {totalQuestions}/{totalQuestions}
             </div>
+          </div>
+        </div>
+
+        {/* Topic Analysis */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-[#0F172B] rounded-lg flex items-center justify-center">
+              <span className="text-blue-400"><BarChart3 className="w-4 h-4 text-white" /></span>
+            </div>
+            <h2 className="text-2xl font-normal text-gray-900">Course Analysis</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            {Object.entries(topicStats).map(([label, stats]) => {
+              const percentage = Math.round((stats.correct / stats.total) * 100)
+
+              return (
+                <div key={label}>
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="text-sm font-medium text-gray-700">{label}</span>
+                    <div className="text-right">
+                      <span className={`text-sm font-bold ${percentage >= 60 ? 'text-green-600' : 'text-orange-600'}`}>
+                        {percentage}%
+                      </span>
+                      <span className="text-xs text-gray-400 ml-1">
+                        ({stats.correct}/{stats.total})
+                      </span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-1000 ${percentage >= 60 ? 'bg-green-500' : 'bg-orange-400'
+                        }`}
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
 

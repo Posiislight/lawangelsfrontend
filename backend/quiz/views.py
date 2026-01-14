@@ -439,17 +439,25 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         for frontend to show/hide with JavaScript (no additional API calls needed)
         
         Performance:
-        - Fast single request: 300-400ms, ~40KB payload
-        - All data available for instant JS toggle of answers
-        - No waiting for additional API calls after submission
+        - Optimized: Uses direct ID lookup instead of M2M traversal
+        - Target: < 2 seconds for 90 questions
         """
         try:
             start_time = time.time()
             attempt = self.get_object()
             
-            # Load questions with all fields for complete data
-            questions = attempt.selected_questions.prefetch_related('options').order_by('id')
-            question_count = questions.count()
+            # OPTIMIZED: Get question IDs first, then fetch questions directly
+            # This avoids the slow M2M through-table traversal
+            question_ids = list(attempt.selected_questions.values_list('id', flat=True))
+            
+            # Direct query with explicit prefetch for options
+            questions = Question.objects.filter(
+                id__in=question_ids
+            ).prefetch_related(
+                'options'
+            ).order_by('question_number')
+            
+            question_count = len(question_ids)
             
             fetch_time = (time.time() - start_time) * 1000
             start_time = time.time()

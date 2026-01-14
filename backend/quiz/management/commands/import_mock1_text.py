@@ -55,34 +55,45 @@ class Command(BaseCommand):
         
         questions = []
         
-        # Split by "Question N" pattern
-        question_pattern = r'Question\s+(\d+)\s*(?:\([^)]*\))?'
+        # Split by "Question N (Subject)" pattern
+        # Captures: 1=Number, 2=Subject(optional)
+        # Handle variations in spacing and parentheses
+        question_pattern = r'Question\s+(\d+)\s*(?:\(([^)]+)\))?'
         parts = re.split(question_pattern, content)
         
-        # Skip the first part (before first question)
-        for i in range(1, len(parts), 2):
-            if i + 1 >= len(parts):
+        # parts structure: [header, num, subject, content, num, subject, content...]
+        # Step is 3 because we have 2 capturing groups
+        
+        for i in range(1, len(parts), 3):
+            if i + 2 >= len(parts):
                 break
                 
             q_num = int(parts[i])
-            q_content = parts[i + 1].strip()
+            q_topic_raw = parts[i + 1]
+            q_content = parts[i + 2].strip()
             
             # Parse this question
-            q_data = self.parse_question(q_num, q_content)
+            q_data = self.parse_question(q_num, q_content, q_topic_raw)
             if q_data:
                 questions.append(q_data)
         
         return questions
 
-    def parse_question(self, q_num, content):
+    def parse_question(self, q_num, content, topic_raw=None):
         """Parse a single question's content"""
+        # Determine topic
+        topic = 'criminal_law' # default
+        if topic_raw:
+            # Normalize: "Contract law" -> "contract_law"
+            topic = topic_raw.strip().lower().replace(' ', '_').replace('-', '_')
+            
         question_data = {
             'number': q_num,
             'text': '',
             'options': {},
             'correct_answer': None,
             'explanation': '',
-            'topic': 'criminal_law',  # default
+            'topic': topic,
         }
         
         lines = content.split('\n')
