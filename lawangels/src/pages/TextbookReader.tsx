@@ -297,11 +297,12 @@ export default function TextbookReader() {
                     <div className="relative">
                         <button
                             onClick={() => setShowAudioSettings(!showAudioSettings)}
-                            className={`p-2 rounded-lg transition-colors ${showAudioSettings ? 'bg-gray-100' : 'hover:bg-gray-100'
+                            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors ${showAudioSettings ? 'bg-gray-100' : 'hover:bg-gray-100'
                                 } text-gray-600`}
                             title="Audio Settings"
                         >
                             <Volume2 className="w-5 h-5" />
+                            <span className="text-sm font-medium">Audio Options</span>
                         </button>
 
                         {/* Audio Settings Dropdown */}
