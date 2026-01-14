@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, Loader2, CheckCircle, Bookmark, Share2 } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Loader2, CheckCircle } from 'lucide-react'
 import { summaryNotesApi, type SummaryNotesDetail, type SummaryNotesChapterDetail } from '../services/summaryNotesApi'
 
 // Brand colors
@@ -16,28 +16,48 @@ export default function SummaryNotesReader() {
     const [error, setError] = useState<string | null>(null)
     const [completedChapters, setCompletedChapters] = useState<number[]>([])
 
-    // Load summary notes
+    // Load summary notes and chapter in parallel when possible
     useEffect(() => {
-        const loadNotes = async () => {
+        const loadData = async () => {
             if (!id) return
             try {
                 setLoading(true)
-                const data = await summaryNotesApi.get(parseInt(id))
-                setNotes(data)
+                const notesId = parseInt(id)
 
-                // Get completed chapters from user progress
-                const completedIds = data.chapters
-                    .filter(c => c.is_completed)
-                    .map(c => c.id)
-                setCompletedChapters(completedIds)
+                // If we have a chapter ID from URL, fetch BOTH in parallel
+                if (chapterId) {
+                    const [data, chapterData] = await Promise.all([
+                        summaryNotesApi.get(notesId),
+                        summaryNotesApi.getChapter(notesId, parseInt(chapterId))
+                    ])
 
-                // Load first chapter or current chapter
-                const targetChapterId = chapterId
-                    ? parseInt(chapterId)
-                    : data.current_chapter_id || data.chapters[0]?.id
+                    setNotes(data)
+                    setChapter(chapterData)
 
-                if (targetChapterId) {
-                    await loadChapter(parseInt(id), targetChapterId)
+                    // Get completed chapters from user progress
+                    const completedIds = data.chapters
+                        .filter(c => c.is_completed)
+                        .map(c => c.id)
+                    setCompletedChapters(completedIds)
+
+                    // Fire-and-forget progress update (don't block UI)
+                    summaryNotesApi.updateProgress(notesId, parseInt(chapterId), false).catch(console.error)
+                } else {
+                    // No chapter ID - fetch notes first, then determine chapter
+                    const data = await summaryNotesApi.get(notesId)
+                    setNotes(data)
+
+                    // Get completed chapters from user progress
+                    const completedIds = data.chapters
+                        .filter(c => c.is_completed)
+                        .map(c => c.id)
+                    setCompletedChapters(completedIds)
+
+                    // Load first chapter or current chapter
+                    const targetChapterId = data.current_chapter_id || data.chapters[0]?.id
+                    if (targetChapterId) {
+                        await loadChapter(notesId, targetChapterId)
+                    }
                 }
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to load notes')
@@ -45,8 +65,8 @@ export default function SummaryNotesReader() {
                 setLoading(false)
             }
         }
-        loadNotes()
-    }, [id])
+        loadData()
+    }, [id, chapterId])
 
     const loadChapter = useCallback(async (notesId: number, chapId: number) => {
         try {
@@ -54,8 +74,8 @@ export default function SummaryNotesReader() {
             const chapterData = await summaryNotesApi.getChapter(notesId, chapId)
             setChapter(chapterData)
 
-            // Update progress
-            await summaryNotesApi.updateProgress(notesId, chapId, false)
+            // Fire-and-forget progress update (don't block UI)
+            summaryNotesApi.updateProgress(notesId, chapId, false).catch(console.error)
 
             // Update URL without reload
             window.history.replaceState({}, '', `/summary-notes/${notesId}/chapter/${chapId}`)
@@ -214,13 +234,13 @@ export default function SummaryNotesReader() {
             {/* Top Header - Sticky */}
             <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-                    {/* Back to Dashboard */}
+                    {/* Back to Summary Notes */}
                     <Link
-                        to="/dashboard"
+                        to="/summary-notes"
                         className="flex items-center gap-2 text-gray-500 hover:text-sky-500 transition-colors font-medium"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        <span>Dashboard</span>
+                        <span>Summary Notes</span>
                     </Link>
 
                     {/* Center Title */}
@@ -248,8 +268,8 @@ export default function SummaryNotesReader() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
-                <div className="flex flex-col lg:flex-row gap-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 overflow-hidden">
+                <div className="flex flex-col lg:flex-row gap-8 h-full">
                     {/* Left Sidebar - Chapters */}
                     <aside className="w-full lg:w-96 flex-shrink-0">
                         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 sticky top-24">
@@ -336,17 +356,9 @@ export default function SummaryNotesReader() {
                     </aside>
 
                     {/* Right Content Area */}
-                    <div className="flex-1 flex flex-col space-y-6">
+                    <div className="flex-1 flex flex-col space-y-6 min-h-0">
                         {/* Content Toolbar */}
-                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex justify-between items-center">
-                            <div className="flex space-x-4">
-                                <button className="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors">
-                                    <Bookmark className="w-5 h-5" />
-                                </button>
-                                <button className="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors">
-                                    <Share2 className="w-5 h-5" />
-                                </button>
-                            </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex justify-end items-center">
                             <div className="flex space-x-3">
                                 <button
                                     onClick={handlePrevious}
@@ -367,7 +379,7 @@ export default function SummaryNotesReader() {
                         </div>
 
                         {/* Chapter Content */}
-                        <article className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm border border-gray-100">
+                        <article className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm border border-gray-100 flex-1 overflow-y-auto max-h-[calc(100vh-280px)]">
                             {chapterLoading ? (
                                 <div className="flex items-center justify-center py-20">
                                     <Loader2 className="w-6 h-6 animate-spin" style={{ color: PRIMARY_COLOR }} />

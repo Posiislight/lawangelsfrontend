@@ -133,6 +133,8 @@ function getAuthToken(): string | null {
 
 // Cache for courses list (60 seconds)
 let coursesCache: { data: VideoCourse[]; timestamp: number } | null = null;
+// Cache for full page data (courses + stats)
+let pageDataCache: { data: { courses: VideoCourse[]; stats: OverallVideoStats }; timestamp: number } | null = null;
 const CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 
 class VideoApiClient {
@@ -211,6 +213,7 @@ class VideoApiClient {
     // Clear cache (call after marking video complete)
     clearCache(): void {
         coursesCache = null;
+        pageDataCache = null;
     }
 
     // ============ Videos ============
@@ -241,11 +244,20 @@ class VideoApiClient {
 
     /**
      * OPTIMIZED: Get all data for VideoTutorials page in ONE call
-     * Much faster than calling getCourses() + getOverallStats() separately
+     * Uses cache to avoid refetching when navigating back
      */
     async getPageData(): Promise<{ courses: VideoCourse[]; stats: OverallVideoStats }> {
+        // Use cache if available and not expired
+        if (pageDataCache) {
+            const age = Date.now() - pageDataCache.timestamp;
+            if (age < CACHE_DURATION_MS) {
+                return pageDataCache.data;
+            }
+        }
+
         const response = await this.request<{ courses: VideoCourse[]; stats: OverallVideoStats }>('/video-progress/page_data/');
-        // Update cache with the courses
+        // Update both caches
+        pageDataCache = { data: response, timestamp: Date.now() };
         coursesCache = { data: response.courses, timestamp: Date.now() };
         return response;
     }

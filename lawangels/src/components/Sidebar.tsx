@@ -100,6 +100,9 @@ export default function Sidebar() {
               <Link to="/practice-questions" className="block" onClick={handleNavClick}>
                 <NavItem icon={<ClipboardList className="w-5 h-5" />} label="Practice Questions" active={isActive('/practice-questions')} open={true} />
               </Link>
+              <Link to="/summary-notes" className="block" onClick={handleNavClick}>
+                <NavItem icon={<FileText className="w-5 h-5" />} label="Summary Notes" active={isActive('/summary-notes')} open={true} />
+              </Link>
             </div>
 
             {/* Learning Tools */}
@@ -197,6 +200,9 @@ export default function Sidebar() {
           </Link>
           <Link to="/practice-questions" className="block">
             <NavItem icon={<ClipboardList className="w-5 h-5" />} label="Practice Questions" active={isActive('/practice-questions')} open={sidebarOpen} />
+          </Link>
+          <Link to="/summary-notes" className="block">
+            <NavItem icon={<FileText className="w-5 h-5" />} label="Summary Notes" active={isActive('/summary-notes')} open={sidebarOpen} />
           </Link>
         </div>
 
