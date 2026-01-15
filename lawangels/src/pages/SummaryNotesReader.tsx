@@ -386,25 +386,37 @@ export default function SummaryNotesReader() {
                                 </div>
                             ) : chapter ? (
                                 <>
-                                    <h2 className="text-2xl font-bold text-gray-900 mb-6">{chapter.title}</h2>
+                                    <div className="max-w-3xl mx-auto">
+                                        {/* Chapter Header */}
+                                        <div className="text-center mb-12 pb-8 border-b border-gray-200">
+                                            <p className="text-sm font-bold tracking-widest text-gray-500 uppercase mb-2 font-sans">
+                                                Chapter {chapter.chapter_number}
+                                            </p>
+                                            <h2 className="text-3xl font-extrabold text-black uppercase tracking-tight font-serif leading-tight">
+                                                {chapter.title}
+                                            </h2>
+                                        </div>
 
-                                    {/* Render HTML content with prose styling */}
-                                    <div
-                                        className="prose max-w-none text-gray-600 prose-sm
-                                            prose-headings:text-gray-900
-                                            prose-h3:text-lg prose-h3:font-bold prose-h3:mb-3 prose-h3:mt-6
-                                            prose-h4:text-base prose-h4:font-bold prose-h4:mb-2
-                                            prose-p:mb-4 prose-p:leading-relaxed
-                                            prose-ul:space-y-2 prose-ul:mb-6 prose-ul:list-none prose-ul:pl-0
-                                            prose-li:pl-4 prose-li:border-l-2 prose-li:border-gray-200
-                                            prose-strong:text-gray-900
-                                            prose-blockquote:bg-sky-50 prose-blockquote:border-l-4 prose-blockquote:border-sky-500 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-gray-700"
-                                        dangerouslySetInnerHTML={{ __html: chapter.content }}
-                                    />
+                                        {/* Render HTML content with textbook styling */}
+                                        <div
+                                            className="prose prose-lg max-w-none font-serif text-black
+                                                prose-headings:font-bold prose-headings:text-black prose-headings:font-serif
+                                                prose-h1:text-2xl prose-h1:text-center prose-h1:uppercase prose-h1:mb-8
+                                                prose-h2:text-xl prose-h2:uppercase prose-h2:tracking-wide prose-h2:mt-10 prose-h2:mb-4
+                                                prose-h3:text-lg prose-h3:font-bold prose-h3:text-black prose-h3:mt-8 prose-h3:mb-3
+                                                prose-p:leading-relaxed prose-p:mb-6 prose-p:text-justify
+                                                prose-strong:font-bold prose-strong:text-black
+                                                prose-ul:list-disc prose-ul:pl-5 prose-ul:space-y-2
+                                                prose-ol:list-decimal prose-ol:pl-5 prose-ol:space-y-4
+                                                prose-li:marker:text-black prose-li:pl-1
+                                                prose-blockquote:border-l-4 prose-blockquote:border-gray-900 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-800"
+                                            dangerouslySetInnerHTML={{ __html: chapter.content }}
+                                        />
+                                    </div>
 
                                     {/* Mark Complete Button */}
                                     {!completedChapters.includes(chapter.id) && (
-                                        <div className="mt-12 pt-8 border-t border-gray-100">
+                                        <div className="max-w-3xl mx-auto mt-12 pt-8 border-t border-gray-100">
                                             <button
                                                 onClick={handleMarkComplete}
                                                 disabled={markingComplete}
@@ -462,10 +474,10 @@ export default function SummaryNotesReader() {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main >
 
             {/* Bottom Spacer */}
-            <div className="h-12" />
-        </div>
+            < div className="h-12" />
+        </div >
     )
 }
