@@ -148,14 +148,30 @@ class SyncSubscriptionView(APIView):
             
             if stripe_subscriptions.data:
                 stripe_sub = stripe_subscriptions.data[0]
+                # Convert to dict for safer attribute access (Stripe API v14 compatibility)
+                sub_data = stripe_sub.to_dict() if hasattr(stripe_sub, 'to_dict') else stripe_sub
+                
                 subscription.stripe_subscription_id = stripe_sub.id
                 subscription.status = Subscription.STATUS_ACTIVE
-                subscription.current_period_start = datetime.fromtimestamp(
-                    stripe_sub.current_period_start, tz=timezone.utc
-                )
-                subscription.current_period_end = datetime.fromtimestamp(
-                    stripe_sub.current_period_end, tz=timezone.utc
-                )
+                
+                # Get period timestamps safely
+                period_start = sub_data.get('current_period_start')
+                period_end = sub_data.get('current_period_end')
+                
+                if period_start:
+                    subscription.current_period_start = datetime.fromtimestamp(
+                        period_start, tz=timezone.utc
+                    )
+                if period_end:
+                    subscription.current_period_end = datetime.fromtimestamp(
+                        period_end, tz=timezone.utc
+                    )
+                else:
+                    # Fallback: set period to 1 year from now
+                    from datetime import timedelta
+                    subscription.current_period_start = timezone.now()
+                    subscription.current_period_end = timezone.now() + timedelta(days=365)
+                
                 subscription.save()
                 
                 return Response({
@@ -175,7 +191,6 @@ class SyncSubscriptionView(APIView):
                 {'error': str(e)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
 
 
 @csrf_exempt
