@@ -30,6 +30,16 @@ export default function BillingPage() {
     const loadStatus = useCallback(async () => {
         try {
             setLoading(true)
+
+            // If returning from successful checkout, sync with Stripe first
+            if (success) {
+                try {
+                    await billingApi.syncSubscription()
+                } catch {
+                    // Sync failed, but we'll still load the status
+                }
+            }
+
             const data = await billingApi.getStatus()
             setStatus(data)
         } catch (err) {
@@ -37,7 +47,7 @@ export default function BillingPage() {
         } finally {
             setLoading(false)
         }
-    }, [])
+    }, [success])
 
     useEffect(() => {
         loadStatus()

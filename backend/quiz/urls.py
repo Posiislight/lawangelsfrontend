@@ -95,6 +95,7 @@ urlpatterns = [
     path('billing/status/', billing_views.SubscriptionStatusView.as_view(), name='billing-status'),
     path('billing/create-checkout-session/', billing_views.CreateCheckoutSessionView.as_view(), name='billing-checkout'),
     path('billing/create-portal-session/', billing_views.CreatePortalSessionView.as_view(), name='billing-portal'),
+    path('billing/sync-subscription/', billing_views.SyncSubscriptionView.as_view(), name='billing-sync'),
     path('billing/webhook/', billing_views.stripe_webhook, name='billing-webhook'),
     
     # Router must come AFTER custom routes

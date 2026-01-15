@@ -122,6 +122,62 @@ class CreatePortalSessionView(APIView):
             )
 
 
+class SyncSubscriptionView(APIView):
+    """
+    Sync subscription status from Stripe.
+    Called after successful checkout to immediately reflect payment.
+    """
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        try:
+            subscription = Subscription.get_or_create_for_user(request.user)
+            
+            if not subscription.stripe_customer_id:
+                return Response({
+                    'synced': False,
+                    'message': 'No Stripe customer found'
+                })
+            
+            # Query Stripe for active subscriptions for this customer
+            stripe_subscriptions = stripe.Subscription.list(
+                customer=subscription.stripe_customer_id,
+                status='active',
+                limit=1
+            )
+            
+            if stripe_subscriptions.data:
+                stripe_sub = stripe_subscriptions.data[0]
+                subscription.stripe_subscription_id = stripe_sub.id
+                subscription.status = Subscription.STATUS_ACTIVE
+                subscription.current_period_start = datetime.fromtimestamp(
+                    stripe_sub.current_period_start, tz=timezone.utc
+                )
+                subscription.current_period_end = datetime.fromtimestamp(
+                    stripe_sub.current_period_end, tz=timezone.utc
+                )
+                subscription.save()
+                
+                return Response({
+                    'synced': True,
+                    'status': subscription.status,
+                    'is_valid': subscription.is_valid,
+                    'current_period_end': subscription.current_period_end,
+                })
+            else:
+                return Response({
+                    'synced': False,
+                    'message': 'No active subscription found in Stripe'
+                })
+                
+        except stripe.error.StripeError as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+
 @csrf_exempt
 @require_POST
 def stripe_webhook(request):

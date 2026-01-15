@@ -159,6 +159,16 @@ class BillingApiClient {
         const portalUrl = await this.createPortalSession();
         window.location.href = portalUrl;
     }
+
+    /**
+     * Sync subscription status from Stripe
+     * Call this after successful checkout to immediately reflect payment
+     */
+    async syncSubscription(): Promise<{ synced: boolean; status?: string; is_valid?: boolean }> {
+        return this.request<{ synced: boolean; status?: string; is_valid?: boolean }>('/billing/sync-subscription/', {
+            method: 'POST',
+        });
+    }
 }
 
 // Export singleton instance
