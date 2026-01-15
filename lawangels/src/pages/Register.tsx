@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { billingApi } from '../services/billingApi'
-import { AlertCircle, Target, RefreshCw, BookOpen, Plus, Eye, EyeOff, ArrowLeft } from 'lucide-react'
+import { AlertCircle, Target, RefreshCw, BookOpen, Plus, Eye, EyeOff, ArrowLeft, Camera } from 'lucide-react'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
 import avatar1 from '../assets/avatars/Frame 23.png'
@@ -47,6 +47,33 @@ export default function Register() {
   const [studyGoal, setStudyGoal] = useState<StudyGoal | null>(null)
   const [studyTime, setStudyTime] = useState<StudyTime | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
+  const [customAvatarPreview, setCustomAvatarPreview] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Handle custom avatar upload
+  const handleCustomAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setValidationError('Please select an image file')
+        return
+      }
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setValidationError('Image must be less than 5MB')
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setCustomAvatarPreview(reader.result as string)
+        setSelectedAvatar('custom')
+        if (validationError) setValidationError('')
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const isStep1Valid = fullName && email && password && password.length >= 8
   const isStep2Valid = studyGoal && studyTime && selectedAvatar
@@ -346,10 +373,42 @@ export default function Register() {
               {/* Avatar Selection */}
               <div>
                 <h2 className="text-lg font-semibold text-[#111418] mb-4">Choose your profile icon</h2>
+
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleCustomAvatarUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
+
                 <div className="flex flex-wrap gap-4 justify-center">
-                  {avatarOptions.map((avatar) => (
+                  {/* Custom upload button */}
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`w-16 h-16 rounded-full border-3 flex items-center justify-center transition-all overflow-hidden p-0 ${selectedAvatar === 'custom'
+                      ? 'border-[#0089FF] ring-4 ring-[#0089FF]/10'
+                      : 'border-[#E2E8F0] hover:border-[#0089FF]/30 border-dashed'
+                      }`}
+                    title="Upload custom photo"
+                  >
+                    {customAvatarPreview ? (
+                      <img src={customAvatarPreview} alt="Custom avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <Camera className="w-5 h-5 text-[#0089FF]" />
+                        <Plus className="w-3 h-3 text-[#0089FF] -mt-1" />
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Preset avatars */}
+                  {avatarOptions.filter(a => a.id !== 'custom').map((avatar) => (
                     <button
                       key={avatar.id}
+                      type="button"
                       onClick={() => {
                         setSelectedAvatar(avatar.id)
                         if (validationError) setValidationError('')
@@ -360,15 +419,13 @@ export default function Register() {
                         }`}
                       title={avatar.name}
                     >
-                      {avatar.image ? (
-                        <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <Plus className="w-6 h-6 text-[#0089FF]" />
-                      )}
+                      <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
-                <p className="text-xs text-[#617289] text-center mt-4">Custom</p>
+                <p className="text-xs text-[#617289] text-center mt-4">
+                  {customAvatarPreview ? 'Custom photo selected' : 'Click the camera icon to upload your own photo'}
+                </p>
               </div>
             </div>
           )}
