@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
+import { useSearchParams, Link, useNavigate } from 'react-router-dom'
 import {
     CreditCard,
     CheckCircle,
@@ -17,6 +17,7 @@ import { billingApi, type SubscriptionStatus } from '../services/billingApi'
 const PRIMARY_COLOR = '#0EA5E9'
 
 export default function BillingPage() {
+    const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const [status, setStatus] = useState<SubscriptionStatus | null>(null)
     const [loading, setLoading] = useState(true)
@@ -27,19 +28,30 @@ export default function BillingPage() {
     const success = searchParams.get('success') === 'true'
     const cancelled = searchParams.get('cancelled') === 'true'
 
+    // Auto-redirect to login after successful payment
+    useEffect(() => {
+        if (success) {
+            // Sync subscription in background
+            billingApi.syncSubscription().catch(() => { })
+
+            // Redirect to login after 3 seconds
+            const timer = setTimeout(() => {
+                navigate('/login')
+            }, 3000)
+
+            return () => clearTimeout(timer)
+        }
+    }, [success, navigate])
+
     const loadStatus = useCallback(async () => {
+        // Skip loading if success - we show dedicated success screen
+        if (success) {
+            setLoading(false)
+            return
+        }
+
         try {
             setLoading(true)
-
-            // If returning from successful checkout, sync with Stripe first
-            if (success) {
-                try {
-                    await billingApi.syncSubscription()
-                } catch {
-                    // Sync failed, but we'll still load the status
-                }
-            }
-
             const data = await billingApi.getStatus()
             setStatus(data)
         } catch (err) {
@@ -118,6 +130,31 @@ export default function BillingPage() {
                 {badge.icon}
                 {badge.text}
             </span>
+        )
+    }
+
+    // If payment was successful, show success screen and redirect to login
+    if (success) {
+        return (
+            <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center px-4">
+                <div className="max-w-md w-full text-center">
+                    <div className="w-20 h-20 mx-auto mb-6 bg-emerald-100 rounded-full flex items-center justify-center">
+                        <CheckCircle className="w-10 h-10 text-emerald-600" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h1>
+                    <p className="text-gray-600 mb-6">
+                        Thank you for subscribing. Your account is now active with full access to all features.
+                    </p>
+                    <p className="text-sm text-gray-500 mb-4">Redirecting to login...</p>
+                    <Link
+                        to="/login"
+                        className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
+                        style={{ backgroundColor: PRIMARY_COLOR }}
+                    >
+                        Go to Login
+                    </Link>
+                </div>
+            </div>
         )
     }
 
