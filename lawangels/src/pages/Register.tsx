@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { billingApi } from '../services/billingApi'
 import { AlertCircle, Target, RefreshCw, BookOpen, Plus, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
@@ -32,7 +33,7 @@ const avatarOptions: AvatarOption[] = [
 
 export default function Register() {
   const navigate = useNavigate()
-  const { login, isLoading, error, clearError } = useAuth()
+  const { login, register, isLoading, error, clearError } = useAuth()
   const [step, setStep] = useState(1)
   const [showPassword, setShowPassword] = useState(false)
   const [validationError, setValidationError] = useState('')
@@ -47,16 +48,9 @@ export default function Register() {
   const [studyTime, setStudyTime] = useState<StudyTime | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
 
-  // Step 3: Billing
-  const [billingAddress, setBillingAddress] = useState('')
-  const [city, setCity] = useState('')
-  const [postcode, setPostcode] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState<'credit' | 'paypal' | null>(null)
-  const [country, setCountry] = useState('')
-
   const isStep1Valid = fullName && email && password && password.length >= 8
   const isStep2Valid = studyGoal && studyTime && selectedAvatar
-  const isStep3Valid = billingAddress && city && postcode && paymentMethod && country
+  const isStep3Valid = true  // Step 3 just shows price, no validation needed
 
   const handleNextStep = () => {
     setValidationError('')
@@ -94,26 +88,7 @@ export default function Register() {
       }
       setStep(3)
     } else if (step === 3) {
-      if (!billingAddress.trim()) {
-        setValidationError('Billing address is required')
-        return
-      }
-      if (!city.trim()) {
-        setValidationError('City is required')
-        return
-      }
-      if (!postcode.trim()) {
-        setValidationError('Postcode is required')
-        return
-      }
-      if (!paymentMethod) {
-        setValidationError('Please select a payment method')
-        return
-      }
-      if (!country.trim()) {
-        setValidationError('Country is required')
-        return
-      }
+      // Step 3 just shows the price - clicking "Complete Setup" triggers registration + Stripe checkout
       handleSubmit()
     }
   }
@@ -127,10 +102,27 @@ export default function Register() {
 
   const handleSubmit = async () => {
     try {
+      // Parse full name into first/last name
+      const nameParts = fullName.trim().split(' ')
+      const firstName = nameParts[0] || ''
+      const lastName = nameParts.slice(1).join(' ') || ''
+
+      // Register the user
+      await register(email, email, password, password, firstName, lastName)
+
+      // Login the user after registration
       await login(email, password)
-      navigate('/dashboard')
+
+      // Redirect to Stripe checkout for payment
+      try {
+        await billingApi.redirectToCheckout()
+      } catch (stripeError) {
+        // If Stripe checkout fails, still navigate to dashboard
+        // User can pay later from billing page
+        navigate('/dashboard')
+      }
     } catch (err) {
-      // Error is handled by context
+      // Registration or login failed - error is handled by context
     }
   }
 
@@ -309,8 +301,8 @@ export default function Register() {
                           if (validationError) setValidationError('')
                         }}
                         className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${studyGoal === option.value
-                            ? 'border-[#0089FF] bg-[#F0F8FF]'
-                            : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
+                          ? 'border-[#0089FF] bg-[#F0F8FF]'
+                          : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
                           }`}
                       >
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${studyGoal === option.value ? 'bg-[#0089FF]' : 'bg-[#F3F4F6]'
@@ -341,8 +333,8 @@ export default function Register() {
                         if (validationError) setValidationError('')
                       }}
                       className={`p-3 rounded-lg border-2 transition-all text-center font-medium text-sm ${studyTime === option.value
-                          ? 'border-[#0089FF] bg-[#F0F8FF] text-[#0089FF]'
-                          : 'border-[#E2E8F0] text-[#617289] hover:border-[#0089FF]/30'
+                        ? 'border-[#0089FF] bg-[#F0F8FF] text-[#0089FF]'
+                        : 'border-[#E2E8F0] text-[#617289] hover:border-[#0089FF]/30'
                         }`}
                     >
                       {option.label}
@@ -363,8 +355,8 @@ export default function Register() {
                         if (validationError) setValidationError('')
                       }}
                       className={`w-16 h-16 rounded-full border-3 flex items-center justify-center transition-all overflow-hidden p-0 ${selectedAvatar === avatar.id
-                          ? 'border-[#0089FF] ring-4 ring-[#0089FF]/10'
-                          : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
+                        ? 'border-[#0089FF] ring-4 ring-[#0089FF]/10'
+                        : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
                         }`}
                       title={avatar.name}
                     >
@@ -381,117 +373,64 @@ export default function Register() {
             </div>
           )}
 
-          {/* Step 3: Billing */}
+          {/* Step 3: Payment - Stripe Integration */}
           {step === 3 && (
             <div className="space-y-6">
-              {/* Billing Address */}
-              <div>
-                <label className="block text-sm font-medium text-[#111418] mb-2">Billing Address <span className="text-red-500">*</span></label>
-                <div className="relative">
-                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9CA3AF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <input
-                    type="text"
-                    placeholder="Street address"
-                    value={billingAddress}
-                    onChange={(e) => {
-                      setBillingAddress(e.target.value)
-                      if (validationError) setValidationError('')
-                    }}
-                    className="w-full pl-12 pr-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] focus:border-transparent text-base"
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-
-              {/* City & Postcode */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-[#111418] mb-2">City <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    placeholder="London"
-                    value={city}
-                    onChange={(e) => {
-                      setCity(e.target.value)
-                      if (validationError) setValidationError('')
-                    }}
-                    className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] focus:border-transparent text-base"
-                    disabled={isLoading}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-[#111418] mb-2">Postcode <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    placeholder="SW1A 1AA"
-                    value={postcode}
-                    onChange={(e) => {
-                      setPostcode(e.target.value)
-                      if (validationError) setValidationError('')
-                    }}
-                    className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] focus:border-transparent text-base"
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-
-              {/* Country */}
-              <div>
-                <label className="block text-sm font-medium text-[#111418] mb-2">Country of Residence <span className="text-red-500">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Select a country"
-                  value={country}
-                  onChange={(e) => {
-                    setCountry(e.target.value)
-                    if (validationError) setValidationError('')
-                  }}
-                  className="w-full px-4 py-3 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0089FF] focus:border-transparent text-base"
-                  disabled={isLoading}
-                />
-                <p className="text-xs text-[#617289] mt-2">Required for VAT calculation</p>
-              </div>
-
-              {/* Payment Method */}
-              <div>
-                <h2 className="text-lg font-semibold text-[#111418] mb-4">Payment Method</h2>
-                <div className="space-y-3">
-                  <button
-                    onClick={() => {
-                      setPaymentMethod('credit')
-                      if (validationError) setValidationError('')
-                    }}
-                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${paymentMethod === 'credit'
-                        ? 'border-[#0089FF] bg-[#F0F8FF]'
-                        : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
-                      }`}
-                  >
-                    <svg className={`w-6 h-6 ${paymentMethod === 'credit' ? 'text-[#0089FF]' : 'text-[#617289]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h4m4 0h4M7 19h10a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              {/* Subscription Plan */}
+              <div className="bg-gradient-to-br from-[#F0F8FF] to-white p-6 rounded-xl border-2 border-[#0089FF]/20">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-[#0089FF] rounded-xl flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="font-medium text-[#111418]">Credit Card</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setPaymentMethod('paypal')
-                      if (validationError) setValidationError('')
-                    }}
-                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-3 bg-white ${paymentMethod === 'paypal'
-                        ? 'border-[#0089FF] bg-[#F0F8FF]'
-                        : 'border-[#E2E8F0] hover:border-[#0089FF]/30'
-                      }`}
-                  >
-                    <svg className={`w-6 h-6 ${paymentMethod === 'paypal' ? 'text-[#0089FF]' : 'text-[#617289]'}`} fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9.012 0c-1.264 0-2.258 1.026-2.258 2.289v2.885H3.693c-.913 0-1.66.747-1.66 1.66v2.582c0 .913.747 1.66 1.66 1.66h2.99v4.58c0 2.468 2.018 4.485 4.485 4.485h2.955v-2.89H12.81c-1.264 0-2.288-1.022-2.288-2.286V9.84l5.93-.004c.913 0 1.66-.747 1.66-1.66V5.594c0-.913-.747-1.66-1.66-1.66h-5.93V2.29C11.512 1.026 10.518 0 9.25 0z" />
-                    </svg>
-                    <span className="font-medium text-[#111418]">PayPal</span>
-                  </button>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-[#111418]">Annual Subscription</h3>
+                    <p className="text-sm text-[#617289]">Full access to all SQE preparation materials</p>
+                  </div>
                 </div>
+
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-4xl font-bold text-[#111418]">£750</span>
+                  <span className="text-[#617289]">/ year</span>
+                </div>
+
+                <ul className="space-y-2 mb-4">
+                  {[
+                    'Unlimited practice questions',
+                    'Video tutorials library',
+                    'AI-powered study assistant',
+                    'Mock exams with feedback',
+                    'Progress tracking',
+                  ].map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-sm text-[#617289]">
+                      <svg className="w-4 h-4 text-[#0089FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
+
+              {/* Payment Security Notice */}
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                <svg className="w-5 h-5 text-[#617289]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <p className="text-sm text-[#617289]">
+                  Secure payment powered by <span className="font-semibold">Stripe</span>.
+                  You'll be redirected to complete payment.
+                </p>
+              </div>
+
+              {/* Terms Agreement */}
+              <p className="text-xs text-[#617289] text-center">
+                By completing this purchase, you agree to our{' '}
+                <Link to="/terms" className="text-[#0089FF] hover:underline">Terms of Service</Link>
+                {' '}and{' '}
+                <Link to="/privacy" className="text-[#0089FF] hover:underline">Privacy Policy</Link>.
+              </p>
             </div>
           )}
         </div>
