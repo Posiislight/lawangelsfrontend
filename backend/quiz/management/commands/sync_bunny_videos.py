@@ -65,11 +65,11 @@ class Command(BaseCommand):
         self.stdout.write('=' * 60)
         
         for course_name, course_videos in sorted(courses_dict.items()):
-            self.stdout.write(f'\n📚 {course_name} ({len(course_videos)} videos)')
+            self.stdout.write(f'\n[COURSE] {course_name} ({len(course_videos)} videos)')
             for v in course_videos:
                 chapter = f"Chapter {v['chapter_number']}" if v['chapter_number'] else "No chapter"
                 duration = self._format_duration(v['duration_seconds'])
-                self.stdout.write(f"   • {v['title']} [{duration}]")
+                self.stdout.write(f"   - {v['title']} [{duration}]")
         
         if dry_run:
             self.stdout.write(self.style.WARNING('\nDry run complete. No changes made.'))
@@ -103,7 +103,7 @@ class Command(BaseCommand):
             
             if course_created:
                 created_courses += 1
-                self.stdout.write(self.style.SUCCESS(f'✓ Created course: {course_name}'))
+                self.stdout.write(self.style.SUCCESS(f'[+] Created course: {course_name}'))
             else:
                 self.stdout.write(f'  Course exists: {course_name}')
             
@@ -131,10 +131,10 @@ class Command(BaseCommand):
                 
                 if video_created:
                     created_videos += 1
-                    self.stdout.write(self.style.SUCCESS(f'  ✓ Created: {video_info["title"][:50]}'))
+                    self.stdout.write(self.style.SUCCESS(f'  [+] Created: {video_info["title"][:50]}'))
                 else:
                     updated_videos += 1
-                    self.stdout.write(f'  ↻ Updated: {video_info["title"][:50]}')
+                    self.stdout.write(f'  [~] Updated: {video_info["title"][:50]}')
         
         # Summary
         self.stdout.write('\n' + '=' * 60)

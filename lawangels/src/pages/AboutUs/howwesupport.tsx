@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 
-export default function PathToQualification(){
+export default function PathToQualification() {
   const [openSections, setOpenSections] = useState({
     tailored: true,
     realistic: false,
@@ -29,9 +29,9 @@ export default function PathToQualification(){
               About Us {'>'}
             </div>
             <div className='absolute right-8 top-12 text-white my-auto'>
-            <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M35.8314 5.87032C39.0592 -1.95676 50.1451 -1.95676 53.3729 5.87032C55.3748 10.7249 60.9395 13.0299 65.7878 11.0128C73.6048 7.76059 81.4437 15.5995 78.1915 23.4164C76.1744 28.2648 78.4793 33.8294 83.334 35.8314C91.161 39.0592 91.161 50.1451 83.334 53.3729C78.4793 55.3748 76.1744 60.9395 78.1915 65.7878C81.4437 73.6048 73.6048 81.4437 65.7878 78.1915C60.9395 76.1744 55.3748 78.4793 53.3729 83.334C50.1451 91.161 39.0592 91.161 35.8314 83.334C33.8294 78.4793 28.2648 76.1744 23.4164 78.1915C15.5995 81.4437 7.76059 73.6048 11.0128 65.7878C13.0299 60.9395 10.7249 55.3748 5.87032 53.3729C-1.95676 50.1451 -1.95676 39.0592 5.87032 35.8314C10.7249 33.8294 13.0299 28.2648 11.0128 23.4164C7.76059 15.5995 15.5995 7.76059 23.4164 11.0128C28.2648 13.0299 33.8294 10.7249 35.8314 5.87032Z" fill="#4F5770"/>
-</svg>
+              <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M35.8314 5.87032C39.0592 -1.95676 50.1451 -1.95676 53.3729 5.87032C55.3748 10.7249 60.9395 13.0299 65.7878 11.0128C73.6048 7.76059 81.4437 15.5995 78.1915 23.4164C76.1744 28.2648 78.4793 33.8294 83.334 35.8314C91.161 39.0592 91.161 50.1451 83.334 53.3729C78.4793 55.3748 76.1744 60.9395 78.1915 65.7878C81.4437 73.6048 73.6048 81.4437 65.7878 78.1915C60.9395 76.1744 55.3748 78.4793 53.3729 83.334C50.1451 91.161 39.0592 91.161 35.8314 83.334C33.8294 78.4793 28.2648 76.1744 23.4164 78.1915C15.5995 81.4437 7.76059 73.6048 11.0128 65.7878C13.0299 60.9395 10.7249 55.3748 5.87032 53.3729C-1.95676 50.1451 -1.95676 39.0592 5.87032 35.8314C10.7249 33.8294 13.0299 28.2648 11.0128 23.4164C7.76059 15.5995 15.5995 7.76059 23.4164 11.0128C28.2648 13.0299 33.8294 10.7249 35.8314 5.87032Z" fill="#4F5770" />
+              </svg>
 
             </div>
             <div className='absolute left-7 bottom-11 font-[500] text-white text-[40px] font-crimson'>How We Support Your SQE1 Journey</div>
@@ -88,7 +88,7 @@ export default function PathToQualification(){
                 {openSections.realistic && (
                   <div className='p-4 pt-0'>
                     <p className='text-base text-gray-700 mt-4'>
-                      Our SQE1 multiple-choice questions and full-length mocks mimic the real exam, helping you master time management. AI-driven feedback pinpoints weaknesses like ethics or trusts. Join for unlimited mocks to boost confidence and pass rates.
+                      Our SQE1 multiple-choice questions and full-length mocks mimic the real exam, helping you master time management. Join for unlimited mocks to boost confidence and pass rates.
                     </p>
                   </div>
                 )}
@@ -142,8 +142,8 @@ export default function PathToQualification(){
             </div>
 
             <aside className='w-3/12 bg-white rounded-2xl border border-[#0089FF] shadow-lg p-6 flex flex-col'>
-              
-              <div className='text-sm text-gray-700 mb-5'>Subscribe for study planners, sample MCQs and exam tips.</div>
+
+              <div className='text-sm text-gray-700 mb-5'>Subscribe for Mock MCQs and Exam tips.</div>
               <div className='w-full'>
                 <button className='w-full bg-[#0089FF] text-white rounded-lg py-2'>Subscribe</button>
               </div>
@@ -203,7 +203,7 @@ export default function PathToQualification(){
               {openSections.realistic && (
                 <div className='p-4 pt-0'>
                   <p className='text-sm text-gray-700 mt-4'>
-                    Our SQE1 multiple-choice questions and full-length mocks mimic the real exam, helping you master time management. AI-driven feedback pinpoints weaknesses like ethics or trusts. Join for unlimited mocks to boost confidence and pass rates.
+                    Our SQE1 multiple-choice questions and full-length mocks mimic the real exam, helping you master time management. Join for unlimited mocks to boost confidence and pass rates.
                   </p>
                 </div>
               )}
@@ -253,11 +253,11 @@ export default function PathToQualification(){
           </div>
 
           <aside className='w-full bg-white rounded-2xl border border-[#0089FF] shadow-lg p-4 mt-6 mb-4'>
-            <p className='text-sm text-gray-700'>Subscribe for study planners, sample MCQs and exam tips.</p>
+            <p className='text-sm text-gray-700'>Subscribe for Mock MCQs and Exam tips.</p>
             <button className='w-full bg-[#0089FF] text-white rounded-lg py-2 mt-4'>Subscribe</button>
           </aside>
         </div>
-        
+
         <Footer />
       </div>
     </>

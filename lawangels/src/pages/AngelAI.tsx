@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { Bell, Send, Plus, Loader2, Trash2, ArrowLeft } from 'lucide-react'
+import { Bell, Send, Plus, Loader2, Trash2, ArrowLeft, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import { angelAiApi, type Chat } from '../services/angelAiApi'
@@ -17,6 +17,7 @@ export default function AngelAI() {
   const [streamingContent, setStreamingContent] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoadingChats, setIsLoadingChats] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Load conversations from backend on mount
@@ -231,7 +232,7 @@ export default function AngelAI() {
               <img src={lawAngelsLogo} alt="Law Angels" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
               Angel AI
             </h1>
-            <p className="text-gray-600 text-sm mt-1">Your personal law tutor powered by Law Angels textbooks</p>
+            <p className="text-gray-600 text-sm mt-1">Your personal law tutor</p>
           </div>
 
           <div className="hidden md:flex flex-1 justify-center">
@@ -264,16 +265,27 @@ export default function AngelAI() {
         {/* Chat List Sidebar - Hidden on mobile when chat is active */}
         <div className={`
           ${isMobile && currentChatIndex !== null ? 'hidden' : 'flex'} 
-          w-full md:w-80 bg-white rounded-lg border border-gray-200 flex-col
+          ${!isMobile ? (isSidebarOpen ? 'md:w-80' : 'md:w-0 md:border-0') : 'w-full'}
+          bg-white rounded-lg border border-gray-200 flex-col
+          transition-all duration-300 ease-in-out overflow-hidden
         `}>
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-gray-200 flex items-center gap-2">
             <button
               onClick={createNewChat}
-              className="w-full flex items-center justify-center gap-2 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+              className="flex-1 flex items-center justify-center gap-2 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium"
             >
               <Plus className="w-5 h-5" />
               New Chat
             </button>
+            {!isMobile && (
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                title="Close Sidebar"
+              >
+                <PanelLeftClose size={20} />
+              </button>
+            )}
           </div>
 
           <div className="flex-1 overflow-y-auto">
@@ -330,6 +342,24 @@ export default function AngelAI() {
               </span>
             </div>
           )}
+          {/* Desktop Header (when sidebar is closed or always for title?) */}
+          {!isMobile && (
+            <div className={`p-4 border-b border-gray-100 flex items-center gap-3 ${isSidebarOpen ? 'justify-end' : ''}`}>
+              {!isSidebarOpen && (
+                <button
+                  onClick={() => setIsSidebarOpen(true)}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Open Sidebar"
+                >
+                  <PanelLeftOpen size={20} />
+                </button>
+              )}
+              {/* Show title if sidebar is closed, or always? Let's show always for context */}
+              <h2 className="font-semibold text-gray-900 flex-1 truncate">
+                {currentChat?.title || (currentChatIndex === null ? 'Welcome' : 'New Chat')}
+              </h2>
+            </div>
+          )}
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {currentChat ? (
@@ -345,7 +375,7 @@ export default function AngelAI() {
                       {msg.role === 'user' ? (
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                       ) : (
-                        <div className="text-sm prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
+                        <div className="text-base prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
                           <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </div>
                       )}
@@ -360,7 +390,7 @@ export default function AngelAI() {
                 {streamingContent && (
                   <div className="flex justify-start">
                     <div className="max-w-xs lg:max-w-md xl:max-w-lg px-4 py-3 rounded-lg bg-gray-100 text-gray-900 rounded-bl-none">
-                      <div className="text-sm prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
+                      <div className="text-base prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
                         <ReactMarkdown>{streamingContent}</ReactMarkdown>
                       </div>
                       <div className="flex items-center gap-1 mt-2">

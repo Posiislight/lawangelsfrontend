@@ -557,7 +557,7 @@ export default function MockExam({
                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#0F172B] text-white font-medium text-sm flex-shrink-0">
                   {state.currentQuestion + 1}
                 </div>
-                <p className="text-base text-[#1D293D] leading-relaxed flex-1">
+                <p className="text-lg font-medium text-[#1D293D] leading-relaxed flex-1">
                   {question.text}
                 </p>
               </div>
@@ -594,24 +594,24 @@ export default function MockExam({
                         </div>
 
                         <div className="flex-1">
-                          <span className="text-sm font-medium text-[#314158] mr-2">{option.label}.</span>
-                          <span className="text-sm text-[#314158]">{option.text}</span>
+                          <span className="text-base font-medium text-[#314158] mr-2">{option.label}.</span>
+                          <span className="text-base text-[#314158]">{option.text}</span>
                         </div>
                       </label>
 
                       {/* Show explanation in learn-as-you-go mode */}
                       {showFeedback && isSelected && (
                         <div className={`mt-2 p-4 rounded-lg ${isAnswerCorrect ? 'bg-[#ECFDF5] border border-[#10B981]' : 'bg-[#FEF2F2] border border-[#EF4444]'}`}>
-                          <p className={`text-sm font-medium mb-1 ${isAnswerCorrect ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
+                          <p className={`text-base font-medium mb-1 ${isAnswerCorrect ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
                             {isAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
                           </p>
                           {question.explanation && (
-                            <p className="text-sm text-[#314158] whitespace-pre-wrap leading-relaxed">
+                            <p className="text-base text-[#314158] whitespace-pre-wrap leading-relaxed">
                               {question.explanation.replace(/(Option [A-E])/g, '\n\n$1')}
                             </p>
                           )}
                           {!isAnswerCorrect && (
-                            <p className="text-sm text-[#059669] mt-2">
+                            <p className="text-base text-[#059669] mt-2">
                               <span className="font-medium">Correct answer:</span> {question.correct_answer}
                             </p>
                           )}

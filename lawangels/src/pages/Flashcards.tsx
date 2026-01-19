@@ -65,7 +65,7 @@ export default function Flashcards() {
             <h1 className="text-2xl md:text-3xl font-normal text-black">Flashcards</h1>
             <p className="text-gray-600 text-sm mt-1">Select a topic to study</p>
           </div>
-          <div className="hidden md:flex w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full items-center justify-center text-white font-medium">
+          <div className="hidden md:flex w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 items-center justify-center text-white font-bold">
             {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
         </div>

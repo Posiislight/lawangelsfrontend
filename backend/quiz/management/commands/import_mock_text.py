@@ -18,16 +18,25 @@ class Command(BaseCommand):
             'title': 'Mock Test 1',
             'description': 'Full-length SQE1 mock exam - Practice Test 1 (90 questions)',
             'file': 'mockexam/mock1_raw.txt',
+            'category': 'FLK1',
         },
         2: {
             'title': 'Mock Test 2',
             'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
             'file': 'mockexam/mock2_raw.txt',
+            'category': 'FLK1',
         },
         3: {
             'title': 'Mock Test 3',
             'description': 'Full-length SQE1 mock exam - Practice Test 3',
             'file': 'mockexam/mock3_raw.txt',
+            'category': 'FLK1',
+        },
+        4: {
+            'title': 'Mock Test 1',
+            'description': 'Full-length SQE1 FLK2 mock exam - Practice Test 1 (90 questions)',
+            'file': 'mockexam/mock exam 1 flk2.txt',
+            'category': 'FLK2',
         },
     }
 
@@ -35,8 +44,8 @@ class Command(BaseCommand):
         parser.add_argument(
             'mock_number',
             type=int,
-            choices=[1, 2, 3],
-            help='Mock test number to import (1, 2, or 3)',
+            choices=[1, 2, 3, 4],
+            help='Mock test number to import (1, 2, 3, or 4 for FLK2)',
         )
         parser.add_argument(
             '--clear',
@@ -100,7 +109,7 @@ class Command(BaseCommand):
         questions = []
         
         # Split by "Question N" pattern - also handle common typos like "Questio" (missing 'n')
-        question_pattern = r'Questio[n]?\s+(\d+)\s*(?:\([^)]*\))?'
+        question_pattern = r'Questio[n]?\s+(\d+)'
         parts = re.split(question_pattern, content)
         
         # Skip the first part (before first question)
@@ -133,18 +142,28 @@ class Command(BaseCommand):
         current_section = 'question'  # question, options, answer, explanation
         question_lines = []
         explanation_lines = []
+        expecting_answer_letter = False  # For multi-line answer format "Answer:\nB."
         
         for line in lines:
             line = line.strip()
             if not line:
                 continue
             
+            # Check if previous line was just "Answer:" and this line starts with a letter
+            if expecting_answer_letter and not question_data['correct_answer']:
+                letter_match = re.match(r'^([A-E])(?:[\.\)\:\s]|$)', line)
+                if letter_match:
+                    question_data['correct_answer'] = letter_match.group(1).upper()
+                    current_section = 'answer'
+                    expecting_answer_letter = False
+                    continue
+                expecting_answer_letter = False
+            
             # Check for next question (stop parsing)
             if re.match(r'^Question\s+\d+', line):
                 break
             
             # IMPORTANT: Check for correct answer BEFORE option lines
-            # because "D is the correct option" could be mismatched as an option
             answer_match = None
             
             # Format 1: "The correct option is X" or "correct option is X"
@@ -167,55 +186,71 @@ class Command(BaseCommand):
             if not answer_match:
                 answer_match = re.search(r'^([A-E])\s+is\s+correct\s+option', line, re.IGNORECASE)
             
-            if answer_match:
-                # Only switch section if we're not already in the explanation section
-                # (where "Option X is correct" text is expected as part of the explanation)
-                if current_section != 'explanation':
-                    current_section = 'answer'
-                    question_data['correct_answer'] = answer_match.group(1).upper()
-                    continue
-                else:
-                    # In explanation section, extract answer if not already set, but keep line for explanation
-                    if not question_data['correct_answer']:
-                        question_data['correct_answer'] = answer_match.group(1).upper()
-                    # Fall through to add this line to explanation_lines below
+            # Format 6: "Correct Answer X." or "Correct Answer X" (with optional period)
+            if not answer_match:
+                answer_match = re.search(r'Correct\s+Answer\s*:?\s*([A-E])\.?', line, re.IGNORECASE)
             
-            # Check for option lines - handles multiple formats:
-            # A. B. C. (uppercase with period)
-            # A) B) C) (uppercase with parenthesis)  
-            # a) b) c) (lowercase with parenthesis)
-            # A.Text (no space after period)
-            # •A. or ●A. (bullet character before letter - \uf0b7, \u25cf, or similar)
-            # Must have a period or parenthesis after the letter (not just space)
-            # Pattern: optional bullet + letter + (period or paren) + optional space + text
-            # Include U+25CF (●) BLACK CIRCLE which is used in some mock tests
+            # Format 7: "Answer: X" or "Answer X"
+            if not answer_match:
+                answer_match = re.search(r'^Answer\s*:?\s*([A-E])', line, re.IGNORECASE)
+            
+            # Format 8: "Answer is X" 
+            if not answer_match:
+                answer_match = re.search(r'^Answer\s+is\s+([A-E])', line, re.IGNORECASE)
+            
+            if answer_match:
+                # Only set correct_answer if not already set (first match wins)
+                if not question_data['correct_answer']:
+                    question_data['correct_answer'] = answer_match.group(1).upper()
+                    if current_section != 'explanation':
+                        current_section = 'answer'
+                    continue
+
+            # Check for "Answer:" alone on a line (answer letter on next line)
+            if re.match(r'^(?:Correct\s+)?Answer\s*:?\s*$', line, re.IGNORECASE) and not question_data['correct_answer']:
+                expecting_answer_letter = True
+                current_section = 'answer'
+                continue
+            
+            # Skip "Options:" header line
+            if re.match(r'^Options\s*:?\s*$', line, re.IGNORECASE):
+                current_section = 'options'
+                continue
+            
+            # Check for option lines
+            # First try with standard formats: letter followed by dot/paren
             option_match = re.match(r'^[\u2022\uf0b7\u2023\u25e6\u25aa\u25ab\u2219\u25cf\-\*]*\s*([A-Ea-e])[\.\)]\s*(.+)', line)
+            
+            # If no match, try letter followed by space and text (no period/paren) - handles "A No liability"
+            if not option_match:
+                option_match = re.match(r'^([A-E])\s+([A-Z].+)', line)
+            
+            # Special case for Q84 logic (from debug script): relaxed regex if in options section
+            if not option_match and current_section == 'options':
+                option_match = re.match(r'^.*?([A-E])[\.\)\:\s]\s+(.+)', line)
+
             if option_match and current_section in ['question', 'options']:
                 current_section = 'options'
-                label = option_match.group(1).upper()  # Normalize to uppercase
+                label = option_match.group(1).upper()
                 text = option_match.group(2).strip()
                 question_data['options'][label] = text
                 continue
             
             # Check for all options on a single line (e.g., "A. text. B. text. C. text. D. text. E. text.")
             if current_section in ['question', 'options']:
-                # Split on '. [B-E]. ' pattern - this handles text that contains uppercase letters
-                # Example: "A. District Judge. B. Circuit Judge. C. High Court."
+                # Split on '. [B-E]. ' pattern
                 if re.match(r'^A[\.\)]', line.strip()):
                     parts = re.split(r'\. ([B-E])[\.\)] ', line)
-                    if len(parts) >= 5:  # At least A + (B, text) pairs for 3+ options
+                    if len(parts) >= 2:  # Found at least A and B
                         current_section = 'options'
-                        # First part is 'A. text' 
                         first_match = re.match(r'^A[\.\)]\s*(.+)', parts[0])
                         if first_match:
                             question_data['options']['A'] = first_match.group(1).strip().rstrip('.')
-                        # Remaining parts are alternating letter, text pairs
                         for i in range(1, len(parts) - 1, 2):
                             if i + 1 < len(parts):
                                 label = parts[i].upper()
                                 text = parts[i + 1].strip().rstrip('.')
                                 question_data['options'][label] = text
-                        # Handle last part (usually ends the line, may not have been split)
                         if len(parts) % 2 == 0 and len(parts) >= 2:
                             last_text = parts[-1].strip().rstrip('.')
                             if last_text and len(question_data['options']) > 0:
@@ -257,7 +292,8 @@ class Command(BaseCommand):
         if not question_data['text'] or len(question_data['options']) < 2:
             self.stdout.write(self.style.WARNING(
                 f"Question {q_num} incomplete: text={bool(question_data['text'])}, "
-                f"options={len(question_data['options'])}, answer={question_data['correct_answer']}"
+                f"options={len(question_data['options'])} ({list(question_data['options'].keys())}), "
+                f"answer={question_data['correct_answer']}"
             ))
             return None
         

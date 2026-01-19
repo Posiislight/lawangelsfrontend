@@ -203,13 +203,14 @@ class DashboardViewSet(viewsets.ViewSet):
         user = request.user
         
         # Try cache for static exam data (30 min cache)
-        exams_cache_key = 'mock_exams_list'
+        # Try cache for static exam data (30 min cache)
+        exams_cache_key = 'mock_exams_list_v2'
         all_exams = cache.get(exams_cache_key)
         
         if all_exams is None:
             # Query 1: Get ALL active exams
             all_exams = list(Exam.objects.filter(is_active=True).values(
-                'id', 'title', 'description', 'subject', 'duration_minutes',
+                'id', 'title', 'description', 'subject', 'category', 'duration_minutes',
                 'speed_reader_seconds', 'passing_score_percentage', 'total_questions', 'is_active'
             ))
             # Cache static exam data for 30 minutes
