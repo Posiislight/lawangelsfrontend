@@ -49,14 +49,22 @@ export default function TextbookReader() {
 
     // PDF URL with auth token
     const [pdfUrl, setPdfUrl] = useState<string>('')
+    const [isUsingCdn, setIsUsingCdn] = useState<boolean>(false)
 
-    // Memoize PDF options to prevent unnecessary reloads
-    const pdfOptions = useMemo(() => ({
-        httpHeaders: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        withCredentials: true,
-    }), [])
+    // Memoize PDF options - only use credentials for API URLs, not CDN
+    const pdfOptions = useMemo(() => {
+        // CDN URLs don't need authentication
+        if (isUsingCdn) {
+            return {}
+        }
+        // API URLs need auth headers
+        return {
+            httpHeaders: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+            withCredentials: true,
+        }
+    }, [isUsingCdn])
 
     useEffect(() => {
         const fetchTextbook = async () => {
@@ -70,9 +78,11 @@ export default function TextbookReader() {
                 // Prefer CDN URL for faster loading, fallback to API streaming
                 if (data.cdn_url) {
                     setPdfUrl(data.cdn_url)
+                    setIsUsingCdn(true)
                 } else {
                     const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
                     setPdfUrl(`${baseUrl}/textbooks/${id}/pdf/`)
+                    setIsUsingCdn(false)
                 }
 
                 setError(null)
