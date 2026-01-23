@@ -1,25 +1,30 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Home, RefreshCw, ChevronDown, ChevronUp, Trophy, TrendingUp, BarChart3, Timer, Target, CheckCheckIcon } from 'lucide-react'
+import { Home, ChevronDown, ChevronUp, Trophy, TrendingUp, BarChart3, Timer, Target, CheckCheckIcon } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
-import type { ExamAttempt, QuestionAnswer } from '../services/quizApi'
+import type { FastReviewResponse } from '../services/quizApi'
 
 
-interface AnswerWithQuestion extends QuestionAnswer {
+interface AnswerWithQuestion {
+  id: number
+  question_id: number
   question: {
     id: number
     text: string
     question_number: number
     difficulty: 'easy' | 'medium' | 'hard'
-    topic: string  // Used for topic analytics - kept for future breakdown feature
+    topic: string
     correct_answer: string
     explanation: string
     options: Array<{
-      id: number
+      id?: number
       label: string
       text: string
     }>
   }
+  selected_answer: string
+  is_correct: boolean
+  time_spent_seconds: number
 }
 
 type AnswerFilter = 'all' | 'wrong' | 'right'
@@ -51,7 +56,7 @@ export default function Results() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [attempt, setAttempt] = useState<ExamAttempt | null>(null)
+  const [attemptData, setAttemptData] = useState<FastReviewResponse['attempt'] | null>(null)
   const [answers, setAnswers] = useState<AnswerWithQuestion[]>([])
   const [filter, setFilter] = useState<AnswerFilter>('all')
   const [expandedQuestions, setExpandedQuestions] = useState<Set<number>>(new Set())
@@ -73,47 +78,38 @@ export default function Results() {
           return
         }
 
-        const reviewData = await quizApi.getReview(attemptIdNum)
-        setAttempt(reviewData)
+        // Use the FAST optimized endpoint (uses pre-serialized snapshot)
+        const reviewData = await quizApi.getReviewFast(attemptIdNum)
+        setAttemptData(reviewData.attempt)
 
-        // Use questions array (full exam questions) as source of truth
-        // This includes unanswered questions which would be missing from 'answers'
-        const allQuestions = reviewData.questions || []
+        // Map questions to answers format (merge snapshot with user answers)
+        const processedAnswers: AnswerWithQuestion[] = reviewData.questions.map((q, idx) => {
+          const userAnswer = reviewData.answers[q.id]
 
-        if (allQuestions.length > 0) {
-          // Map all questions to answers (creating placeholders for unanswered ones)
-          const processedAnswers: AnswerWithQuestion[] = allQuestions.map(q => {
-            // Find if there's an answer for this question
-            // Check both finding by question object id (if populated) or direct question_id
-            const matchingAnswer = reviewData.answers?.find(a =>
-              (a.question && a.question.id === q.id) ||
-              (a.question_id === q.id)
-            )
+          return {
+            id: idx,
+            question_id: q.id,
+            question: {
+              id: q.id,
+              text: q.text,
+              question_number: q.question_number,
+              difficulty: 'medium' as const, // Default since not in snapshot
+              topic: q.topic,
+              correct_answer: q.correct_answer,
+              explanation: q.explanation,
+              options: q.options.map((o, oIdx) => ({
+                id: oIdx,
+                label: o.label,
+                text: o.text
+              }))
+            },
+            selected_answer: userAnswer?.selected || '',
+            is_correct: userAnswer?.is_correct || false,
+            time_spent_seconds: 0
+          }
+        })
 
-            if (matchingAnswer) {
-              // User answered this question
-              return {
-                ...matchingAnswer,
-                question: q as any // Ensure type match
-              } as AnswerWithQuestion
-            } else {
-              // User did NOT answer this question (count as wrong)
-              return {
-                id: Math.random(), // Temp ID
-                question_id: q.id,
-                question: q as any,
-                selected_answer: '',
-                is_correct: false,
-                time_spent_seconds: 0
-              } as AnswerWithQuestion
-            }
-          })
-          setAnswers(processedAnswers)
-        } else {
-          // Fallback for backward compatibility or if questions not returned
-          setAnswers((reviewData.answers || []) as AnswerWithQuestion[])
-        }
-
+        setAnswers(processedAnswers)
         setLoading(false)
       } catch (err) {
         console.error('Error fetching results:', err)
@@ -182,17 +178,17 @@ export default function Results() {
     )
   }
 
-  if (error || !attempt) {
+  if (error || !attemptData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0F172B]">
         <div className="bg-red-500/10 border-2 border-red-500 rounded-xl p-8 max-w-md">
           <h2 className="text-xl font-semibold text-red-400 mb-2">Error Loading Results</h2>
           <p className="text-red-300 mb-6">{error || 'Unable to load results'}</p>
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/mock-questions')}
             className="px-6 py-2 bg-white text-[#0F172B] rounded-lg hover:bg-gray-100 transition font-medium"
           >
-            Back to Dashboard
+            Back to Mock Exams
           </button>
         </div>
       </div>
@@ -206,7 +202,7 @@ export default function Results() {
   const scorePercentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0
 
   // Calculate time
-  const totalTimeSeconds = attempt.time_spent_seconds || answers.reduce((sum, a) => sum + (a.time_spent_seconds || 0), 0)
+  const totalTimeSeconds = attemptData.time_spent_seconds || answers.reduce((sum, a) => sum + (a.time_spent_seconds || 0), 0)
   const avgTimePerQuestion = totalQuestions > 0 ? Math.round(totalTimeSeconds / totalQuestions) : 0
 
   const formatTime = (seconds: number) => {
@@ -319,18 +315,11 @@ export default function Results() {
         {/* Action Buttons - Top */}
         <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/mock-questions')}
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"
           >
             <Home className="w-5 h-5" />
-            Back to Dashboard
-          </button>
-          <button
-            onClick={() => navigate(`/mock-questions`)}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#0AB5FF] rounded-xl text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
-          >
-            <RefreshCw className="w-5 h-5" />
-            Retake Test
+            Back to Mock Exams
           </button>
         </div>
 
@@ -352,6 +341,7 @@ export default function Results() {
                   fill="none"
                 />
                 <circle
+                  cx="75"
                   cy="75"
                   r={radius}
                   stroke={scorePercentage >= 60 ? '#10B981' : '#EF4444'}
@@ -663,18 +653,11 @@ export default function Results() {
         {/* Action Buttons */}
         <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/mock-questions')}
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition"
           >
             <Home className="w-5 h-5" />
-            Back to Dashboard
-          </button>
-          <button
-            onClick={() => navigate(`/mock-questions`)}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#0AB5FF] rounded-xl text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
-          >
-            <RefreshCw className="w-5 h-5" />
-            Retake Test
+            Back to Mock Exams
           </button>
         </div>
       </main>

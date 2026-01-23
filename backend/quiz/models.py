@@ -26,6 +26,8 @@ class Exam(models.Model):
     speed_reader_seconds = models.IntegerField(default=70, validators=[MinValueValidator(1), MaxValueValidator(600)])
     total_questions = models.IntegerField(default=0)
     passing_score_percentage = models.IntegerField(default=60, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    # Pre-serialized question data for fast results page loading
+    questions_snapshot = models.JSONField(null=True, blank=True, help_text='Pre-serialized question data for fast loading')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

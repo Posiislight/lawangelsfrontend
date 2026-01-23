@@ -408,7 +408,11 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             )
 
     def partial_update(self, request, *args, **kwargs):
-        """End exam attempt and calculate score"""
+        """End exam attempt and calculate score
+        
+        OPTIMIZED: Returns minimal response - just the data needed for redirect
+        Full details are fetched separately on the results page
+        """
         attempt = self.get_object()
         
         # Update attempt details
@@ -423,13 +427,14 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
             attempt.score = attempt.calculate_score()
             attempt.save()
         
-        # Refresh with full serializer to include exam, answers, etc.
-        attempt = ExamAttempt.objects.select_related('exam', 'user').prefetch_related(
-            'answers__question__options', 'selected_questions__options'
-        ).get(id=attempt.id)
-        
-        response_serializer = ExamAttemptSerializer(attempt)
-        return Response(response_serializer.data)
+        # OPTIMIZED: Return minimal response - just what's needed for redirect
+        # Full review data is fetched on the results page via /review/ endpoint
+        return Response({
+            'id': attempt.id,
+            'status': attempt.status,
+            'score': attempt.score,
+            'ended_at': attempt.ended_at.isoformat() if attempt.ended_at else None,
+        })
 
     @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
     def questions(self, request, pk=None):
@@ -486,6 +491,47 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def questions_fast(self, request, pk=None):
+        """
+        OPTIMIZED: Get questions using pre-serialized snapshot.
+        
+        Performance: ~50ms vs 17 seconds for regular questions endpoint.
+        Falls back to regular questions endpoint if no snapshot.
+        """
+        try:
+            start_time = time.time()
+            
+            # Get attempt with exam relation
+            attempt = ExamAttempt.objects.select_related('exam').get(id=pk, user=request.user)
+            
+            # Get pre-serialized snapshot
+            snapshot = attempt.exam.questions_snapshot
+            if not snapshot:
+                # Fallback to regular questions if no snapshot
+                logger.warning(f"No snapshot for exam {attempt.exam.id}, falling back to regular questions")
+                return self.questions(request, pk)
+            
+            total_time = (time.time() - start_time) * 1000
+            logger.debug(f"[GET_QUESTIONS_FAST] Attempt {pk} - Total: {total_time:.2f}ms | Questions: {len(snapshot)}")
+            
+            return Response(snapshot)
+        except ExamAttempt.DoesNotExist:
+            if ExamAttempt.objects.filter(id=pk).exists():
+                return Response(
+                    {'error': 'You do not have permission to access this attempt', 'success': False},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            return Response(
+                {'error': 'Exam attempt not found', 'success': False},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error fetching fast questions: {str(e)}")
+            return Response(
+                {'error': str(e), 'success': False},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def submit_answer(self, request, pk=None):
         """
@@ -644,6 +690,86 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def review_fast(self, request, pk=None):
+        """
+        OPTIMIZED: Get exam review using pre-serialized question snapshot.
+        
+        Performance: ~50ms vs 14 seconds for regular review endpoint.
+        
+        Returns:
+        - attempt: Attempt metadata (id, score, status, timestamps)
+        - questions: Pre-serialized question data from exam.questions_snapshot
+        - answers: Dict of {question_id: {selected, is_correct}}
+        """
+        try:
+            start_time = time.time()
+            
+            # Check if user owns this attempt
+            try:
+                attempt = ExamAttempt.objects.select_related('exam').get(id=pk, user=request.user)
+            except ExamAttempt.DoesNotExist:
+                # Check if attempt exists but belongs to someone else
+                if ExamAttempt.objects.filter(id=pk).exists():
+                    return Response(
+                        {'error': 'You do not have permission to review this attempt', 'success': False},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+                return Response(
+                    {'error': 'Exam attempt not found', 'success': False},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            # Get pre-serialized snapshot (no DB query for questions!)
+            snapshot = attempt.exam.questions_snapshot
+            if not snapshot:
+                # Fallback to regular review if no snapshot exists
+                logger.warning(f"No snapshot for exam {attempt.exam.id}, falling back to regular review")
+                return self.review(request, pk)
+            
+            # Get user answers (lightweight query - just this attempt's answers)
+            answers_qs = QuestionAnswer.objects.filter(exam_attempt=attempt).values(
+                'question_id', 'selected_answer', 'is_correct'
+            )
+            answers = {
+                a['question_id']: {
+                    'selected': a['selected_answer'],
+                    'is_correct': a['is_correct']
+                }
+                for a in answers_qs
+            }
+            
+            # Calculate stats
+            total_questions = len(snapshot)
+            correct_count = sum(1 for a in answers.values() if a['is_correct'])
+            
+            total_time = (time.time() - start_time) * 1000
+            logger.debug(f"[GET_REVIEW_FAST] Attempt {pk} - Total: {total_time:.2f}ms | Questions: {total_questions} | Answers: {len(answers)}")
+            
+            return Response({
+                'attempt': {
+                    'id': attempt.id,
+                    'exam_id': attempt.exam.id,
+                    'exam_title': attempt.exam.title,
+                    'status': attempt.status,
+                    'score': attempt.score,
+                    'started_at': attempt.started_at.isoformat() if attempt.started_at else None,
+                    'ended_at': attempt.ended_at.isoformat() if attempt.ended_at else None,
+                    'time_spent_seconds': attempt.time_spent_seconds,
+                    'total_questions': total_questions,
+                    'correct_count': correct_count,
+                    'incorrect_count': len(answers) - correct_count,
+                    'unanswered_count': total_questions - len(answers),
+                },
+                'questions': snapshot,
+                'answers': answers,
+            })
+        except Exception as e:
+            logger.error(f"Error retrieving fast review: {str(e)}")
+            return Response(
+                {'error': str(e), 'success': False, 'message': 'Error retrieving review'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class ReviewViewSet(viewsets.ModelViewSet):
     """

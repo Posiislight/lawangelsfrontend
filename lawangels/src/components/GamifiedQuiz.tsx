@@ -13,6 +13,13 @@ import type {
     TopicQuizAttempt
 } from '../services/topicQuizApi'
 
+// Helper function to format question text with line breaks for readability
+const formatQuestionText = (text: string): string => {
+    if (!text) return text
+    // Add line breaks after sentences (period or question mark followed by space and capital letter)
+    return text.replace(/([.?!])\s+([A-Z])/g, '$1\n\n$2')
+}
+
 interface GameState {
     attempt: TopicQuizAttempt | null
     currentQuestion: TopicQuestion | null
@@ -302,29 +309,29 @@ export default function GamifiedQuiz() {
                 <div className="bg-white rounded-xl shadow-lg border-b-4 border-slate-200 overflow-hidden relative z-10">
                     <div className="p-4 md:p-6">
                         {/* Points Stake Badge */}
-                        <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold mb-6 border border-orange-200">
+                        <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold mb-8 border border-orange-200">
                             <span></span>
                             <span>100 Points Stake</span>
                         </div>
 
                         {/* Question */}
-                        <div className="flex flex-col md:flex-row gap-4 items-start">
+                        <div className="flex flex-col md:flex-row gap-4 items-start mb-6">
                             <div className="flex-shrink-0">
                                 <div className="w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl shadow-md flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-300 border-2 border-white">
                                     <Scale className="w-7 h-7 text-white" />
                                 </div>
                             </div>
                             <div className="flex-1">
-                                <h2 className="text-base md:text-lg font-normal text-slate-800 leading-snug">
-                                    {state.currentQuestion?.text}
+                                <h2 className="text-base md:text-lg font-normal text-slate-800 leading-relaxed whitespace-pre-wrap">
+                                    {formatQuestionText(state.currentQuestion?.text || '')}
                                 </h2>
                             </div>
                         </div>
                     </div>
 
                     {/* Answer Options */}
-                    <div className="bg-slate-50 p-4 md:p-6 border-t border-slate-100">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div className="bg-slate-50 p-4 md:p-8 border-t border-slate-100">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                             {state.currentQuestion?.options.map((option) => {
                                 const isEliminated = state.eliminatedOptions.includes(option.label)
                                 const isSelected = state.selectedAnswer === option.label
@@ -354,7 +361,7 @@ export default function GamifiedQuiz() {
                                         key={option.label}
                                         onClick={() => handleSelectAnswer(option.label)}
                                         disabled={isEliminated || !!state.answerResult || state.isSubmitting}
-                                        className={`group relative flex items-center p-3 rounded-lg transition-all duration-200 w-full text-left ${buttonClass}`}
+                                        className={`group relative flex items-center p-4 rounded-xl transition-all duration-200 w-full text-left ${buttonClass}`}
                                     >
                                         <div className={`w-8 h-8 rounded-md font-medium flex items-center justify-center mr-3 transition-colors text-sm ${labelClass}`}>
                                             {state.answerResult && isCorrect ? (
@@ -374,9 +381,8 @@ export default function GamifiedQuiz() {
                         </div>
                     </div>
 
-                    {/* Explanation (shown after answer) */}
                     {state.showExplanation && state.answerResult && (
-                        <div className={`p-6 border-t ${state.answerResult.is_correct ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                        <div className={`p-6 md:p-8 border-t ${state.answerResult.is_correct ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
                             <div className="flex items-start gap-4">
                                 <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${state.answerResult.is_correct ? 'bg-green-100' : 'bg-red-100'
                                     }`}>
@@ -387,10 +393,10 @@ export default function GamifiedQuiz() {
                                     )}
                                 </div>
                                 <div>
-                                    <h3 className={`text-lg font-bold mb-1 ${state.answerResult.is_correct ? 'text-green-700' : 'text-red-700'}`}>
+                                    <h3 className={`text-lg font-bold mb-3 ${state.answerResult.is_correct ? 'text-green-700' : 'text-red-700'}`}>
                                         {state.answerResult.is_correct ? `Correct! +${state.answerResult.points_earned} points` : 'Incorrect'}
                                     </h3>
-                                    <p className="text-slate-600">{state.answerResult.explanation}</p>
+                                    <p className="text-slate-600 leading-relaxed">{state.answerResult.explanation}</p>
                                 </div>
                             </div>
                         </div>

@@ -238,7 +238,7 @@ export default function Register() {
                   </svg>
                   <input
                     type="text"
-                    placeholder="Korode Tibert"
+                    placeholder="John Doe"
                     value={fullName}
                     onChange={(e) => {
                       setFullName(e.target.value)

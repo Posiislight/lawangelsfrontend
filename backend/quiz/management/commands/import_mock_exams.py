@@ -5,7 +5,7 @@ Creates separate exams for each mock test file in the mockexam directory.
 import os
 import re
 from django.core.management.base import BaseCommand
-from django.db import transaction
+from django.db import transaction, models
 from quiz.models import Exam, Question, QuestionOption
 
 # Try to import docx library
@@ -21,24 +21,79 @@ class Command(BaseCommand):
 
     # Map file names to exam details
     FILE_EXAM_MAP = {
-        'MOCK 1 ( NO ANALYSIS).docx': {
-            'title': 'Mock Test 1',
-            'description': 'Full-length SQE1 mock exam - Practice Test 1',
+        # 'mock1_raw.txt': {
+        #     'title': 'Mock 1 FLK 1',
+        #     'description': 'Full-length SQE1 mock exam - Mock 1 FLK 1',
+        #     'subject': 'mixed',
+        #     'color': 'orange',
+        # },
+        # 'mock2_raw.txt': {
+        #     'title': 'Mock Test 2',
+        #     'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
+        #     'subject': 'mixed',
+        #     'color': 'purple',
+        # },
+        # 'mock3_raw.txt': {
+        #     'title': 'Mock Test 3',
+        #     'description': 'Full-length SQE1 mock exam - Practice Test 3 (FLK1)',
+        #     'subject': 'mixed',
+        #     'color': 'green',
+        # },
+        # 'MOCK 1 ( NO ANALYSIS).docx': {
+        #     'title': 'Mock Test 1',
+        #     'description': 'Full-length SQE1 mock exam - Practice Test 1',
+        #     'subject': 'mixed',
+        #     'color': 'blue',
+        # },
+        # 'Mock 2  FLK 1 (NO ANALYSIS) .docx': {
+        #     'title': 'Mock Test 2',
+        #     'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
+        #     'subject': 'mixed',
+        #     'color': 'purple',
+        # },
+        # 'MOCK 3. (No Analysis) docx.docx': {
+        #     'title': 'Mock Exam 3',
+        #     'description': 'Full-length SQE1 mock exam - Mock Exam 3',
+        #     'subject': 'mixed',
+        #     'color': 'green',
+        #     'category': 'FLK1',
+        # },
+        # 'MOCK 1 FLK 2 (UPDATED).docx': {
+        #     'title': 'Mock 1 FLK 2',
+        #     'description': 'Full-length SQE1 mock exam - Mock 1 FLK 2',
+        #     'subject': 'mixed',
+        #     'color': 'indigo',
+        #     'category': 'FLK2',
+        # },
+        # 'MOCK 3 FLK 2 (UPDATED) .docx': {
+        #     'title': 'Mock 3 FLK 2',
+        #     'description': 'Full-length SQE1 mock exam - Mock 3 FLK 2',
+        #     'subject': 'mixed',
+        #     'color': 'teal',
+        #     'category': 'FLK2',
+        # },
+        'mock3_flk2_raw.txt': {
+            'title': 'Mock 3 FLK 2',
+            'description': 'Full-length SQE1 mock exam - Mock 3 FLK 2',
             'subject': 'mixed',
-            'color': 'blue',
+            'color': 'teal',
+            'category': 'FLK2',
         },
-        'Mock 2  FLK 1 (NO ANALYSIS) .docx': {
-            'title': 'Mock Test 2',
-            'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
+        # 'MOCK 2 FLK 2 (UPDATED) .docx': {
+        #     'title': 'Mock 2 FLK 2',
+        #     'description': 'Full-length SQE1 mock exam - Mock 2 FLK 2',
+        #     'subject': 'mixed',
+        #     'color': 'purple',
+        #     'category': 'FLK2',
+        # },
+        'mock2_flk2_raw.txt': {
+            'title': 'Mock 2 FLK 2',
+            'description': 'Full-length SQE1 mock exam - Mock 2 FLK 2',
             'subject': 'mixed',
             'color': 'purple',
+            'category': 'FLK2',
         },
-        'MOCK 3. (No Analysis) docx.docx': {
-            'title': 'Mock Test 3',
-            'description': 'Full-length SQE1 mock exam - Practice Test 3',
-            'subject': 'mixed',
-            'color': 'green',
-        },
+
     }
 
     def add_arguments(self, parser):
@@ -97,7 +152,11 @@ class Command(BaseCommand):
             self.stdout.write(f'  Creating exam: {exam_config["title"]}')
             
             try:
-                questions = self.parse_docx(filepath)
+                if filename.lower().endswith('.docx'):
+                    questions = self.parse_docx(filepath)
+                else:
+                    questions = self.parse_text_file(filepath)
+                    
                 self.stdout.write(f'  Found {len(questions)} questions')
                 
                 if not dry_run:
@@ -112,6 +171,7 @@ class Command(BaseCommand):
             except Exception as e:
                 error_msg = f'Error processing {filename}: {str(e)}'
                 errors.append(error_msg)
+                self.stdout.write(f'EXCEPTION CAUGHT: {error_msg}') # Force stdout print
                 self.stderr.write(self.style.ERROR(error_msg))
                 import traceback
                 traceback.print_exc()
@@ -146,6 +206,14 @@ class Command(BaseCommand):
             if question_match:
                 # Save previous question if exists
                 if current_question:
+                    # Fallback: if no options found, try to extract last 5 lines as options
+                    if not current_question.get('options') and len(question_text_lines) >= 6:
+                        labels = ['A', 'B', 'C', 'D', 'E']
+                        option_lines = question_text_lines[-5:]
+                        question_text_lines = question_text_lines[:-5]
+                        for i, opt in enumerate(option_lines):
+                            current_question['options'][labels[i]] = opt
+
                     if question_text_lines:
                         current_question['text'] = ' '.join(question_text_lines)
                     if current_question.get('text') and len(current_question.get('options', {})) >= 2:
@@ -164,25 +232,40 @@ class Command(BaseCommand):
                 continue
             
             # Check if paragraph contains options (might have multiple options in one paragraph)
-            # Split by option pattern: A. B. C. D. E.
-            if current_question and re.search(r'\b[A-E]\.\s', text):
+            # Split by option pattern: A. B. C. D. E. or a) b) c) d) e)
+            if current_question and re.search(r'\b[A-Ea-e][\.\)]\s', text):
                 # Save question text first
                 if question_text_lines:
                     current_question['text'] = ' '.join(question_text_lines)
                     question_text_lines = []
                 
                 # Split the paragraph into individual options
-                # Pattern: Split before each "X. " where X is A-E
-                option_parts = re.split(r'(?=\b[A-E]\.\s)', text)
+                # Pattern: Split before each "X. " or "x) " where X is A-E
+                option_parts = re.split(r'(?=\b[A-Ea-e][\.\)]\s)', text)
                 for part in option_parts:
                     part = part.strip()
                     if not part:
                         continue
-                    option_match = re.match(r'^([A-E])\.\s*(.+)', part, re.IGNORECASE | re.DOTALL)
+                    option_match = re.match(r'^([A-Ea-e])[\.\)]\s*(.+)', part, re.IGNORECASE | re.DOTALL)
                     if option_match:
                         label = option_match.group(1).upper()
                         option_text = option_match.group(2).strip()
                         current_question['options'][label] = option_text
+                in_explanation = False
+                continue
+            
+            # Check for standalone option line (single option on its own line)
+            # Matches A. text, A) text, a. text, a) text
+            standalone_option = re.match(r'^([A-Ea-e])[\.\)]\s*(.+)', text, re.IGNORECASE)
+            if current_question and standalone_option:
+                # Save question text first if we haven't collected options yet
+                if question_text_lines and not current_question.get('options'):
+                    current_question['text'] = ' '.join(question_text_lines)
+                    question_text_lines = []
+                
+                label = standalone_option.group(1).upper()
+                option_text = standalone_option.group(2).strip()
+                current_question['options'][label] = option_text
                 in_explanation = False
                 continue
             
@@ -240,6 +323,14 @@ class Command(BaseCommand):
         
         # Don't forget the last question
         if current_question:
+            # Fallback: if no options found, try to extract last 5 lines as options
+            if not current_question.get('options') and len(question_text_lines) >= 6:
+                labels = ['A', 'B', 'C', 'D', 'E']
+                option_lines = question_text_lines[-5:]
+                question_text_lines = question_text_lines[:-5]
+                for i, opt in enumerate(option_lines):
+                    current_question['options'][labels[i]] = opt
+
             if question_text_lines:
                 current_question['text'] = ' '.join(question_text_lines)
             if current_question.get('text') and len(current_question.get('options', {})) >= 2:
@@ -252,13 +343,16 @@ class Command(BaseCommand):
         """Create exam and save questions to database."""
         with transaction.atomic():
             # Delete existing exam with same title if exists
+            self.stdout.write(f'  Deleting existing exam "{exam_config["title"]}"...')
             Exam.objects.filter(title=exam_config['title']).delete()
             
             # Create the exam
+            self.stdout.write(f'  Creating new exam object...')
             exam = Exam.objects.create(
                 title=exam_config['title'],
                 description=exam_config['description'],
                 subject=exam_config['subject'],
+                category=exam_config.get('category', 'FLK1'),
                 duration_minutes=60,
                 speed_reader_seconds=70,
                 passing_score_percentage=70,
@@ -267,7 +361,10 @@ class Command(BaseCommand):
             )
             
             saved_count = 0
+            self.stdout.write(f'  Saving {len(questions)} questions...')
             for i, q_data in enumerate(questions):
+                if i % 10 == 0:
+                   self.stdout.write(f'    Saving question {i+1}...')
                 # Default correct answer if not found
                 if not q_data.get('correct_answer'):
                     q_data['correct_answer'] = 'A'
@@ -275,10 +372,17 @@ class Command(BaseCommand):
                 # Determine topic based on keywords in question text
                 topic = self.infer_topic(q_data.get('text', ''))
                 
+                # Ensure question number is unique for this exam
+                q_num = q_data['number']
+                if Question.objects.filter(exam=exam, question_number=q_num).exists():
+                     # Find next available number
+                     max_num = Question.objects.filter(exam=exam).aggregate(models.Max('question_number'))['question_number__max']
+                     q_num = (max_num or 0) + 1
+                
                 # Create the question
                 question = Question.objects.create(
                     exam=exam,
-                    question_number=i + 1,
+                    question_number=q_num,
                     text=q_data['text'][:5000] if q_data.get('text') else "Question text missing",
                     explanation=q_data.get('explanation', 'No explanation provided.')[:5000],
                     difficulty='medium',
@@ -323,3 +427,139 @@ class Command(BaseCommand):
                     return topic
         
         return 'criminal_law'  # Default topic
+
+    def parse_text_file(self, filepath):
+        """Parse a plain text file with mock exam questions."""
+        self.stdout.write(f'Parsing text file: {filepath}')
+        questions = []
+        current_question = None
+        question_text_lines = []
+        in_explanation = False
+        with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
+            lines = f.readlines()
+        self.stdout.write(f'Read {len(lines)} lines')
+
+        for line in lines:
+            text = line.strip()
+            if not text:
+                continue
+            
+            # Skip headers/titles
+            if text.upper().startswith('MOCK') or (text.upper().startswith('FLK') and 'QUESTION' not in text.upper()):
+                continue
+            
+            # Check for "Question N" pattern
+            question_match = re.match(r'^Question\s+(\d+)\s*(?:\([^)]*\))?', text, re.IGNORECASE)
+            if question_match:
+                # Save previous question if exists
+                if current_question:
+                    # Fallback: if no options found, try to extract last 5 lines as options
+                    if not current_question.get('options') and len(question_text_lines) >= 6:
+                        labels = ['A', 'B', 'C', 'D', 'E']
+                        option_lines = question_text_lines[-5:]
+                        question_text_lines = question_text_lines[:-5]
+                        for i, opt in enumerate(option_lines):
+                            current_question['options'][labels[i]] = opt
+
+                    if question_text_lines:
+                        current_question['text'] = ' '.join(question_text_lines)
+                    if current_question.get('text') and len(current_question.get('options', {})) >= 2:
+                        questions.append(current_question)
+                
+                q_num = int(question_match.group(1))
+                current_question = {
+                    'number': q_num,
+                    'text': '',
+                    'options': {},
+                    'correct_answer': None,
+                    'explanation': '',
+                }
+                question_text_lines = []
+                in_explanation = False
+                continue
+            
+            # Check for options: A. B. C. D. E.
+            # Matches A. text, A) text, a. text, a) text
+            option_match = re.match(r'^([A-Ea-e])[\.\)]\s*(.+)', text, re.IGNORECASE)
+            if current_question and option_match:
+                # Save question text if not yet saved (first option encounter)
+                if question_text_lines and not current_question.get('options'):
+                    current_question['text'] = ' '.join(question_text_lines)
+                    question_text_lines = []
+                
+                label = option_match.group(1).upper()
+                option_text = option_match.group(2).strip()
+                current_question['options'][label] = option_text
+                in_explanation = False
+                continue
+            
+            # Check for correct answer patterns
+            answer_patterns = [
+                r'(?:The\s+)?correct\s+(?:option|answer)\s+is\s+([A-E])',
+                r'([A-E])\s+is\s+(?:the\s+)?correct\s+(?:option|answer)',
+                r'^Option\s+([A-E])\s+is\s+correct',
+                r'^([A-E])\s+is\s+correct',
+                r'Answer[:\s]+([A-E])',
+                r'^Correct\s+(?:Answer|Option)[:\s]+([A-E])'
+            ]
+            answer_found = False
+            for pattern in answer_patterns:
+                answer_match = re.search(pattern, text, re.IGNORECASE)
+                if answer_match and current_question:
+                    current_question['correct_answer'] = answer_match.group(1).upper()
+                    answer_found = True
+                    break
+            
+            if answer_found:
+                continue
+            
+            # Check for explanation header
+            if re.match(r'^Explanation\s*:?\s*$', text, re.IGNORECASE) and current_question:
+                in_explanation = True
+                continue
+            
+            # Check for inline explanation
+            explanation_match = re.match(r'^Explanation[:\s]+(.+)', text, re.IGNORECASE)
+            if explanation_match and current_question:
+                current_question['explanation'] = explanation_match.group(1)
+                in_explanation = True
+                continue
+             
+             # Check for "Option X is incorrect/correct" explanation lines (common in text file)
+            if current_question and re.match(r'^Option\s+[A-E]\s+ is\s+(?:in)?correct', text, re.IGNORECASE):
+                if current_question['explanation']:
+                    current_question['explanation'] += ' ' + text
+                else:
+                    current_question['explanation'] = text
+                in_explanation = True
+                continue
+            
+            # If we're in explanation mode, collect explanation text
+            if in_explanation and current_question:
+                if current_question['explanation']:
+                    current_question['explanation'] += ' ' + text
+                else:
+                    current_question['explanation'] = text
+                continue
+            
+            # If we have a current question but no options yet, this is question text
+            if current_question and not current_question.get('options'):
+                question_text_lines.append(text)
+        
+        # Don't forget the last question
+        if current_question:
+             # Fallback: if no options found, try to extract last 5 lines as options
+            if not current_question.get('options') and len(question_text_lines) >= 6:
+                labels = ['A', 'B', 'C', 'D', 'E']
+                option_lines = question_text_lines[-5:]
+                question_text_lines = question_text_lines[:-5]
+                for i, opt in enumerate(option_lines):
+                    current_question['options'][labels[i]] = opt
+
+            if question_text_lines:
+                current_question['text'] = ' '.join(question_text_lines)
+            if current_question.get('text') and len(current_question.get('options', {})) >= 2:
+                questions.append(current_question)
+        
+        self.stdout.write(f'  Parsed {len(questions)} valid questions from text file')
+        return questions

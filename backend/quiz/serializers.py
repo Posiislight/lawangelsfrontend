@@ -150,7 +150,7 @@ class ExamAttemptReviewSerializer(serializers.ModelSerializer):
     
     OPTIMIZED: 
     - Uses prefetched data from context when available
-    - Avoids re-querying by using pre-computed lists
+    - Uses flattened answer serializer to avoid nested serialization overhead
     """
     exam = ExamMinimalSerializer(read_only=True)
     answers = serializers.SerializerMethodField()
@@ -166,16 +166,53 @@ class ExamAttemptReviewSerializer(serializers.ModelSerializer):
     def get_answers(self, obj):
         # Use prefetched data if available in context
         prefetched = self.context.get('prefetched_answers')
-        if prefetched is not None:
-            return QuestionAnswerDetailSerializer(prefetched, many=True).data
-        return QuestionAnswerDetailSerializer(obj.answers.all(), many=True).data
+        answers_list = prefetched if prefetched is not None else list(obj.answers.all())
+        
+        # OPTIMIZED: Build flat response directly without nested serializers
+        # This avoids the overhead of QuestionAnswerDetailSerializer → QuestionDetailSerializer
+        result = []
+        for answer in answers_list:
+            q = answer.question
+            # Get cached options or iterate once
+            options = list(q.options.all()) if hasattr(q, '_prefetched_objects_cache') else q.options.all()
+            result.append({
+                'id': answer.id,
+                'selected_answer': answer.selected_answer,
+                'is_correct': answer.is_correct,
+                'time_spent_seconds': answer.time_spent_seconds,
+                'question': {
+                    'id': q.id,
+                    'question_number': q.question_number,
+                    'text': q.text,
+                    'explanation': q.explanation,
+                    'difficulty': q.difficulty,
+                    'topic': q.topic,
+                    'correct_answer': q.correct_answer,
+                    'options': [{'label': o.label, 'text': o.text} for o in options]
+                }
+            })
+        return result
     
     def get_questions(self, obj):
         # Use prefetched data if available in context
         prefetched = self.context.get('prefetched_questions')
-        if prefetched is not None:
-            return QuestionDetailSerializer(prefetched, many=True).data
-        return QuestionDetailSerializer(obj.selected_questions.all(), many=True).data
+        questions_list = prefetched if prefetched is not None else list(obj.selected_questions.all())
+        
+        # OPTIMIZED: Build flat response directly without nested serializers
+        result = []
+        for q in questions_list:
+            options = list(q.options.all()) if hasattr(q, '_prefetched_objects_cache') else q.options.all()
+            result.append({
+                'id': q.id,
+                'question_number': q.question_number,
+                'text': q.text,
+                'explanation': q.explanation,
+                'difficulty': q.difficulty,
+                'topic': q.topic,
+                'correct_answer': q.correct_answer,
+                'options': [{'label': o.label, 'text': o.text} for o in options]
+            })
+        return result
 
 
 class ExamAttemptDashboardSerializer(serializers.ModelSerializer):

@@ -42,6 +42,27 @@ interface ExamState {
   answeredQuestions: Record<number, { answer: string; isCorrect: boolean }>
   speedReaderTime: number
   practiceMode: PracticeMode
+  finishingExam: boolean
+}
+
+// Helper function to strip topic prefix from question text
+// Matches patterns like "(PROPERTY PRACTICE)", "(CRIMINAL LAW)", etc. at the start
+const stripTopicPrefix = (text: string): string => {
+  if (!text) return text
+  // Remove topic prefix pattern at the start: (ALL CAPS TEXT) followed by optional whitespace
+  return text.replace(/^\s*\([A-Z][A-Z\s]+\)\s*/i, '').trim()
+}
+
+// Helper function to format question text with line breaks for readability
+// Adds a line break after sentences that end with period/question mark followed by a space and capital letter
+const formatQuestionText = (text: string): string => {
+  if (!text) return text
+  // First strip the topic prefix
+  let formatted = stripTopicPrefix(text)
+  // Add line breaks after sentences (period or question mark followed by space and capital letter)
+  // This helps break up long question text into readable paragraphs
+  formatted = formatted.replace(/([.?!])\s+([A-Z])/g, '$1\n\n$2')
+  return formatted
 }
 
 export default function MockExam({
@@ -68,6 +89,7 @@ export default function MockExam({
     answeredQuestions: savedProgress?.answeredQuestions || {},
     speedReaderTime: 70,
     practiceMode: practiceMode,
+    finishingExam: false,
   })
 
   // Track which answers have been submitted to backend to avoid duplicates
@@ -122,8 +144,8 @@ export default function MockExam({
 
         // OPTIMIZATION: Fetch questions and config in parallel (they don't depend on each other)
         const [questions, config] = await Promise.all([
-          // Fetch questions for this attempt
-          fetch(`${apiBaseUrl}/exam-attempts/${attempt.id}/questions/`, {
+          // Fetch questions for this attempt (using fast snapshot endpoint)
+          fetch(`${apiBaseUrl}/exam-attempts/${attempt.id}/questions_fast/`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -332,17 +354,14 @@ export default function MockExam({
     try {
       console.log(`Finishing exam attempt ${state.attempt.id}...`)
 
-      // End the exam attempt
-      const completedAttempt = await quizApi.endExam(state.attempt.id)
-      console.log('Exam completed:', completedAttempt)
+      // End the exam attempt (fire and forget - don't wait)
+      quizApi.endExam(state.attempt.id).catch(err => {
+        console.error('Background exam finish failed:', err)
+      })
 
-      if (!completedAttempt.id) {
-        throw new Error('No attempt ID in response')
-      }
-
-      console.log(`Navigating to results page: /results/${completedAttempt.id}`)
-      // Navigate to results page
-      navigate(`/results/${completedAttempt.id}`)
+      // Navigate immediately to results page - loading will happen there
+      console.log(`Navigating to results page: /results/${state.attempt.id}`)
+      navigate(`/results/${state.attempt.id}`)
     } catch (error) {
       console.error('Error finishing exam:', error)
       const errorMsg = error instanceof Error ? error.message : 'Failed to finish exam'
@@ -553,17 +572,17 @@ export default function MockExam({
           <div className="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
             <div className="p-4 md:p-8">
               {/* Question Header */}
-              <div className="flex gap-4 mb-6 md:mb-8">
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#0F172B] text-white font-medium text-sm flex-shrink-0">
+              <div className="flex gap-4 mb-10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#0F172B] text-white font-semibold text-base flex-shrink-0">
                   {state.currentQuestion + 1}
                 </div>
-                <p className="text-lg font-medium text-[#1D293D] leading-relaxed flex-1">
-                  {question.text}
+                <p className="text-lg md:text-xl font-medium text-[#1D293D] leading-relaxed flex-1 whitespace-pre-wrap">
+                  {formatQuestionText(question.text)}
                 </p>
               </div>
 
               {/* Answer Options */}
-              <div className="space-y-3 mb-8">
+              <div className="space-y-4 mb-10">
                 {question.options.map((option) => {
                   const isSelected = state.selectedAnswer === option.label
                   const showCorrectHighlight = showFeedback && isSelected && isAnswerCorrect
@@ -572,7 +591,7 @@ export default function MockExam({
                   return (
                     <div key={option.label}>
                       <label
-                        className={`flex items-start gap-3 p-3 md:p-4 rounded-lg border-2 cursor-pointer transition-all ${showCorrectHighlight
+                        className={`flex items-start gap-4 p-4 md:p-5 rounded-xl border-2 cursor-pointer transition-all ${showCorrectHighlight
                           ? 'bg-[#ECFDF5] border-[#10B981]'
                           : showIncorrectHighlight
                             ? 'bg-[#FEF2F2] border-[#EF4444]'
@@ -601,17 +620,17 @@ export default function MockExam({
 
                       {/* Show explanation in learn-as-you-go mode */}
                       {showFeedback && isSelected && (
-                        <div className={`mt-2 p-4 rounded-lg ${isAnswerCorrect ? 'bg-[#ECFDF5] border border-[#10B981]' : 'bg-[#FEF2F2] border border-[#EF4444]'}`}>
-                          <p className={`text-base font-medium mb-1 ${isAnswerCorrect ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
+                        <div className={`mt-4 p-5 rounded-xl ${isAnswerCorrect ? 'bg-[#ECFDF5] border border-[#10B981]' : 'bg-[#FEF2F2] border border-[#EF4444]'}`}>
+                          <p className={`text-base font-semibold mb-3 ${isAnswerCorrect ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
                             {isAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
                           </p>
                           {question.explanation && (
-                            <p className="text-base text-[#314158] whitespace-pre-wrap leading-relaxed">
+                            <p className="text-base text-[#314158] whitespace-pre-wrap leading-loose mt-3">
                               {question.explanation.replace(/(Option [A-E])/g, '\n\n$1')}
                             </p>
                           )}
                           {!isAnswerCorrect && (
-                            <p className="text-base text-[#059669] mt-2">
+                            <p className="text-base text-[#059669] mt-4 font-medium">
                               <span className="font-medium">Correct answer:</span> {question.correct_answer}
                             </p>
                           )}
@@ -733,6 +752,7 @@ export default function MockExam({
             <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
               <button
                 onClick={() => {
+                  if (state.finishingExam) return
                   // Save progress to localStorage for quick resume
                   const progressData = {
                     attemptId: state.attemptId,
@@ -752,15 +772,24 @@ export default function MockExam({
                     navigate('/mock-questions')
                   }
                 }}
+                disabled={state.finishingExam}
                 className="w-full sm:w-auto px-6 py-3 bg-white border-2 border-[#E17100] text-[#E17100] rounded-lg font-medium hover:bg-[#FFF7ED] transition"
               >
                 Save & Exit
               </button>
               <button
                 onClick={handleConfirmFinish}
+                disabled={state.finishingExam}
                 className="w-full sm:w-auto px-8 py-3 bg-[#10B981] text-white rounded-lg font-medium hover:bg-[#059669] transition shadow-lg"
               >
-                Finish Exam
+                {state.finishingExam ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Loader size={18} className="text-white animate-spin" />
+                    Submitting...
+                  </span>
+                ) : (
+                  'Finish Exam'
+                )}
               </button>
             </div>
           </div>

@@ -229,6 +229,14 @@ class QuizApiClient {
     return this.request(`/exam-attempts/${attemptId}/questions/`);
   }
 
+  /**
+   * OPTIMIZED: Get questions using pre-serialized snapshot (~50ms vs 17s).
+   * Falls back to regular endpoint if no snapshot available.
+   */
+  async getAttemptQuestionsFast(attemptId: number): Promise<Question[]> {
+    return this.request(`/exam-attempts/${attemptId}/questions_fast/`);
+  }
+
   async getExamTimingConfig(): Promise<ExamTimingConfig> {
     return this.request('/exams/config/');
   }
@@ -299,6 +307,42 @@ class QuizApiClient {
   async getReview(attemptId: number): Promise<ExamAttempt> {
     return this.request(`/exam-attempts/${attemptId}/review/`);
   }
+
+  /**
+   * OPTIMIZED: Get fast review using pre-serialized question snapshot.
+   * Falls back to regular review endpoint if snapshot not available.
+   */
+  async getReviewFast(attemptId: number): Promise<FastReviewResponse> {
+    return this.request(`/exam-attempts/${attemptId}/review_fast/`);
+  }
+}
+
+// Fast review response type (optimized endpoint)
+export interface FastReviewResponse {
+  attempt: {
+    id: number;
+    exam_id: number;
+    exam_title: string;
+    status: string;
+    score: number | null;
+    started_at: string | null;
+    ended_at: string | null;
+    time_spent_seconds: number;
+    total_questions: number;
+    correct_count: number;
+    incorrect_count: number;
+    unanswered_count: number;
+  };
+  questions: Array<{
+    id: number;
+    question_number: number;
+    text: string;
+    explanation: string;
+    correct_answer: string;
+    topic: string;
+    options: Array<{ label: string; text: string }>;
+  }>;
+  answers: Record<number, { selected: string; is_correct: boolean }>;
 }
 
 // Export singleton instance

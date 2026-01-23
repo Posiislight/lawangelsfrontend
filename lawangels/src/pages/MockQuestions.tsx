@@ -111,9 +111,10 @@ export default function MockQuestions() {
     fetchData()
   }, [])
 
-  // Helper to extract number from "Mock Test X" or "X"
+  // Helper to extract number from "Mock Test X", "Mock Exam X", or generic "X"
   const getExamNumber = (title: string): number => {
-    const match = title.match(/Mock Test (\d+)/i) || title.match(/^(\d+)$/)
+    // Matches "Mock Test 1", "Mock Exam 3", "Mock 3", etc.
+    const match = title.match(/Mock (?:Test|Exam)?\s*(\d+)/i) || title.match(/^(\d+)$/)
     return match ? parseInt(match[1]) : 999
   }
 
@@ -506,37 +507,54 @@ export default function MockQuestions() {
 
                           </div>
 
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              if (!isLocked) handleStartExam(exam)
-                            }}
-                            disabled={isLocked}
-                            className={`w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 transition-opacity
-                                ${isLocked
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : getSavedProgress(exam.id)
-                                  ? 'bg-[#E17100] text-white hover:opacity-90'
-                                  : `${color.accent} text-white hover:opacity-90`
-                              }`}
-                          >
-                            {isLocked ? (
-                              <>
-                                <Lock className="w-4 h-4" />
-                                <span>Locked</span>
-                              </>
-                            ) : getSavedProgress(exam.id) ? (
-                              <>
-                                Continue Exam
+                          {/* Button(s) - Show two buttons when there's saved progress */}
+                          {isLocked ? (
+                            <button
+                              disabled
+                              className="w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 bg-gray-100 text-gray-400 cursor-not-allowed"
+                            >
+                              <Lock className="w-4 h-4" />
+                              <span>Locked</span>
+                            </button>
+                          ) : getSavedProgress(exam.id) ? (
+                            <div className="flex flex-col gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleStartExam(exam)
+                                }}
+                                className="w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 bg-[#E17100] text-white hover:opacity-90 transition-opacity"
+                              >
+                                Continue Previous
                                 <ArrowRight className="w-4 h-4" />
-                              </>
-                            ) : (
-                              <>
-                                {exam.attemptsTaken > 0 ? 'Retake Exam' : 'Start Exam'}
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  // Clear saved progress and start fresh
+                                  localStorage.removeItem(`exam_progress_${exam.id}`)
+                                  setSelectedExam(exam)
+                                  setResumeProgress(null)
+                                  setCurrentView('start')
+                                }}
+                                className={`w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 border-2 ${color.accent.replace('bg-', 'border-')} ${color.text} bg-white hover:bg-gray-50 transition-colors`}
+                              >
+                                Start New Exam
                                 <ArrowRight className="w-4 h-4" />
-                              </>
-                            )}
-                          </button>
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleStartExam(exam)
+                              }}
+                              className={`w-full font-medium py-2 rounded-lg flex items-center justify-center gap-2 ${color.accent} text-white hover:opacity-90 transition-opacity`}
+                            >
+                              {exam.attemptsTaken > 0 ? 'Retake Exam' : 'Start Exam'}
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
+                          )}
                         </div>
                       </div>
                     )
