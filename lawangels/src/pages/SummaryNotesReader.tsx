@@ -409,7 +409,8 @@ export default function SummaryNotesReader() {
                                                 prose-ul:list-disc prose-ul:pl-5 prose-ul:space-y-2
                                                 prose-ol:list-decimal prose-ol:pl-5 prose-ol:space-y-4
                                                 prose-li:marker:text-black prose-li:pl-1
-                                                prose-blockquote:border-l-4 prose-blockquote:border-gray-900 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-800"
+                                                prose-blockquote:border-l-4 prose-blockquote:border-gray-900 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-800
+                                                [&>*]:mb-4 [&>p]:mb-6 whitespace-pre-wrap"
                                             dangerouslySetInnerHTML={{ __html: chapter.content }}
                                         />
                                     </div>
