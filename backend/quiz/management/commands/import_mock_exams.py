@@ -21,79 +21,48 @@ class Command(BaseCommand):
 
     # Map file names to exam details
     FILE_EXAM_MAP = {
-        # 'mock1_raw.txt': {
-        #     'title': 'Mock 1 FLK 1',
-        #     'description': 'Full-length SQE1 mock exam - Mock 1 FLK 1',
-        #     'subject': 'mixed',
-        #     'color': 'orange',
-        # },
-        # 'mock2_raw.txt': {
-        #     'title': 'Mock Test 2',
-        #     'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
-        #     'subject': 'mixed',
-        #     'color': 'purple',
-        # },
-        # 'mock3_raw.txt': {
-        #     'title': 'Mock Test 3',
-        #     'description': 'Full-length SQE1 mock exam - Practice Test 3 (FLK1)',
-        #     'subject': 'mixed',
-        #     'color': 'green',
-        # },
-        # 'MOCK 1 ( NO ANALYSIS).docx': {
-        #     'title': 'Mock Test 1',
-        #     'description': 'Full-length SQE1 mock exam - Practice Test 1',
-        #     'subject': 'mixed',
-        #     'color': 'blue',
-        # },
-        # 'Mock 2  FLK 1 (NO ANALYSIS) .docx': {
-        #     'title': 'Mock Test 2',
-        #     'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
-        #     'subject': 'mixed',
-        #     'color': 'purple',
-        # },
-        # 'MOCK 3. (No Analysis) docx.docx': {
-        #     'title': 'Mock Exam 3',
-        #     'description': 'Full-length SQE1 mock exam - Mock Exam 3',
-        #     'subject': 'mixed',
-        #     'color': 'green',
-        #     'category': 'FLK1',
-        # },
-        # 'MOCK 1 FLK 2 (UPDATED).docx': {
-        #     'title': 'Mock 1 FLK 2',
-        #     'description': 'Full-length SQE1 mock exam - Mock 1 FLK 2',
-        #     'subject': 'mixed',
-        #     'color': 'indigo',
-        #     'category': 'FLK2',
-        # },
-        # 'MOCK 3 FLK 2 (UPDATED) .docx': {
-        #     'title': 'Mock 3 FLK 2',
-        #     'description': 'Full-length SQE1 mock exam - Mock 3 FLK 2',
-        #     'subject': 'mixed',
-        #     'color': 'teal',
-        #     'category': 'FLK2',
-        # },
-        'mock3_flk2_raw.txt': {
-            'title': 'Mock 3 FLK 2',
-            'description': 'Full-length SQE1 mock exam - Mock 3 FLK 2',
+        'txt files/mock1_raw.txt': {
+            'title': 'Mock Test 1',
+            'description': 'Full-length SQE1 mock exam - Practice Test 1 (FLK1)',
             'subject': 'mixed',
-            'color': 'teal',
-            'category': 'FLK2',
+            'color': 'blue',
+            'category': 'FLK1',
         },
-        # 'MOCK 2 FLK 2 (UPDATED) .docx': {
-        #     'title': 'Mock 2 FLK 2',
-        #     'description': 'Full-length SQE1 mock exam - Mock 2 FLK 2',
-        #     'subject': 'mixed',
-        #     'color': 'purple',
-        #     'category': 'FLK2',
-        # },
-        'mock2_flk2_raw.txt': {
+        'txt files/mock2_flk2_raw_fixed.txt': {
             'title': 'Mock 2 FLK 2',
             'description': 'Full-length SQE1 mock exam - Mock 2 FLK 2',
             'subject': 'mixed',
             'color': 'purple',
             'category': 'FLK2',
         },
-
+        'txt files/mock3_raw_fixed.txt': {
+            'title': 'Mock Test 3',
+            'description': 'Full-length SQE1 mock exam - Practice Test 3 (FLK1)',
+            'subject': 'mixed',
+            'color': 'green',
+            'category': 'FLK1',
+        },
+        'flk2/MOCK 1 FLK 2 (UPDATED).docx': {
+            'title': 'Mock 1 FLK 2',
+            'description': 'Full-length SQE1 mock exam - Mock 1 FLK 2',
+            'subject': 'mixed',
+            'color': 'indigo',
+            'category': 'FLK2',
+        },
+        'txt files/mock2_raw.txt': {
+            'title': 'Mock Test 2',
+            'description': 'Full-length SQE1 mock exam - Practice Test 2 (FLK1)',
+            'subject': 'mixed',
+            'color': 'purple',
+            'category': 'FLK1',
+        },
+        'txt files/mock3_flk2_raw_fixed.txt': {
+            'title': 'Mock 3 FLK 2',
+            'description': 'Full-length SQE1 mock exam - Mock 3 FLK 2',
+            'subject': 'mixed',
+            'color': 'teal',
+            'category': 'FLK2',
+        },
     }
 
     def add_arguments(self, parser):
@@ -231,6 +200,33 @@ class Command(BaseCommand):
                 in_explanation = False
                 continue
             
+            # Check for standalone option line (single option on its own line)
+            # Matches A. text, A) text, a. text, a) text
+            standalone_option = re.match(r'^([A-Ea-e])[\.\)]\s*(.+)', text, re.IGNORECASE)
+            if current_question and standalone_option:
+                # If we are already in explanation mode or have a correct answer, treat this as explanation
+                if in_explanation or current_question.get('correct_answer'):
+                    if current_question['explanation']:
+                        current_question['explanation'] += ' ' + text
+                    else:
+                        current_question['explanation'] = text
+                    in_explanation = True
+                    continue
+
+                # Save question text first if we haven't collected options yet
+                if question_text_lines and not current_question.get('options'):
+                    current_question['text'] = ' '.join(question_text_lines)
+                    question_text_lines = []
+                
+                label = standalone_option.group(1).upper()
+                option_text = standalone_option.group(2).strip()
+                # Clean up double lettering/bullets (e.g. "● A. Text" -> "Text")
+                option_text = re.sub(r'^[\s●\-\.]+', '', option_text).strip()
+                option_text = re.sub(r'^[A-Ea-e][\.\)]\s*', '', option_text).strip()
+                current_question['options'][label] = option_text
+                in_explanation = False
+                continue
+
             # Check if paragraph contains options (might have multiple options in one paragraph)
             # Split by option pattern: A. B. C. D. E. or a) b) c) d) e)
             if current_question and re.search(r'\b[A-Ea-e][\.\)]\s', text):
@@ -250,22 +246,10 @@ class Command(BaseCommand):
                     if option_match:
                         label = option_match.group(1).upper()
                         option_text = option_match.group(2).strip()
+                        # Clean up double lettering/bullets (e.g. "● A. Text" -> "Text")
+                        option_text = re.sub(r'^[\s●\-\.]+', '', option_text).strip()
+                        option_text = re.sub(r'^[A-Ea-e][\.\)]\s*', '', option_text).strip()
                         current_question['options'][label] = option_text
-                in_explanation = False
-                continue
-            
-            # Check for standalone option line (single option on its own line)
-            # Matches A. text, A) text, a. text, a) text
-            standalone_option = re.match(r'^([A-Ea-e])[\.\)]\s*(.+)', text, re.IGNORECASE)
-            if current_question and standalone_option:
-                # Save question text first if we haven't collected options yet
-                if question_text_lines and not current_question.get('options'):
-                    current_question['text'] = ' '.join(question_text_lines)
-                    question_text_lines = []
-                
-                label = standalone_option.group(1).upper()
-                option_text = standalone_option.group(2).strip()
-                current_question['options'][label] = option_text
                 in_explanation = False
                 continue
             
@@ -482,6 +466,15 @@ class Command(BaseCommand):
             # Matches A. text, A) text, a. text, a) text
             option_match = re.match(r'^([A-Ea-e])[\.\)]\s*(.+)', text, re.IGNORECASE)
             if current_question and option_match:
+                # If we are already in explanation mode or have a correct answer, treat this as explanation
+                if in_explanation or current_question.get('correct_answer'):
+                    if current_question['explanation']:
+                        current_question['explanation'] += ' ' + text
+                    else:
+                        current_question['explanation'] = text
+                    in_explanation = True
+                    continue
+
                 # Save question text if not yet saved (first option encounter)
                 if question_text_lines and not current_question.get('options'):
                     current_question['text'] = ' '.join(question_text_lines)
@@ -499,7 +492,7 @@ class Command(BaseCommand):
                 r'([A-E])\s+is\s+(?:the\s+)?correct\s+(?:option|answer)',
                 r'^Option\s+([A-E])\s+is\s+correct',
                 r'^([A-E])\s+is\s+correct',
-                r'Answer[:\s]+([A-E])',
+                r'^Answer[:\s]+([A-E])',
                 r'^Correct\s+(?:Answer|Option)[:\s]+([A-E])'
             ]
             answer_found = False

@@ -40,7 +40,7 @@ export default function MockTestStart({ exam, onContinue, onBack }: MockTestStar
             className="flex items-center gap-3 bg-[#0F172B] text-[#CAD5E2] hover:text-white transition"
           >
             <ArrowLeft size={16} />
-            <span className="text-sm font-medium">Back to Dashboard</span>
+            <span className="text-sm font-medium">Back to Mock Exams</span>
           </button>
         </div>
       </div>

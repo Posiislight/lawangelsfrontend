@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Home, ChevronDown, ChevronUp, Trophy, TrendingUp, BarChart3, Timer, Target, CheckCheckIcon } from 'lucide-react'
 import { quizApi } from '../services/quizApi'
 import type { FastReviewResponse } from '../services/quizApi'
+import lawAngelsLogo from '../assets/lawangelslogo.png'
 
 
 interface AnswerWithQuestion {
@@ -135,44 +136,57 @@ export default function Results() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0F172B]">
-        <div className="flex flex-col items-center gap-6 max-w-md text-center">
-          {/* Animated progress ring */}
-          <div className="relative">
-            <div className="w-20 h-20 rounded-full border-4 border-[#1E293B] flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#00BCD4] animate-spin" />
-              <Trophy className="w-8 h-8 text-[#00BCD4]" />
-            </div>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center gap-8 max-w-md w-full px-4">
+          {/* Logo with Circular Progress */}
+          <div className="relative w-32 h-32 flex items-center justify-center">
+            {/* Rotating border/ring */}
+            <div className="absolute inset-0 rounded-full border-4 border-gray-100" />
+            <div className="absolute inset-0 rounded-full border-4 border-[#00BCD4] border-t-transparent animate-spin" />
+
+            {/* Logo */}
+            <img
+              src={lawAngelsLogo}
+              alt="Law Angels"
+              className="w-16 h-16 object-contain relative z-10"
+            />
           </div>
 
-          {/* Step progress */}
-          <div className="space-y-3 w-full">
-            <h2 className="text-xl font-bold text-white">Calculating Your Results</h2>
-            <div className="flex items-center gap-3 text-left">
-              <div className="w-6 h-6 rounded-full bg-[#00BCD4] flex items-center justify-center flex-shrink-0">
-                <CheckCheckIcon className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-gray-300">Loading exam data...</span>
-            </div>
-            <div className="flex items-center gap-3 text-left">
-              <div className="w-6 h-6 rounded-full bg-[#1E293B] flex items-center justify-center flex-shrink-0 animate-pulse">
-                <BarChart3 className="w-4 h-4 text-[#00BCD4]" />
-              </div>
-              <span className="text-gray-400">Analyzing your performance...</span>
-            </div>
-            <div className="flex items-center gap-3 text-left">
-              <div className="w-6 h-6 rounded-full bg-[#1E293B] flex items-center justify-center flex-shrink-0">
-                <Target className="w-4 h-4 text-gray-500" />
-              </div>
-              <span className="text-gray-500">Generating insights...</span>
-            </div>
-          </div>
+          <div className="space-y-6 w-full max-w-sm">
+            <h2 className="text-2xl font-semibold text-gray-900 text-center">Calculating Your Results</h2>
 
-          {/* Progress bar */}
-          <div className="w-full bg-[#1E293B] rounded-full h-2 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] rounded-full animate-pulse" style={{ width: '60%' }} />
+            <div className="space-y-4">
+              {/* Step 1 */}
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-[#E0F7FA] flex items-center justify-center flex-shrink-0">
+                  <CheckCheckIcon className="w-4 h-4 text-[#00BCD4]" />
+                </div>
+                <span className="text-gray-700 font-medium">Loading exam data...</span>
+              </div>
+
+              {/* Step 2 */}
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-[#E0F7FA] flex items-center justify-center flex-shrink-0 animate-pulse">
+                  <BarChart3 className="w-4 h-4 text-[#00BCD4]" />
+                </div>
+                <span className="text-gray-700 font-medium">Analyzing your performance...</span>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <Target className="w-4 h-4 text-gray-400" />
+                </div>
+                <span className="text-gray-500">Generating insights...</span>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+              <div className="h-full bg-[#00BCD4] rounded-full animate-pulse" style={{ width: '60%' }} />
+            </div>
+            <p className="text-gray-400 text-sm text-center">This may take a moment...</p>
           </div>
-          <p className="text-gray-400 text-sm">This may take a moment...</p>
         </div>
       </div>
     )

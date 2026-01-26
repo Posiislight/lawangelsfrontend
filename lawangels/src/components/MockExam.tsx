@@ -23,6 +23,7 @@ interface MockExamProps {
   practiceMode?: PracticeMode
   extraTimeEnabled?: boolean
   onExit?: () => void
+  onBack?: () => void
   savedProgress?: SavedProgress | null
 }
 
@@ -61,7 +62,9 @@ const formatQuestionText = (text: string): string => {
   let formatted = stripTopicPrefix(text)
   // Add line breaks after sentences (period or question mark followed by space and capital letter)
   // This helps break up long question text into readable paragraphs
-  formatted = formatted.replace(/([.?!])\s+([A-Z])/g, '$1\n\n$2')
+  // Add line breaks after sentences, but avoid splitting common titles (Mr., Mrs., etc.)
+  // Using negative lookbehind to ensure we don't split after titles
+  formatted = formatted.replace(/(?<!\b(?:Mr|Mrs|Ms|Dr|Prof|St|Hon|Rev))([.?!])\s+([A-Z])/g, '$1\n\n$2')
   return formatted
 }
 
@@ -70,6 +73,7 @@ export default function MockExam({
   practiceMode = 'learn-as-you-go',
   extraTimeEnabled = false,
   onExit,
+  onBack,
   savedProgress
 }: MockExamProps) {
   const navigate = useNavigate()
@@ -384,6 +388,27 @@ export default function MockExam({
     handleFinishExam()
   }
 
+  const handleBack = () => {
+    if (state.finishingExam) return
+
+    // Save progress to localStorage (Auto-save)
+    const progressData = {
+      attemptId: state.attemptId,
+      examId: state.examId,
+      currentQuestion: state.currentQuestion,
+      answeredQuestions: state.answeredQuestions,
+      timeLeft: state.timeLeft,
+      savedAt: new Date().toISOString()
+    }
+    localStorage.setItem(`exam_progress_${state.examId}`, JSON.stringify(progressData))
+
+    if (onBack) {
+      onBack()
+    } else {
+      navigate('/dashboard')
+    }
+  }
+
   if (state.loading) {
     const steps: { step: LoadingStep; label: string; description: string }[] = [
       { step: 'creating-attempt', label: 'Initializing', description: 'Creating your exam session' },
@@ -489,11 +514,11 @@ export default function MockExam({
             {/* Top Row: Back + Title (Mobile) / Left Side (Desktop) */}
             <div className="flex items-center justify-between md:justify-start w-full md:w-auto gap-4">
               <button
-                onClick={() => navigate('/dashboard')}
-                className="flex items-center gap-2 text-[#CAD5E2] hover:text-white transition"
+                onClick={handleBack}
+                className="flex items-center gap-2 bg-transparent text-white hover:text-gray-200 transition"
               >
                 <ArrowLeft size={16} />
-                <span className="text-sm font-medium hidden md:inline">Dashboard</span>
+                <span className="text-sm font-medium hidden md:inline">Back</span>
               </button>
 
               <div className="bg-[#E17100] text-white px-3 py-1.5 rounded-lg text-xs font-medium truncate max-w-[200px]">
@@ -576,9 +601,11 @@ export default function MockExam({
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#0F172B] text-white font-semibold text-base flex-shrink-0">
                   {state.currentQuestion + 1}
                 </div>
-                <p className="text-lg md:text-xl font-medium text-[#1D293D] leading-relaxed flex-1 whitespace-pre-wrap">
-                  {formatQuestionText(question.text)}
-                </p>
+                <div className="flex-1 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
+                  <p className="text-lg md:text-xl font-medium text-[#1D293D] leading-relaxed whitespace-pre-wrap">
+                    {formatQuestionText(question.text)}
+                  </p>
+                </div>
               </div>
 
               {/* Answer Options */}
@@ -625,9 +652,11 @@ export default function MockExam({
                             {isAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
                           </p>
                           {question.explanation && (
-                            <p className="text-base text-[#314158] whitespace-pre-wrap leading-loose mt-3">
-                              {question.explanation.replace(/(Option [A-E])/g, '\n\n$1')}
-                            </p>
+                            <div className="max-h-[30vh] overflow-y-auto pr-2 custom-scrollbar mt-3">
+                              <p className="text-base text-[#314158] whitespace-pre-wrap leading-loose">
+                                {question.explanation.replace(/(Option [A-E])/g, '\n\n$1')}
+                              </p>
+                            </div>
                           )}
                           {!isAnswerCorrect && (
                             <p className="text-base text-[#059669] mt-4 font-medium">

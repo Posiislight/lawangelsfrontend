@@ -1,0 +1,1883 @@
+MOCK 2 FLK 2
+
+
+Question 1 (property practice)
+A client is purchasing a freehold commercial warehouse in England for £1,200,000. The transaction does not involve any residential property and is not subject to the higher rates for additional dwellings. The client's solicitor is calculating the SDLT liability.
+What is the correct amount of SDLT payable on this purchase?
+A. £60,000
+B. £49,500
+C. £54,750
+D. £41,250
+E. £38,750
+B is the correct option.
+Explanation
+B is correct. For non-residential freehold properties, SDLT is calculated as follows (for 2024/25):
+●0% on the portion up to £150,000
+●2% on the portion between £150,001 and £250,000
+●5% on the portion above £250,000
+Calculation:
+●£0 on the first £150,000 = £0
+●2% on the next £100,000 (£250,000 - £150,000) = £2,000
+●5% on the remaining £950,000 (£1,200,000 - £250,000) = £47,500
+●Total SDLT: £0 + £2,000 + £47,500 = £49,500
+A is incorrect as it assumes a flat 5% on the entire purchase price.
+C is incorrect; this is the amount for a residential property at this price (without surcharge).
+D and E are incorrect based on miscalculations or using outdated rates or bands.
+
+
+Question 2 (PROPERTY PRACTICE)
+A client, who is a UK resident, owns a flat in London which she has rented out for the last five years. 
+She is now purchasing a house in Manchester for £550,000 to use as her main residence. She does not intend to sell the London flat and will continue to let it out. 
+This is her first time purchasing a main residence, but she has owned the buy-to-let flat for several years. 
+Her solicitor is advising her on the Stamp Duty Land Tax (SDLT) liability for the new purchase. 
+What is the correct SDLT liability for the purchase of the Manchester house?
+A. £17,500
+B. £20,000
+C. £38,750
+D. £27,500
+E. £31,500
+E is the correct option.
+Explanation
+The higher rates for additional dwellings apply, even though this is her first main residence, because she already owns another residential property (the London buy-to-let) and is not replacing it.
+Higher rates = standard residential rates + 3%
+0–£250,000 → 3%
+£250,001–£925,000 → 8%
+Purchase price: £550,000
+Calculation:
+3% on £250,000 = £7,500
+8% on £300,000 = £24,000
+Total SDLT payable = £31,500
+Therefore, options A, B, C and D are incorrect.
+Question 3 (PROPERTY PRACTICE)
+A developer is selling a newly constructed commercial office building in Birmingham for £1,000,000. The developer has exercised an option to tax the building. The purchaser is a pension fund that makes entirely exempt supplies and is not VAT-registered. 
+The purchaser's solicitor is reviewing the contract and advising on the VAT implications. The purchaser is concerned about the additional cost and whether they can recover any VAT charged.
+What is the impact of the developer's option to tax on this transaction?
+A. The sale is exempt from VAT, so no VAT is charged.
+B. The sale is zero-rated, so VAT is charged at 0%.
+C. The sale is standard-rated, so VAT at 20% is added to the price, and the purchaser can recover this VAT as input tax.
+D. The sale is standard-rated, so VAT at 20% is added to the price, and the purchaser cannot recover this VAT.
+E. The sale is outside the scope of UK VAT as it involves a commercial property.
+D is the correct option.
+Explanation
+D is correct. An option to tax makes the supply of a commercial building standard-rated for VAT purposes. VAT at 20% is added to the price (£1,000,000 + £200,000 VAT). The purchaser, being a pension fund making only exempt supplies and not VAT-registered, cannot recover the input VAT, so it becomes a real cost.
+A. is incorrect because the option to tax overrides the normal exemption for land and buildings.
+B. is incorrect; zero-rating does not apply to commercial property sales.
+C. is incorrect because the purchaser cannot recover the input tax due to their exempt status.
+E is incorrect; the transaction is within the scope of UK VAT.
+Question 4 (property practice)
+In 2010, John purchased a house in England. He occupied the property as his only or main residence until 2015. In 2015, he moved abroad for work and rented the property to tenants. He did not return to live in the property at any point thereafter.
+John sold the property in 2024, realising a total gain of £200,000. During his ownership, he spent £30,000 on a new roof, which qualifies as a capital improvement. John has no other chargeable gains in the tax year.
+What is the chargeable gain after applying Private Residence Relief (PPR)?
+A. £70,000
+B. £100,179
+C. £140,000
+D. £170,000
+E. £200,000
+Correct Answer
+B. £100,179
+Explanation
+Step 1: Adjusted gain
+Total gain: £200,000
+Less capital improvement: £30,000
+Adjusted gain = £170,000
+Step 2: Period of ownership
+2010 to 2024 = 14 years (168 months)
+Step 3: Period qualifying for PPR
+Occupation as main residence: 2010–2015 = 5 years (60 months)
+Final period exemption (current rule): 9 months
+Total qualifying period = 69 months
+Step 4: PPR relief
+69/168×£170,000=£69,821
+
+Step 5: Chargeable gain
+£170,000 − £69,821=£100,179
+A is incorrect - This incorrectly assumes a much larger proportion of the gain is exempt, often due to miscalculating the ownership period or wrongly applying lettings relief.
+C is incorrect   - This fails to apply the final 9-month exemption and/or overstates the taxable portion of the gain.
+D is incorrect - This ignores Private Residence Relief entirely and treats the whole adjusted gain as chargeable.
+E is incorrect - This fails to deduct allowable capital improvements and does not apply PPR.
+Question 5 (WILLS AND ADMINISTRATION OF ESTATE)
+A woman died in 2024, leaving an estate valued at £800,000 to her children. Her husband had died in 2015, leaving his entire estate of £300,000 to her. 
+At the time of his death, his nil-rate band was £325,000, and it was fully unused because the estate passed to her. The woman had not made any lifetime gifts. Her executors are preparing the IHT return.
+What is the total nil-rate band available against her estate?
+A. £325,000
+B. £650,000
+C. £500,000
+D. £625,000
+E. £975,000
+B is the correct option.
+Explanation
+B is correct. The transferable nil-rate band allows a surviving spouse to inherit any unused nil-rate band from the first spouse. Since the husband's nil-rate band was 100% unused, the woman's estate can use her own nil-rate band (£325,000) plus 100% of her husband's (£325,000), totaling £650,000.
+A is incorrect because it ignores the transferable nil-rate band.
+C, D, and E are incorrect calculations based on misunderstanding the transfer rules.
+
+Question 6 (LAND LAW)
+
+Following the exchange of contracts between Josiah (seller) and Jerry (buyer), Josiah’s solicitor is drafting the TR1 transfer deed. The property is a contemporary townhouse in an urban area.
+Jerry and his wife, Abigail, are purchasing the property together. They are contributing unequally to the purchase price and wish their beneficial interests to reflect their unequal contributions. Abigail is providing a larger share of the price from an inheritance and wants this legally recorded.
+How should the solicitor ensure this arrangement is correctly reflected in the TR1?
+A. Declare Jerry and Abigail as joint tenants in the TR1.
+B. Declare Jerry and Abigail as tenants in common in equal shares in the TR1.
+C. Declare Jerry and Abigail as tenants in common and complete a Declaration of Trust setting out their unequal shares.
+D. Insert a restriction on the title preventing sale without both parties’ consent.
+E. Record the unequal contributions only in the contract for sale.
+Correct Answer
+C. Declare Jerry and Abigail as tenants in common and complete a Declaration of Trust setting out their unequal shares.
+Explanation
+Where co-owners contribute unequally and want their beneficial interests to reflect those contributions, they must hold the property as tenants in common.
+The TR1 should indicate tenants in common, and the precise beneficial shares should be recorded in a Declaration of Trust (either within the TR1 or as a separate document).
+This ensures the legal and beneficial ownership are properly aligned and enforceable.
+Option A is incorrect. Joint tenancy means equal beneficial ownership and includes the right of survivorship, which contradicts the parties’ intention.
+Option B is incorrect. While tenants in common is correct, equal shares do not reflect the unequal financial contributions.
+Option D is incorrect. A restriction controls disposition of the property, not the beneficial ownership shares.
+Option E is incorrect. The contract does not determine long-term beneficial ownership. The arrangement must be reflected in the transfer and trust documentation.
+
+Question 7 (PROFESSIONAL ETHICS)
+
+Sarah, a solicitor, is acting for both the buyer, Titus, and his lender, in a standard residential transaction. The house, a cozy cottage on the outskirts of town, was Titus's first major purchase after saving diligently. 
+
+Titus discovers that he has just lost his job but has instructed her not to tell the lender as he is confident he will find a new one quickly. 
+
+Titus, previously employed in tech, believed the job market would rebound soon for him. What is Sarah's paramount professional duty in this situation?
+
+A. To maintain client confidentiality and therefore not disclose the information to the lender, as it was given to her in confidence.
+B. To persuade Titus to voluntarily inform the lender himself, as it is his responsibility, not the solicitor's.
+C. To immediately cease acting for both the lender and Titus
+D. To disclose the information to the lender immediately, as her primary duty is to the lender who is funding the transaction.
+E. To proceed with the transaction as planned, assuming Titus will find a new job, as this is a temporary situation.
+
+C is the correct option 
+Explanation
+C is the correct option. This is the only safe and ethically sound course of action. The solicitor has a clear conflict between her duty to Titus (confidentiality) and her duty to the lender (disclosure). As she cannot fulfil both, she must stop acting for both parties. She cannot continue for one without breaching her duty to the other.
+A is incorrect. While confidentiality is a core duty, it is not absolute. Here, it directly conflicts with another paramount duty: her obligation to the lender to disclose any material change in circumstances that could affect the borrower's ability to repay the loan.
+B is incorrect. Relying on the client to disclose damaging information is not a safe or professionally acceptable way to manage a conflict of interest.
+D is incorrect. While she has a duty to the lender, she cannot simply breach client confidentiality. 
+E is incorrect. Proceeding would involve deliberately withholding material information from a client (the lender) to whom she owes a duty. 
+
+Question 8 (PROPERTY PRACTICE)
+David and Emma have exchanged contracts for the sale of David's house, with completion set for four weeks' time. 
+
+The Standard Conditions of Sale (5th Edition) are used without amendment.
+
+ Two days after exchange, a severe storm causes a tree to fall through the roof, causing extensive damage.
+
+ David had cancelled his buildings insurance policy on the day of exchange.
+
+Who is liable for the loss and damages caused by the storm?
+A. David bears the loss
+B. Emma bears the loss
+C. The loss is shared equally between David and Emma as the damage occurred during the interim period between exchange and completion.
+D. David's solicitor is liable for the loss for failing to explicitly advise David to maintain insurance until the date of actual completion.
+E. The estate agent holding the keys is liable because they were responsible for securing the property and failed to prevent the damage.
+
+B is the correct option 
+
+Explanation
+B is the correct option. This option accurately reflects SC 5.1.1, which stipulates that the risk passes to the buyer on exchange. From the moment of exchange, the buyer has an equitable interest in the property and is obligated to insure it against damage. Emma's failure to arrange insurance does not transfer the risk back to the seller.The principle from Rayner v Preston is that risk passes to the buyer on exchange, making the buyer the equitable owner who benefits from any increase in value and bears any loss or damage.
+
+A is incorrect. While David remains the legal owner, the contractual allocation of risk under the Standard Conditions of Sale overrides this. C is incorrect. The Standard Conditions do not provide for a sharing of risk; they clearly allocate it. The risk transfers definitively at exchange, not completion.
+E is incorrect. The estate agent's role is typically limited to marketing and facilitating viewings. They do not assume the risk of damage to the property, which is a matter of contract between the buyer and seller.
+
+Question 9 (PROFESSIONAL ETHICS)
+
+Mark is acting for the seller, Fiona. On completion day, Mark receives the purchase funds from the buyer's solicitor. 
+
+As part of the transaction, Mark provides a professional undertaking to the buyer's solicitor, promising to use the completion monies to redeem Fiona's existing mortgage and to forward the formal deed of discharge (DS1) to the Land Registry within five working days. 
+
+What is the core nature and implication of this professional undertaking?
+A. It is a contractual promise between solicitors that may be ignored if Fiona later withdraws instructions.
+B. It is a personal and binding obligation on Mark, enforceable regardless of Fiona’s wishes.
+C. It is a statement of intention only and is not legally enforceable.
+D. It binds only Fiona, as the mortgage redemption relates to her property.
+E. It creates a trust over the completion monies in favour of the buyer.
+B is the correct option 
+Explanation
+B is the correct option. This option accurately describes the serious nature of a solicitor's undertaking. It is a binding obligation that can be enforced against the solicitor personally by the recipient (the buyer's solicitor) through the courts, and a breach can lead to disciplinary action by the SRA. Professional undertakings are not casual promises; they are a cornerstone of conveyancing practice and carry significant legal and regulatory weight.
+
+Question 10 (property practice)
+
+After completion, Jennifer's solicitor has several statutory obligations to finalise her purchase of a modern apartment in a new development she chose for its proximity to her workplace.
+
+ The purchase price was £275,000, and Jennifer is a first-time buyer. The apartment featured balcony views that she planned to enjoy with morning coffee. 
+
+What is the core deadline and primary purpose of the post-completion registration process at HM Land Registry?
+
+A.The application must be made within 14 days to ensure SDLT relief is claimed.
+B. The application must be made within 30 working days to prevent the contract from being rescinded.
+C. The application must be made within the priority period, usually 30 working days, to protect her title.
+D. The application must be made within the priority period, usually 30 Calendar days, to protect her title.
+E. The application must be made within 6 months to confirm beneficial ownership only.
+
+C is the correct option 
+
+Explanation
+After completion, the solicitor must submit an AP1 application to HM Land Registry.
+The application must be lodged within the priority period created by the OS1 search, which is 30 working days.
+The primary purpose of registration is to:
+Register the buyer as legal owner, and
+Protect the buyer’s priority, preventing adverse entries (e.g. new charges) being registered ahead of the buyer’s title.
+Failure to apply within the priority period risks loss of priority and exposes the buyer to third-party interests.Therefore, options A, B, D and E are incorrect.
+Question 11 (criminal law)
+Adam was sentenced to 13 years’ imprisonment for robbery. At his sentencing, his lawyers argued for a lower starting point, highlighting his clean record, early guilty plea, and personal circumstances, but the judge did not reduce the sentence. 
+After reviewing the case, his lawyers advised that there may be grounds to appeal.
+
+Which statement best describes the grounds Adam must establish?
+A. The sentence was unfair
+B. The sentence was procedurally incorrect
+C. The sentence was manifestly excessive
+D. The sentence was wrong in law
+E. The sentence was unreasonable
+Correct Answer: C
+Explanation:
+Under section 11(3) of the Criminal Appeal Act 1968, the Court of Appeal may allow an appeal if a sentence is "wrong in law" or "manifestly excessive." In R v Gumbs (1926), the court confirmed that intervention occurs only if the sentence is not just excessive, but manifestly so. 
+R v Ball (1951) clarified that a manifestly excessive sentence is one outside the range reasonably available to the sentencing judge. Here, the argument is that the judge’s starting point led to a sentence that is too severe.
+
+Question 12 (Criminal law)
+Daniel, a businessman from Leeds, was heavily in debt and struggling financially. To resolve his problems, he took out a large life insurance policy on his wife, Eleanor, naming himself as beneficiary. He knew the policy excluded suicide but covered accidental death. He planned to poison her coffee to make it look natural. 
+One morning, he added what he believed was lethal poison to her coffee, but it was actually a harmless sugar substitute. 
+Eleanor drank it and only observed that it tasted different. That night, Daniel confessed to his friend, who reported him. Tests showed the substance was non-toxic.
+What is Daniel’s criminal liability?
+A. No liability, as no harm occurred
+B. Attempted manslaughter
+C. Attempted murder and he has no defence
+D. Attempted murder but he has defence of mistake of fact
+E. Conspiracy to commit murder
+Correct Answer: C
+Explanation: Under s.1 of the Criminal Attempts Act 1981, a person is guilty of attempt if they do an act more than merely preparatory with intent to commit the offence. Daniel had the intent to kill and took substantial steps. The harmless nature of the substance is irrelevant (R v White [1910]). Mistake of fact does not apply here because his mistake did not negate his intent.
+
+Question 13 (Criminal law)
+
+William exchanged contracts to sell his restaurant premises to Charlotte, with completion scheduled for 2:00 PM on Friday 15th June. The contract expressly stated that time is of the essence.
+On completion day:
+1.Charlotte’s solicitor experiences technical difficulties, and the completion funds arrive at 2:25 PM.
+2.By 2:30 PM, the keys have been released, and Charlotte has taken possession.
+William discovers the following Monday that if he had rescinded the contract on Friday, he could have resold the property for £75,000 more. He instructs his solicitor to rescind, forfeit Charlotte’s £100,000 deposit, and resell to the other buyer.
+Which of the following best describes William’s ability to rescind the contract?
+A. William can rescind the contract and forfeit Charlotte’s deposit, as time was of the essence and completion was late.
+B. William cannot rescind the contract because he affirmed it by allowing Charlotte to take possession.
+C. William can rescind the contract but cannot forfeit the deposit because the delay was minimal.
+D. William can claim the additional £75,000 as damages but cannot rescind.
+E. William cannot rescind or claim damages because technical issues excuse Charlotte’s delay.
+Option B is correct. 
+Explanation 
+Option B is correct. William’s contract made time of the essence, so late completion constitutes a breach giving the right to rescind. However, by allowing Charlotte to take possession, William affirmed the contract, losing the right to rescind (Adam v. Newbigging (1888) 21 QBD 271). 
+A minor delay of 25 minutes is unlikely to justify rescission, and he cannot forfeit the deposit. While damages for breach are theoretically available, the breach is trivial. 
+The principle is reinforced by Photo Production Ltd v Securicor Transport Ltd [1980] AC 827, confirming that a party may affirm a contract despite breach. 
+Section 51 of the Law of Property Act 1925 requires formalities for transfers but does not affect affirmation rights in contract breaches.
+Therefore, options A,C,D and E are incorrect.
+
+Question 14 (PROPERTY PRACTICE)
+
+Boaz wants to buy Hannah’s house and sell his flat to Naomi, creating a property chain. 
+All parties want to exchange contracts on the same day, so that no one is bound before the others are ready.
+Which Law Society exchange formula is most appropriate to use in this situation?
+A.Formula A 
+B. Formula B 
+C. Formula C 
+D. Formula D
+E. Formula E 
+Correct Answer
+C. Formula C 
+Explanation
+Formula C is designed specifically for chain transactions.Each solicitor holds their own client’s signed contract, and exchange occurs simultaneously by telephone, ensuring no party is bound until all parties in the chain are ready.
+This protects parties from being bound before funds or contracts from the next link in the chain are in place.
+Option A is incorrect. Only suitable for simple two-party exchanges, not chains.
+Option B is incorrect. This is used when one solicitor holds all contracts, which is rare and risky in long chains.
+Option D and E are incorrect. No such electronic portal method exists as a standard Law Society formula.
+Question 15 (LAND LAW)
+For 30 years, Sarah used a gravel strip on her neighbor Michael’s land to park her groceries delivery vans and accommodate customer pick-ups.
+ During business hours, the strip was constantly full, effectively preventing Michael from using that part of his property for his own vehicles or storage.
+When Michael recently blocked access to reclaim his land value, Sarah claimed she had earned a legal right to park through her decades of continuous use.
+What is the legal position?
+A. A prescriptive easement was created
+B. An easement by implication arose
+C. An easement by estoppel was established
+D. No easement due to exclusive use
+E. No easement because it benefits a business
+Correct Answer: D
+Explanation: An easement cannot grant exclusive possession of the servient land (the ouster principle from Copeland v Greenhalf [1952]). Parking that excludes the owner’s use is too extensive to be an easement (Jelbert v Davis [1968]). While easements can benefit a business incidentally, they cannot be exclusive.
+Question 16 (PROPERTY PRACTICE)
+Leah is selling a charming rural cottage to Zac, a weekend retreat she has enjoyed for years.
+The property is unregistered land, tucked away in the countryside, complete with original beams and a thatched roof. It has been in Leah’s family for generations.
+Zac, an artist in search of inspiration, is attracted to its seclusion and the potential for a studio space. Leah’s solicitor provides Zac’s solicitor with an epitome of title.
+What should Zac’s solicitor look for to ensure there is a “good root of title”?
+
+A. A document at least 15 years old, covering the entire legal and equitable interest in the property.
+B. A document at least 15 years old, but not necessarily covering the entire legal and equitable interest.
+C. A series of documents from the last 20 years showing an unbroken chain of ownership.
+D. The original Land Registry certificate, proving the title is about to be registered for the first time.
+E. A statutory declaration from Leah confirming she has lived in the property for 12 years and has not created any mortgages.
+Answer: A
+Explanation:
+A. is correct. For unregistered land, a “good root of title” is a document, typically a conveyance or mortgage, that is at least 15 years old, covers the whole estate (not just a part), clearly identifies the property, and contains no indications of defects. This root serves as the starting point for the solicitor to verify the chain of title up to the present.
+B. is incorrect. The root document must cover the entire estate, not just part of it.
+C. is incorrect. There is no requirement for a 20- or 50-year chain; the key is a root document at least 15 years old, from which the title can be traced forward.
+D. is incorrect. Unregistered land has no Land Registry certificate; certificates apply only to registered titles.
+E. is incorrect. A statutory declaration of possession might support an adverse possession claim, but it does not replace the need for documentary evidence of title in a voluntary sale.
+Question 17 (PROPERTY PRACTICE)
+After completing his purchase of a freehold property from Donnie, Elisha’s solicitor, Owen, must handle several post-completion tasks. 
+The property, a spacious family home with scenic views, was a long-time dream for Elisha, while Donnie, moving abroad for work, valued its convenience. 
+Elisha plans renovations, including a new kitchen, and Owen knows timely filings are essential.
+Which statutory deadline must Owen meet to perfect Elisha’s legal title and avoid penalties?
+
+A. Pay SDLT and file the return with HMRC within 14 working days of completion.
+B. Pay SDLT and file the return with HMRC within 14 calendar days of completion.
+C. Redeem the seller’s existing mortgage by sending the redemption figure to the seller’s lender within 10 working days of completion.
+D. Provide the lender with a copy of the registered title document within 21 days of receiving it from the Land Registry.
+E. Send a final report to the client, including the Title Information Document, within 1 month of completion.
+Answer: B
+Explanation:
+B is correct. Filing the SDLT return and paying any tax due within 14 calendar days of completion is a strict statutory requirement under the Finance Act 2003. Missing this deadline triggers automatic penalties and interest, making it non-negotiable.
+C is incorrect. Redeeming the seller’s mortgage is the seller’s responsibility; the buyer’s solicitor ensures the seller has provided a valid undertaking, but this is not a statutory requirement.
+D is incorrect. Providing the lender with a copy of the registered title is a professional duty, but there is no statutory 21-day deadline.
+E is incorrect. Sending a post-completion report to the client is part of professional practice but is not governed by statute and carries no legal penalties.
+Question 18 (TRUST)
+
+Gareth and Hannah, who are friends but not in a romantic relationship, decide to buy a house together. Gareth contributes £120,000 and Hannah contributes £80,000 towards the total purchase price of £200,000. 
+
+The legal title is registered in their joint names, but they have no written declaration of trust specifying their beneficial shares. 
+
+They live in the house together for five years, during which time Hannah pays all the household bills and Gareth covers the entire mortgage. They now wish to sell the property and cannot agree on how to split the proceeds. 
+
+How are the beneficial shares most likely to be held?
+A.Equal shares because the legal title is in joint names.
+B. Equal shares because their subsequent conduct shows an intention to share equally.
+C. Proportional to initial contributions: 60% Gareth, 40% Hannah.
+D. Hannah gets a larger share because she paid the household bills.
+E. Gareth gets the entire beneficial interest because he paid the mortgage.
+
+Explanation
+C is the correct option. In the absence of an express declaration of trust, the courts will use the resulting trust mechanism to determine beneficial ownership based on the parties' financial contributions to the purchase price at the time of acquisition. This is a straightforward application of the purchase-money resulting trust. The shares are presumed to reflect the proportions of the initial contribution (£120,000:£80,000, i.e., 60:40), unless there is evidence to rebut this presumption.
+B is incorrect. The subsequent conduct of paying bills and the mortgage is not, in this context, clear evidence of an intention to vary the shares agreed at the time of purchase. 
+D is incorrect. While contributions to household bills can be relevant in a constructive trust claim between cohabiting partners, they are not typically treated as contributions to the purchase price for the purposes of a resulting trust. 
+
+E is incorrect. While paying the mortgage is a significant contribution, the resulting trust analysis starts with the direct contributions to the deposit/purchase price.
+
+Question 19 (WILLS AND ADMINISTRATION OF ESTATES)
+
+David was involved in a fatal accident in Swindon and died in July 2023. His estate is valued at £300,000, consisting of:
+£50,000 in savings left by will
+£80,000 death-in-service benefits transferred by nomination
+A house in which he had a life interest, valued at £270,000, passing to remaindermen
+ Is this an excepted estate?
+Options:
+A. Yes, estate below threshold
+B. No, death benefits exceed £50,000
+C. Yes, benefits pass by nomination
+D. No, life interest property is over £250,000
+E. No, due to the savings amount.
+Answer: D
+Explanation:
+D is correct. Under the Inheritance Tax (Delivery of Accounts) (Excepted Estates) Regulations 2004, an estate cannot qualify as an excepted estate if it includes a life interest in property valued over £250,000. In this case, David’s house is £270,000, so the estate does not qualify.
+A. is incorrect: The overall estate value is not the only factor; the life interest property disqualifies it.
+B. is incorrect: Death benefits do not automatically disqualify an estate unless they are life interest property.
+C. is incorrect: While nominated benefits can sometimes be excepted, the life interest property over £250,000 overrides this.
+o
+
+
+Question 20 (TRUST)
+
+A community group raises £50,000 through a public appeal to restore the historic village clock tower. The appeal literature explicitly states:
+“All funds will be used exclusively for the clock tower restoration project.”
+The restoration is completed at a cost of £40,000, leaving a £10,000 surplus. A dispute arises among the donors, committee members, and the parish council over entitlement to the remaining funds.
+Which of the following best describes the allocation of the surplus funds?
+
+A. The surplus belongs to the committee members, as they organised the appeal and hold legal title.
+B. The surplus is held on a resulting trust for the donors who contributed.
+C. The surplus should be paid to the parish council, as owner of the clock tower.
+D. The surplus becomes absolute property of the community group for general purposes.
+E. The surplus passes to the Crown as bona vacantia because the purpose has been fulfilled.
+Answer: B
+Explanation:
+B is correct. Under trust law principles, when funds are raised for a specific purpose, they are held on trust for that purpose. If the purpose is only partially spent, any surplus funds are held on a resulting trust for the donors, because the money was not intended to become the property of the committee or another party.
+A is incorrect: The committee may have legal control, but they cannot take surplus funds for themselves; they hold the money on trust.
+C is incorrect: Ownership of the clock tower does not automatically entitle the parish council to leftover funds; the funds are donor-directed.
+D is incorrect: The community group cannot treat surplus as general funds unless the donors expressly authorised this.
+E is incorrect: Funds do not automatically pass to the Crown; bona vacantia applies when there is no owner and no trust, but here a trust clearly exists for the donors.
+o
+
+Question 21 (TRUSTS)
+Felicity created a trust for the benefit of her grandchildren and appointed her siblings, Ben and Chloe, as trustees. The trust deed is silent on the appointment of new trustees.
+Several years later, Ben dies. Chloe, as the surviving trustee, wishes to appoint her friend David, a retired accountant, as a replacement trustee to ensure the trust is properly administered.
+Felicity’s adult son Edward, a primary beneficiary, objects to David’s appointment, claiming he is unsuitable.
+What is the correct legal position regarding Chloe’s power to appoint David?
+
+A. Chloe cannot appoint David because the consent of all adult beneficiaries is always required.
+B. Chloe can appoint David under the statutory power, as she is a surviving trustee.
+C. Chloe cannot appoint David because the trust instrument does not expressly grant a power of appointment.
+D. Chloe can only appoint David if she also retires, creating two vacancies.
+E. Chloe can appoint David only with court approval due to the beneficiary’s objection.
+B is the correct option.
+
+Explanation
+B is correct. Under section 36 of the Trustee Act 1925, where a trustee dies and the trust instrument is silent, the surviving trustee has a statutory power to appoint a replacement trustee. Chloe is therefore entitled to appoint David without court involvement.
+A is incorrect. The consent of beneficiaries is not required to appoint a new trustee under the statutory power, even if they are adults and absolutely entitled.
+C is incorrect. The absence of an express power in the trust deed does not prevent appointment, as the statutory power applies by default.
+D is incorrect. Chloe does not need to retire to exercise the power; a single vacancy is sufficient.
+E is incorrect. Court approval is not required merely because a beneficiary objects, unless there is evidence of misconduct, incapacity, or risk to the trust.
+
+
+
+
+Question 22 (TRUST)
+George and Hannah are trustees of a family trust. George has been diagnosed with a progressive condition resulting in severe and permanent mental incapacity, supported by medical evidence. He can no longer understand trust documents or participate in trustee decision-making.
+Hannah is concerned that the administration of the trust is being significantly hindered. The trust deed contains no provisions dealing with trustee incapacity.
+What is the most appropriate method for removing George and appointing a replacement trustee?
+
+A. Hannah must apply to the Court of Protection to have George formally removed.
+B. Hannah can remove George and appoint a replacement trustee by exercising the statutory power of appointment.
+C. The trust automatically terminates due to George’s incapacity.
+D. Hannah must seek a High Court order under its inherent jurisdiction to remove George for cause.
+E. George remains a trustee, but Hannah may appoint an additional trustee under s 36(6) Trustee Act 1925.
+Correct Answer: B
+Explanation:
+B is correct. Under section 36(1) of the Trustee Act 1925, where a trustee is incapable of acting by reason of mental incapacity, a new trustee may be appointed in their place. Hannah, as the continuing trustee, may exercise this statutory power once George’s incapacity is properly evidenced. This is the primary, efficient, and non-contentious mechanism, avoiding the cost and delay of court proceedings.
+A is incorrect. While the Court of Protection oversees the affairs of individuals lacking capacity, its involvement is not required to remove and replace a trustee. The Trustee Act provides a direct statutory solution.
+C is incorrect. A trust does not terminate due to a trustee’s incapacity. Trusts are designed to endure despite changes in trustees, and statutory mechanisms exist to ensure continuity.
+D is incorrect. Although the High Court has an inherent jurisdiction to remove trustees (e.g. Letterstedt v Broers), this is a remedy of last resort and unnecessary where a clear statutory power applies.
+E is incorrect. Appointing an additional trustee does not resolve the problem: George would remain a legal owner of the trust property despite being unable to act. 
+
+Question 23 (criminal law)
+Liam was arrested on suspicion of burglary and taken to the police station. Upon arrival, he was formally cautioned and informed of his right to free and independent legal advice.
+ Liam declined the offer, explaining that a friend who had previously been arrested told him it was best to “say nothing” during police interviews. 
+Liam believed this was sensible advice and chose not to consult a solicitor.
+During his police interview, Liam remained silent throughout and continued to do so after he was charged. At trial, the prosecution seeks to rely on his silence.
+Can adverse inferences be drawn from Liam’s silence?
+A. Yes, despite reliance on his friend’s advice.
+B. No, because Liam did not sign a written waiver of legal advice.
+C. No, because a suspect is not compelled to accept legal advice.
+D. Yes, because he was offered and declined legal advice.
+E. No, because he had no legal representation at the interview.
+
+Correct Answer
+D. Yes, because he was offered and declined legal advice.
+Explanation
+Option D is incorrect. Under section 34 of the Criminal Justice and Public Order Act 1994, adverse inferences may be drawn where a suspect fails to mention facts when questioned that they later rely on in court, provided the suspect was given an opportunity to consult a solicitor. The key requirement is that legal advice was offered, not that it was accepted.
+In Murray v UK [1996], the court confirmed that drawing adverse inferences is compatible with the right to a fair trial where access to legal advice was available. Liam’s reliance on a friend’s advice does not prevent adverse inferences, as it does not amount to legal advice or a reasonable justification for silence.
+The absence of legal representation is irrelevant where the suspect voluntarily refused it. Therefore, options A, B, C and E are incorrect.
+
+Question 24 (TRUST)
+Eleanor, a successful artist with no financial training, is appointed as a trustee of a family trust alongside her brother, Francis, who is a qualified financial adviser. 
+
+The trust portfolio includes a mix of stocks and bonds. Eleanor, relying entirely on Francis's advice, agrees to invest a large portion of the trust fund into a new, highly volatile technology start-up, which Francis is personally excited about. 
+The investment fails, and the trust suffers a significant loss. The beneficiaries sue both trustees for breach of duty. 
+
+In assessing Eleanor's liability, which of the following statements is the most accurate application of the relevant legal principles?
+
+● A. Eleanor is not liable because she acted in good faith and relied on the advice of her co-trustee.
+● B. Eleanor is not liable because the statutory duty of care only imposes a subjective standard based on a trustee's own knowledge and experience.
+● C. Eleanor is liable because a trustee cannot delegate their investment decisions, even to a co-trustee.
+● D. Eleanor is liable because she failed to meet the standard of care of a prudent person of business.
+● E. Eleanor is liable because she acted dishonestly or in bad faith
+
+D is the correct option.
+
+Explanation
+D is the correct option. The statutory duty of care under the Trustee Act 2000 requires a trustee to exercise such care and skill as is reasonable in the circumstances. While the standard is contextual and considers a trustee's own knowledge and experience, the foundational standard is that of an ordinary prudent person of business. A lay trustee cannot blindly rely on a co-trustee's advice; they have a duty to understand the advice, question it if necessary, and ensure it aligns with the standard investment criteria, including suitability and diversification. Eleanor's complete failure to engage with the decision or assess the high-risk nature of the investment likely constitutes a breach of this duty.
+A. is incorrect. While reliance on professional advice is a factor, it is not a complete defence. A trustee must still apply their own mind and cannot abdicate their responsibility. The principle from Speight v Gaunt establishes that trustees should use the ordinary prudence of a person managing their own affairs, which would involve scrutinising such a high-risk recommendation.
+B. is incorrect. A trustee's lack of expertise may be considered, but it does not absolve them of the duty to act prudently.
+C. is incorrect. While there is a general duty not to delegate core functions, receiving and considering advice from a co-trustee, who is also a fiduciary, is not necessarily an improper delegation.
+E is incorrect. Liability for breach of the duty of care does not require dishonesty. It is based on a failure to meet the standard of care, which can arise from negligence or imprudence.
+
+Question 25 (TRUST)
+George is the sole trustee of a trust that owns a commercial property. The trust deed contains no express power allowing a trustee to purchase trust property.
+The property has proved difficult to let. After obtaining a professional valuation, George decides that selling the property is in the best interests of the beneficiaries. After several months, he is unable to find an external buyer.
+George wishes to purchase the property himself in order to convert it into apartments.
+ He offers full market value and ensures the beneficiaries receive independent legal advice.
+Which statement best describes the legal position?
+A.George may proceed because paying full market value ensures no financial loss to the beneficiaries.
+B. George may proceed because obtaining a valuation and independent advice sufficiently protects the beneficiaries.
+C. George may not proceed solely because the trust deed contains no express power authorising the purchase.
+D. George may not proceed because the self-dealing rule strictly prohibits a trustee from purchasing trust property, 
+E. George may proceed because he is acting in good faith and in the beneficiaries’ best interests.
+The correct option is D 
+Explanation
+The self-dealing rule is a strict fiduciary principle which prevents a trustee from purchasing trust property. The trustee’s duty to obtain the best possible price conflicts irreconcilably with their personal interest as a buyer. This prohibition applies regardless of honesty, good faith, or market value, and any such transaction is voidable at the instance of the beneficiaries. The rule is rooted in cases such as Keech v Sandford (1726) and is designed to eliminate even the possibility of conflict, not merely actual wrongdoing.
+Question 26 (TRUST)
+
+Hannah is a trustee of a trust established by her late uncle for his grandson, Leo, who is currently 16 years old. The trust income is substantial. 
+
+Leo is a talented musician and has been offered a place at an expensive international music academy. 
+
+His mother, who is not well-off, asks the trustees to use the trust income to pay for the academy fees and associated living costs abroad. The trust instrument is silent on the matter of maintenance. 
+
+What must the trustees consider when deciding whether to exercise their power of maintenance in this scenario?
+● A. The trustees must automatically pay for all of Leo's expenses as the income is available and the purpose is educational.
+● B. The trustees have no power to act because Leo is a minor and cannot give a valid receipt for the income.
+● C. The trustees must consider whether the expenditure is for Leo's benefit and exercise their discretion.
+● D. The trustees cannot use the income for this purpose because it involves sending funds abroad, which is beyond the scope of their administrative powers.
+● E. The trustees must seek court approval before making any payments, as the trust instrument does not contain an express power of maintenance.
+
+C is the correct option.
+
+Explanation
+C is the correct option. The statutory power of maintenance under Trustee Act 1925, s. 31 allows trustees to apply income for the "maintenance, education, or benefit" of a minor beneficiary. The term "benefit" is interpreted widely. The trustees have a discretion, which must be exercised in good faith. They should consider factors such as the beneficiary's needs, the availability of other resources (like his mother's means), the level of trust income, and what the settlor would have intended. Paying for specialist education at a prestigious academy would typically fall within this power, but the trustees must actively and reasonably deliberate.
+
+A. is incorrect. The power is discretionary, not mandatory. Trustees are not obliged to apply all the income; they can decide to accumulate it.
+
+B. is incorrect. The inability of a minor to give a valid receipt is addressed by the Trustee Act 1925 itself, which provides the statutory power to maintain. This legal technicality does not prevent the trustees from exercising their power.
+
+D is incorrect. There is no general prohibition against using trust funds for a beneficiary's legitimate expenses abroad, especially for something as clear as educational fees and living costs. 
+E is incorrect. The Trustee Act 1925, s. 31 provides a default statutory power of maintenance that applies unless the trust instrument expressly excludes or modifies it. 
+
+Question 27 (TRUST)
+A trust is created for Imogen for life, with the remainder to her children, Kate and Liam, absolutely.
+The trust fund consists entirely of high-dividend-paying shares, producing a strong income for Imogen. However, the capital value has stagnated and is being eroded by inflation, potentially harming the interests of Kate and Liam.
+The trustees propose selling the shares and reinvesting in a balanced portfolio designed to produce both income and capital growth. Imogen objects, arguing this would reduce her immediate income.
+What is the core principle the trustees must apply?
+A. The trustees must prioritise the life tenant’s income and preserve the existing investments.
+B. The trustees must prioritise capital growth for the remaindermen as their interest is long-term.
+C. The trustees must strike a fair balance between the life tenant and the remaindermen.
+D. The trustees must apply to the court for directions because of the conflict between beneficiaries.
+E. The trustees should follow the wishes of the majority of beneficiaries.
+
+C is  correct. 
+
+Explanation
+C is the correct option. Trustees owe a fundamental duty to act impartially between different classes of beneficiaries, particularly between a life tenant entitled to income and remaindermen entitled to capital. This requires them to strike a fair balance so that neither interest is unfairly favoured. Maintaining a portfolio composed entirely of high-income, low-growth assets would disproportionately benefit Imogen at the expense of Kate and Liam, while a growth-only strategy would unfairly prejudice Imogen. Reinvesting into a balanced portfolio is consistent with this duty and reflects the requirement under the Trustee Act 2000 to consider diversification and the suitability of investments.
+A. is incorrect. Trustees are not bound to preserve the settlor’s original investment choices or prioritise income indefinitely. Their duty is an ongoing one to manage the trust prudently in light of changing economic conditions and the interests of all beneficiaries.
+B. is incorrect. The trustees must not prioritise the remaindermen’s interests over those of the life tenant. The duty is one of balance, not preference, and sacrificing income entirely for capital growth would breach Imogen’s entitlement.
+D is incorrect. Trustees are expected to exercise their discretion in managing investments and need not apply to the court simply because beneficiaries’ interests differ. This type of decision falls squarely within their powers and responsibilities.
+E is incorrect. Trustees must exercise independent judgment and are not bound by the wishes of the majority of beneficiaries. Their obligation is to act in accordance with their fiduciary duties, not by consensus among beneficiaries.
+
+Question 28 (TRUST)
+Samuel owns an antique violin valued at £50,000. Impressed by his niece Clara’s musical talent, Samuel states:
+“I hold this violin on trust for Clara until she turns 25, when she can have it outright.”
+Samuel continues to keep the violin in his home and insures it in his own name. There is no written document recording the declaration. 
+One year later, Samuel becomes insolvent and his creditors argue that the violin forms part of his personal estate available to satisfy his debts.
+Clara claims that the violin was validly held on trust for her.
+Which statement best reflects the legal position?
+A. The trust is invalid because it was not evidenced in writing and the violin was never transferred to Clara.
+B. The trust is valid because Samuel declared himself trustee of property he already owned.
+C. The trust is invalid because Samuel retained possession and control of the violin.
+D. The trust is valid because Samuel expressed a moral obligation to benefit Clara.
+E. The trust is invalid because the violin should have been transferred by deed to take effect.
+Correct Answer- B
+
+Explanation
+B is the correct option. A trust is properly constituted where the settlor declares themselves to be trustee of property they already own, provided the three certainties are satisfied. Samuel clearly intended to create a trust, the subject matter (the violin) is certain, and the beneficiary (Clara) is clearly identified. Upon Samuel’s declaration, the equitable interest passed immediately to Clara, while Samuel retained legal title as trustee. No transfer of possession or written documentation is required for personal property such as a chattel. Samuel’s continued possession and insurance of the violin are consistent with his role as trustee. Consequently, the violin does not form part of his personal estate and cannot be claimed by his creditors.
+A is incorrect. Section 53(1)(b) of the Law of Property Act 1925 requires written evidence only for trusts of land or interests in land. The violin is personal property, so an oral declaration is sufficient. Transfer to Clara was unnecessary because Samuel constituted the trust by self-declaration.
+C is incorrect. Retention of possession does not invalidate a trust where the settlor declares themselves trustee. Samuel’s continued control reflects his trustee capacity, not beneficial ownership.
+D is incorrect. A mere moral obligation or expression of hope is insufficient to create a trust. However, Samuel’s words were imperative (“I hold this violin on trust”), demonstrating a clear intention to create a legally binding trust rather than a moral wish.
+E is incorrect. A deed or physical transfer is required only where property is transferred to another person as trustee or as an outright gift. Because Samuel already owned the violin and declared himself trustee, no deed or delivery was required.
+
+
+
+Question 29 (TRUSTS)
+
+Olivia, a famous sculptor, owns a bronze sculpture worth £70,000. She writes to her friend Jacob stating:
+“I want this sculpture to be held by you on trust for my son Noah.”
+She later tells Noah that the sculpture is his. However, Olivia never delivers the sculpture to Jacob, nor does she execute a deed transferring it to him. Olivia dies six months later, still in possession of the sculpture.
+Jacob argues that no trust was ever created because the sculpture was never transferred to him. Noah argues that the trust is valid because Olivia clearly intended to create a trust and identified the property, trustee, and beneficiary.
+Which statement best reflects the correct legal position?
+A. The trust is valid because Olivia’s written declaration and communication to Noah are sufficient to constitute it.
+B. The trust fails because Olivia did not transfer the sculpture to Jacob.
+C. The trust is valid because the subject matter and beneficiary were clearly identified.
+D. The trust is invalid because the sculpture required registration for the trust to be effective.
+E. The trust is valid because a parent’s moral intention to benefit a child creates a binding trust.
+
+B is the correct option.
+Explanation
+B is the correct option. Where a settlor intends to create a trust by transferring property to a third party to act as trustee, the trust must be properly constituted by an effective transfer of the property to that trustee. Olivia did not declare herself trustee; instead, she intended Jacob to hold the sculpture on trust for Noah. Since the sculpture was never delivered to Jacob and no deed of transfer was executed, the trust was never constituted. Equity will not perfect an imperfect gift (Milroy v Lord), and therefore the sculpture remains part of Olivia’s estate.
+A is incorrect. While Olivia’s intention was clearly expressed in writing, intention alone is insufficient to constitute a trust where property must be transferred to a third-party trustee. Without delivery or formal transfer, the trust does not arise.
+C is incorrect. Although certainty of subject matter and beneficiaries is necessary for a valid trust, it is not sufficient. Constitution is a separate requirement, and here it failed due to lack of transfer to Jacob.
+D is incorrect. Chattels such as sculptures do not require registration for a trust to be effective. The failure lies in non-transfer, not in any registration requirement.
+E is incorrect. A moral obligation or parental intention does not create a binding trust. Trusts arise from clear legal intention and proper constitution, not sentiment or family relationships.
+
+Question 30 (TRUST)
+Anthony, a retired banker, owns 10,000 shares in a private company. He decides to create a trust of these shares for his granddaughter, Lily, and appoints his solicitor, Henry, as trustee.
+Anthony properly completes a share transfer form and sends it to Henry with instructions to submit it to the company for registration. Henry, however, forgets to do so for several weeks. During this delay, Anthony dies. At the time of his death, the company has not yet registered Henry as the shareholder.
+Lily claims that the trust was validly constituted before Anthony’s death. The executors of Anthony’s estate argue that the trust failed because the transfer was incomplete.
+Which statement best describes the position in equity?
+A. The trust was constituted because Anthony had done everything within his power to transfer the shares.
+B. The trust fails because the company’s register had not been updated before Anthony’s death.
+C. The trust is valid because Anthony’s moral intention to benefit Lily binds his estate.
+D. The trust is valid because the shares were clearly identified and transferred using a formal document.
+E. The trust fails because Henry’s negligence prevents equity from recognising the transfer.
+Correct Answer - A
+
+Explanation
+A. is the correct option. In equity, a trust will be treated as constituted where the settlor has done everything within their power to transfer the property, even if the legal title has not yet passed. This principle was established in Re Rose [1952]. Anthony completed the share transfer form and delivered it to Henry, the intended trustee, with instructions to lodge it for registration. At that point, Anthony had done all he could to effect the transfer. The subsequent failure to register the shares was outside his control, so equity regards the beneficial interest as having passed before his death.
+B. is incorrect. Although legal title to shares does not pass until registration, equity does not require completion of registration where the settlor has done everything necessary on their part.
+C. is incorrect. Moral intention alone is insufficient to create or constitute a trust. Trusts depend on legal principles of intention and constitution, not sentiment or family relationships.
+D. is incorrect. While certainty of subject matter and the use of a formal transfer document are necessary, they are not sufficient on their own.
+E. is incorrect. Henry’s negligence does not defeat the trust. Equity focuses on the actions of the settlor, not delays or mistakes by third parties.
+
+Question 31 (TRUST)
+A trust was created three years ago for Sophia, now 7, to receive funds at 18. Her wealthy parents ask trustees to use trust income for her expensive private school fees. Another trust from her maternal grandfather could cover the fees. The trust has no express maintenance powers.
+What should trustees consider?
+A. Whether fees are reasonable
+B. Availability of other trust funds
+C. Parents’ legal duty to educate
+D. Parents’ wealth
+E. Whether Sophia has a contingent interest
+Correct Answer: E
+Explanation: Under s.31 Trustee Act 1925, trustees may apply income for a minor’s maintenance/education if the beneficiary has an interest (vested or contingent). Sophia’s interest is contingent on reaching 18, so she qualifies. Other funds and parental duties are irrelevant.
+
+
+Question 32 (TRUST)
+Jacob intended to transfer £40,000 from his personal bank account into a trust account for the benefit of his niece, Emma, appointing his accountant, Brian, as trustee. Jacob signed all the necessary bank transfer instructions and handed them to Brian to process.
+Brian did not submit the instructions immediately. Jacob later told Emma that the money had been “set aside” for her. Before any transfer occurred, Jacob suffered a stroke and died. The bank confirmed that no funds were ever transferred.
+Emma claims that the trust was complete in equity.
+Which statement most accurately reflects the legal position?
+A.The trust was constituted because Jacob did everything necessary within his control.
+B. The trust fails because the funds were never transferred out of Jacob’s control.
+C. The trust is valid because Brian’s delay makes it unconscionable for Jacob’s estate to deny the trust.
+D. The trust is valid because Emma had a legitimate expectation of receiving the funds.
+E. The trust fails because no written declaration of trust was made.
+
+B is the correct option.
+
+Explanation
+A trust is not constituted unless the settlor transfers the trust property to the trustee or declares themselves trustee. Under the principle in Milroy v Lord (1862), equity will not perfect an imperfect gift, and beneficiaries who are volunteers cannot compel completion.
+The Re Rose principle only applies where the settlor has done everything within their power to transfer the property. Here, Jacob merely signed bank instructions and left them with his agent. He retained control over the funds and could have revoked or altered the instructions. As no transfer occurred, legal and beneficial ownership remained with Jacob, and the trust was not constituted.
+
+Question 33 (WILLS AND ADMINISTRATION OF ESTATES)
+
+Robert made a valid will leaving his Mansion in Central London to his wife, Anne. 
+
+Five years later, they divorced, but he did not change the will. He later died. The executor is unsure whether Anne still benefits. 
+
+Anne argues the will remains valid since Robert never expressly revoked it.
+
+What is the effect of the divorce on an existing will?
+ 
+● A. Divorce revokes the entire will automatically.
+● B. Divorce only cancels the gift in favour of the former spouse.
+● C. Divorce has no effect unless the testator expressly changes the will.
+● D. Divorce has no effect on a will made before marriage.
+● E. Divorce revokes all gifts and appointments, including those to others.
+ 
+Explanation
+ Option B is correct. When spouses divorce, the will remains valid, but the former spouse is treated as if they had died on the date of the divorce. Therefore, any gifts to them or appointments (like executor) fail, and the estate passes to the next beneficiary or residue.
+ Option A is incorrect. Divorce does not invalidate the entire will; it only affects the former spouse’s entitlement.
+Option C is incorrect. The law implies revocation of the spouse’s interest without requiring a new will.
+
+Question 34  (WILLS AND ADMINISTRATION OF ESTATES)
+
+Mr. Grant had a will leaving £100,000 to his niece and the remainder of his estate to charity. 
+
+Two years later, he attached a separate sheet stating, “I wish to add that my nephew, James should also share in my estate equally with my niece.”       
+
+The sheet was signed by him but not witnessed. On his death, both James and the charity claim the money.
+
+ Is the added sheet valid?
+
+A. The separate sheet is valid because it was signed by the testator.
+B. The separate sheet is valid because it is the fair for James benefit from the estate.
+C. The separate sheet is invalid unless executed with the same formalities as a will.
+D. The sheet is valid if attached to the will and signed on each page.
+E. The sheet is valid under incorporation by reference.
+
+
+The correct answer is C
+
+Explanation
+
+Option C is correct. To have testamentary effect, any document altering a will must itself meet all the same formalities: it must be signed and witnessed by two witnesses present together. Mr. Grant’s unsigned-by-witness note cannot operate as a codicil, and there is no evidence it was made before execution, so it fails.
+
+Option A is incorrect because a signature alone does not make a document testamentary, witnesses are also required to ensure validity.
+
+Option D is incorrect.  Physical attachment or multiple signatures do not substitute for witnessing.
+
+Option E is incorrect. Incorporation by reference could work if the original will expressly mentioned the extra sheet. Since it did not, this principle cannot apply here. 
+
+Question 35 (CRIMINAL LAW)
+Noah broke his neighbour’s fence to rescue a drowning cat. 
+Damage was significant. He honestly believed his actions were reasonable and that the neighbour would consent. 
+The neighbour later confirmed he would have. A reasonable person would also say it was justified.
+Why is there a lawful excuse?
+A. Belief was reasonable and neighbour justified it
+B. Honest belief, justified by neighbour’s stance
+C. Honest belief cat needed protection & actions reasonable
+D. Reasonable belief in consent & reasonable actions
+E. Honest belief he acted reasonably & objectively reasonable
+Correct Answer: C
+Explanation: Under s.5(2)(b) Criminal Damage Act 1971, a defence exists if the defendant honestly believed property was in immediate need of protection and that the means were reasonable. The belief need only be honest, not reasonable (R v Hill [1989]). Subsequent consent is irrelevant.
+
+Question 36 (CRIMINAL LAW)
+
+Matthew visited a department store to buy a gift. In the electronics aisle, he saw a high-value pair of headphones. He picked them up, decided he wanted them but could not afford the price, and then slid them into his large coat pocket. He browsed for another ten minutes before approaching the exit, walking past all open tills. A store security officer observed his entire journey from the aisle. Matthew was arrested outside the store, and the headphones were recovered.
+Question: Under section 1 of the Theft Act 1968, at which point was the actus reus of theft completed?
+A. When Matthew first picked up the headphones with dishonest intent.
+B. When Matthew placed the headphones into his coat pocket.
+C. When Matthew walked past the final point of payment.
+D. When Matthew crossed the store's threshold to exit.
+E. Upon his arrest outside the store.
+Correct Answer: B
+Explanation: Theft is defined as the dishonest appropriation of property belonging to another with the intention of permanently depriving the other of it. Appropriation, a key element of the actus reus, occurs when a person assumes the rights of an owner (Section 3(1) of the Theft Act 1968). In R v Gomez, the House of Lords held appropriation could be an unauthorised act. By concealing the item in his pocket, Matthew exercised an owner's right (to possess and control the goods exclusively), thereby appropriating them. The mens rea (dishonesty and intention to permanently deprive) coincided with this act.
+A is incorrect; mere handling with dishonest intent is not appropriation (Corcoran v Anderton).
+C & D are incorrect. The offence is complete upon appropriation; leaving the store or passing payment points may be evidence of dishonesty but are not legal prerequisites.
+E is incorrect; arrest is a procedural event, not part of the offence.
+
+
+Question 37 (WILLS AND ADMINISTRATION OF ESTATES)
+John, a 75-year-old widower with early-stage dementia, instructs his solicitor to draft a new will leaving most of his estate to his daughter. 
+His neighbor, who drove him to the office, stays in the meeting and suggests a gift to a charity he supports. John hesitates but agrees.
+ The solicitor is concerned about undue influence.
+What is the most appropriate action regarding the neighbor’s presence?
+A. Allow the neighbor to stay, confirming John’s instructions are documented.
+B. Interview John privately, explaining it is standard to ensure instructions are free from external pressure.
+C. Proceed with the neighbor present but ignore his suggestions, recording only John’s responses.
+D. Document the neighbor’s suggestions in the file to show they were considered.
+E. Require the neighbor to sign a waiver confirming no financial interest in John’s estate.
+Correct Answer
+
+B.
+Explanation
+A private interview ensures John’s instructions are freely given and protects the will from challenge due to undue influence, especially given his dementia.
+A is incorrect.  Risk of undue influence remains.
+C is incorrect. Ignoring suggestions does not eliminate the neighbor’s influence.
+D is incorrect Recording influence may weaken the will.
+E is incorrect. A waiver is legally ineffective and does not safeguard free will.
+Question 38 (criminal law)
+Chloe is charged with two either-way offences: assault occasioning actual bodily harm and possession of a bladed article in a public place. 
+She indicates not guilty pleas. Her solicitor makes submissions to the magistrates' court, arguing it should retain jurisdiction for trial as its sentencing powers are sufficient for the alleged conduct.
+Assuming the magistrates convict Chloe of both offences, what is the maximum total custodial sentence they have the power to impose?
+
+A. 6 months' imprisonment for each offence, to run concurrently, totalling 6 months.
+B. 6 months' imprisonment for each offence, to run consecutively, totalling 12 months.
+C. 12 months' imprisonment for each offence, to run concurrently, totalling 12 months.
+D. 12 months' imprisonment for each offence, to run consecutively, totalling 24 months.
+E. 12 months' imprisonment for each offence, to run consecutively, but capped at a total of 12 months.
+Correct Answer: E
+Explanation: The sentencing powers of magistrates are set by statute. For a single either-way offence, the maximum is 12 months' imprisonment (Section 78 of the Sentencing Code, amending the Magistrates' Courts Act 1980). When sentencing for two or more either-way offences, Section 133 of the Sentencing Code allows magistrates to impose consecutive sentences, but the overall aggregate term must not exceed 12 month.
+A & B are incorrect as they apply the old 6-month maximum, which was increased to 12 months.
+C is incorrect because it assumes sentences must be concurrent; magistrates have the power to order consecutive sentences.
+
+D is incorrect as it ignores the statutory 12-month aggregate cap for the magistrates' court.
+
+Question 39 (LAND LAW)
+Eleanor has lived in her ground-floor flat for 25 years. Her living room window has received direct sunlight from across her neighbour's vacant land for the entire period. 
+The neighbour, George, now obtains planning permission to build a large garage on that land, which would completely obscure the light to Eleanor's window. 
+Eleanor has never sought or received George's formal permission for the light to cross his land.
+Can Eleanor obtain an injunction to prevent the construction based on a right to light?
+A. No, because an easement for light cannot be acquired without the neighbour's consent.
+B. No, because such an easement must be registered with the Land Registry to be enforceable.
+C. Yes, because she has enjoyed the light for over 20 years without interruption or consent.
+D. Yes, but only if she can prove the loss of light would make her flat uninhabitable.
+E. No, because the right to light only applies to properties with pre-existing written agreements.
+Correct Answer: C
+
+Explanation: A right to light can be acquired as an easement under the Prescription Act 1832. Section 3 of the Act provides that if access and use of light to a building has been actually enjoyed for 20 years without interruption, the right shall be "absolute and indefeasible." It is acquired without the need for consent or registration. The key case of Colls v Home & Colonial Stores established that the right is to a level of light sufficient for ordinary purposes, not the entirety of the former light.
+
+A. is incorrect; consent is not required for a prescriptive easement. Enjoyment without consent is precisely how the right is acquired.
+B. is incorrect; prescriptive easements are legal interests that override under Schedule 3, Paragraph 3 of the Land Registration Act 2002 and do not require registration.
+D states the test from the ancient case of Attorney-General v. De Keyser's Royal Hotel, which has been superseded by the "ordinary use" test.
+E is incorrect; it confuses prescriptive rights with expressly granted easements.
+
+Question 40 (WILLS AND ADMINISTRATION OF ESTATE)
+In his will, Thomas left a legacy of "£100,000 to be divided equally between my grandchildren who attain the age of 21." At his death, he had one grandchild, Amelia, aged 10. 
+Two years later, his son had a child, Benjamin. Three (3) years after Thomas's death, his daughter had a child, Charlotte. Five years after Thomas's death, Amelia turned 21.
+ Which grandchildren are entitled to share in the legacy?
+A. Amelia only.
+B. Amelia and Benjamin only.
+C. Amelia, Benjamin, and Charlotte.
+D. All three, and any further grandchildren born before the fund is distributed.
+E. None, as the class remains open until all potential grandchildren are of age.
+Correct Answer: B
+Explanation: This concerns the class-closing rules (or rules of convenience). The rule in Andrews v Partington states that for a class gift conditional upon reaching a specified age, the class closes when the first potential member fulfills the condition and becomes entitled to claim their share. This is to allow timely distribution of the estate. When Amelia turned 21, she became entitled. The class therefore closed at that moment, including all grandchildren alive at that time (Amelia and Benjamin). Charlotte, born after the class closed, is excluded.
+Why other options are incorrect:
+A is incorrect; it ignores Benjamin, who was born before the class-closing event.
+C & D are incorrect; they include Charlotte, who was not a living member of the class (i.e., not a grandchild in existence) when Amelia turned 21.
+E is incorrect; such a rule would unreasonably delay distribution indefinitely.
+
+Question 41 (WILLS AND ADMINISTRATION OF ESTATES)
+Matthew, an art collector, wants to draft a will gifting specific items. He owns a valuable picasso painting by a famous artist and wishes to leave it to his niece, Anna. He also plans a pecuniary gift to a charity. 
+
+The will includes a residuary clause for the rest of his estate. The solicitor drafts the gift as "my original Picasso painting." Matthew reviews and executes the will. 
+
+Years later, Matthew sells the painting and buys a different artwork. Upon his death, Anna claims the new artwork and the executor seeks advice on the gift's status. 
+
+What happens to the gift of the painting?
+A. The gift automatically transfers to any similar item Matthew acquires later.
+B. The gift fails and Anna receives nothing unless a substitute is provided.
+C. The executor must purchase a replacement painting using estate funds.
+D. Anna can claim the proceeds from the sale of the painting.
+E. The court interprets the will to include the new artwork as a substitute.
+
+B is the correct option.
+
+Explanation 
+B is the correct option because a specific gift, defined here as “my original Picasso painting,” is legally tied to the exact item identified in the will, and if Matthew sells it before his death, the doctrine of ademption applies, causing the gift to fail. This means Anna receives nothing related to the painting unless Matthew included a substitute clause.
+A is incorrect because the law does not automatically transfer a specific gift to a similar item, such as the new artwork Matthew acquired, unless the will explicitly provides for such a substitution, which it does not. 
+C is incorrect because executors are bound by the will’s terms and lack the authority to purchase a replacement painting using estate funds unless explicitly directed, which would alter the intended distribution and potentially disadvantage residuary beneficiaries.
+D is incorrect because claiming the proceeds from the painting’s sale applies to demonstrative gifts, which designate a source (e.g., a bank account) with a general fallback, not specific gifts tied to a particular asset. 
+E is incorrect because courts typically adhere to the principle of ademption for specific gifts and do not substitute assets, such as the new artwork, unless the will provides clear evidence of intent for substitution, which is lacking here. 
+
+Question 42 (CRIMINAL PRACTICE)
+Liam, aged 15, is arrested on suspicion of robbery. He is diagnosed with a learning disability that affects his understanding of complex questions. He lives with his elderly grandmother, who is partially deaf and visually impaired. Code C of the Police and Criminal Evidence Act (PACE) 1984 requires an appropriate adult to be called.
+Who is the most suitable person to fulfil the role of appropriate adult in this scenario?
+A. His defence solicitor, as they best understand the legal process.
+B. His grandmother, as she is his primary guardian.
+C. A specialist social worker or support worker familiar with his needs.
+D. The custody officer, provided they are not involved in the investigation.
+E. His Pastor
+Correct Answer: C
+Explanation: PACE Code C, Note 1G, defines an appropriate adult for a juvenile as, among others, a social worker. Where a juvenile has a mental disorder or is otherwise vulnerable, the primary concern is to secure someone who can facilitate effective communication, safeguard the juvenile's welfare, and ensure they understand their rights and the proceedings. A professional social worker or support worker is best equipped for this role, especially over a family member who may themselves be unable to fully participate due to their own impairments.
+
+A. is incorrect; a solicitor acts in a legal advisory capacity, not as an independent welfare safeguard.
+B. is likely unsuitable given the grandmother's own disabilities, which may prevent her from fulfilling the role effectively.
+D is incorrect; a police officer, even if not investigating, is not independent from the police station environment.
+
+Question 43 (Wills – Executors’ Fees & Professional Executors)
+Margaret’s will appoints her long-time friend, Susan, and her family solicitor, Mr. Black of Black & Co., as executors and trustees. 
+The estate is complex, including a business interest, multiple properties, and a trust for a minor beneficiary.
+The will is silent on payment for executors’ services. After Margaret’s death, Mr. Black spends significant professional time administering the estate, including handling the business sale, property conveyancing, and trust management, amounting to over 50 hours.
+Can Mr. Black legitimately charge the estate for his professional time and skill?
+A. Yes, he can automatically charge a reasonable fee for his professional services as a solicitor.
+B. Yes, but only if Susan, the co-executor, provides written consent acknowledging the work.
+C. No, he cannot charge for his time or professional skill.
+D. Yes, but he can only claim reimbursement for out-of-pocket expenses, not for time or skill.
+E. No, because professional executors must never be paid.
+Correct Answer
+C. No, he cannot charge for his time or professional skill.
+Explanation
+The default legal position is that executors are fiduciaries and cannot profit from their office unless the will expressly provides for it. This principle protects beneficiaries by preventing conflicts of interest (Boardman v Phipps [1967] 2 AC 46 confirms fiduciary duties against unauthorised profit).
+While executors can always be reimbursed for genuine expenses incurred on behalf of the estate, fees for time, expertise, or professional labour require an express charging clause in the will or court approval.
+Consent from a co-executor (option B) cannot override this rule; fiduciary duties cannot be waived informally.
+Professional executors can be paid, but only when explicitly authorised by the will, so option E is incorrect.
+Question 44 (CRIMINAL LAW)
+Chloe, a junior doctor, is rushing to her hospital shift. In the corridor, she sees an elderly patient, Arthur, who is confused and slowly pushing his IV stand, creating an obstruction. 
+Without speaking, Chloe grabs his upper arm and maneuvers him and his IV stand against the wall. The contact is forceful but causes no pain or injury. 
+Arthur is distressed and shouts for help; a senior consultant witnesses the event.
+In relation to battery, which statement is most accurate?
+A. Chloe is not guilty because her actions were motivated by a desire to help Arthur.
+B. Chloe is not guilty because the contact was trivial and caused no physical injury.
+C. Chloe is guilty because she intentionally applied unlawful force without consent.
+D. Chloe is not guilty because acting in Arthur’s best interests provides a lawful excuse.
+E. Chloe is guilty only if it can be proven she used excessive force.
+Correct Answer
+C. Chloe is guilty because she intentionally applied unlawful force without consent.
+Explanation
+Battery is defined as the intentional or reckless application of unlawful force to another person (Collins v Wilcock [1984] 1 WLR 1172).
+Actus reus: any non-consensual physical contact, however slight, that is not generally acceptable in daily life. Moving Arthur’s arm and IV stand qualifies as unlawful force.
+Mens rea: intention or recklessness as to the application of force. Chloe intentionally grabbed and moved Arthur, satisfying mens rea.
+Consent and justification: No valid consent or lawful justification existed. Being a doctor does not give blanket authority to use force outside immediate necessity (see R v Brown [1993] AC 407; R v Ireland [1998] AC 147).Triviality of force or absence of injury is irrelevant; battery protects bodily autonomy and integrity, not just avoidance of harm.
+A. is incorrect. Motive or benevolence is irrelevant; non-consensual force is still battery.
+B. is incorrect.  Any non-consensual contact can constitute battery; injury is not required.
+D is incorrect. Acting in someone’s best interests is not a general defence to battery unless there is imminent necessity.
+E is incorrect – Excessive force is relevant for defences (self-defence, necessity), not the 
+Question 45 (CRIMINAL LAW)
+During a heated argument in a pub car park, Ryan shoved his friend, Oliver. Ryan did not intend to cause serious injury. 
+The shove caused Oliver to stumble back several feet. He tripped over a low kerb, fell, and struck his head on the concrete, suffering a fatal skull fracture. 
+Medical evidence confirms the fall directly caused death. A reasonable person would have recognised the shove created a risk of some harm.
+ Is Ryan liable for unlawful act manslaughter?
+A. No, because he lacked the mens rea for murder or grievous bodily harm.
+B. No, because the trip over the kerb was an unforeseeable intervening act.
+C. Yes, because he committed an unlawful and dangerous act that caused death.
+D. No, because the death was an accident and not reasonably foreseeable.
+E. Yes, but only if the prosecution can prove he was subjectively reckless as to death.
+Correct Answer: C
+Explanation: The principles from R v Church and DPP v Newbury establish unlawful act manslaughter: (1) an unlawful act; (2) that is "dangerous" (i.e., all sober and reasonable people would inevitably recognise it carried some risk of harm, however not serious); and (3) that act caused the death. The shove is a battery (unlawful act). It was dangerous. The chain of causation is not broken by the victim falling in a foreseeable manner in a car park environment (R v Carey). Subjective foresight of death or serious harm is not required.
+
+A. is incorrect; the mens rea for unlawful act manslaughter is the intent for the underlying unlawful act (the battery), not for death/GBH.
+B. & D are incorrect; the "thin skull" rule applies, and a victim falling in a foreseeable way from a dangerous act does not break causation.
+E is incorrect; it describes the test for gross negligence manslaughter, not unlawful act manslaughter.
+
+Question 46 (CRIMINAL LAW)
+Isabella becomes obsessed with her co-worker, Ryan, after he politely rejects her advances. 
+Over several months, she sends him hundreds of threatening and sexually explicit emails, leaves disturbing voicemails suggesting she is watching him, and repeatedly follows him home.
+Despite Ryan changing his contact details, Isabella tracks him down and escalates her behaviour, sending a parcel to his home containing a used syringe and a note stating, “You’re next.”
+Ryan, who has no prior mental health history, becomes fearful of leaving his home, suffers severe anxiety and insomnia, and is diagnosed by a consultant psychiatrist with a severe adjustment disorder with anxiety, directly caused by Isabella’s conduct.
+Which of the following best describes Isabella’s liability for grievous bodily harm?
+A.She is guilty of grievous bodily harm because she wounded Ryan by inflicting a psychiatric injury.
+B. She is guilty because she intended to cause some harm 
+c. She is guilty because she intended to cause serious harm 
+D. She is guilty only if a reasonable could forsee the result.
+E. She is not guilty because Ryan’s reaction was unforeseeable and due to unusual sensitivity.
+B is the correct option.
+
+Explanation
+B is correct. The case of R v Burstow [1997] conclusively established that "grievous bodily harm" (GBH) under the OAPA 1861 is not restricted to physical harm but includes serious psychiatric illness. A severe adjustment disorder diagnosed by a psychiatrist can amount to "really serious harm". The actus reus of "inflicting" GBH has been interpreted broadly to mean "causing", and can occur without any physical application of force, as in a campaign of harassment. The mens rea for section 20 is "maliciously", meaning Isabella must have intended to cause some harm (e.g., distress, fear) or been reckless as to whether such harm was caused. Her persistent and escalating actions clearly satisfy this.
+
+A is incorrect. The term "wound" in the OAPA 1861 has a specific legal meaning requiring a break in the continuity of the whole skin. 
+
+C is incorrect. This was the old common law position, but it was overturned by the House of Lords in R v Burstow. The statute focuses on the result (GBH), not the method of infliction. A sustained course of harassing conduct is a recognised method of inflicting psychiatric GBH.
+
+E is incorrect. The "eggshell skull" rule applies to psychological vulnerability as it does to physical vulnerability. A defendant must take their victim as they find them. 
+
+Question 47 (criminal law)
+Ethan discovers his business partner, Noah, has been embezzling fund from their company which is at the brink of bankruptcy.
+Enraged, Ethan brings a Stanley knife to their office late at night and confronts Noah. 
+He says, “I’m not going to kill you, but you’ll never forget this,” and deliberately slashes Noah’s face, causing a deep wound, nerve damage, permanent scarring, and partial facial paralysis.
+What is the most accurate analysis of Ethan’s liability?
+A. Guilty of wounding.
+B. Guilty of wounding with intent.
+C. Guilty only of Actual bodily harm.
+D. Not guilty under s.18 because he did not intend to kill.
+E. Guilty only under s.20 as he did not intend serious harm.
+Correct Answer
+B
+Explanation
+B is correct - The deep facial laceration constitutes both a wound and grievous bodily harm. Ethan’s premeditation, use of a knife, targeting of the face, and deliberate action allow a jury to infer a specific intent to cause GBH, satisfying s.18 OAPA 1861. 
+In R v Morrison [1989], the Court of Appeal held that intent to cause GBH may be inferred from the deliberate use of a weapon on a vulnerable part of the body, even where the defendant denies intending serious injury.
+A is incorrect. Section.20 requires only recklessness as to some harm, but the facts show specific intent, making s.18 the correct charge.
+C is incorrect. The injuries are far beyond the Actual Bodily Harm threshold..
+D is incorrect. s.18 does not require intent to kill, only intent to cause GBH.
+E is incorrect.The deliberate use of a blade to permanently disfigure demonstrates intent to cause serious harm, not mere recklessness.
+Question 48 (CRIMINAL LAW)
+Sarah is involved in a bitter dispute with her business partner, Michael. Seeking to destroy company documents to hide her embezzlement, she sets fire to the office building late at night.
+
+Unknown to Sarah, Michael had decided to work late and was asleep on the sofa in his office. 
+
+The fire spreads, and Michael is killed. Sarah is charged with murder. She admits she started the fire but denies she intended to kill anyone. 
+
+Which of the following best describes sarah’s liability?
+
+A.Sarah is guilty of murder if she was reckless as to death or serious injury.
+B. Sarah is guilty of murder if death was a virtually certain result of her actions and she realised this.
+C. Sarah is guilty of murder only if her main aim was to kill Michael.
+D. Sarah is not guilty because she did not know Michael was in the building.
+E. Sarah is not guilty of murder because her motive was to destroy property.
+
+The correct answer is B
+
+Explanation
+Option B is correct. This directly applies the principle from R v Woollin regarding oblique intention. 
+
+The jury is not obliged to find intention but may do so if they are satisfied that the defendant foresaw the prohibited consequence (death or serious harm) as a virtual certainty as a result of their actions. 
+
+Setting a fire in an office building at night carries a very high likelihood that anyone inside would be killed, which a jury could find was a virtually certain consequence.
+
+Option A is incorrect because recklessness is sufficient for manslaughter but not for murder. Murder requires proof of intention (direct or oblique), which is a higher threshold.
+
+Option C is incorrect as it describes only direct intention. The law recognises that intention can also be found indirectly (obliquely) where a virtual certainty is foreseen, even if it was not the defendant's purpose.
+Option D is incorrect Setting a fire in an office building at night carries a very high likelihood that anyone inside could be killed
+Option E is incorrect because motive (the reason for acting) is distinct from intention (the state of mind regarding the consequences).
+
+Question 49 (CRIMINAL LAW)
+
+Ben discovers that his long-term partner, Chloe, has been having an affair.
+
+ One evening, during a heated argument, Chloe taunts him, saying, "I never loved you, and I've been seeing your best friend for years. You're a pathetic fool." 
+
+Enraged, Ben picks up a heavy ornament and strikes Chloe, killing her. 
+
+He is charged with murder and raises the defence of loss of control. 
+
+Which of the following presents the major requirement to his defence succeeding?
+
+●A. The fact that Ben's loss of control was triggered by things said .
+●B. The requirement that a person of Ben's sex and age, with a normal degree of tolerance, might have reacted in a similar way.
+●C. The fact that Ben did not plan the killing in advance.
+●D. The requirement that Ben must have actually lost his self-control.
+●E. The requirement that a reasonable person would have acted in the same way.
+
+The correct answer is B
+
+Explanation
+Option B is correct. The objective test is a crucial hurdle for the loss of control defence. The jury must consider whether an ordinary person might have reacted similarly. While words can constitute a qualifying trigger, the question is whether a person of ordinary tolerance, faced with such a confession and taunts (which may fall under the category of sexual infidelity), would have lost control and killed in such a violent manner. This is a very high standard to meet and is often the element that causes the defence to fail.
+
+Option A is incorrect because things said or done can be a qualifying trigger, provided they are of an "extremely grave character" and cause a "justifiable sense of being seriously wronged." While difficult, it is not an absolute bar.
+
+Option C is incorrect as a sudden loss of control is consistent with the defence. A calculated plan would be a statutory exclusion.
+Option D is incorrect because while Ben must prove he lost control, this is often easier to establish than the objective test. The real challenge is whether that loss of control was, in the circumstances, a reasonable reaction.
+
+Option E is incorrect . The reasonable man test is not required here.
+
+
+
+
+Question 50 (CRIMINAL LAW)
+Declan, intending to kill his business partner Oliver, laces his whisky with a slow-acting poison that is invariably fatal within two hours. 
+Thirty minutes later, Oliver becomes dizzy and falls down a flight of stairs, suffering a fatal skull fracture. 
+The post-mortem confirms that the fall, not the poison, caused his immediate death. Declan is charged with murder.
+Which principle governs his criminal liability?
+A. Not guilty; the fall was a novus actus interveniens breaking the chain.
+B. Guilty if poisoning was a more than minimal cause of the death.
+C. Not guilty of murder; only liable for attempted murder.
+D. Guilty if poisoning was a substantial and operating cause.
+E. Guilty only of manslaughter, as death was accidental.
+
+The correct answer is D
+
+Explanation
+Option D is correct. The principle of legal causation requires that the defendant's act be a "substantial and operating cause" of the death. It need not be the sole cause. By poisoning Oliver, Declan set in motion a chain of events that led directly to Oliver's disorientation and fall. The poisoning remained a substantial and operating cause of the death, as the fall was a direct consequence of the impaired state Declan induced. The courts have consistently held that a defendant takes their victim as they find them, including any foreseeable consequences of their vulnerable state.
+
+Option A is incorrect because for an intervening act to break the chain of causation, it must be so extraordinary and unforeseeable as to eclipse the defendant's act. A fall resulting from dizziness caused by a poison is a reasonably foreseeable consequence, not a novus actus.
+
+Option B is incorrect as it states too low a threshold. "More than minimal" is not the legal test; the cause must be "substantial."
+
+Option C is incorrect because the law of causation looks at the entire sequence of events set in motion by the defendant.
+
+Option E is incorrect because the presence of an intervening event does not automatically reduce murder to manslaughter.
+
+
+
+
+
+Question 51 (LANDLAW)
+In 2009, Arthur sold part of his land, Plot A, to Beatrice. The transfer deed contained a covenant whereby Beatrice promised "not to build any structure exceeding one storey in height on Plot A." 
+Arthur retained the adjacent Plot B, which had a view over Plot A. The covenant was registered. In 2020, Arthur sold Plot B to Charlotte. 
+In 2024, Beatrice sold Plot A to David, who now plans to build a two-storey house.
+Can Charlotte enforce the 2010 covenant against David to prevent the construction?
+A. No, because the burden of a covenant does not run with freehold land at common law.
+B. No, because Charlotte was not the original covenantee and therefore does not have the benefit.
+C. Yes, because the covenant is restrictive, was intended to benefit the retained land, and both plots have changed hands.
+D. Yes, but only if Charlotte can prove the value of Plot B has been diminished by the breach.
+E. No, because David, as a subsequent purchaser, did not sign the original deed.
+Correct Answer: C
+
+Explanation: For a restrictive covenant to bind successors in equity under the rule in Tulk v Moxhay: 
+(1)it must be negative in substance; 
+(2) the original parties must have intended it to benefit adjacent land (here, Plot B) and bind the covenantor's land (Plot A);
+(3)the claimant must own the land intended to be benefited. Registration of the covenant against Plot A satisfies the requirement for the burden to pass (Land Registration Act 2002). Charlotte, as owner of the benefited land (Plot B), holds the benefit which passes automatically with the land.
+
+A. is incorrect. the question is about enforcement in equity, where the burden can run.
+B. is incorrect; the benefit of a covenant can run with the land to successors in title of the original covenantee.
+D is incorrect; while diminution in value may be relevant to damages, it is not a prerequisite for enforcement by injunction.
+E is incorrect; the doctrine of notice (or in registered land, registration) binds successors, regardless of their signature.
+
+Question 52 (CRIMINAL LAW)
+ James destroyed Mrs Charity’s car and was charged for criminal damage, the prosecution's only eyewitness is the victim's 8-year-old daughter, Deborah.
+ Mr Smith, the defence prosecutor, challenges her competence to give evidence, arguing she is too young to understand the importance of telling the truth.
+What is the correct test for the judge to apply in determining if Sophie is competent to give unsworn evidence?
+
+A.Whether she understands the divine sanction of an oath.
+B. Whether she is over the age of 10, the statutory presumption of competence.
+C. Whether she understands that it is wrong to tell lies and the comprehension of honesty.
+D. Whether she can provide a perfectly coherent and consistent account of events.
+E. Whether her intelligence quotient (IQ) is above the average for her age.
+Correct Answer: C
+Explanation: Section 53(3) of the Youth Justice and Criminal Evidence Act 1999 states a person is not competent to give evidence if they cannot understand questions put to them or give answers that can be understood. For a child, the test from R v Barker is whether the child can understand (1) the difference between truth and lies, and (2) the solemnity of the occasion and the importance of telling the truth. There is no age limit. The judge conducts a preliminary inquiry, often using simple questions, to assess this understanding.
+
+A. is incorrect as it relates to the test for taking the oath, not for basic competence to give evidence.
+B. is incorrect; there is no age-based presumption. A very young child may be competent, while an older child may not.
+D is incorrect as it sets too high a standard; competence relates to basic understanding and communication, not the reliability or consistency of the evidence.
+E is incorrect; intelligence is not the statutory test, and an average IQ is not required.
+
+Question 53 (CRIMINAL LAW)
+
+Sarah is the manager of a residential care home. To cut costs, she decides to ignore a mandatory service contract for the inspection and servicing of the home's passenger lift. 
+
+The lift subsequently fails due to a known mechanical fault that an inspection would have identified, causing it to fall two floors. 
+
+An elderly resident, Mrs. Higgins, is in the lift and dies from her injuries. Sarah is charged with gross negligence manslaughter.
+
+In establishing Sarah's liability, which element will be most central to the prosecution's case?
+
+●A. Proving that a reasonable man would have forseen Mrs Higgin’s injury.
+●B. Proving that Sarah intended to cause harm to the residents by her cost-cutting.
+●C. Proving that Sarah's breach of duty was so gross as to be characterised as criminal.
+●D. Proving that the lift company was primarily liable for the mechanical failure.
+●E. Proving that Sarah was subjectively aware that her actions would certainly cause death.
+
+The correct answer is C
+
+Explanation
+Option C is correct. Gross negligence manslaughter arises where a defendant owes a duty of care, breaches it, and that breach is so gross that it warrants criminal liability, resulting in death. The leading case is R v Adomako [1995] AC 171. In Adomako, an anaesthetist failed to notice that a patient’s oxygen tube had become disconnected during surgery. The patient died, and the anaesthetist was charged with gross negligence manslaughter. The House of Lords held that liability arises where:
+1.There is a duty of care;
+2.There is a breach of that duty;
+3.The breach causes death; and
+4.The breach is so gross as to amount to a criminal act or omission, judged objectively.
+The court emphasised that intention or subjective awareness of risk is not required; what matters is the grossness of the breach.
+In Sarah’s case, the prosecution must show that failing to service the lift was so grossly negligent that it can be characterised as criminal, causing Mrs. Higgins’ death.
+
+Option B is incorrect as gross negligence manslaughter does not require any intention to harm. It is an offence of gross culpable negligence.
+
+Option D is incorrect because the potential liability of another party does not absolve Sarah of her own personal criminal liability for her gross breach of duty.
+
+Option E is incorrect because subjective foresight of the certainty of death is the test for oblique intention in murder. For gross negligence manslaughter, the test is objective: the grossness of the breach, not the defendant's specific foresight.
+
+Question 54 (CRIMINAL LAW)
+
+Leo and Maya are involved in a minor scuffle in a pub car park. 
+
+Angered, Leo pushes Maya away from him. Maya, who is standing near a low kerb, loses her balance, falls backwards, and hits her head on the pavement. 
+
+She suffers a catastrophic skull fracture and dies. Leo did not intend to kill Maya. Leo is charged with unlawful act manslaughter. 
+
+Which of the following accurately states the legal test for establishing the required mens rea for this offence?
+
+●A. The prosecution must prove that Leo foresaw the risk of some harm to Maya from his push.
+●B. The prosecution must prove that Leo foresaw the death of Maya from his push.
+●C. The prosecution must prove that Leo's push was unlawful and dangerous to a reasonable person
+●D. The prosecution must prove that Leo acted with gross negligence as to the risk of Maya falling.
+●E. The prosecution must prove that Leo had the intention to kill or cause grievous bodily harm.
+
+The correct answer is C
+
+Explanation
+Option C is correct. C is correct. Unlawful act (constructive) manslaughter occurs when a defendant commits a criminal act that is inherently dangerous, and that act causes death. The act must be objectively dangerous, meaning that a reasonable person would recognise it as carrying some risk of harm.
+The leading authority is R v Church [1966] 1 QB 59. In Church, the defendant attacked a woman during a fight. Believing her to be dead, he dumped her in a river, where she subsequently drowned. The Court of Appeal held that unlawful act manslaughter required:
+1.An unlawful act, such as assault;
+2.That the act was objectively dangerous, so that a reasonable person would recognise it carried some risk of harm; and
+3.That the act caused death.
+
+The court emphasised that the defendant does not need to foresee death or serious harm; liability arises from the commission of the unlawful and dangerous act. The mens rea is only for the underlying unlawful act (e.g., battery), not for the resulting death.
+Applied to Leo, his push was an unlawful act (battery). A reasonable person would foresee that pushing someone near a kerb could cause harm. The death of Maya satisfies causation. Leo need not have intended or foreseen her death.
+
+Option A is incorrect because it applies a subjective test (what Leo foresaw). The test for dangerousness is objective and does not depend on the defendant's actual foresight.
+
+Option B is incorrect. The defendant does not need to foresee death.
+Option D is incorrect as this describes the test for gross negligence manslaughter, 
+Option E is incorrect as this is the mens rea for murder.
+
+Question 55 ( CRIMINAL LAW )
+
+During a minor altercation over a parking space, David shoves his neighbour, Mr. Higgins. 
+
+Mr. Higgins, an elderly man with severe osteoporosis unknown to David, stumbles and falls. The fall causes a fracture to his hip.
+
+While in hospital for surgery, Mr. Higgins contracts a rare and virulent hospital-acquired infection that is resistant to antibiotics. He dies from complications of the infection a week later. 
+
+Medical evidence confirms that a person of normal health would have likely survived both the fracture and the infection. David is charged with manslaughter.
+
+Which of the following represents the most accurate application of legal principles to David's liability?
+
+●A. David is not liable for manslaughter because the infection was a novus actus interveniens that broke the chain of causation.
+●B. David is liable for manslaughter because the original shove was a legal cause of the death.
+●C. David is only liable for assault occasioning actual bodily harm, as the death was too remote a consequence of his actions.
+●D. David is not liable for any homicide offence because he lacked the intention to cause any harm to Mr. Higgins.
+●E. David is liable for murder because the shove was an unlawful act that resulted in death.
+
+The correct answer is B
+
+Explanation
+
+Option B is correct. B is correct.In criminal law, the thin skull rule (or “eggshell skull” rule”) applies: a defendant must take the victim as they find them. David’s shove caused the initial fracture, which materially contributed to Mr. Higgins’ death. 
+
+The fact that Mr. Higgins had a pre-existing vulnerability or contracted a rare infection does not break the chain of causation, as long as the death was a direct and foreseeable consequence of the original unlawful act.
+In R v Blaue [1975] 3 All ER 446, A defendant stabbed a woman, who refused a blood transfusion for religious reasons and subsequently died. The Court of Appeal held that the defendant had to take his victim as he found her, including her personal beliefs. The refusal of treatment did not break the chain of causation, applying the thin skull rule.
+David’s shove is the legal cause of Mr. Higgins’ death. The rare infection and the victim’s frailty do not absolve him of liability.
+
+Option A is incorrect because a foreseeable complication of medical treatment for an injury caused by the defendant does not ordinarily break the chain of causation. The original injury remains a substantial cause.
+
+Option C is incorrect because the principle of factual and legal causation can render a defendant liable for the full, unforeseen consequences of their unlawful act. The offence is not limited to the intended harm.
+Option D is incorrect because for unlawful act manslaughter, the mens rea is the intention to commit the unlawful act (the battery), not an intention to cause harm. The lack of intent to harm is irrelevant to this specific charge.
+
+Option E is incorrect as it misstates the offence. The facts do not support the mens rea for murder (intention to kill or cause GBH). The appropriate homicide charge is manslaughter.
+
+
+
+
+
+
+
+Question 56 (CRIMINAL LAW)
+Jonas, a large and intimidating individual, accompanied his friend Caleb to a meeting with a business associate, Mr. Petrov, from whom Caleb claimed he was owed a significant debt.
+The meeting took place in a secluded warehouse office. Jonas did not speak, but stood directly behind Caleb, arms crossed, his presence dominating the small room. Caleb, emboldened, made increasingly aggressive demands. 
+When Mr. Petrov refused, Caleb punched him in the stomach.
+Jonas then stepped forward, still silent, locking eyes with Mr. Petrov. Feeling outnumbered, Mr. Petrov signed a promissory note he knew was unjust. 
+Afterward, Jonas accepted a portion of the money, claiming it was for “his time.”
+Would Jonas be liable as a secondary party for blackmail or assault?
+A. No, he never spoke or acted violently.
+B. No, mere presence is not enough.
+C. Yes, his intimidating presence encouraged Caleb and coerced Mr. Petrov.
+D. Yes, but only for the blackmail.
+E. No, his actions were ambiguous or supportive of a lawful debt.
+
+C is the correct option 
+
+Explanation
+C is correct. In secondary liability, “mere presence” at the scene of a crime is generally insufficient to amount to aiding and abetting. However, presence can become encouragement if the individual intends to bolster the principal offender and it actually influences the principal’s actions.
+Jonas deliberately positioned himself as an intimidating figure behind Caleb and stepped forward at a critical moment, which encouraged Caleb to act aggressively and caused Mr. Petrov to sign the promissory note under fear. His conduct goes beyond passive presence, making him a secondary party to both the assault and the blackmail.
+A. is Incorrect. Words are not necessary; encouragement can be conveyed entirely through conduct and intimidating presence if intended to support the principal.
+B. is Incorrect. While “mere presence” alone is insufficient, presence intended to encourage is a recognised form of aiding and abetting (R v Coney [1882], R v Wilcox [1981]).
+D is Incorrect. The assault and blackmail were part of a single connected criminal transaction, so Jonas is liable for the entire course of conduct, not just the blackmail.
+E is Incorrect. Even if the debt claim were legitimate, using intimidation and threats makes the act criminal. Jonas actively facilitated this, so his role goes beyond moral support.
+
+Question 57 ( TRUST )
+
+James is the sole trustee of a discretionary trust established by his late aunt, which owns a commercial warehouse and a diversified portfolio of shares. 
+The trust provides income for a group of adult beneficiaries. Over the years, the warehouse has been difficult to let, and James believes his own business could make better use of the property.
+The trust deed permits trustees to purchase trust assets. James obtains an independent surveyor’s valuation confirming the full market price and now wishes to buy the warehouse for his own business use, arguing it would be more efficiently managed under his ownership.
+Which rule governs this transaction, and what is the key requirement for its validity?
+A. Self-Dealing Rule; only allowed if the trust deed expressly authorises it.
+B. Fair-Dealing Rule; allowed if all adult beneficiaries are fully informed.
+C. Self-Dealing Rule; voidable by any beneficiary, regardless of price or fairness.
+D. Fair-Dealing Rule; allowed with informed consent of all beneficiaries.
+E. Duty to Act Fairly; allowed because the price is fair and in the trust’s interest.
+Correct Answer- C
+
+Explanation
+C is correct. The Self-Dealing Rule (ex parte Lacey [1902]) is a strict fiduciary principle prohibiting a trustee from purchasing trust property for themselves. 
+The transaction is automatically voidable by any beneficiary, regardless of fairness or honesty, to avoid conflicts of interest. It can only be validated by express authorisation in the trust instrument or court approval.
+A. is incorrect.  Authorisation in the trust deed is an exception, but the rule itself makes the transaction voidable, not merely conditional.
+B. & D are incorrect. The Fair-Dealing Rule relates to trustees buying a beneficiary’s interest, not the trust property.
+E is incorrect. A fair price or perceived benefit does not override the strict Self-Dealing Rule.
+
+Question 58 (LAND LAW)
+
+The owner of Pemberley House enjoys an express easement of way over a narrow gravel path on the neighbouring Rosings Park estate. The route of the easement is clearly defined in the original deed by reference to a plan.
+Over time, the gravel path has become muddy and inconvenient to use, particularly in winter. 
+Without agreement, the owner of Pemberley begins using a wider, firmer parallel route across Rosings Park, which he considers more practical. The owner of Rosings Park objects. 
+Is the owner of Pemberley entitled to use the alternative route?
+A. Yes, because an easement of way allows use of any route that reasonably provides access.
+B. No, because the easement is confined to the specific route granted and cannot be altered unilaterally.
+C. Yes, provided the alternative route causes no additional burden on the servient land.
+D. No, unless the original route has become completely impassable.
+E. Yes, because the servient owner must maintain the route in a usable condition.
+B is correct. 
+Explanation
+B is correct. Where an easement of way is granted over a defined and identified route, the dominant owner is strictly confined to that route and cannot unilaterally substitute another, even if the alternative is more convenient or the original route has deteriorated.
+This principle is established in Borman v Griffith [1930] 1 Ch 493. In that case, the dominant owner had a right of way over a specified track but began using a different route across the servient land because it was easier to use. The court held that the easement was limited to the precise route granted, and the dominant owner had no right to deviate from it. Any change required a new grant or formal variation. Convenience or practicality was irrelevant.
+Accordingly, the owner of Pemberley House is not entitled to use the alternative route across Rosings Park. The easement remains confined to the narrow gravel path shown on the original plan.
+A is incorrect. An easement is not a general right of access but a right over a specific part of land (Borman v Griffith).
+C is incorrect. A permanent change of route is not permitted even if it imposes no greater burden.
+D is incorrect. Even if the route becomes difficult or obstructed, the dominant owner’s remedy is legal enforcement, not unilateral alteration.
+E is incorrect. The servient owner generally has no duty to maintain the route unless expressly agreed.
+
+
+Question 59 ( LAND LAW )
+Sir Walter Elliot owned The Cottage, which benefited from a legal easement of way over a driveway on neighbouring land known as Kellynch Hall.
+Several years later, Sir Walter inherited Kellynch Hall from a distant relative, becoming the freehold owner of both the dominant and servient tenements.
+Although the two properties remained registered under separate titles at HM Land Registry, Sir Walter thereafter used the driveway without restriction.
+Following Sir Walter’s death, his estate sold Kellynch Hall to Admiral Croft but retained ownership of The Cottage. Admiral Croft has since blocked access to the driveway, asserting that the easement no longer exists.
+Which of the following best describes the legal position?
+A. The easement continues because the two properties were never merged into a single registered title.
+B. The easement was extinguished when Sir Walter became owner of both properties in the same capacity.
+C. The easement was merely suspended during Sir Walter’s ownership and revived automatically on separation.
+D. The easement was only extinguished if Sir Walter executed a formal deed releasing it.
+E. The easement survives because registered legal easements cannot be extinguished by unity of ownership.
+Correct answer: B
+Explanation
+B is correct. An easement is extinguished by unity of seisin (also called unity of ownership and possession) when the same person acquires the freehold interest in both the dominant and servient tenements in the same capacity. An easement cannot exist where one person owns both pieces of land, because a person cannot have an easement over their own land. Once extinguished, the easement does not revive automatically on later separation of ownership.
+This principle is well established in cases such as  Re Ellenborough Park [1956] Ch 131, which confirms that diversity of ownership is an essential characteristic of an easement. When Sir Walter inherited Kellynch Hall while already owning The Cottage, that diversity was lost, and the easement was extinguished at that moment. The later sale of Kellynch Hall to Admiral Croft could not resurrect the right.
+A is incorrect.  Registration status is irrelevant. Unity of ownership extinguishes an easement as a matter of property law, even if the titles remain separately registered.
+C is incorrect. This is a common misconception. Easements are not merely suspended during unity of seisin; they are extinguished and do not revive on separation.
+D is incorrect. No express intention or deed of release is required. Extinguishment occurs automatically upon unity of ownership in the same capacity.
+E is incorrect. Legal interests, including registered easements, can be extinguished by operation of law, including unity of seisin.
+
+Question 60 (LAND LAW)
+Elizabeth owned a large estate and sold part of her land to James. In the conveyance, James covenanted not to subdivide the land, in order to preserve the open views enjoyed by Elizabeth’s retained property. The covenant was expressly stated to benefit Elizabeth’s land.
+James later sold the land to Timothy. The restrictive covenant was clearly noted on the title, and Timothy was aware of it at the time of purchase. 
+Despite this, Timothy subdivided the land and sold individual plots to developers, resulting in new buildings that obstructed Elizabeth’s views and reduced the value of her property.
+Elizabeth now seeks an injunction to enforce the covenant against Timothy.
+Which option most accurately states how equity applies in this situation?
+A.The covenant is enforceable in equity against Timothy.
+B. The covenant is not enforceable because it is a positive obligation.
+C. The covenant is only enforceable if Elizabeth proves substantial financial loss beyond loss of amenity.
+D. The covenant is unenforceable in equity because it was noted on the title and therefore notice is irrelevant.
+E. The covenant cannot be enforced because the subdivision has already occurred.
+Correct answer: A
+Explanation
+Option A is correct. This scenario engages the equitable doctrine in Tulk v Moxhay (1848), which allows a restrictive (negative) covenant to bind successors in title in equity, even though it does not run at common law.
+Here, the covenant restricts subdivision, which is a negative obligation (it requires Timothy to refrain from doing something). The covenant was intended to benefit Elizabeth’s retained land, and it is clear from the facts that Timothy had actual notice of the restriction, as it was noted on the title. All the requirements for enforcement in equity are therefore satisfied, and Elizabeth can seek an injunction against Timothy.
+B is incorrect. The covenant is not positive. A restriction on subdivision is a classic restrictive covenant, not one requiring expenditure or action.
+C is incorrect. Proof of actual financial loss is not required to enforce a restrictive covenant in equity. The interference with the benefit (here, the view) is sufficient.
+D is incorrect. Registration or notice is highly relevant in equity. The doctrine depends on the successor taking the land with notice of the covenant, not the absence of registration.
+E is incorrect. The fact that subdivision has already occurred does not prevent the application of the equitable rule. An injunction may still be available (including a mandatory injunction), and liability is not confined to the original covenantor.
+
+Question 61 ( LAND LAW)
+
+David owned a lakeside estate and sold one plot to Mary by deed. The deed granted Mary and her successors a right of way over a private access road serving the estate. The same deed expressly required the owner of the plot to contribute a fair proportion of the cost of maintaining the road.
+After purchasing the plot, Mary regularly uses the private road but refuses to contribute to its upkeep. She argues that the obligation to pay for maintenance is a positive covenant and therefore cannot bind her as a successor in title.
+What is the most accurate legal assessment of whether the maintenance obligation is enforceable against Mary?
+A.Enforceable because she enjoys the benefit of the right of way.
+B. Unenforceable because positive covenants never bind successors.
+C. Enforceable only if she agrees after completion.
+D. Unenforceable as it is only binding in a building scheme.
+E. Enforceable only against the original seller, not Mary.
+
+Correct Answer
+A
+Explanation 
+A is correct. This is a classic application of the benefit and burden doctrine, established in Halsall v Brizell [1957] Ch 169. The doctrine provides that a person who takes the benefit of a right over land cannot, in equity, reject a corresponding burden which is directly linked to that benefit.
+Here, Mary enjoys the benefit of the right of way over the private road. The obligation to contribute to its maintenance is clearly connected to that benefit. Because Mary has a genuine choice, she could avoid the obligation by not using the road, she cannot both use the road and refuse to pay for its upkeep. Equity therefore enforces the burden as the price of taking the benefit.
+This principle was reaffirmed and clarified in Thamesmead Town Ltd v Allotey [1998] 30 HLR 105, where the Court of Appeal stressed that the burden must be directly related to the benefit and that the successor must have a real opportunity to renounce the benefit.
+B is incorrect .While positive covenants do not generally run with freehold land at common law, the benefit and burden doctrine is a well-established equitable exception.
+C is incorrect. No fresh agreement is required. The obligation arises automatically through Mary’s election to take the benefit.
+D is incorrect.  A building scheme is irrelevant here; the benefit and burden doctrine operates independently of any scheme of development.
+E is incorrect . The obligation is not merely personal to David. Equity enforces it against Mary because she has chosen to enjoy the benefit attached to the land.
+
+
+Question 62 (LANDLAW)
+
+In 2015, Henry sold part of his farmland to Rachel. The deed included two covenants namely:
+Rachel must pay £500 annually for a shared drainage system.
+Rachel must not keep pigs.
+
+Rachel paid for three years, then stopped, and began raising pigs, causing flooding and nuisance. Henry, still owning his land, sues her for both breaches.
+Which statement most accurately reflects Rachel’s liability?
+A. She remains liable for both the payment and pig restriction indefinitely.
+B. She is liable only for the restrictive covenant; the payment lapses after non-payment.
+C. She faces no liability; the sale price discharged all obligations.
+D. She is liable for the positive covenant but not the restrictive covenant.
+E. She is liable only while Henry owns the land.
+Correct Answer- A
+
+Explanation
+A is correct. Restrictive covenants run with freehold land at common law if they touch and concern the land and the original parties intended them to bind successors (Tulk v Moxhay [1848] 2 Ph 774). Rachel is liable for keeping pigs because the covenant restricts her use of the land.
+Positive covenants (payment obligations) do not usually bind successors in title at common law, but a personal obligation remains enforceable against the original covenantor. Here, Rachel remains liable to Henry, the original covenantor, for payment because he still owns the dominant land.
+B is incorrect. Positive covenants do not “lapse” simply due to non-payment; Rachel remains personally liable.
+C is incorrect.Payment of the sale price does not discharge ongoing obligations in the deed.
+D is incorrect.The restrictive covenant does run with the land and is enforceable.
+E is incorrect. Liability for both covenants does not end simply because Henry sells; the restrictive covenant continues to bind successors.
+
+Question 63 ( LAND LAW )
+
+Thomas sold part of his estate to Victoria with two covenants:
+1.“not to build over 10 meters high”
+2.“to maintain a hedge”
+Victoria sold to Daniel. Daniel built a 15-meter tower and removed the hedge. Thomas, still owning the retained land, seeks to enforce the covenants.
+Which best explains the differing enforceability against Daniel?
+A. Equity enforces the height restriction; hedge covenant fails.
+B. Both fail; registration is required for all freehold covenants post-1925.
+C. Hedge binds via benefit-and-burden; height restriction does not.
+D. Neither binds; common law only annexes benefits, not burdens.
+E. Height binds via common law; hedge requires equity but fails.
+Correct Answer - A
+
+Explanation
+A is correct. Restrictive covenants (like the height restriction) can run with freehold land at law or in equity if they touch and concern the land and were intended to bind successors. Equity enforces them against successors who have notice (Tulk v Moxhay [1848] 2 Ph 774). Daniel is therefore bound by the restriction on building height.
+Positive covenants (like hedge maintenance) generally do not run with freehold land. Equity can sometimes enforce them under the benefit-and-burden principle (Halsall v Brizell [1957] Ch 169), but only if the successor has a choice: taking the benefit requires accepting the burden.
+ Here, Daniel did not take a corresponding benefit from Thomas’ land (e.g., the boundary hedge did not benefit him directly in a way that attaches a burden). Therefore, the hedge covenant cannot be enforced against Daniel.
+
+B is incorrect. Registration is only required for certain restrictive covenants post-1925 (LRA 1925 s.78). Lack of registration does not automatically invalidate the covenants at common law if they are equitable.
+C is incorrect. It misstates the benefit-and-burden application: the hedge did not confer a relevant benefit to Daniel in relation to Thomas’ land.
+D is incorrect. It misstates common law: restrictive covenants can run; the problem is with positive covenants, not restrictive ones.
+E is incorrect. Height restriction binds at equity and law, not purely common law annexation; hedge fails because it is a positive covenant.
+
+Question 64
+Mr. and Mrs. Rossi own “The Laurels”, a freehold house.
+ For decades, their neighbour, Mr. Bianchi, has enjoyed a legally granted right of way over a gravel path at the bottom of the Rossis’ garden, essential for access to his land. 
+The right was granted by a deed to a previous owner of Bianchi’s property, but due to a past oversight, the easement is not registered on the Land Register for the Rossis’ property.
+Mr. Bianchi wants to ensure his right of way binds any future buyer of the Rossis’ property.
+What is the best course of action?
+A. Enter a restriction on the title preventing the Rossis from selling without his consent
+B. Enter a notice in the charges register of the Rossis’ title
+C. Do nothing; the easement automatically binds future buyers as an overriding interest
+D. Enter a notice in the proprietorship register of his own property
+E. Apply to be registered as a joint proprietor of the Rossis’ property
+Correct Answer
+B
+Explanation
+B is correct. Under the Land Registration Act 2002, legal easements granted by deed can be protected on the land register by entering a notice in the charges (burden) register of the servient land. This ensures that any purchaser of the servient land (The Laurels) will be bound by the easement, even if the purchaser inspects the register, preventing disputes.
+Without registration, the easement may not automatically bind a purchaser who buys for value if it is not overriding. Since the easement is over a specific route, it may not qualify as an overriding interest under LRA 2002 Schedule 3, paragraph 3. Registration is the safest way to protect the right.
+According to Land Registration Act 2002, s.32 & Schedule 3,  notices protect registered interests against successors in title.
+The case of Re Webb’s Lease [1939] Ch 223  demonstrates the importance of protecting equitable and legal rights on the register to bind successors.
+A is incorrect. A restriction affects proprietorship dealings, not burdens like easements. It cannot ensure the easement is enforceable against a purchaser.
+C is incorrect. Not all legal easements automatically override unregistered titles. Overriding interests are limited; relying solely on this is risky.
+D is incorrect. Notices in the proprietorship register of the dominant land do not bind purchasers of the servient land.
+E is incorrect. Joint proprietorship is unrelated; Bianchi does not need ownership of the servient land to enforce an easement.
+
+
+Question 65 ( LAND LAW)
+Anna entered into a written agreement granting her a firm option to buy a commercial workshop from David at a fixed price within five years. 
+The agreement was executed but not protected on the Land Register. David then sold the property to Paolo for full market value.
+ Paolo’s solicitor checked the register and found no encumbrances. Paolo is now registered as proprietor.
+Can Anna enforce her option against Paolo?
+A.Not enforceable as it is an unprotected equitable interest.
+B. Enforceable because written agreement gives it legal force against any buyer.
+C. Enforceable as it’s an overriding interest binding all successors.
+D. Not enforceable but Anna may claim a statutory indemnity.
+E. Enforceable and Paolo must transfer at the agreed price.
+A is correct. For an equitable interest (like Anna’s option) to bind a registered proprietor for value, it must be protected by a notice in the charges register under Land Registration Act 2002, s.32. Anna’s option, though a valid written agreement, is equitable and unregistered. Paolo is a bona fide purchaser for value without notice, so the option cannot be enforced against him. This protects the certainty of the land registration system.
+Midland Bank Trust Co Ltd v Green [1981] AC 513 illustrates this principle: Green had an equitable interest in land via a transaction with his bank, but it was unprotected on the register. The House of Lords held that the interest did not bind a bona fide purchaser for value without notice. The case confirms that unregistered equitable interests are vulnerable against registered purchasers for value.
+B is incorrect. A written agreement alone does not automatically bind subsequent purchasers unless it is a registrable interest or protected by notice.
+C is incorrect. Anna’s option does not qualify as an overriding interest under Schedule 3 of the LRA 2002; overriding interests are limited to specific statutory categories like short leases or rights of occupation.
+D is incorrect. Statutory indemnity under s.58 LRA 2002 may arise in certain cases, but Anna cannot rely on it here to enforce the option against a purchaser for value without notice.
+E is incorrect. Specific performance against a purchaser for value without notice is not permitted under the LRA 2002.
+Question 66 (LANDLAW)
+Lena owned a freehold house, "Hillside," registered at the Land Registry. In 2022, she orally agreed to let her cousin, Ben, use the garage for his vintage car collection for five years. Ben paid a small monthly sum and had exclusive use of the garage.
+Lena later sold "Hillside" to Chloe. Chloe’s solicitor obtained the official register, which showed no entries relating to Ben, and viewed the property, but the garage was locked. 
+Chloe completed the purchase and became the registered proprietor. Ben now claims a right to continue using the garage.
+Which statement best describes Ben’s right?
+A. Yes, because the right was for less than seven years and Ben was in actual occupation.
+B. No, because the right was not created by a legal instrument or registered.
+C. Yes, because it is a legal lease overriding registration due to its short-term nature.
+D. No, because Ben’s occupation was not obvious during inspection.
+E. Yes, because Ben was in factual possession, making his interest overriding under Schedule 3.
+Correct Answer: B
+Explanation
+B is correct. For an equitable lease or licence (like Ben’s oral arrangement) to bind a registered proprietor for value, it must be protected by a notice on the Land Register under Land Registration Act 2002, s.32. Ben’s oral agreement is equitable and unregistered, so Chloe, a bona fide purchaser for value without notice, is not bound by it. This ensures certainty and reliability in the land registration system.
+Midland Bank Trust Co Ltd v Green [1981] AC 513 illustrates this principle. In that case, Green had an equitable interest in the property, but it was not protected on the register. The House of Lords held that the equitable interest did not bind a purchaser for value without notice, confirming that unprotected equitable interests cannot override the rights of registered proprietors.
+A is incorrect. The short-term lease exception in Schedule 3, paragraph 1 of the LRA 2002 only applies to legal leases, not equitable arrangements. Ben’s oral agreement does not qualify.
+C is incorrect. Ben’s interest is not a legal lease, so it cannot override registration.
+D is incorrect. Actual or obvious occupation is relevant only if the interest is capable of overriding; here, Ben’s equitable right alone cannot bind Chloe.
+E is incorrect. Factual possession does not convert an unprotected equitable lease into an overriding interest; the legal status of the interest is decisive.
+Question 67 (LANDLAW)
+Mr. and Mrs. Sharma, registered proprietors of a house, allowed their adult son, Rohan, to build and live in a large garden studio on the property.
+ Rohan contributed a significant sum to construct the studio, and the family understood he could occupy it indefinitely. Later, the Sharmas mortgaged the house with QuickLoan Bank.
+ The bank’s valuer inspected the property but was told the studio was merely a “garden office.” The bank did not speak to Rohan. The Sharmas defaulted, and the bank now seeks possession of the property.
+Which statement best describes Rohan’s position?
+A.Rohan has no enforceable interest; he is merely a licence holder.
+B. Rohan’s interest binds the bank because he is in actual occupation.
+C. Rohan’s interest does not bind the bank because the valuer made a reasonable inspection.
+D. Rohan can claim reimbursement only for the money spent building the studio.
+E. Overriding interests cannot bind mortgagees, only purchasers.
+B is correct.
+Explanation
+B is correct. Rohan’s interest in the garden studio binds QuickLoan Bank because he is in actual occupation of the land, which qualifies as an overriding interest under Schedule 3, paragraph 2 of the Land Registration Act 2002. His financial contribution to building the studio and the understanding that he could occupy it indefinitely give rise to a proprietary interest that touches and concerns the land. The bank’s valuer, having been misled and failing to make proper enquiries, cannot defeat Rohan’s interest. 
+This principle is established in Williams & Glyn’s Bank v Boland [1981] AC 487, where the wife had contributed to the purchase price and was in actual occupation of the matrimonial home. The House of Lords held that her equitable interest in the property, combined with her actual occupation, bound the bank, even though it was registered as the husband’s sole proprietor.
+A is incorrect. Rohan’s interest is more than a mere licence. His financial contribution and the family arrangement create a proprietary interest, which can bind third parties when coupled with actual occupation.
+C is incorrect. The bank being misled by the registered proprietor does not negate Rohan’s overriding interest. Actual occupation takes priority over failures in the purchaser or mortgagee’s inspection.
+D is incorrect. While Rohan’s contribution to the studio could support a restitutionary claim, his equitable interest extends beyond reimbursement; his right to occupy is protected.
+E is incorrect. Overriding interests under Schedule 3 LRA 2002 are not limited to purchasers; they can also bind a mortgagee if the person is in actual occupation.
+
+Question 68 (CRIMINAL PRACTICE)
+Liam, aged 15, is arrested on suspicion of robbery. He is diagnosed with a mental disorder. He lives with his elderly grandfather, who is partially dumb and visually impaired. Code C of the Police and Criminal Evidence Act (PACE) 1984 requires an appropriate adult to be called.
+Question: Who is the most suitable person to fulfil the role of appropriate adult in this scenario?
+A. His defence solicitor, as they best understand the legal process.
+B. His grandfather, as he is his primary guardian.
+C. A specialist social worker or support worker familiar with his needs.
+D. The custody officer, provided they are not involved in the investigation.
+E. A superintendent police officer.
+Correct Answer: C
+Explanation: PACE Code C, Note 1G, defines an appropriate adult for a juvenile as, among others, a social worker. Where a juvenile has a mental disorder or is otherwise vulnerable, the primary concern is to secure someone who can facilitate effective communication, safeguard the juvenile's welfare, and ensure they understand their rights and the proceedings. A professional social worker or support worker is best equipped for this role, especially over a family member who may themselves be unable to fully participate due to their own impairments.
+
+A. is incorrect; a solicitor acts in a legal advisory capacity, not as an independent welfare safeguard.
+B. is likely unsuitable given the grandfather's own disabilities, which may prevent her from fulfilling the role effectively.
+D is incorrect; a police officer, even if not investigating, is not independent from the police station environment.
+
+
+Question 69 (LANDLAW)
+In 2011, Edward sold a portion of his estate, called Meadow Plot, to Catherine. The transfer deed included a covenant whereby Catherine promised “not to build any structure exceeding one storey in height on Meadow Plot.” Edward retained the adjacent Hill View Plot, which enjoyed views over Meadow Plot. The covenant was registered against Meadow Plot at the Land Registry.
+In 2021, Edward sold Hill View Plot to Charlotte. In 2025, Catherine sold Meadow Plot to Daniel, who now intends to build a two-storey house, potentially obstructing the view from Hill View Plot.
+Which of the following best describes Charlotte’s ability to enforce the covenant against Daniel?
+A. No, because the burden of a covenant does not run with freehold land at common law.
+B. No, because Charlotte was not the original covenantee (Edward) and therefore cannot enforce it.
+C. Yes, because the covenant is restrictive, intended to benefit the retained land, and both plots have changed hands.
+D. Yes, but only if Charlotte can prove her land’s value has been diminished.
+E. No, because Daniel, as a subsequent purchaser, did not sign the original deed.
+Correct Answer: C
+Explanation
+C is correct. The covenant is a restrictive covenant capable of binding successors in equity under the principle established in Tulk v Moxhay (1848) 41 ER 1143. For enforcement:
+1.The covenant must be negative in substance. Here, it restricts building height.
+2.The original parties must have intended it to benefit the retained land (Hill View Plot) and to bind the covenantor’s land (Meadow Plot).
+3.The claimant must own the land intended to benefit from the covenant. Charlotte, as the successor in title to Hill View Plot, now holds the benefit.
+The registration of the covenant against Meadow Plot under the Land Registration Act 2002 ensures the burden passes to subsequent owners like Daniel, making the covenant enforceable in equity.
+A. is incorrect. While the burden of a covenant does not run at common law, equity allows enforcement if the three conditions above are met.
+B. is incorrect. Successors in title to the original covenantee (Edward) can enforce the benefit, so Charlotte is entitled to do so.
+D is incorrect. Proof of diminished value may affect damages, but is not required to enforce the covenant by injunction.
+E is incorrect. Registration and notice bind subsequent purchasers regardless of whether they signed the original deed.
+Question 70 (LANDLAW)
+In 2012, Jonathan sold a parcel of land called Orchard Field to Rebecca. The transfer deed included a covenant stating that Rebecca “must maintain a flower garden at the front of Orchard Field.” 
+Jonathan retained the adjacent land, Meadow Edge, for himself. 
+In 2022, Jonathan sold Meadow Edge to Charlotte. Rebecca sold Orchard Field to Thomas, who no longer wishes to maintain a garden. 
+Charlotte now seeks to enforce the 2012 covenant against Thomas to ensure the flower garden is maintained.
+Which of the following best describes Thomas’s liability under the covenant?
+A.Thomas must maintain the garden because the covenant benefits Meadow Edge.
+B. Thomas is bound only if it was registered
+C. Thomas is not bound because the covenant cannot run with freehold land in equity.
+D. Thomas must maintain the garden if Charlotte can prove the value of Meadow Edge has been diminished.
+E. Thomas is bound because the covenant was included in the original deed and notified to successors.
+Correct Answer: C
+Explanation
+C is correct. The covenant is positive in nature, requiring action (maintaining a garden) rather than restricting use. Under the principle established in Austerberry v Oldham Corporation [1885] 29 Ch D 750, the burden of a positive covenant does not run with freehold land, either at common law or in equity. Therefore, Thomas, as a successor in title, cannot be forced to maintain the garden, even though the covenant was intended to benefit Meadow Edge.
+A is incorrect. Only restrictive covenants (negative in substance) can bind successors in equity; a positive covenant cannot.
+D is incorrect. Diminution in value may affect remedies for restrictive covenants but does not make a positive covenant enforceable against a successor.
+C and E is incorrect are Registration or notice does not convert a positive covenant into one enforceable against successors in freehold land.
+
+Question 71 (criminal practice)
+
+In a fraud trial, the prosecution seeks to rely on a computer-generated ledger entry to prove that a payment was made. The entry was produced automatically by the company’s accounting system using data input by a junior accounts clerk whose job was to process invoices. The clerk is now unavailable to give evidence.
+The defence argues that the accounting system had a known fault causing duplicated transactions and submits that admitting the record without cross-examination would be unfair. The prosecution responds that the document is a routine business record and therefore admissible.
+Which statement most accurately reflects the law on admissibility?
+A. The record is admissible as a business document.
+B. The record is admissible only if the defence consents.
+C. The record is admissible only if it falls within the common law res gestae exception.
+D. The record is admissible only if the court applies s.116 CJA 2003 due to witness unavailability.
+E. The record is admissible only if the court uses the interests of justice discretion.
+Correct Answer: A
+Explanation
+A is correct.
+Section 117 of the Criminal Justice Act 2003 provides a specific hearsay exception for business and other documents. A document is admissible if it was created or received in the course of a trade or business and the information was supplied by a person with personal knowledge who was under a duty to record or supply it.
+Here, the ledger entry was generated as part of a routine accounting system using data entered by an employee acting within their role. The employee’s unavailability does not prevent admissibility under s.117. Any alleged system faults or duplication issues affect the weight of the evidence, not its admissibility.
+B is incorrect.
+Section 114(1)(c) applies only where all parties agree to the admission of hearsay. The defence objects, so this route is unavailable.
+C is incorrect.
+Res gestae applies to spontaneous or contemporaneous statements made under the stress of events. It has no application to routine business records governed by statute.
+D is incorrect.
+Section 116 concerns hearsay statements of unavailable witnesses, not business documents. Business records fall under s.117, not s.116.
+E is incorrect.
+Section 114(1)(d) is a residual discretion used only where no specific statutory gateway applies. Since s.117 directly governs business records, reliance on s.114(1)(d) is unnecessary and inappropriate.
+
+Question 72  (Criminal practice)
+Grace is charged with assault. A witness's statement describes the incident but the witness refuses to testify due to fear of intimidation.
+ Grace claims the statement is motivated by a personal grudge and has evidence to support this. The prosecution seeks to admit the statement under the hearsay gateway for fear.
+What advice should Grace be given about the court’s power to exclude the hearsay evidence?
+A. The court may exclude it if admission would adversely affect trial fairness.
+B. The court can exclude it only if it wastes time.
+C. Once a hearsay gateway applies, the court must admit the evidence.
+D. Exclusion requires proof the statement is unreliable beyond reasonable doubt.
+E. The court’s exclusionary power applies only to multiple hearsay.
+Correct Answer: A
+Explanation
+A is correct. Even where hearsay evidence is admissible through a statutory gateway here, fear under s.116 CJA 2003, the court retains a residual discretion to exclude evidence if its admission would undermine the fairness of the proceedings. This power arises under s.78 Police and Criminal Evidence Act 1984, which allows exclusion of prosecution evidence if its admission would have such an adverse effect on the fairness of the trial that it ought not to be admitted.
+Grace’s inability to cross-examine the witness, combined with credible evidence of bias or malice, is highly relevant to fairness. The court must carefully balance the probative value of the statement against the risk of injustice.
+This approach is consistent with R v Horncastle [2009] UKSC 14, where the Supreme Court confirmed that hearsay admissibility under the CJA 2003 must still comply with overall trial fairness, including safeguards and exclusionary powers.
+B is incorrect. Section 126 CJA 2003 concerns exclusion of evidence due to undue waste of time, not fairness or reliability. It is not the appropriate mechanism here.
+C is incorrect. Meeting a hearsay gateway does not compel admission. The court always retains discretion to exclude unfair evidence.
+D is incorrect. There is no requirement to prove unreliability beyond reasonable doubt. The test is whether admission would adversely affect fairness, not whether falsity is conclusively established.
+E is incorrect.
+The court’s exclusionary powers apply to all hearsay, including first-hand hearsay. They are not limited to multiple hearsay scenarios.
+
+Question 73 (CRIMINAL PRACTICE)
+
+In a prosecution for arson, the Crown seeks to rely on the evidence of Daniel, a 34-year-old man who witnessed the fire. 
+Daniel has a long-standing diagnosis of schizophrenia and was experiencing auditory hallucinations at the time of the incident. 
+The defence argues that Daniel is not competent to give evidence because of his mental disorder and the risk that his account may be unreliable.
+At a preliminary hearing, Daniel is able to answer simple questions but becomes confused when asked more complex ones. He states that he knows he must “tell the truth” in court.
+
+What is the correct test for the judge to apply in determining whether Daniel is competent to give evidence?
+A.Whether Daniel’s mental illness means his evidence is likely to be unreliable.
+B. Whether Daniel understands the legal consequences of lying under oath.
+C. Whether Daniel can understand questions put to him and give answers that can be understood.
+D. Whether Daniel was mentally stable at the time of the incident.
+E. Whether Daniel’s medical condition prevents him from recalling events accurately.
+Correct Answer: C
+Explanation
+C is correct. This was explained in R v Sed [2004] EWCA Crim 1294, where the
+ complainant suffered from severe mental illness, including delusions. The defence argued that she was not competent to give evidence because her mental condition made her account unreliable.
+The Court of Appeal held that mental illness does not automatically render a witness incompetent. The correct test is whether the witness can:
+Understand the questions put to them, and
+Give answers that can be understood 
+The court stressed that reliability and credibility are matters for the jury, not the judge deciding competence.
+A is incorrect.
+Reliability goes to weight, not competence. Even unreliable witnesses may be competent to testify.
+B is incorrect.
+Understanding the legal consequences of lying is relevant to taking the oath, not competence. A witness may give unsworn evidence and still be competent.
+D is incorrect.
+Competence concerns the witness’s ability at the time of trial, not their mental state at the time of the offence.
+E is incorrect.
+Accuracy of memory affects credibility, which is for the jury, not competence, which is for the judge.
+
+
+Question 74 ( criminal practice)
+Laura is charged with dangerous driving. The prosecution relies on speed-camera evidence and witness statements alleging reckless manoeuvres shortly before Laura’s car left the road.
+Laura maintains that she swerved to avoid a child on a bicycle and produces partial dashboard-camera footage in support. She is concerned about the level of certainty the jury must reach before convicting her.
+Which of the following most accurately states the standard of proof the prosecution must meet?
+A. The prosecution must prove guilt beyond reasonable doubt.
+B. The prosecution must prove its case on the balance of probabilities.
+C. The prosecution must establish a prima facie case based on credible evidence.
+D. The jury must be convinced beyond a shadow of a doubt.
+E. The prosecution must prove guilt to a high degree of probability, even if some doubt remains.
+Explanation
+A is correct.
+In criminal proceedings, the prosecution must prove the defendant’s guilt beyond reasonable doubt. Although modern judicial directions often rephrase this as requiring the jury to be “sure” of the defendant’s guilt, the substance of the standard remains the same. Any reasonable doubt must result in an acquittal. Laura does not have to prove her innocence or establish her account; it is sufficient if her evidence raises a reasonable doubt as to whether her driving was dangerous.
+This principle was affirmed in R v Woolmington [1935] AC 462, where the House of Lords held that the burden of proving guilt rests on the prosecution throughout, subject only to limited statutory exceptions. The prosecution must therefore disprove Laura’s explanation if it is to secure a conviction.
+B is incorrect. The balance of probabilities is the civil standard of proof, not the criminal one.
+C is incorrect. Establishing a prima facie case is relevant to procedural stages (such as submissions of no case to answer), not to the standard required for conviction.
+D is incorrect. “Beyond a shadow of a doubt” sets the threshold too high and has repeatedly been rejected by the courts as misleading.
+E is incorrect. A high degree of probability still allows for reasonable doubt and therefore falls short of the criminal standard.
+
+Question 75 (criminal practice)
+David is on trial for assault occasioning actual bodily harm. 
+He admits punching the victim but claims he acted in self-defence, alleging the victim threatened him with a metal bottle opener. 
+An independent witness confirms seeing the victim lunge at David with a shiny object. The prosecution argues that David must prove his defence.
+Which statement correctly describes the burden of proof for self-defence?
+A.David must prove self-defence on the balance of probabilities.
+B. David needs to raise some evidence of self-defence; the prosecution must then disprove it beyond reasonable doubt.
+C. The prosecution must disprove self-defence from the start of the trial.
+D. David must establish self-defence, after which the prosecution bears no responsibility.
+E. The jury decides self-defence based on whether it is more likely than not.
+B is correct.
+Explanation.
+B is correct. In English criminal law, the defence of self-defence carries only an evidential burden. This means the defendant must produce some evidence supporting the claim that they acted in self-defence (for example, testimony or circumstances indicating a threat). Once this evidential burden is met, the prosecution bears the legal burden of disproving self-defence beyond reasonable doubt (see R v Jones [1986] 83 Cr App R 241). The defendant does not have to prove self-defence on the balance of probabilities; they only need to raise the issue.
+A is incorrect. The defendant does not have a legal burden to prove self-defence on the balance of probabilities. Doing so would reverse the normal principle that the prosecution must prove guilt beyond reasonable doubt.
+C is incorrect. The prosecution does not bear the burden of disproving self-defence from the outset. They only have to disprove it once the defendant has raised sufficient evidence to make it an issue.
+D is incorrect. The defendant does not carry a legal burden. They only need to provide evidence, after which the prosecution must satisfy the legal burden.
+E is incorrect. The jury’s role is not to decide self-defence on a balance of probabilities. The jury must consider the defence and only acquit if the prosecution has failed to disprove it beyond reasonable doubt.
+
+
+Question 76 ( CRIMINAL PRACTICE)
+
+A defendant is charged with a hit-and-run that occurred at dusk.
+The prosecution’s case relies primarily on a pedestrian who saw the driver for only a second or two in poor light before being struck. The witness later identified the defendant in a lineup, relying on general features such as facial hair and build.
+The defendant has independent evidence suggesting he was elsewhere at the time.
+Which of the following best states the legal principles governing the use of such identification evidence?
+A. Identification is inherently unreliable; the judge must warn the jury of its dangers.
+B. The witness’s confidence determines reliability
+C. Daytime identifications are generally reliable regardless of observation duration.
+D. Fleeting observations can only be relied upon if corroborated by physical evidence.
+E. Special rules on visual identification do not apply to incidents involving moving vehicles.
+The correct option is A.
+Explanation
+
+A. is correct. Identification evidence based on a very brief observation under poor conditions is inherently less reliable. The court has long recognised that witnesses may make honest mistakes when viewing a suspect for only a few seconds, especially in low light or stressful circumstances. Judges must give the jury a clear warning about the dangers of relying on such evidence. If the identification is the sole basis of the prosecution’s case, the judge may consider withdrawing the case (R v Turnbull [1977] QB 224). In this scenario, the pedestrian saw the driver only briefly in dim light and relied on general characteristics, so the jury must be warned to treat the identification with caution.
+
+B. is incorrect. Witness confidence alone is not a reliable measure of accuracy.
+C. is incorrect. While daytime conditions can improve visibility, the duration and quality of the observation remain critical.
+D. is incorrect. Corroboration strengthens a case, but Turnbull warnings apply regardless of the presence of physical evidence.
+E. is incorrect. The rules on identification evidence apply equally to incidents involving moving vehicles; the dynamic nature of the scene can actually increase the risk of misidentification, reinforcing the need for jury warnings.
+Question 77 ( CRIMINAL PRACTICE )
+Chloe is on trial for assault occasioning actual bodily harm, arising from a fight in a nightclub. She claims she was acting purely in self-defence.
+ Chloe has a previous conviction for common assault from two years ago, which involved a similar argument in a bar. The prosecution seeks to adduce evidence of this previous conviction.
+On what basis is the prosecution most likely to argue the previous conviction is admissible?
+On what basis is the previous conviction most likely admissible?
+A. To show Chloe is untruthful in her testimony.
+B. To show Chloe has a propensity to commit similar offences.
+C. As explanatory evidence, necessary for the jury to understand the case.
+D. As background evidence inextricably linked to the current facts.
+E. To rebut a false impression Chloe gave about her good character.
+Correct answer: B
+Explanation:
+B is correct. Under the Criminal Justice Act 2003, ss. 101–103, evidence of previous convictions can be admitted to show a propensity to commit offences of the same or similar type. Chloe’s prior assault, in similar circumstances, is directly relevant to establishing that she may have a propensity to commit assaults in bar/nightclub settings, and therefore can be considered by the jury.
+A is incorrect. Propensity to be untruthful is distinct from propensity to commit the offence; her prior conviction does not directly prove dishonesty.
+C is incorrect. Explanatory evidence is admissible only where the facts cannot be understood without it. Here, the prior conviction is not necessary for explaining the current incident.
+D is incorrect. Background or contextual evidence refers to events directly surrounding the offence itself, not previous unrelated convictions.
+E is incorrect. While previous convictions can rebut a good-character impression under s. 103 CJA 2003, the question does not indicate Chloe has claimed good character, so this does not apply.
+Question 78 ( CRIMINAL PRACTICE )
+During a trial for drug supply, the defence alleges the defendant was at a supermarket at the time of the offence, supported by a till receipt. 
+The prosecution had previously disclosed the CCTV from the supermarket, which was poor quality and appeared irrelevant. After receiving the defence statement, the prosecution re-examines the CCTV with enhanced technology and now identifies the defendant clearly at the checkout at the stated time.
+What is the prosecution’s primary duty upon this discovery?
+A. Disclose the enhanced CCTV footage to the defence immediately.
+B. Inform the judge privately and let the judge decide on disclosure.
+C. Withhold the material as it is now privileged.
+D. Disclose only if the defence applies for it.
+E. Provide a summary but not the footage to protect the enhancement method.
+Correct answer: A
+Explanation:
+A. is correct. Under Criminal Procedure and Investigations Act 1996 (CPIA), ss. 3 and 7, the prosecution has a continuing duty to disclose material that is capable of undermining the case for the prosecution or assisting the defence. The enhanced CCTV is clearly relevant, newly identifiable, and potentially exculpatory, so it must be disclosed to the defence immediately. This ensures a fair trial and compliance with the disclosure obligations.
+B. is incorrect. There is no requirement to seek the judge’s permission before disclosure; the duty rests on the prosecution.
+C. is incorrect. Legal professional privilege does not apply to material that is relevant evidence in the case; reviewing the CCTV does not make it privileged.
+D. is incorrect. Disclosure is mandatory under CPIA regardless of whether the defence makes an application.
+E. is incorrect. Summaries cannot replace disclosure of material that is relevant and potentially determinative; the actual footage must be provided to preserve fairness.
+
+Question 79 ( criminal practice)
+Liam, aged 25, is to be sentenced for three separate shoplifting offences, all committed within a week. 
+He has numerous previous convictions for similar offences. For each individual offence, the sentencing guideline suggests a range of 6-12 weeks' custody. The judge is considering imposing consecutive sentences for the three offences.
+Which of the following best reflects the correct approach the judge must take?
+A. Add the sentences for each offence, even if the total becomes very long.
+B. Ensure the total sentence is just and proportionate to all offences, reducing individual sentences if necessary.
+C. Impose concurrent sentences because the offences are similar and close in time.
+D. Impose the maximum for the most serious and a nominal amount for the others.
+E. Focus only on the most recent offence
+Explanation
+B is correct. The totality principle is a fundamental principle of sentencing. This principle is clearly stated in Criminal Justice Act 1991, s. 153. It requires a sentencing judge, when passing a sentence for multiple offences, to step back and consider whether the cumulative sentence is just and proportionate for the overall offending behaviour. Even if consecutive sentences are justified, the total must not be excessive. This may require the judge to adjust the individual sentences downwards or make some sentences concurrent to achieve a fair overall term.
+·  A is incorrect. Simply adding the individual sentences risks producing an unjustly long total, which the totality principle prevents.
+·  ·  C is incorrect. Concurrent sentences are appropriate only when offences arise from the same act or are closely connected, but even then, totality must still be considered.
+·  ·  D is incorrect . There is no automatic rule to take the maximum for the most serious and nominal for others.
+·  ·  E is incorrect. Focusing only on the most recent offence ignores the cumulative seriousness of the other offences, which must be considered when assessing the total sentence.
+
+Question 80 (PROPERTY  PRACTICE)
+A client sends a single cheque for £201,500 to their solicitor in a property transaction. The covering letter states it is for "£200,000 for the completion monies and £1,500 in payment of your bill number 1234." The solicitor pays the entire cheque into the client account. What is the correct series of double entries to record the initial receipt and the subsequent transfer of the office element?
+A.(1) Debit Client Bank Account £201,500; Credit Client Ledger £201,500. 
+2)Debit Client Ledger £1,500; Credit Client Bank Account £1,500.
+
+B.(1) Debit Client Bank Account £201,500; Credit Client Ledger £201,500. 
+(2)Debit Office Bank Account £1,500; Credit Client Ledger £1,500.
+
+C.(1) Debit Client Bank Account £201,500; Credit Client Ledger £201,500.
+(2)Debit Client Ledger £1,500; Credit Client Bank Account £1,500; Debit Office Bank Account £1,500; Credit Client Ledger (Business Column) £1,500.
+
+D. (1) Debit Client Bank Account £200,000; Credit Client Ledger £200,000. 
+(2)Debit Office Bank Account £1,500; Credit Client Ledger £1,500.
+
+E (1) Debit Client Bank Account £201,500; Credit Client Ledger £201,500. 
+(2) Debit Client Ledger £1,500; Credit Office Bank Account £1,500.
+C is the correct option.
+Explanation
+C is correct. It accurately reflects the two-step process for a mixed receipt. Step 1 records the full receipt into the client account. Step 2 records the transfer of the office element: (i) the payment out of the client account (Credit Client Bank, Debit Client Ledger), and (ii) the receipt into the office account (Debit Office Bank, Credit Client Ledger business column), which also reduces the client's debt to the firm for the paid bill.
+A. is incorrect because it only shows the money leaving the client account but does not show it entering the office account or adjusting the business ledger.
+B. is incorrect and creates an accounting imbalance; it debits the office account without showing a corresponding credit, and the credit to the client ledger does not reflect a reduction in the firm's holding for the client.
+D is incorrect because it fails to record the initial receipt of the full £201,500 into the client account.
+E is incorrect because it suggests the office account is credited when it should be debited (an increase in an asset is a debit).
+Question 81 ( Criminal law)
+During a family dispute, Christian struck his uncle, Philip, repeatedly with a heavy candlestick. 
+Christian did not plan the attack but deliberately aimed blows at Philip’s head. Philip suffered massive head injuries and died in hospital two days later. 
+Medical evidence confirms the blows were the operative cause of death.
+ Is Christian liable for murder?
+A. No, because he lacked premeditation.
+B. Yes, because he intentionally caused grievous bodily harm that resulted in death.
+C. No, because he did not intend to kill Philip.
+D. Yes but only if the prosecution proves he foresaw death as a virtual certainty.
+E. No because the death was not immediate and was partly due to hospital treatment.
+Correct Answer: B
+B is correct. In criminal law, murder requires proof of unlawful killing and the mens rea of intent to kill or cause grievous bodily harm (GBH). Christian deliberately struck Philip multiple times with a heavy candlestick, intending serious injury. Intent to cause GBH is sufficient for murder, even if the defendant did not specifically plan to kill. The chain of causation is satisfied because the blows were the operative cause of death, and subsequent medical treatment does not break it (R v Smith [1959] 2 QB 35).
+In R v Vickers [1957] 2 QB 664, the Court of Appeal considered a case where the defendant broke into a shop and brutally beat the elderly shopkeeper, causing death. The court held that an intention to cause grievous bodily harm (GBH) was sufficient to constitute the mens rea for murder, even though there was no direct evidence of an intent to kill. This case confirms that direct intent to cause serious injury satisfies the mental element for murder.
+A is incorrect. Premeditation is not necessary for murder. 
+C is incorrect. Even without intent to kill, intending to cause GBH satisfies the mens rea for murder.
+D is incorrect. Foresight as a virtual certainty is relevant only to oblique intent; here Christian had direct intent to cause serious harm.
+E is incorrect. Death occurring after medical treatment does not break causation unless the treatment was wholly independent and overwhelming.
+
+Question 82 (WILLS AND THE ADMINISTRATION OF ESTATES)
+A client sends a single payment of £100,750 to their solicitor with regards to the administration of their estate.
+ The client has specified that £100,000 is for a property purchase and £750 is in payment of an outstanding bill. 
+The solicitor pays the full amount into the client account. Once cleared, the solicitor processes the transfer of the £750 office element.
+Which of the following represents the correct double entry for the transfer of the £750?
+A. Debit Client Ledger £750; Credit Client Bank Account £750.
+B. Debit Office Bank Account £750; Credit Client Ledger £750.
+C. Debit Client Ledger £750; Credit Client Bank Account £750; Debit Office Bank Account £750; Credit Client Ledger (Business) £750.
+D. Debit Client Bank Account £750; Credit Office Bank Account £750.
+E. Debit Client Ledger (Business) £750; Credit Client Bank Account £750.
+C is the correct option.
+Explanation
+C is correct. This captures the complete dual effect of the transfer. The first part (Debit Client Ledger, Credit Client Bank) reduces the money held for the client in the client account. The second part (Debit Office Bank, Credit Client Ledger Business) records the receipt of the money into the office account and reduces the debt the client owed the firm for the bill.
+A. is incorrect because it only shows the money leaving the client side of the accounting equation and does not show it entering the office account.
+B. is incorrect as it suggests the office account is credited (a decrease) when it should be debited (an increase).
+D is incorrect because it does not involve the client ledger accounts, which are essential for tracking the transaction for the specific client.
+E is incorrect as it debits the business column (which would increase a debt owed by the client) when it should be crediting it (to reduce the debt).
+Question 83(PROFESSIONAL ETHICS)
+Two brothers are in dispute over the ownership of a painting left by their father. They agree to have their solicitor hold the painting in the firm's strong room for safekeeping until the dispute is resolved. 
+One brother offers to pay the solicitor's storage costs and sends a cheque for £1,000 to cover the estimated fees. The solicitor has not yet rendered any bill for these storage services.
+How should the solicitor treat the £1,000 cheque?
+A. Pay it into the office account
+B. Pay it into the client account
+C. Return the cheque and ask for payment only after a bill has been issued.
+D. Pay it into a separate designated client account for the matter.
+E. Ask both brothers to confirm in writing that the £1,000 can be paid into the office account.
+B is the correct option.
+Explanation
+B is correct. This is client money. It is money received in connection with the practice for a service (storage/safekeeping) for which a bill has not yet been delivered. Therefore, it must be treated as client money and held in the client account until the firm becomes entitled to it by issuing a bill.
+A is incorrect because the firm has no right to the money until it has issued a bill for the service.
+C is incorrect; while this is a possible approach, it is not required by the rules. The solicitor can receive money on account of costs.
+D is incorrect; a designated deposit account is for specific client funds to earn interest, not for general client money handling. The general client account is the correct place.
+E is incorrect and unnecessary; the rules determine the treatment, not the agreement of the parties.
+
+
+Question 84 (LAND LAW)
+
+A solicitor, acting on the client's specific instruction, pays £1,500 from the client account to a local search company. The search company's invoice was addressed to the law firm.
+What is the correct double entry to record this transaction?
+A. Debit Client Ledger £1500; Credit Client Bank Account £1500.
+B. Debit Office Bank Account £1500; Credit Client Bank Account £1500.
+C. Debit Disbursements (Office) £1500; Credit Client Bank Account £1500.
+D. Debit Client Bank Account £1500; Credit Client Ledger £1500.
+E. Debit Client Ledger £1500; Credit Office Bank Account £1500.
+A is the correct option.
+Explanation
+A. is correct. Regardless of whether the invoice is to the firm (principal) or the client (agency), the physical payment is made from the client account. The double entry records this payment: the client bank account (asset) decreases (Credit) and the obligation to the client (liability) decreases (Debit). The subsequent treatment for VAT and recharging happens in the office ledgers.
+B. is incorrect because the payment was not made from the office account.
+C. is incorrect because "Disbursements" is an office account, and the transaction did not go through the office bank account.
+D. is incorrect as it reverses the entries, showing an increase in the client bank account.
+E. is incorrect because the office bank account is not involved in the transaction.
+
+Question 85 (PROFESSIONAL ETHICS)
+You are a solicitor acting for a buyer. 
+The seller’s solicitor accidentally emails you a confidential strategy note showing the seller would likely accept a £15,000 reduction. 
+Your client instructs you to demand the reduction, citing only “market conditions,” concealing the source.
+In light of your professional obligations, what is the correct course of action?
+A.Follow the client’s instructions and demand the reduction.
+B. Refuse to act on it, but let the client hire another solicitor.
+C. Notify the seller, return or destroy the document, and do not use it.
+D. Use the knowledge discreetly to aid negotiation.
+E. Withdraw from acting because of conflicting duties.
+Correct Answer: C
+Explanation
+C is correct. As a solicitor, you owe strict duties of confidentiality and professional integrity. When you receive information clearly marked confidential and inadvertently disclosed by the opposing side, you must not exploit it for your client’s benefit. The appropriate course is to notify the sender, return or destroy the material, and refrain from acting on it (Solicitors Regulation Authority Principles 1 & 2; Rule 3.6 Code of Conduct). Using such information would constitute a breach of your professional duties and could amount to professional misconduct.
+The case of Prince Jefri Bolkiah v KPMG (No 2) [1999] 2 AC 222 illustrates the principle that lawyers cannot act on confidential information that is clearly disclosed inadvertently. The court held that even if the information could give a tactical advantage, using it would be a breach of duty and unjustifiable.
+A. is incorrect. Using confidential information breaches integrity and duty to the court.
+B. is incorrect. Allowing the client to instruct another solicitor to exploit the info still breaches your professional duty.
+D is incorrect. Acting on it indirectly is still unauthorised use of confidential material.
+E is incorrect. Withdrawal is not required if you properly notify and return/destroy the material.
+Question 86 (PROFESSIONAL ETHICS)
+You are instructed by an elderly client, Mrs. Higgins, to act in the sale of her home. 
+Her son, acting as attorney under a registered LPA for property and affairs, insists on using a specific online agent and accepting a low offer, claiming speed is more important than price. 
+You suspect he has a personal financial motive. Mrs. Higgins appears confused and defers entirely to her son.
+What is the most appropriate step?
+A. Follow the son’s instructions without question.
+B. Proceed as the son directs, noting the client has not objected.
+C. Exercise independent judgment to protect Mrs. Higgins’ best interests.
+D. Report immediately to the Office of the Public Guardian.
+E. Withdraw from acting immediately.
+Answer: C
+Explanation
+C is correct.When acting for a client under a Lasting Power of Attorney (LPA), the solicitor’s duty remains to the donor (Mrs. Higgins), not automatically to the attorney (her son). You must exercise independent professional judgment to ensure that all actions are in the client’s best interests (SRA Principles 1, 2, 3; Code of Conduct 2.1–2.3). This includes carefully assessing offers, the choice of agent, and any potential conflicts of interest.
+This principle was affirmed in Re J (An Adult) [2011] EWHC 2090 (Ch), where the court emphasized that solicitors must always act in the donor’s interests and may challenge or refuse to follow an attorney’s instructions if there is a concern the attorney is acting improperly or against the client’s interests.
+A. is incorrect. The attorney’s instructions do not override your duty to the client. Following blindly could amount to breach of fiduciary duty and professional misconduct.
+B. is incorrect. Passive compliance, even if the client appears non-objectionable, does not discharge your duty to assess and protect the client’s interests.
+D is incorrect. Reporting to the OPG may be appropriate eventually, but immediate reporting is not the first step; you must first take steps to safeguard the client.
+E is incorrect. Withdrawal is not required if you take proper steps to act in the client’s best interests and address the attorney’s instructions appropriately.
+Question 87 (PROFESSIONAL ETHICS)
+A solicitor is instructed to act on a residential property purchase.
+ She sends a "Terms of Business" letter identifying the client, describing the matter, stating her hourly rate, and confirming she will handle the work personally.
+ However, the letter omits an estimate of total costs, billing arrangements, the name of a supervising partner, and information about the complaints procedure or the Legal Ombudsman. Later, the client is surprised by a much higher bill than expected.
+Based on the SRA’s client care requirements, which statement is correct?
+A. Compliant, as core terms including the hourly rate were provided.
+B. Partially Compliant, because a total cost estimate is not mandatory if the hourly rate is stated.
+C. Not compliant, because mandatory information were omitted.
+D. Only failed to name a supervising partner; the rest is recommended, not compulsory.
+E. Compliant, as the client’s cost expectation was unreasonable.
+Answer: C
+Explanation
+C is correct.
+Under the SRA Code of Conduct and Principles for client care (COLP 2019, Rule 1.4–1.6), solicitors must provide clients with mandatory information in writing, including:
+An estimate of total costs or clear explanation of billing arrangements,
+Identification of any supervising partner,
+Information on the complaints procedure and the Legal Ombudsman,
+Confirmation of who will handle the work.
+Merely stating the hourly rate and matter description is insufficient, and failure to include the mandatory elements constitutes non-compliance. Providing full information protects clients’ interests and ensures transparency regarding costs and recourse options.
+A. is incorrect. Providing the hourly rate alone does not satisfy all client care requirements.
+B. is incorrect. Total cost estimates or clear billing information are mandatory under SRA rules; the hourly rate alone is not enough.
+D is incorrect. Omitting multiple elements exceeds a minor omission
+E is incorrect. Compliance is judged by whether the solicitor provided the required written information, not by the client’s subjective expectations.
+Question 88 ( Professional ethics)
+You act for Eleanor in purchasing a leasehold commercial property for a café. Your investigations reveal:
+The lease has only 35 years remaining,
+It prohibits change of use without landlord consent, and the landlord has a history of refusing such consents for food and beverage uses,
+A local search reveals a major construction project nearby causing 18 months of disruption.
+Eleanor has already resigned from her job, invested her redundancy payment, and insists she wants to exchange contracts as quickly as possible and “does not want to hear about any problems.”
+What is your professional obligation?
+A. Follow her instructions; she is a commercial adult client.
+B. Follow her instructions; lease restrictions and development are commercial matters.
+C. Provide clear, written advice outlining legal risks, despite her instructions.
+D. Refuse to proceed unless she obtains a detailed surveyor report.
+E. Exchange contracts immediately, but send a risk letter afterwards.
+Answer: C
+Explanation
+C is correct.
+Solicitors have a professional duty to advise clients fully and objectively on all relevant legal and material risks, even if the client appears determined to proceed quickly. Under the SRA Code of Conduct (Principles 1, 2, and 5), you must:
+Act in the client’s best interests,
+Provide clear, timely advice about legal, financial, and material risks,
+Ensure the client can make an informed decision, even if they appear reluctant to hear warnings.
+In this case, lease restrictions, limited term, landlord consent history, and nearby construction are material commercial risks that could affect the viability of Eleanor’s café business and her financial exposure. Written advice protects both the client and the solicitor, ensuring Eleanor makes a properly informed decision.
+A. is incorrect. Even informed adults cannot waive the solicitor’s duty to advise on material risks. Blindly following instructions would breach professional obligations.
+B. is incorrect. While some risks may be commercial, their legal impact on the lease and property use is critical and must be explained.
+D is incorrect. You are not required to demand additional reports, though you may recommend them; refusal to act would be disproportionate.
+E is incorrect. Exchanging first and advising later fails to ensure informed consent, exposing both client and solicitor to risk.
+
+Question 89  ( Professional ethics)
+
+A partner in a firm of solicitors, Mr. Davies, is undertaking a routine audit of a file which has been worked on by a solicitor employed by that firm. The file relates to a matter in which the solicitor was acting for a bank in its mortgage of a commercial property.
+In undertaking the audit, Mr. Davies discovers that the solicitor has omitted to register the bank's mortgage at the Land Registry and has therefore not carried out the bank's instructions. It is confirmed that this is the only occasion on which the solicitor has omitted to register a mortgage.
+Having discussed the matter with the solicitor, Mr. Davies is confident that the solicitor is competent to carry out her role. Nevertheless, the circumstances are such that Mr. Davies believes the bank may suffer a substantial loss as a result of this omission.
+Which of the following is the best course of action for Mr. Davies to take next?
+A. The partner must explain the situation to the bank and advise it to get independent legal advice.
+B. The partner must inform the Legal Ombudsman of the firm's omission to register the mortgage.
+C. The partner must inform the Solicitors Regulation Authority of the firm's omission to register the mortgage and send it a copy of the file.
+D. The partner must provide the bank with the details of the firm's professional indemnity insurers.
+E. The partner must return all the fees paid by the bank to the firm in respect of this file.
+Answer: A
+Explanation
+
+A is correct. Under the SRA Principles 1 and 2, solicitors must act in the best interests of clients and ensure they take all reasonable steps to prevent or rectify potential loss. When a professional mistake occurs, such as failing to register a mortgage, the partner must inform the affected client promptly and advise them to seek independent legal advice to protect their interests. 
+The SRA Code of Conduct also requires that firms take immediate action to address actual or potential harm arising from errors, even if the individual solicitor is otherwise competent.
+B is incorrect. The Legal Ombudsman deals with complaints from clients after dissatisfaction; there is no obligation to report internal errors proactively.
+C is incorrect. The SRA expects disclosure only if there is serious misconduct or risk of regulatory breach. An isolated human error without evidence of systemic incompetence does not require immediate reporting.
+D is incorrect. Providing details of the firm’s professional indemnity insurance may be relevant later, but it is not the first step; the client must first be informed of the error.
+E is incorrect. Returning fees is not automatically required; appropriate remedial action and negotiation with the client will determine if any refund or compensation is necessary
+
+
+Question 90 ( Professional ethics)
+
+A solicitor, Ms. Clarke, is acting for executors of an estate. She arranges a professional valuation of the deceased’s household items with Mr. Evans, an auctioneer. While he is on site, Ms. Clarke seeks advice about selling some items she owns personally.
+Mr. Evans offers that if he sells items for the estate, he will rebate part of the commission for any items sold for Ms. Clarke personally.
+The executors agree to the sale of some estate items on Mr. Evans’ usual terms. The sale proceeds, including Ms. Clarke’s items. Ms. Clarke receives a rebate of approximately 5% of the commission on her items without informing the executors.
+Can Ms. Clarke keep the rebate?
+A. Yes, because it was on the sale of her own items.
+B. Yes, because it did not cause any detriment to the estate.
+C. Yes, because it is insignificant relative to the estate’s commission.
+D. No, because she should not have included her items in the same sale as the estate’s.
+E. No, because it arose as a result of her instructions to sell estate items.
+Answer: E
+Explanation
+E is correct. A solicitor must not profit from a transaction connected with a client’s instructions without disclosure and consent. In this scenario, although the rebate relates to Ms. Clarke’s personal items, it arose as a direct result of her professional role in arranging the sale of the estate’s property.
+In Twycross v Grant (1877), a solicitor arranged the sale of property for a client and simultaneously received a secret commission from a third party connected to the transaction. The court held that any benefit obtained as a result of professional work for a client must be fully disclosed, and failing to do so meant the solicitor had to account for the profit to the client.
+Applying this principle, Ms. Clarke cannot retain the rebate. It was a benefit indirectly derived from her instructions to sell estate property and should have been disclosed to the executors for consent.
+A. is incorrect. Even though the rebate arises on her own items, it was facilitated by estate work, creating a conflict.
+B. is incorrect. Lack of actual detriment does not remove the solicitor’s obligation to disclose and account for benefits.
+C. is incorrect. Insignificance of the rebate does not excuse non-disclosure.
+D. is incorrect. The issue is not just co-sale but the undisclosed financial benefit linked to client work.
+
+
+
+
+
+
+
+
+
+Courses
+Property Practice 
+Trust 
+Wills 
+Criminal Law 
+Land Law 
+Criminal Practice 
+Professional Ethics
+
+
+

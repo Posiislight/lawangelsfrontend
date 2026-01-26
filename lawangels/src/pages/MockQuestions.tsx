@@ -144,7 +144,7 @@ export default function MockQuestions() {
           category: activeTab,
           duration_minutes: 153,
           total_questions: 90,
-          passing_score_percentage: 60,
+          passing_score_percentage: 70,
           is_active: false,
           attemptsTaken: 0,
           averageScore: 0,
@@ -246,6 +246,23 @@ export default function MockQuestions() {
     setCurrentView('start')
   }
 
+  // Handle back from exam - saves progress and goes to customization
+  const handleBackFromExam = () => {
+    if (selectedExam) {
+      // Refresh progress from storage to ensure we have the latest save
+      const saved = getSavedProgress(selectedExam.id)
+      setResumeProgress(saved)
+    }
+    setCurrentView('customize')
+  }
+
+  const handleResetProgress = () => {
+    if (selectedExam) {
+      localStorage.removeItem(`exam_progress_${selectedExam.id}`)
+      setResumeProgress(null)
+    }
+  }
+
   // Render MockTestStart view
   if (currentView === 'start' && selectedExam) {
     return (
@@ -264,6 +281,8 @@ export default function MockQuestions() {
         exam={selectedExam}
         onContinue={handleContinueToExam}
         onBack={handleBackToStart}
+        hasSavedProgress={!!resumeProgress}
+        onResetProgress={handleResetProgress}
       />
     )
   }
@@ -276,6 +295,7 @@ export default function MockQuestions() {
         practiceMode={examSettings.practiceMode}
         extraTimeEnabled={examSettings.extraTimeEnabled}
         onExit={handleBackToList}
+        onBack={handleBackFromExam}
         savedProgress={resumeProgress}
       />
     )

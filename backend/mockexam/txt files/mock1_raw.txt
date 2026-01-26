@@ -1,58 +1,61 @@
 MOCK 1
 
-Question 1 (Contract law)
-Zephyr Ltd, a software developer, sends an email to TechSolutions Ltd on Monday offering to license its new data analytics platform for an annual fee of £50,000, stating the offer is open for acceptance until close of business on Friday. On Tuesday, TechSolutions’s procurement manager replies by email, “We accept your offer, but we require the inclusion of a service level agreement guaranteeing 99.9% uptime.” 
-Zephyr’s sales director does not respond to this email. On Wednesday, TechSolutions sends a second email stating, “We hereby accept your original offer of Monday in its entirety.” Zephyr, having received a better offer from another company on Wednesday morning, wishes to withdraw. It emails TechSolutions at 3 p.m. on Wednesday stating the offer is withdrawn. TechSolutions’s second email was automatically received in Zephyr’s server at 2:55 p.m. on Wednesday, but due to IT filtering, it was not read by the sales director until 4 p.m.
-Which of the following best describes whether a binding contract was formed?
-A. Yes, a contract was formed at 2:55 p.m. on Wednesday when TechSolutions’s second email was received by Zephyr’s server, as this was an effective acceptance of the original offer.
-B. No, a contract was never formed because TechSolutions’s Tuesday email constituted a counter-offer, which destroyed the original offer, and the Wednesday email was itself a new offer which Zephyr rejected by withdrawing.
-C. No, a contract was not formed because acceptance is only effective when it comes to the attention of the offeror, which occurred after the withdrawal was communicated.
-D. Yes, a contract was formed, but only on the terms of the counter-offer made on Tuesday, which Zephyr accepted by its silence and conduct in not objecting.
-E. No, a contract requires a signed written agreement for a licence of this value, and mere email correspondence is insufficient under the Law of Property (Miscellaneous Provisions) Act 1989.
+Question 1 (Dispute resolution)
+Sarah, a marketing consultant based in London, entered into a consultancy agreement with David, a former client who now lives permanently in Lyon, France. The contract contained no jurisdiction clause. David has refused to pay the final invoice of €40,000 for completed work.
+ Sarah's solicitor wishes to issue a claim against David in the High Court in London. They have prepared the claim form. Sarah’s solicitor wants to serve the claim form on David at his home address in France.  
+What is the correct immediate procedural step that must be taken?
+A. Apply to the court for permission to serve out.
+B. Serve the claim form on the foreign government.
+C. Notify David by email of the impending claim.
+D. Obtain a legal opinion from a French lawyer.
+E. Serve the claim form directly in France.
+Answer Explanation for Question 1
 The correct option is A.
 Explanation
-Option A is correct. The general rule is that acceptance by instantaneous communication (like email) takes effect when it is received (per Entores Ltd v Miles Far East Corp). The Tuesday email was a counter-offer, which terminated the original offer. However, the Wednesday email was a fresh, valid acceptance of Zephyr’s original offer, which remained open. The acceptance was effective when received by Zephyr’s server at 2:55 p.m., which was before the withdrawal was communicated at 3 p.m. (following Brinkibon Ltd v Stahag Stahl). The fact it was not read until later is irrelevant.
-Option B is incorrect. While the Tuesday email was a counter-offer that terminated the original offer, TechSolutions’s Wednesday email was not a new offer; it was a fresh acceptance. An offeree is free to accept an offer after having made a counter-offer, provided the original offer is still open, which it was until Friday.
-Option C is incorrect. The rule that acceptance must be communicated does not require it to be read by the offeror, merely that it is received at the offeror’s address (Brinkibon). Reception by the server constitutes receipt. The withdrawal, communicated after receipt of the acceptance, was ineffective.
-Option D is incorrect. Silence does not generally constitute acceptance (Felthouse v Bindley). Zephyr’s failure to respond to the counter-offer on Tuesday cannot be construed as acceptance, especially in a commercial context where a positive response would be expected.
-Option E is incorrect. The Law of Property (Miscellaneous Provisions) Act 1989, s.2, which requires contracts for the sale or other disposition of an interest in land to be in signed writing, does not apply to a contract for the grant of a software licence, which is a chose in action, not an interest in land.
+Option A is correct. Service of a claim form outside of the jurisdiction (England & Wales) generally requires the prior permission of the court under Civil Procedure Rule 6.36, unless an exception applies. As there is no exclusive jurisdiction clause in the contract favouring the English courts, permission is the necessary first step. The application must demonstrate, among other things, that the claim has a reasonable prospect of success and falls within one of the jurisdictional "gateways."
+Option B is incorrect. The claim form is served on the defendant, not a foreign government. A foreign central authority may be used as a channel for service after permission is granted, but it is not the recipient of the claim.
+Option C is incorrect. Informal notification does not constitute valid service of legal proceedings and does not satisfy the procedural requirement to obtain the court's permission before serving out.
+Option D is incorrect. While advice on French service rules may be needed later, obtaining a foreign legal opinion is not a mandatory procedural prerequisite for serving English proceedings abroad.
+Option E is incorrect. This is a common misconception. Permission from the court is almost always required to serve proceedings out of the jurisdiction. Exceptions (such as where the defendant has agreed to the jurisdiction of the English courts in advance) do not apply here, as the contract contains no relevant jurisdiction clause.
+
 Question 2 (Business law)
-Astra Ltd is a private company with four directors, one of whom is Priya. The company’s articles adopt the Model Articles (unamended). Priya owns 100% of the shares in a separate company, Vega Designs Ltd. The board of Astra Ltd, with Priya present but not voting, unanimously passes a resolution to enter into a contract to purchase a specialist patent from Vega Designs Ltd for £120,000. 
-The market value of the patent, as per an independent valuation commissioned by the board, is £115,000. Astra Ltd’s most recent statutory accounts show net assets of £950,000. The transaction is of great strategic importance to Astra Ltd. The shareholders of Astra Ltd are the four directors and five external investors. No shareholder approval for the transaction has been sought.
+Astra Ltd, a private company with four directors, plans to buy a patent from Vega Designs Ltd, a company wholly owned by director Priya, for £120,000.
+ Priya was present but did not vote at the board meeting approving the purchase. The market value of the patent is £115,000, and Astra Ltd’s net assets are £950,000. No shareholder approval was sought.
 Is the contract between Astra Ltd and Vega Designs Ltd valid and enforceable?
-A. Yes, the contract is valid because it was approved by a quorate board meeting where the interested director did not vote, and the transaction is on arm’s length terms as the price is close to market value.
-B. No, the contract is voidable by Astra Ltd because it is a substantial property transaction with a director-connected person which required, but did not receive, prior shareholder approval.
-C. Yes, the contract is valid because the transaction is for the acquisition of an asset, not its transfer to a director, and therefore falls outside the scope of s.190 of the Companies Act 2006.
-D. No, the contract is void ab initio because Priya breached her duty under s.177 of the Companies Act 2006 by failing to declare the nature and extent of her interest to the board before the transaction was entered into.
-E. Yes, the contract is valid because the value of the transaction (£120,000) does not exceed 10% of Astra Ltd’s net asset value (£95,000) and is therefore not ‘substantial’ for the purposes of the Companies Act 2006.
+A. Yes, valid; approved by a quorate board and near market value.
+B. No, voidable because it is a substantial property transaction 
+C. Yes, valid; s.190 does not apply as it is an asset acquisition, not a transfer to a director.
+D. No, void ab initio; Priya breached s.177 by failing to declare her interest.
+E. Yes, valid; the transaction is less than 10% of net assets.
+Correct Answer: B
+Explanation:
+B is correct. Under s.190 Companies Act 2006, a ‘substantial property transaction’ between a company and a director (or connected person) requires prior shareholder approval. Here, £120,000 exceeds the lesser of £100,000 or 10% of net assets (10% of £950,000 = £95,000), making it substantial. Failure to obtain approval renders the transaction voidable by the company (s.195).
+A is incorrect. Board approval and fair terms cannot replace statutory shareholder approval for substantial director-connected transactions.
+C is incorrect. Section 190 applies to acquisitions from or to a director or connected person, including substantial non-cash assets.
+D is incorrect. Breach of s.177 (duty to declare interest) does not automatically void the contract; it may trigger other remedies.
+E is incorrect. The transaction exceeds both £100,000 and 10% of net assets, so it is substantial under s.191.
+
+Question 3 (Dispute resolution)
+Thomas, a software developer in Cambridge, UK, has been granted permission by the High Court to serve a claim form on Chloe, a former business partner now residing in Nice, France. The court order granting permission was sealed on 1 March. According to the Civil Procedure Rules (CPR), 
+What is the relevant time limit for Thomas to validly serve this claim form on Chloe in France?
+A. 4 months from the date of issue of the claim form.
+B. 6 months from the date of issue of the claim form.
+C. 4 months from the date of the court order granting permission.
+D. 6 months from the date of the court order granting permission.
+E. 12 months from the date of issue of the claim form.
+Answer Explanation for Question 3
 The correct option is B.
 Explanation
-Option B is correct. Under s.190 of the Companies Act 2006, a ‘substantial property transaction’ between a company and a director (or a person connected to a director, such as a company they control) requires prior approval by the members (shareholders). The transaction value (£120k) exceeds the lesser of £100k or 10% of the company’s net asset value (10% of £950k = £95k). Therefore, it is ‘substantial’. Failure to obtain approval renders the transaction voidable by the company (s.195).
-Option A is incorrect. While board approval and fair terms are relevant, they do not circumvent the statutory requirement for member approval under s.190 for a substantial property transaction with a director-connected party.
-Option C is incorrect. Section 190 applies to both the acquisition from, and transfer to, a director (or connected person) of a ‘substantial’ non-cash asset. The purchase of the patent from Vega Designs Ltd (a company controlled by Priya) is clearly within the scope of the section.
-Option D is incorrect. A breach of the duty to declare an interest under s.177 (which Priya likely complied with by being present) does not render the contract void, but may lead to other consequences. The primary defect here is the lack of shareholder approval under s.190, which makes the transaction voidable, not void.
-Option E is incorrect. The test under s.191 is whether the value exceeds the lesser of £100,000 or 10% of the company’s net asset value (based on its most recent accounts). Here, 10% of £950,000 is £95,000. The transaction value of £120,000 exceeds both £100,000 and £95,000, so it is substantial.
-Question 3 (Legal Services)
-In a complex commercial fraud claim, the claimant company has given standard disclosure. Its list includes an email chain between the claimant’s in-house lawyer (a qualified solicitor) and its Finance Director. The emails discuss two things: 
-(i)the legal implications of a newly discovered internal audit report that suggests misconduct, and 
-(ii)practical business steps to mitigate potential financial fallout. The defendant seeks inspection of this email chain. The claimant objects, asserting privilege. The defendant argues that the ‘in-house lawyer’ was acting in a business/commercial capacity, not a legal advisory one, and that the emails concern business strategy, not legal advice.
-On what basis is the claimant most likely to succeed in withholding inspection of the email chain?
-A. The entire email chain is protected by litigation privilege, as it was created after litigation was reasonably in contemplation and for the dominant purpose of conducting that litigation.
-B. The entire email chain is protected by legal advice privilege, as it constitutes a confidential communication between a client (the Finance Director) and its lawyer for the purpose of seeking and receiving legal advice.
-C. The email chain is not privileged at all because an in-house lawyer’s communications are not covered by legal professional privilege where they involve commercial, non-legal matters.
-D. The claimant may only redact and withhold those specific parts of the emails that seek or give legal advice; the remainder discussing commercial steps must be disclosed.
-E. The email chain is protected from disclosure because it contains references to an internal audit report, which is itself a privileged document.
-The correct option is D.
-Explanation
-Option D is correct. Legal advice privilege (applying to communications between lawyer and client for the purpose of giving/receiving legal advice) attaches to specific communications or parts of communications. Where a single document contains both privileged (legal advice) and non-privileged (commercial advice) material, the party may redact the privileged portions and must disclose the rest (ABC Ltd v Y). The court will examine the ‘dominant purpose’ of each part of the communication.
-Option A is incorrect. Litigation privilege protects communications with third parties (or with the client) made for the dominant purpose of existing or contemplated litigation. While the audit might trigger litigation contemplation, the email is between lawyer and client. For such communications, the test is legal advice privilege, not litigation privilege, and its scope is narrower.
-Option B is incorrect. Legal advice privilege only protects the parts of the communication that directly seek or provide legal advice. Discussions of purely commercial strategy, even between lawyer and client, are not privileged (Three Rivers District Council v Bank of England (No. 5)).
-Option C is incorrect. It states an absolute position which is wrong. In-house lawyers are fully capable of generating legally privileged communications. The privilege depends on the purpose of the communication, not the status of the lawyer.
-Option E is incorrect. The privilege of a document (the audit report) is separate from the privilege of a communication about that document. Merely discussing a privileged document in an email does not automatically make the email privileged. The email’s privilege depends on its own content and purpose.
-
+Option B is correct. Under CPR rule 7.5(2), for service of a claim form outside the jurisdiction (with or without permission), the period for service is 6 months from the date of issue of the claim form. This extended period (compared to the 4 months for domestic service under rule 7.5(1)) acknowledges the practical complexities and potential delays involved in effecting service in a foreign jurisdiction.
+Option A is incorrect. This is the standard time limit for service within the jurisdiction (CPR 7.5(1)). It does not apply where service is to be effected out of the jurisdiction.
+Option C is incorrect. The time limit runs from the date of issue of the claim form itself, not from the later date of the court order granting permission to serve out. The order permits service, but does not reset the service clock.
+Option D is incorrect. This misstates both the start date (it is from issue, not the order) and, in this context, the length. While a 6-month period is correct, its calculation is key.
+Option E is incorrect. A 12-month period is not the standard rule under CPR 7.5. While the court has a general power to extend the time for service under CPR 7.6, the initial prescribed period for service out of the jurisdiction is 6 months from issue.
 
 Question 4 (Tort)
-A national energy supplier, PowerGrid plc, negligently severs a major underground cable while carrying out street works. This causes a 24-hour power outage across a large industrial estate. As a direct result, Factory A, which operates continuous-process machinery, suffers physical damage to its equipment from sudden shutdown, costing £250,000 to repair. Factory B, next door, has backup generators so its equipment is unharmed. However, it cannot operate for 24 hours and loses profits of £150,000. Factory B sues PowerGrid plc in negligence for its economic loss.
+A national energy supplier, PowerGrid plc, negligently severs a major underground cable while carrying out street works. This causes a 24-hour power outage across a large industrial estate.
+ As a direct result, Factory A, which operates continuous-process machinery, suffers physical damage to its equipment from sudden shutdown, costing £250,000 to repair. Factory B, next door, has backup generators so its equipment is unharmed. 
+However, it cannot operate for 24 hours and loses profits of £150,000. Factory B sues PowerGrid plc in negligence for its economic loss.
 Which of the following is the most accurate statement regarding Factory B’s claim?
 A.Factory B is likely to succeed because PowerGrid owed a duty of care to all lawful users of the electricity supply, and the loss was a direct and foreseeable consequence of its negligence.
 B. Factory B is unlikely to succeed because English law does not generally permit recovery for pure economic loss in negligence unless it arises from a ‘special relationship’ 
@@ -67,7 +70,9 @@ Option C is incorrect. The threshold is not one of reckless or intentional condu
 Option D is incorrect. The existence of a contract might provide a cause of action, but its absence does not determine the tort claim. The tortious duty is limited by common law principles, not by the presence or absence of a parallel contractual relationship.
 Option E is incorrect. The Hedley Byrne principle applies to negligent statements or advice leading to economic loss through reasonable reliance. It does not apply to negligent acts (like cutting a cable) that cause physical damage to a third party’s property which in turn causes the claimant’s economic loss.
 Question 5 (Professional ethics)
-A solicitor, acting for a buyer in a residential property purchase, receives £150,000 from the client by telegraphic transfer on Monday, representing the deposit and the balance of completion monies. Completion is scheduled for Friday. On Tuesday, the solicitor’s firm experiences severe cash flow difficulties due to the delayed payment of several large costs bills. The firm’s Managing Partner, without the client’s knowledge or consent, instructs the accounts department to temporarily transfer £100,000 of the client’s money to the firm’s office account for 48 hours to cover urgent liabilities, intending to return it on Thursday. The transfer is made on Tuesday afternoon.
+A solicitor, acting for a buyer in a residential property purchase, receives £150,000 from the client by telegraphic transfer on Monday, representing the deposit and the balance of completion monies. Completion is scheduled for Friday. 
+On Tuesday, the solicitor’s firm experiences severe cash flow difficulties due to the delayed payment of several large costs bills. 
+The firm’s Managing Partner, without the client’s knowledge or consent, instructs the accounts department to temporarily transfer £100,000 of the client’s money to the firm’s office account for 48 hours to cover urgent liabilities, intending to return it on Thursday. The transfer is made on Tuesday afternoon.
 Which of the following most accurately describes the professional and regulatory consequences of this action?
 A. This is a permissible temporary transfer under Rule 5.1(b) of the SRA Accounts Rules 2019, as the money is due to be paid away shortly for the client’s matter and the firm has a genuine shortage of funds.
 B. This constitutes a serious breach of the SRA Accounts Rules as client money must be kept separate and must not be used for any purpose other than for that specific client’s matter without proper authority.
@@ -83,7 +88,9 @@ Option D is incorrect. This is not a minor technical breach. It is a fundamental
 Option E is incorrect. The segregation of client money is a cornerstone of legal practice regulation. The action directly engages SRA Principles 2 (public trust), 4 (act with honesty), and 5 (uphold proper service delivery). It is far more than an internal accounting issue.
 
 Question 6 (CONTRACT LAW)
-Megan, based in London, sends a signed written offer by first-class post on Monday to sell a rare first-edition book to Leo in Edinburgh for £5,000. The offer letter states, “I will hold this offer open for your acceptance by post for seven days.” Leo receives the letter on Wednesday and immediately writes a letter of acceptance, which he posts at 5:00 pm on Wednesday. Unbeknownst to Leo, Megan sends a fax (which Leo receives) at 4:30 pm on Wednesday revoking her offer. On Thursday morning, Megan receives a higher offer and wishes to sell to another buyer. The acceptance letter from Leo arrives at Megan’s address on Friday.
+Megan, based in London, sends a signed written offer by first-class post on Monday to sell a rare first-edition book to Leo in Edinburgh for £5,000. The offer letter states, “I will hold this offer open for your acceptance by post for seven days.”
+ Leo receives the letter on Wednesday and immediately writes a letter of acceptance, which he posts at 5:00 pm on Wednesday.
+ Unknown to Leo, Megan sends a fax (which Leo receives) at 4:30 pm on Wednesday revoking her offer. On Thursday morning, Megan receives a higher offer and wishes to sell to another buyer. The acceptance letter from Leo arrives at Megan’s address on Friday.
 Which of the following best describes the legal position?
 A. No contract exists, as the revocation by fax was effective before Leo posted his acceptance.
 B. A contract was formed when Leo posted his acceptance letter on Wednesday.
@@ -98,7 +105,9 @@ Option C is incorrect. This applies the standard “receipt” rule for instanta
 Option D is incorrect. The postal rule can apply even when the offer stipulates acceptance by post; such a stipulation actually reinforces its application.
 Option E is incorrect. While an offeror can be bound by an option contract, a mere statement of how long an offer will be held open is not, without separate consideration, a binding promise.
 Question 7 (TORT)
-A construction company is subject to the Work at Height Regulations 2005, which impose an absolute duty to ensure that all scaffolding is inspected by a competent person every seven days. The company’s site manager fails to arrange an inspection for nine days. A visiting architect, who is not an employee, trips over a negligently placed loose board on that scaffolding and suffers injury. The architect sues both in common law negligence and for breach of statutory duty.
+A construction company is subject to the Work at Height Regulations 2005, which impose an absolute duty to ensure that all scaffolding is inspected by a competent person every seven days. 
+The company’s site manager fails to arrange an inspection for nine days.
+ A visiting architect, who is not an employee, trips over a negligently placed loose board on that scaffolding and suffers injury. The architect sues both in common law negligence and for breach of statutory duty.
 Regarding the breach of statutory duty claim, which statement is accurate?
 A. It will fail because the duty is owed only to employees, not visitors.
 B. It will succeed because the breach caused the injury and the statute imposes absolute liability.
@@ -113,7 +122,9 @@ Option C is incorrect. This confuses causation with the preliminary question of 
 Option D is incorrect. This addresses causation but presupposes that a duty is owed to the claimant, which it is not.
 Option E is incorrect as a blanket statement. Many statutes, including some health and safety regulations, do confer a private right of action, but the claimant must first fall within the protected class.
 Question 8 (TORTS)
-Elizabeth operates a boutique chemical laboratory on an industrial estate. She stores a large quantity of a specific solvent in a specialized tank. Due to an undetected structural failure in the tank (which occurred despite regular professional maintenance), the solvent leaked into the soil. It traveled underground for several hundred meters and eventually contaminated the private well of Peter, a neighboring organic farmer. Peter is now unable to use his well water for his crops.
+Elizabeth operates a boutique chemical laboratory on an industrial estate. She stores a large quantity of a specific solvent in a specialized tank. 
+Due to an undetected structural failure in the tank (which occurred despite regular professional maintenance), the solvent leaked into the soil.
+It travelled underground for several hundred meters and eventually contaminated the private well of Peter, a neighboring organic farmer. Peter is now unable to use his well water for his crops.
 Which of the following best describes Elizabeth’s liability under the rule in Rylands v Fletcher?
 A.Elizabeth is not liable because the leak was caused by an undetected structural failure rather than her negligence. 
 B. Elizabeth is liable because the storage of industrial chemicals is a non-natural use of land, and she is strictly liable for the escape. 
@@ -127,7 +138,8 @@ Option C is incorrect. An escape occurs whenever the substance moves from the de
 Option E is incorrect. While the original case involved water, the rule has been applied to many things, including chemicals, gas, and even gypsies (Att-Gen v Corke).
 
 Question 9 (DISPUTE RESOLUTION)
-A claimant’s solicitor issues a claim form on 1st October. The rules require service within 4 months. On 2nd February (the last day of the 4-month period), the solicitor sends the claim form to the defendant’s usual residential address by first-class post. The defendant is abroad on holiday and does not actually receive the form until 10th February. The defendant argues the claim was not served in time.
+A claimant’s solicitor issues a claim form on 1st October. The rules require service within 4 months. On 2nd February (the last day of the 4-month period), the solicitor sends the claim form to the defendant’s usual residential address by first-class post. 
+The defendant is abroad on holiday and does not actually receive the form until 10th February. The defendant argues the claim was not served in time.
 Is the claim form deemed to be served in time?
 A. No, because the defendant did not receive it within the 4-month period.
 B. Yes, because service is deemed effective on the second business day after posting.
@@ -142,7 +154,8 @@ Option C is incorrect. First-class post is a permitted standard method of servic
 Option D is incorrect. The test is not one of reasonable steps but of strict compliance with the deemed service rules in the CPR.
 Option E is incorrect. An order for alternative service is for difficult cases; standard service by post was available and was used correctly here.
 Question 10 ( CONSTITUTIONAL  LAW)
-A national environmental charity with 50,000 members seeks judicial review of a government minister’s decision to grant a licence for a new nuclear power station. The charity argues the decision was irrational and failed to consider certain environmental impacts. The charity itself owns no land near the site and its members are spread nationwide. The government applies to have the claim struck out for lack of standing.
+A national environmental charity with 50,000 members seeks judicial review of a government minister’s decision to grant a licence for a new nuclear power station. The charity argues the decision was irrational and failed to consider certain environmental impacts. 
+The charity itself owns no land near the site and its members are spread nationwide. The government applies to have the claim struck out for lack of standing.
 How is the court most likely to approach the question of the charity’s standing?
 A. Refuse standing, as the charity has no direct, personal interest affected greater than the public at large.
 B. Grant standing, as charities automatically have sufficient interest in matters within their charitable objects.
@@ -158,7 +171,8 @@ Option D is incorrect. This is an outdated restriction. The law recognizes that 
 Option E is incorrect. While such a showing might strengthen the case, it is not a strict prerequisite. The court focuses on the nature of the issue and the appropriateness of the claimant as a challenger.
 
 Question 11 (CONTRACT LAW)
-A supermarket displays a rare, collectable vintage wine on its shelves with a price tag of £75. Colin, a collector, takes the bottle to the checkout. The cashier scans it and the system shows a price of £850. The manager is called and explains the £75 tag was a stocking error; the correct price is £850. Colin insists he is entitled to buy it for £75. The supermarket refuses to sell at that price.
+A supermarket displays a rare, collectable vintage wine on its shelves with a price tag of £75. Colin, a collector, takes the bottle to the checkout.
+ The cashier scans it and the system shows a price of £850. The manager is called and explains the £75 tag was a stocking error; the correct price is £850. Colin insists he is entitled to buy it for £75. The supermarket refuses to sell at that price.
 Is the supermarket entitled to refuse the sale at £75?
 A. No, because displaying the goods with a price constitutes an offer to sell at that price.
 B. Yes, because the display of goods is not an offer.
@@ -173,7 +187,8 @@ Option C is incorrect. While the Regulations may impose other penalties for misl
 Option D is incorrect. The reason for the error is irrelevant to the contractual analysis; the supermarket has the legal right to refuse the customer’s offer for any reason.
 Option E is incorrect. Presenting goods is part of making an offer, not acceptance. The supermarket’s acceptance occurs at the till when they agree to the price.
 Question 12 (Contract)
-TechSoft Ltd enters into a contract with DesignerPro Ltd for the creation of a custom software interface for £50,000, payable in two instalments: £25,000 upfront and £25, upon delivery. TechSoft pays the £25,000 deposit. Two weeks later, before DesignerPro has begun any substantive work, TechSoft discovers that DesignerPro has materially misrepresented its technical capabilities. TechSoft rightfully terminates the contract for misrepresentation. DesignerPro has provided no benefit whatsoever. TechSoft seeks to recover its £25,000.
+TechSoft Ltd enters into a contract with DesignerPro Ltd for the creation of a custom software interface for £50,000, payable in two instalments: £25,000 upfront and £25, upon delivery. TechSoft pays the £25,000 deposit. Two weeks later, before DesignerPro has begun any substantive work,
+ TechSoft discovers that DesignerPro has materially misrepresented its technical capabilities. TechSoft rightfully terminates the contract for misrepresentation. DesignerPro has provided no benefit whatsoever. TechSoft seeks to recover its £25,000.
 On what basis is TechSoft most likely to recover the prepayment?
 A. As damages for fraudulent misrepresentation, which requires proof of dishonesty.
 B. As a debt due under the contract, as the termination clause provides for repayment.
@@ -188,7 +203,9 @@ Option B is incorrect. The facts do not indicate a contractual repayment clause.
 Option D is incorrect. A claim for reliance loss is a claim for damages aiming to put TechSoft in the position it would have been in had the contract not been made. Restitution aims to give back a benefit conferred. Here, the direct claim for the return of the money is restitutionary.
 Option E is incorrect. Quantum meruit (a claim for the reasonable value of services rendered) applies where a benefit has been conferred. Here, no work was done, so no quantum meruit claim arises.
 Question 13 (BUSINESS LAW)
-Emma, a director of EcoBuild Ltd, learns of a lucrative property development opportunity through her role. She calculates that she can benefit as much as £10 million from the opportunity. She does not disclose it to the board. Instead, she resigns her directorship and the next day, through a company she owns, enters into a contract to purchase the development land. She benefits £20 million from the opportunity. EcoBuild Ltd later discovers this and wishes to claim the profit.
+Emma, a director of EcoBuild Ltd, learns of a lucrative property development opportunity through her role. She calculates that she can benefit as much as £10 million from the opportunity. 
+She does not disclose it to the board. Instead, she resigns her directorship and the next day, through a company she owns, enters into a contract to purchase the development land.
+She benefits £20 million from the opportunity. EcoBuild Ltd later discovers this and wishes to claim the profit.
 Which of the following best describes the Emma’s appropriate response to the situation?
 A. A director can freely exploit any opportunity after resignation.
 B. A director must avoid conflicts which can include opportunities exploited after resignation if based on information from their role.
@@ -203,10 +220,10 @@ Option C is incorrect. The duty can have a continuing effect regarding informati
 Option D is incorrect. Declaration does not necessarily legitimise taking the opportunity for oneself; board authorisation is typically required.
 Option E is incorrect. The company’s financial ability is generally irrelevant to the existence of the conflict and the breach of duty.
 Question 14 (DISPUTE RESOLUTION)
-Charlotte, a technology investor, brings a claim for fraud and breach of fiduciary duty against David, a former business partner, alleging he misappropriated substantial company funds and transferred them through a complex network of international accounts. Fearing David will dissipate these assets, Charlotte’s lawyers make an urgent ex parte (without notice) application for a Worldwide Freezing Order (WFO). In her evidence supporting the application, Charlotte emphasises the sophisticated nature of the alleged fraud and the clear risk that David will hide the assets if given notice. The court, relying on this ex parte evidence, grants the WFO.
-At the subsequent return hearing, where both parties are present, David’s counsel argues the order should be discharged. He reveals that, several weeks before the WFO application, David’s solicitors had written to Charlotte’s solicitors offering to place a sum of £2 million, representing a significant portion of the disputed funds into a solicitor-managed escrow account pending the trial’s outcome. Charlotte had rejected this offer without making the court aware of its existence during the ex parte hearing.
-David argues that this rejected offer was a critical fact that undermined the assertion of an immediate and unaddressed risk of dissipation, which is the very foundation for granting the freezing order.
-What is the likely consequence of this non-disclosure?
+Charlotte, a technology investor, sues her former partner David for fraud, alleging he misappropriated company funds through international accounts.
+ Fearing he will hide the money, she applies ex parte for a Worldwide Freezing Order (WFO), emphasising the risk of dissipation. The court grants the WFO.
+At the return hearing, David’s lawyers reveal that weeks earlier they had offered to place £2 million into a solicitor-managed escrow account, which Charlotte rejected but failed to disclose in the ex parte application. David argues this undermines the claimed immediate risk.
+What is the likely consequence of Charlotte’s non-disclosure?
 A. The court is likely to discharge the WFO for material non-disclosure.
 B. The court will ignore it as the offer was without prejudice.
 C. The court will vary the order but not discharge it, as the offer showed some assets were secure.
@@ -220,7 +237,8 @@ Option C is incorrect. Although the court has a discretion to maintain the order
 Option D is incorrect. The duty extends to all material facts, which unequivocally includes relevant communications and offers between the parties that could influence the court’s decision on whether to grant the extraordinary remedy.
 Option E is incorrect. While proof of bad faith would be damning, the duty is strict. An innocent or even negligent omission of a material fact can, and often will, lead to discharge. The court’s primary concern is the integrity of its own process.
 Question 15 (CONTRACT LAW)
-Builder Co agrees to construct a garden office for Homeowner for a fixed price of £30,000. After Builder Co has completed 60% of the work (at a cost to them of £16,000), Homeowner wrongfully repudiates the contract by unlawfully refusing access to the site. Builder Co accepts the repudiation, terminating the contract. The contract is silent on payment for work done in the event of wrongful termination. The part-built structure benefits Homeowner by increasing the value of her property.
+Builder Co agrees to construct a garden office for Homeowner for a fixed price of £30,000. After Builder Co has completed 60% of the work (at a cost to them of £16,000), Homeowner wrongfully repudiates the contract by unlawfully refusing access to the site. Builder Co accepts the repudiation, terminating the contract.
+ The contract is silent on payment for work done in the event of wrongful termination. The part-built structure benefits Homeowner by increasing the value of her property.
 In addition to a claim for damages for breach, what alternative restitutionary claim is available to Builder Co?
 A. A claim for the full contract price of £30,000 as a debt.
 B. A claim in quantum meruit for the reasonable value of the work done, which may differ from the contract rate.
@@ -252,7 +270,8 @@ Option B is incorrect. Certainty is a separate contractual requirement. However,
 Option D is incorrect. The use of a deed would circumvent the need for consideration and could demonstrate formal intent, but the promise here was oral and informal, making this point irrelevant.
 Option E is incorrect. While offer and acceptance are foundational, they are assumed in this scenario. The contentious and primary legal filter for enforcing such a familial promise is the parties' intention to be legally bound.
 Question 17 (TORTS)
-Liam, an experienced cyclist, agrees to join a weekly road-racing training session with a local club. He signs a detailed participation waiver that explicitly states, "I acknowledge and accept the inherent risks of competitive cycling, including the risk of collision and serious injury due to the negligence of other participants." During a fast-paced sprint, another cyclist, Finn, negligently swerves into Liam's path, causing Liam to crash and suffer a complex leg fracture. Liam sues Finn in negligence. Finn raises the defence of volenti non fit injuria .
+Liam, an experienced cyclist, agrees to join a weekly road-racing training session with a local club. He signs a detailed participation waiver that explicitly states, "I acknowledge and accept the inherent risks of competitive cycling, including the risk of collision and serious injury due to the negligence of other participants." 
+During a fast-paced sprint, another cyclist, Finn, negligently swerves into Liam's path, causing Liam to crash and suffer a complex leg fracture. Liam sues Finn in negligence. Finn raises the defence of volenti non fit injuria .
 What is the principal factor the court will consider regarding this defence?
 A. Whether the waiver document is a legally binding contract.
 B. Whether Liam had actual, subjective knowledge of the specific risk that materialised.
@@ -267,7 +286,9 @@ Option C is incorrect. This is the test for the defence of contributory negligen
 Option D is incorrect. The core of volenti is the claimant's consent to the breach of duty, not just participation in a risky activity.
 Option E is incorrect. The degree of fault (negligence vs. recklessness) can be relevant, but the central question remains the claimant's consent to the specific risk of the defendant's negligent conduct.
 Question 18 (DISPUTE RESOLUTION)
-TechStart Ltd, a small claimant company with nominal share capital, is bringing a substantial High Court claim against MegaCorp plc for breach of a software licence agreement. TechStart Ltd is registered in England but its sole director and shareholder, Ethan, is resident in New Zealand with no assets in the jurisdiction. TechStart Ltd's financial statements show it is marginally solvent. MegaCorp applies for an order that TechStart Ltd provide security for its costs.
+TechStart Ltd, a small claimant company with nominal share capital, is bringing a substantial High Court claim against MegaCorp plc for breach of a software licence agreement.
+ TechStart Ltd is registered in England but its sole director and shareholder, Ethan, is resident in New Zealand with no assets in the jurisdiction. TechStart Ltd's financial statements show it is marginally solvent. 
+MegaCorp applies for an order that TechStart Ltd provide security for its costs.
 On which of the following grounds is MegaCorp most likely to succeed in its application?
 A. The claimant company is based outside the jurisdiction.
 B. The claimant company is insolvent or impecunious.
@@ -282,7 +303,8 @@ Option B is incorrect. Impecuniosity alone is not a ground; the rule focuses on 
 Option C is incorrect. This is vague. The rule looks specifically at the company's inability to pay future costs, not just its current asset level in isolation.
 Option E is incorrect. The merits of the claim are a separate discretionary factor the court will consider after a ground under 25.13(2) is established. Low probability of success alone is not a standalone ground for security.
 Question 19 (BUSINESS LAW)
-Zara is the sole director of "GreenLeaf Innovations Ltd," a company that installs solar panels. The company enters into a contract with a homeowner, Mr. Brown, for an installation. During the work, Zara, who is personally supervising, gives a clear instruction to an employee that negligently bypasses a key safety regulator to finish the job faster. This causes a fire that damages Mr. Brown's house. The company has no assets or insurance. Mr. Brown wishes to sue Zara personally for the tort of negligence.
+Zara is the sole director of "GreenLeaf Innovations Ltd," a company that installs solar panels. The company enters into a contract with a homeowner, Mr. Brown, for an installation. During the work, Zara, who is personally supervising, gives a clear instruction to an employee that negligently bypasses a key safety regulator to finish the job faster. 
+This causes a fire that damages Mr. Brown's house. The company has no assets or insurance. Mr. Brown wishes to sue Zara personally for the tort of negligence.
 What is the key legal principle determining Zara's potential personal liability?
 A. Directors are always personally liable for torts committed by their companies.
 B. The corporate veil prevents any personal liability for directors acting as the company.
@@ -297,9 +319,13 @@ Option B is incorrect. The corporate veil can be pierced in rare circumstances, 
 Option D is incorrect. A personal benefit may be evidence of a breach of duty, but it is not a necessary condition for establishing personal liability in negligence.
 Option E is incorrect. The company's solvency is irrelevant to the question of whether the director committed a personal tort. It is only relevant to the practical question of enforcement.
 Question 20 (PROFESSIONAL ETHICS)
-The dispute resolution team at "Harrison Legal" is handling a high-volume caseload of fast-track personal injury claims. To improve efficiency, a partner delegates the initial drafting of a defence to a counterclaim in a complex matter to a newly qualified solicitor, Anna. The partner gives Anna the key pleadings to review but provides no specific guidance on the relevant legal tests for establishing a counterclaim in tort and does not set a clear deadline for reviewing her work. 
+The dispute resolution team at "Harrison Legal" is handling a high-volume caseload of fast-track personal injury claims. To improve efficiency, a partner delegates the initial drafting of a defence to a counterclaim in a complex matter to a newly qualified solicitor, Anna. 
 
-Under significant time pressure from other files, Anna drafts the defence and counterclaim, but mistakenly omits a crucial element of causation, rendering the counterclaim legally flawed. The partner, who is listed as the designated supervisor, signs the statement of truth and serves the documents without conducting a substantive review, relying on Anna's general competence. The error is later spotted by the opposing party, who applies to strike out the counterclaim.
+The partner gives Anna the key pleadings to review but provides no specific guidance on the relevant legal tests for establishing a counterclaim in tort and does not set a clear deadline for reviewing her work. 
+
+Under significant time pressure from other files, Anna drafts the defence and counterclaim, but mistakenly omits a crucial element of causation, rendering the counterclaim legally flawed. 
+
+The partner, who is listed as the designated supervisor, signs the statement of truth and serves the documents without conducting a substantive review, relying on Anna's general competence. The error is later spotted by the opposing party, who applies to strike out the counterclaim.
 
 Which party has most clearly breached the SRA Code of Conduct ?
 
@@ -324,7 +350,9 @@ D is incorrect. The client has no regulatory obligations under the SRA Code of C
 E is incorrect. The firm is responsible for the conduct of its managers and employees in the course of their work. The partner's failure is, by extension, a failure of the firm's systems and culture, for which the entity is accountable to the regulator.
 
 Question 21 (CONTRACT)
-Noah owes his supplier, Elijah, £15,000 for goods delivered, due for payment on 1st March. On 28th February, Noah contacts Elijah, explaining he is in severe financial difficulty and can only pay £10,000 immediately. He says, "This is all I can pay. If you want it, you must take it in full and final settlement." Elijah, worried Noah might become insolvent, agrees and accepts the £10,000 bank transfer on that basis. In April, Noah's finances improve. Elijah now demands the remaining £5,000.
+Noah owes his supplier, Elijah, £15,000 for goods delivered, due for payment on 1st March. On 28th February, Noah contacts Elijah, explaining he is in severe financial difficulty and can only pay £10,000 immediately. 
+He says, "This is all I can pay. If you want it, you must take it in full and final settlement."
+ Elijah, worried Noah might become insolvent, agrees and accepts the £10,000 bank transfer on that basis. In April, Noah's finances improve. Elijah now demands the remaining £5,000.
 Can Elijah successfully recover the £5,000 balance?
 A. No, because his agreement amounted to an accord and satisfaction.
 B. Yes, because Noah provided no fresh consideration for the promise to forgo the balance.
@@ -339,7 +367,8 @@ Option C is incorrect. While Williams v Roffey introduced the concept of pract
 Option D is incorrect. While a deed would make the promise binding, its absence does not automatically make the debtor's promise enforceable; the issue is the lack of consideration.
 Option E is incorrect. The scenario does not indicate the debt was disputed; it was an admitted debt where the debtor pleaded inability to pay in full.
 Question 22 (TORTS)
-Maya is a care worker employed by "HomeCare Ltd" to visit elderly clients. While driving her own car between scheduled client visits during work hours, she decides to make a significant detour to visit her own mother, which is against company policy. During this detour, she negligently crashes into another vehicle, injuring the driver, Leo. Leo sues HomeCare Ltd, arguing it is vicariously liable for Maya’s negligence.
+Maya is a care worker employed by "HomeCare Ltd" to visit elderly clients. While driving her own car between scheduled client visits during work hours, she decides to make a significant detour to visit her own mother, which is against company policy. 
+During this detour, she negligently crashes into another vehicle, injuring the driver, Leo. Leo sues HomeCare Ltd, arguing it is vicariously liable for Maya’s negligence.
 What is the decisive test for vicarious liability in this scenario?
 A. Whether the employee was employed by Homecare Ltd
 B. Whether the employer authorised the specific act of negligence.
@@ -353,7 +382,8 @@ Option B is incorrect. Authorisation of the specific wrongful act is not require
 Option D is incorrect. This relates to a potential direct liability for negligent training, not the strict liability of vicarious liability for the employee's tort.
 Option E is incorrect. The use of a personal vehicle is a factor but not determinative. An employee can be acting in the course of employment while using their own car (e.g., on a permissible business journey).
 Question 23 (DISPUTE RESOLUTION)
-Daniel issued a claim form against Chloe for breach of contract. Chloe received it but was preoccupied with a family emergency and failed to file an acknowledgment of service or a defence within the required time. Daniel properly obtained a default judgment. Two weeks later, Chloe seeks to set the judgment aside. She has filed evidence of the family crisis and has a draft defence which shows a reasonably arguable case on the merits.
+Daniel issued a claim form against Chloe for breach of contract. Chloe received it but was preoccupied with a family emergency and failed to file an acknowledgment of service or a defence within the required time. Daniel properly obtained a default judgment. 
+Two weeks later, Chloe seeks to set the judgment aside. She has filed evidence of the family crisis and has a draft defence which shows a reasonably arguable case on the merits.
 What is the two-stage test the court will apply?
 A. Whether the failure to respond was intentional and whether the defence has a real prospect of success.
 B. Whether there was a good reason for the default and whether the claimant would suffer prejudice.
@@ -368,7 +398,9 @@ Option B is incorrect. Prejudice to the claimant is a discretionary factor the c
 Option C is incorrect. Promptness is a mandatory consideration but is not one of the two main grounds (defence on merits or other good reason).
 Option E is incorrect. Whether the judgment was regularly obtained is a separate issue (under CPR 13.2); if irregular, it must be set aside. Here, it was regular, so the test under CPR 13.3 applies.
 Question 24 (BUSINESS LAW)
-Luna is the CEO and a director of "Starlight Designs Ltd," a private company. The board (including Luna) approves the sale of the company's only warehouse to Luna's husband, Tom, for £120,000. The company's latest balance sheet shows net assets of £1.1 million. An independent valuation states the warehouse's market value is £125,000. The company’s articles are based on the Model Articles. Shareholder approval for the transaction has not been sought.
+Luna is the CEO and a director of "Starlight Designs Ltd," a private company. The board (including Luna) approves the sale of the company's only warehouse to Luna's husband, Tom, for £120,000. 
+The company's latest balance sheet shows net assets of £1.1 million. 
+An independent valuation states the warehouse's market value is £125,000. The company’s articles are based on the Model Articles. Shareholder approval for the transaction has not been sought.
 What is the legal consequence of the proceeding ?
 A. The transaction is void and of no legal effect.
 B. The transaction is voidable at the instance of the company.
@@ -383,7 +415,9 @@ Option C is incorrect. Board approval and fair value do not circumvent the statu
 Option D is incorrect. Ratification by the board is insufficient; the statute specifically requires approval by the members.
 Option E is incorrect. While breaching the duty to avoid conflicts (s.175) may be involved, the specific consequence under s.190 for lack of approval is civil (voidability), not automatically criminal.
 Question 25 (LEGAL SERVICES)
-Solicitor Arjun is conducting due diligence for a client, Felix, who is purchasing a luxury property. Arjun receives the source of funds information, which shows a large deposit originated from a wire transfer from an offshore bank in a high-risk jurisdiction. When questioned, Felix becomes evasive and changes his story. Arjun’s internal risk assessment flags serious suspicion of money laundering. He submits a Suspicious Activity Report (SAR) to the National Crime Agency and its been 8 days since the report was submitted.
+Solicitor Arjun is conducting due diligence for a client, Felix, who is purchasing a luxury property. Arjun receives the source of funds information, which shows a large deposit originated from a wire transfer from an offshore bank in a high-risk jurisdiction. 
+When questioned, Felix becomes evasive and changes his story. Arjun’s internal risk assessment flags serious suspicion of money laundering. 
+He submits a Suspicious Activity Report (SAR) to the National Crime Agency and its been 8 days since the report was submitted.
 After submitting the SAR, what must Arjun do regarding the transaction?
 A. Proceed with the transaction unless  the NCA issues a Moratorium Notice denying consent.
 B. Cease all work on the transaction immediately to avoid committing a prohibited act.
@@ -398,7 +432,9 @@ Option C is incorrect. Informing the client that a SAR has been filed is likely 
 Option D is incorrect. This is not a standard procedure. The process is governed by the statutory framework of POCA and NCA reporting, not by an application to the court. Option E is incorrect. 
 
 Question 26 (CONTRACT)
-Ava posts on a community social media page: “£500 reward for the safe return of my lost ginger cat, Whiskers. Last seen near the park. Please bring him to my home.” Ben sees the post. Two days later, while walking his dog, he finds a distressed ginger cat trapped in a drain near the park. He rescues it and, believing it to be Whiskers, takes it straight to Ava’s house. Upon arrival, Ava immediately says, “That’s not my cat,” and refuses to pay. It is later confirmed the cat is a similar-looking stray. Ben sues for the reward.
+Ava posts on a community social media page: “£500 reward for the safe return of my lost ginger cat, Whiskers. Last seen near the park. Please bring him to my home.” Ben sees the post. 
+Two days later, while walking his dog, he finds a distressed ginger cat trapped in a drain near the park. 
+He rescues it and, believing it to be Whiskers, takes it straight to Ava’s house. Upon arrival, Ava immediately says, “That’s not my cat,” and refuses to pay. It is later confirmed the cat is a similar-looking stray. Ben sues for the reward.
 Is Ava contractually liable to pay Ben the £500?
 A. Yes, because Ben performed the requested act of returning a lost cat.
 B. No, because Ben did not return the specific cat, Whiskers.
@@ -413,7 +449,9 @@ Option C is incorrect. An offer can be made to the world, but it is still only a
 Option D is incorrect. In a unilateral contract, acceptance is typically through performance, not prior communication. The failure was one of performance, not communication.
 Option E is incorrect. Promissory estoppel or reliance principles do not apply here to create a contract where the essential terms of the offer have not been met.
 Question 27 (TORT)
-Daniel is waiting at a school gate to collect his young nephew, Leo, when he witnesses a van mounted on the pavement, striking and killing a child. Daniel believes the child to be Leo and suffers an immediate shock, developing a severe recognised psychiatric illness. It transpires the victim was another child. Daniel was not in any personal physical danger. He sues the van driver for his psychiatric injury.
+Daniel is waiting at a school gate to collect his young nephew, Leo, when he witnesses a van mounted on the pavement, striking and killing a child. 
+Daniel believes the child to be Leo and suffers an immediate shock, developing a severe recognised psychiatric illness. It transpires the victim was another child. 
+Daniel was not in any personal physical danger. He sues the van driver for his psychiatric injury.
 What is the fundamental barrier to Daniel’s claim?
 A. He was not physically injured in the event.
 B. He was not present at the immediate aftermath.
@@ -428,9 +466,9 @@ Option B is incorrect. He was present at the event itself, which satisfies the
 Option D is incorrect. Fear for one’s own safety would make him a primary victim (Page v Smith). As a secondary victim, the shock must come from witnessing injury to another.
 Option E is incorrect. While his belief was mistaken, the key is the relationship to the actual victim. Even if it had been Leo, the uncle/nephew relationship would still require proof of closeness.
 Question 28 (CONSTITUTIONAL LAW)
-Rebecca, a director of Summit Developments, has been monitoring a high-stakes planning application for a new out-of-town retail park submitted by a direct competitor. On 1 May, the Secretary of State issues a formal decision letter granting outline planning permission for the project.
-Rebecca is convinced the decision is legally flawed because the Secretary of State failed to consider the "material consideration" of the project's impact on the local high street's heritage status. She immediately instructs her legal team to prepare a claim for Judicial Review. However, due to a combination of a bank holiday weekend, a delay in obtaining an expert heritage report, and her lead solicitor being away on a pre-planned holiday, the claim form is not finalized until mid-June.
-Rebecca finally files the claim form at the Administrative Court on 20 June. She argues that she has acted with reasonable speed for such a complex matter and is well within the standard time limit she has heard applies to public law challenges.
+Rebecca, a director of Summit Developments, monitors a competitor’s planning application for a new retail park.
+On 1 May, the Secretary of State grants outline planning permission. Rebecca believes the decision is flawed because it ignored the impact on the local high street’s heritage and instructs solicitors to file a Judicial Review claim. 
+Due to a bank holiday, delays in obtaining an expert report, and her lead solicitor being on holiday, the claim is filed on 20 June. She argues she acted with reasonable speed.
 Has Rebecca filed her claim within the required time limit?
 A.Yes, because she is within the standard three-month period for judicial review.
 B.  No, because the time limit for judicial review of a decision under the planning acts is six weeks.
@@ -443,8 +481,10 @@ Option B is correct. Under CPR 54.5(5), there is a specific shorter time limit f
 Option A is incorrect. The standard three-month limit is overridden by specific statutory shorter limits (e.g., planning and procurement). 
 Option D is incorrect. The 30-day limit typically applies to Public Procurement cases (CPR 54.5(6)).
 Question 29 (DISPUTE RESOLUTION)
-On a rainy Tuesday morning in November, Eva was walking to a client meeting in a busy downtown area. She was crossing at a marked pedestrian crossing, with the "walk" signal clearly in her favour. Noah, driving his company van, was running late for a job estimate. He was momentarily distracted by a notification on his dashboard-mounted phone regarding a delayed materials delivery. As he approached the intersection, he saw the traffic light turn amber and accelerated, hoping to pass through before it turned red. He failed to notice Eva stepping onto the crossing.
-Noah’s van struck Eva. She was thrown onto the bonnet and then to the wet pavement. The impact was severe enough to dent the van’s front wing. In the personal injury claim, claimant Eva makes a Part 36 offer to settle for £90,000. Defendant Noah makes a subsequent Part 36 offer to settle for £60,000. Both offers expire. At trial, Eva is awarded £92,000. The trial judge finds Eva acted reasonably in refusing Noah’s lower offer.
+On a rainy Tuesday morning in November, Eva was walking to a client meeting in a busy downtown area. She was crossing at a marked pedestrian crossing, with the "walk" signal clearly in her favour. Noah, driving his company van, was running late for a job estimate.
+ He was momentarily distracted by a notification on his dashboard-mounted phone regarding a delayed materials delivery. As he approached the intersection, he saw the traffic light turn amber and accelerated, hoping to pass through before it turned red. He failed to notice Eva stepping onto the crossing.
+Noah’s van struck Eva. She was thrown onto the bonnet and then to the wet pavement. The impact was severe enough to dent the van’s front wing. In the personal injury claim, claimant Eva makes a Part 36 offer to settle for £90,000. Defendant Noah makes a subsequent Part 36 offer to settle for £60,000. 
+Both offers expire. At trial, Eva is awarded £92,000. The trial judge finds Eva acted reasonably in refusing Noah’s lower offer.
 What are the automatic costs consequences?
 A. Eva is entitled to her costs on the indemnity basis from the expiry of her own offer.
 B. Eva is entitled to her costs on the standard basis, plus enhanced interest.
@@ -459,7 +499,9 @@ Option C is incorrect. These consequences apply when a defendant beats their o
 Option D is incorrect. The normal rules are displaced by the claimant beating her own Part 36 offer, triggering the enhanced consequences.
 Option E is incorrect. There is no basis for the defendant to get any costs, as the claimant was the overall winner and beat her own offer.
 Question 30 (PROFESSIONAL ETHICS)
-Solicitor Liam acts for husband, Ben, in negotiating a post-nuptial separation agreement. The wife, Jessica, approaches Liam’s firm seeking representation in the same matter. Jessica is unaware Liam acts for Ben. Liam’s firm runs a conflict check, identifies the parties are married, but notes the firm has never acted for Jessica before. The fee earner who would act for Jessica is in a different department and there would be no sharing of information.
+Solicitor Liam acts for husband, Ben, in negotiating a post-nuptial separation agreement. The wife, Jessica, approaches Liam’s firm seeking representation in the same matter.
+ Jessica is unaware Liam acts for Ben. Liam’s firm runs a conflict check, identifies the parties are married, but notes the firm has never acted for Jessica before.
+ The fee earner who would act for Jessica is in a different department and there would be no sharing of information.
 According to the SRA Code, can the firm act for Jessica?
 A. Yes, provided both Ben and Jessica give their informed consent.
 B. Yes, because the fee earners are in separate departments with information barriers.
@@ -475,7 +517,9 @@ Option D is incorrect. While loyalty is a factor, the specific, absolute prohibi
 Option E is incorrect. The conflict arises from the nature of the retainer (acting for opposing parties), not from the possession of confidential information from the prospective client.
 
 Question 31 (CONTRACT)
-Maya hires Leo, a specialist painter, to restore a valuable antique mural in her home for a fixed price of £20,000. Leo wrongfully repudiates the contract before starting. Maya immediately seeks alternative quotes. The only available specialist, Zoe, quotes £35,000 for the same work. Maya, deciding this is too expensive, postpones the restoration indefinitely. Two years later, the mural’s condition has deteriorated due to ambient humidity, increasing the eventual restoration cost to £50,000. Maya now sues Leo for breach of contract.
+Maya hires Leo, a specialist painter, to restore a valuable antique mural in her home for a fixed price of £20,000. Leo wrongfully repudiates the contract before starting. Maya immediately seeks alternative quotes.
+The only available specialist, Zoe, quotes £35,000 for the same work. Maya, deciding this is too expensive, postpones the restoration indefinitely. 
+Two years later, the mural’s condition has deteriorated due to ambient humidity, increasing the eventual restoration cost to £50,000. Maya now sues Leo for breach of contract.
 What is the key principle limiting Maya’s recoverable damages?
 A. Damages are capped at the original contract price.
 B. The claimant must take all possible steps to avoid loss.
@@ -490,7 +534,9 @@ Option B is incorrect. The duty is to take reasonable steps, not all possible
 Option D is incorrect. Damages for consequential loss, including increased costs due to delay, can be recoverable if not caused by a failure to mitigate.
 Option E is incorrect. Remoteness (contemplation) is a separate limiting principle. The issue here is the claimant's conduct after the breach.
 Question 32 (CONSTITUTIONAL LAW)
-Aisha is a prisoner who has been denied access to a specific educational course by the prison governor. The initial decision to deny her access was made on 1 January. Aisha has repeatedly requested the governor reconsider, and the governor has issued several letters (the most recent on 1 May) stating that the prison policy remains unchanged and she will not be admitted to the course. Aisha files for judicial review on 20 May, challenging the "continuing refusal" to admit her.
+Aisha is a prisoner who has been denied access to a specific educational course by the prison governor. 
+The initial decision to deny her access was made on 1 January. Aisha has repeatedly requested the governor reconsider, and the governor has issued several letters (the most recent on 1 May) stating that the prison policy remains unchanged and she will not be admitted to the course. 
+Aisha files for judicial review on 20 May, challenging the "continuing refusal" to admit her.
 How will the court likely treat the time limit for Aisha's challenge?
 A.Aisha is in time because the governor's letter on 1 May constitutes a fresh decision, and the 3-month clock started again. 
 B. Aisha is out of time because the grounds first arose on 1 January and subsequent refusals to change a policy do not usually restart the clock. 
@@ -504,10 +550,11 @@ Option C is incorrect. While "continuing acts" exist in some areas of law, in ju
 Option E is incorrect. While you should use alternative remedies, doing so does not automatically stop the JR clock.
 
 Question 33 (CONSTITUTIONAL LAW)
-A local council grants planning permission for a large housing development. The applicable planning policy states that permission must be refused if the development would increase traffic on nearby Oak Lane above 500 vehicles per day. The council’s officer report, considered by the planning committee, concludes the development will add 495 vehicles. This figure is based on a traffic survey with a known margin of error of +/- 10%. A resident, Hannah, applies for judicial review.
+A local council grants planning permission for a large housing development. The applicable planning policy states that permission must be refused if the development would increase traffic on nearby Oak Lane above 500 vehicles per day.
+The council’s officer report, considered by the planning committee, concludes the development will add 495 vehicles. This figure is based on a traffic survey with a known margin of error of  10%. A resident, Hannah, applies for judicial review.
 Which ground of review is most clearly engaged by this factual scenario?
 A. Unfairness
-B. Irrationality (Wednesbury unreasonableness)
+B. Irrationality
 C. Procedural Impropriety
 D. Illegality
 E. Fettering of Discretion
@@ -518,7 +565,9 @@ Option B is incorrect. Irrationality is a very high threshold (so unreasonable n
 Option C is incorrect. The committee considered the report; the alleged failure is in the report’s accuracy, not the procedure of consideration.
 Option E is incorrect. There is no indication the policy was applied with rigid inflexibility; the problem is the flawed data input into the policy application.
 Question 34 (BUSINESS LAW)
-Joshua and Caleb operate a car valeting business from a unit they rent jointly. They split the weekly profits 60/40. They have no written agreement. They use the trading name “Sparkle & Shine” but are not registered as a partnership. When ordering cleaning supplies, Joshua signs invoices in his own name. A supplier, having unsuccessfully sought payment, claims both Joshua and Caleb are jointly liable for the debt.
+Joshua and Caleb operate a car valeting business from a unit they rent jointly. They split the weekly profits 60/40. They have no written agreement.
+ They use the trading name “Sparkle & Shine” but are not registered as a partnership. When ordering cleaning supplies, Joshua signs invoices in his own name. 
+A supplier, having unsuccessfully sought payment, claims both Joshua and Caleb are jointly liable for the debt.
 Under the Partnership Act 1890, are they in partnership?
 A. No, because there is no written partnership agreement.
 B. Yes, because they share profits, which is conclusive evidence of partnership.
@@ -533,7 +582,9 @@ Option B is incorrect. Profit-sharing is strong evidence but not conclusive; it 
 Option C is incorrect. Registration is not required to form a general partnership. A business name is also not a legal requirement for the partnership relation to exist.
 Option E is incorrect. In a partnership, each partner is an agent of the firm and the other partners for the purpose of the business (s.5). A supplier can hold all partners liable for debts incurred in the course of business.
 Question 35 (CONSTITUTIONAL LAW)
-The Home Secretary makes a decision to deport Farid, a foreign national, to Country X due to his serious criminal convictions. Farid claims that if returned, he will be tortured by the authorities in Country X because of his political opinions, and he provides recent evidence from Amnesty International documenting the systematic use of torture against dissidents there. He seeks to challenge the deportation decision under the Human Rights Act 1998, arguing it violates his Convention rights.
+The Home Secretary makes a decision to deport Farid, a foreign national, to Country X due to his serious criminal convictions. 
+Farid claims that if returned, he will be tortured by the authorities in Country X because of his political opinions, and he provides recent evidence from Amnesty International documenting the systematic use of torture against dissidents there. 
+He seeks to challenge the deportation decision under the Human Rights Act 1998, arguing it violates his Convention rights.
 Which Convention Right in Schedule 1 to the HRA 1998 provides the strongest and most absolute barrier to his deportation, and what is the correct legal test?
 A. Article 5 
 B. Article 3 
@@ -547,13 +598,15 @@ Option A is incorrect. Article 5 concerns lawful detention, not deportation risk
 Option C is incorrect. While Article 8 may be engaged, it is a qualified right where proportionality and the public interest are balanced. It is not absolute and is therefore a weaker barrier than Article 3 in this context.
 Option D is incorrect. Article 6 concerns the fairness of proceedings within the UK, not the risks awaiting an individual in another country.
 Option E is incorrect. While discrimination could be a ground, it must be linked to the enjoyment of another Convention right and does not provide the absolute protection against torture that Article 3 does.
-
-
 Question 36 (CONTRACT)
 
-Chloe emails Ethan on Monday morning, formally offering to sell her vintage sports car for £25,000. Her email states, "This offer will remain open for your acceptance until 5:00 PM this Friday." On Wednesday, Chloe receives a more attractive offer from another buyer. She immediately prints and posts a signed letter of revocation to Ethan's registered home address, and she also sends him a text message that reads, "Need to talk about the car." The text is delivered but Ethan, who is on a remote camping trip with poor signal, does not see it until Friday evening. 
+Chloe emails Ethan on Monday morning, formally offering to sell her vintage sports car for £25,000. Her email states, "This offer will remain open for your acceptance until 5:00 PM this Friday." On Wednesday, Chloe receives a more attractive offer from another buyer.
 
-The posted letter arrives at Ethan's house on Thursday morning, where his housemate signs for it. Unaware of these communications, Ethan posts a formal letter of acceptance at his local post office at 4:00 PM on Wednesday, immediately after deciding to buy. This acceptance letter arrives at Chloe's address on Saturday morning.
+ She immediately prints and posts a signed letter of revocation to Ethan's registered home address, and she also sends him a text message that reads, "Need to talk about the car." The text is delivered but Ethan, who is on a remote camping trip with poor signal, does not see it until Friday evening. 
+
+The posted letter arrives at Ethan's house on Thursday morning, where his housemate signs for it. Unaware of these communications, Ethan posts a formal letter of acceptance at his local post office at 4:00 PM on Wednesday, immediately after deciding to buy. 
+
+This acceptance letter arrives at Chloe's address on Saturday morning.
 
 When, if at all, was a binding contract formed?
 A. On Wednesday at 4:00 PM when Ethan posted his acceptance.
@@ -570,7 +623,9 @@ Explanation: The postal rule applies where post is a reasonable, anticipated me
 Question 37 (TORTS) 
 Sophia owns a large, partially abandoned warehouse. The main front yard is openly used as a public shortcut, which Sophia tolerates. A clearly padlocked rear yard contains dangerous, crumbling machinery and is marked with multiple "DANGER – NO TRESPASSING" signs. 
 
-Ben, a local delivery rider looking for a faster route, scales the rear fence, ignoring the signs, to cross the property. While crossing the rear yard, he trips over a hidden cable and is seriously injured by falling machinery. He claims Sophia breached the common duty of care owed under the Occupiers' Liability Act 1957. Sophia argues he was a trespasser to whom only the more limited duty under the 1984 Act applied.
+Ben, a local delivery rider looking for a faster route, scales the rear fence, ignoring the signs, to cross the property. 
+
+While crossing the rear yard, he trips over a hidden cable and is seriously injured by falling machinery. He claims Sophia breached the common duty of care owed under the Occupiers' Liability Act 1957. Sophia argues he was a trespasser to whom only the more limited duty under the 1984 Act applied.
 
 What is the decisive factor in determining the duty owed to Ben?
 
@@ -586,7 +641,9 @@ Explanation: 
 Option B is correct . The Occupiers’ Liability Act 1957 applies to 'visitors' (those with express or implied permission). The OLA 1984 applies to non-visitors (trespassers). Permission can vary across different parts of premises. While Sophia tolerated use of the front yard (creating implied permission there), the rear yard was expressly prohibited with clear signs and a physical barrier (locked fence). Ben had no permission, express or implied, to be in the rear yard, making him a trespasser in that specific area. The decisive factor is whether he had permission to be in the particular place where the injury occurred, not his overall purpose or Sophia's general knowledge of risks. Therefore, options A, C, D and E are incorrect
 
 Question 38 (CONSTITUTIONAL LAW)
-Parliament passes the "National Security (Temporary Exclusion) Act." Under this Act, the Secretary of State can impose a Temporary Exclusion Order (TEO) on a British citizen suspected of involvement in terrorism-related activity abroad. The TEO prohibits the individual from returning to the UK for two years, during which time they cannot have any physical contact with their spouse and young children who reside in the UK. The individual claims the TEO breaches their Convention rights.
+Parliament passes the "National Security (Temporary Exclusion) Act." Under this Act, the Secretary of State can impose a Temporary Exclusion Order (TEO) on a British citizen suspected of involvement in terrorism-related activity abroad. 
+The TEO prohibits the individual from returning to the UK for two years, during which time they cannot have any physical contact with their spouse and young children who reside in the UK. 
+The individual claims the TEO breaches their Convention rights.
 Which Convention Right from Schedule 1 is most directly engaged, and what will be the central legal question for the court?
 A. Article 2 
 B. Article 5 
@@ -602,7 +659,8 @@ Option D is incorrect. Article 11 protects freedom of peaceful assembly and asso
 Option E is incorrect. While exclusion from one's home may be relevant, the primary and most direct engagement here is with family life, not property rights.
 
 Question 39 (LEGAL SERVICES)
-A firm of solicitors is instructed by Mr. Micheal , a prospective client who has cerebral palsy and uses a wheelchair. Mr. Micheal wishes to discuss bringing a claim against a local restaurant for disability discrimination. He contacts the firm to arrange a face-to-face meeting at their offices. The firm's premises are in a listed building with a single step at the front entrance and no lift to the first-floor meeting rooms.
+A firm of solicitors is instructed by Mr. Micheal , a prospective client who has cerebral palsy and uses a wheelchair. Mr. Micheal wishes to discuss bringing a claim against a local restaurant for disability discrimination. 
+He contacts the firm to arrange a face-to-face meeting at their offices. The firm's premises are in a listed building with a single step at the front entrance and no lift to the first-floor meeting rooms.
  The receptionist, unsure what to do, explains the physical access limitations and suggests a telephone meeting instead. Mr. Micheal is unhappy, feeling this is inadequate for a sensitive initial consultation.
 Under the Equality Act 2010, what is the primary legal obligation of the solicitors' firm in this situation?
 A. The firm has no obligation to alter its premises, as the building's listed status provides a complete defence.
@@ -615,8 +673,10 @@ Explanation:
 Option B is correct. Under Part 3 of the Equality Act 2010, a service provider (including a firm of solicitors) owes a duty to make "reasonable adjustments" for disabled persons where a "provision, criterion or practice" (PCP) puts them at a substantial disadvantage. The PCP here is requiring clients to attend meetings in inaccessible rooms. The duty is anticipatory and owed to prospective clients. Reasonable adjustments could include holding the meeting in a ground-floor room, at an accessible alternative venue, or via video conference. Listed building status is a factor in determining what is "reasonable" but does not provide an automatic defence. A mere telephone call may not be a sufficient adjustment for an initial solicitor-client consultation requiring trust and the review of documents. Therefore, options A, C, D and E are incorrect.
 
 Question 40 (LEGAL SERVICES)
-Maya, a junior solicitor at a large firm, raises a formal internal grievance alleging that the firm’s flexible working policy indirectly discriminates against female solicitors with childcare responsibilities. Her grievance is investigated and ultimately not upheld. Shortly afterwards, Maya applies for a promotion to a senior associate role for which she is objectively well-qualified. The partnership panel, which includes the partner who conducted the grievance investigation, rejects her application. 
-The feedback states her "recent activities have demonstrated a tendency to focus on internal conflicts rather than on collegiate teamwork, which is a key requirement for this role." Maya is subsequently excluded from important client meetings and her supervision becomes overly critical. She believes she is being punished for bringing the grievance.
+Maya, a junior solicitor at a large firm, raises a formal internal grievance alleging that the firm’s flexible working policy indirectly discriminates against female solicitors with childcare responsibilities. Her grievance is investigated and ultimately not upheld. 
+Shortly afterwards, Maya applies for a promotion to a senior associate role for which she is objectively well-qualified. The partnership panel, which includes the partner who conducted the grievance investigation, rejects her application. 
+The feedback states her "recent activities have demonstrated a tendency to focus on internal conflicts rather than on collegiate teamwork, which is a key requirement for this role."
+ Maya is subsequently excluded from important client meetings and her supervision becomes overly critical. She believes she is being punished for bringing the grievance.
 Which of the following is the most accurate analysis of Maya’s potential claim under the Equality Act 2010?
 A. This is direct sex discrimination
 B. This is harassment related to sex
@@ -632,19 +692,16 @@ Option D is incorrect. A failure to make reasonable adjustments arises from disa
 Option E is incorrect. While a firm can take action to maintain cohesion, doing so in direct response to an employee exercising their statutory right to complain about discrimination is unlikely to be a lawful, proportionate justification for victimisation.
 
 Question 41 (CONTRACT LAW)
-
-Liam is in advanced negotiations to purchase a boutique hotel, "The Riverside Retreat," from its owner, Noah. During a formal meeting, Noah presents a detailed summary prepared by his accountant stating, "The hotel's annual net profit, before any owner's salary, is a reliable £95,000." This figure is crucial to Liam's business plan and bank financing. Relying on this representation, Liam signs the sale contract and completes the purchase for £750,000. 
-
-Six months later, Liam's new accountant discovers that the £95,000 figure was calculated after adding back a non-recurring government pandemic grant of £30,000 and before deducting Noah's own substantial, undisclosed management fee. The true, sustainable net profit was closer to £50,000. Liam seeks to rescind the contract. Noah defends the claim, arguing Liam was a sophisticated buyer who had the opportunity to conduct full due diligence and request the underlying management accounts before committing.
-
-What is the pivotal legal issue that will determine Liam's right to rescind the contract for misrepresentation?
-
-A. Whether the statement was one of future opinion rather than present fact.
+Liam is buying a boutique hotel from Noah. During negotiations, Noah’s accountant provides a summary stating:
+"The hotel's annual net profit, before any owner's salary, is a reliable £95,000."
+Relying on this, Liam signs the contract and pays £750,000. Six months later, Liam discovers the figure included a one-off pandemic grant and ignored Noah’s undisclosed management fees; the sustainable profit is closer to £50,000.
+ Liam seeks to rescind for misrepresentation. Noah argues Liam was a sophisticated buyer with the opportunity to check the accounts.
+What is the pivotal legal issue determining Liam’s right to rescind?
+A. Whether the statement was future opinion rather than present fact.
 B. Whether Liam had a reasonable opportunity to discover the truth through due diligence.
-C. Whether Noah's representation was made fraudulently, rather than negligently.
-D. Whether it is still possible to restore both parties to their pre-contract positions.
-E. Whether Noah's false statement actually induced Liam to enter the contract.
-
+C. Whether Noah’s representation was fraudulent rather than negligent.
+D. Whether it is possible to restore the parties to their pre-contract positions.
+E. Whether Noah’s false statement actually induced Liam to enter the contract.
 Explanation
 
 Option E is correct. The foundational requirement for rescission for misrepresentation is that the false statement induced the claimant to enter the contract. The test is whether the representation was a material reason that significantly influenced the claimant's decision (Edgington v Fitzmaurice). It need not be the sole reason. The court will assess whether a reasonable person in Liam's position would have been influenced, and whether Liam himself was in fact influenced. The availability of due diligence (Option B) does not automatically negate inducement; it is merely a factor the court may consider in assessing whether Liam actually relied on the statement. The primary legal inquiry focuses squarely on the causal link between the untrue statement and the decision to contract.
@@ -655,15 +712,21 @@ Option C is incorrect. Fraudulent intent enhances the claim but is not necessar
 Option D is incorrect. While restitutio in integrum is a bar to rescission, the question here focuses on the initial right to rescind, for which inducement is the key.
 
 
+
+
+
+
+
 Question 42 (TORTS)
 
-Mason directs a busy parcel sorting depot where Natalie operates powered pallet trucks shifting heavy crates across concrete floors under tight turnaround schedules. He approves her initial operator licence but bypasses recommended advanced modules on weight distribution and ramp negotiation to minimise downtime costs despite equipment manuals highlighting risks. Natalie loads a pallet exceeding safe limits to meet quotas, causing the truck to topple on a slight incline and crush her ankle, necessitating pins, grafts, and extended physiotherapy. She confronts reduced mobility threatening her role. Mason references her tenure as mitigating training needs. Internal logs reveal lapsed risk assessments and Natalie alleges systemic safety deficits.  
-Is Mason liable to Natalie for her workplace injury?  
-A. No, because his only obligation is to purchase comprehensive accident coverage.  
-B. Yes, due to a non-delegable duty ensuring safe working systems.  
-C. No, as duty is satisfied by bare statutory compliance.  
-D. No, since duty is fully transferable to line supervisors.  
-E. No, as duty is extinguished by Natalie's overloading choice.  
+Mason manages a busy parcel depot where Natalie operates powered pallet trucks. He approves her initial licence but skips recommended advanced training on weight distribution and ramp safety to save time, despite manuals highlighting risks. 
+Natalie overloads a pallet to meet quotas, the truck tips on a slight incline, and she suffers a severe ankle injury. Internal records show lapsed risk assessments, and Natalie alleges systemic safety failures.
+Is Mason liable for her workplace injury?
+A. No, because his only obligation is to purchase accident coverage.
+B. Yes, due to a non-delegable duty to ensure safe working systems.
+C. No, as duty is satisfied by bare statutory compliance.
+D. No, since duty is fully transferable to line supervisors.
+E. No, as duty is extinguished by Natalie’s choice to overload.
 The correct option is B  
 Explanation  
 Option B is correct because employers hold a personal, non-delegable duty to furnish safe plant, competent colleagues, and proper systems of work, per Wilsons & Clyde Coal Co v English, extending to adequate training tailored to tasks. Mason's omission of specialised instruction breaches this, rendering the depot unsafe irrespective of delegation or employee experience. This established duty prioritises worker protection structurally.  
@@ -674,7 +737,12 @@ Option E is incorrect because contributory negligence leads to apportionment of 
 
 Question 43 (BUSINESS LAW)
 
-"Vertex Innovations Ltd" is a private company with a share capital structure defined in its articles. The articles state that the company's authorised share capital is 150,000 ordinary £1 shares. To date, 100,000 shares have been issued. The articles are silent on which corporate body has the power to allot new shares. The board of directors, seeking to raise growth capital from a venture capital firm, passes a resolution at a board meeting to allot 30,000 new shares to the investor.
+"Vertex Innovations Ltd" is a private company with a share capital structure defined in its articles. The articles state that the company's authorised share capital is 150,000 ordinary £1 shares.
+
+ To date, 100,000 shares have been issued. The articles are silent on which corporate body has the power to allot new shares. 
+
+The board of directors, seeking to raise growth capital from a venture capital firm, passes a resolution at a board meeting to allot 30,000 new shares to the investor.
+
 Based on the default provisions of the Companies Act 2006, is the board's resolution sufficient to lawfully allot these shares?
 
 A.No, the power to allot must be conferred by the company's articles or a special resolution of the members.
@@ -690,28 +758,26 @@ Option D is incorrect. It is too absolute; authority can be pre-conferred by th
 Option E is incorrect. The Model Articles for private companies do not give a default authority to allot; they defer to the statutory regime in the Companies Act 2006.
 
 Question 44 (Dispute resolution)
-
-Jacob entered into a contract with Daniel to purchase a new, high-end commercial oven for his bakery. The contract specified a model with precise temperature controls and a rapid steam-injection function, critical for Jacob's signature sourdough bread. The oven delivered and installed failed to maintain stable temperatures and the steam function was defective, producing inconsistent results and ruining batches of product.
-Jacob sued Daniel in the County Court for breach of contract, seeking damages for the cost of the faulty oven, lost profits from spoiled goods, and the cost of a replacement. Jacob, the claimant lost at trial in the County Court. Jacob appeals to a Circuit Judge in the County Court, who hears the appeal and dismisses it. Dissatisfied, Jacob now seeks to appeal again, this time to the Court of Appeal (Civil Division). He must apply to the Court of Appeal for permission to appeal.
-
-What is the specific statutory test the Court of Appeal must apply when considering permission for this second appeal?
-
-A. The appeal must have a real prospect of success.
+Jacob contracts with Daniel to buy a commercial oven with precise temperature and steam functions.
+ The installed oven is defective, ruining baked goods. Jacob sues for breach of contract and loses in the County Court. 
+He appeals to a Circuit Judge, who dismisses the appeal. Jacob now seeks to appeal to the Court of Appeal (Civil Division) and must first obtain permission.
+What is the statutory test the Court of Appeal applies when considering permission for this second appeal?
+A.The appeal must be reasonable.
 B. The appeal must raise an important point of principle or practice.
-C. The appeal must show the lower court's decision was wrong or unjust due to serious procedural irregularity.
+C. The appeal must show the lower court’s decision was wrong or unjust due to serious procedural irregularity.
 D. There must be a compelling reason for the Court of Appeal to hear it.
 E. The appeal must be justified by the overriding objective.
 
 Explanation
 Option D is correct. This is governed by CPR 52.7. For a second appeal (an appeal from a decision of a County Court or High Court that was itself made on appeal), the threshold is significantly higher than for a first appeal. The Court of Appeal will not give permission unless it considers that the appeal would raise "an important point of principle or practice" or there is "some other compelling reason for the Court of Appeal to hear it." This strict test is designed to limit second appeals to cases of wider significance or where there is a substantial injustice that only the Court of Appeal can address, preventing the Court of Appeal from being used merely as a further rehearing of the facts.
-Option A is incorrect. This is the test for permission to appeal a first-instance decision (CPR 52.6), which is a lower threshold.
 Option B is incorrect. While raising an important point is one limb of the test, it is not the only one; the alternative is "some other compelling reason."
 Option C is incorrect. This describes potential grounds for appealing the merits of a decision, not the test for permission to bring a second appeal.
 Option E is incorrect. The overriding objective is a general principle, but the specific test for second appeal permission is the stringent one in CPR 52.7.
 
 
 Question 45 (Legal services)
-Marcus is charged with "Theft from a Shop" (an either-way offence) in the Magistrates' Court. He has no previous convictions and works as a delivery driver. He is worried that a conviction will lead to him losing his job because his employer has a zero-tolerance policy for dishonesty. He applies for a Representation Order.
+Marcus is charged with "Theft from a Shop" (an either-way offence) in the Magistrates' Court. He has no previous convictions and works as a delivery driver.
+ He is worried that a conviction will lead to him losing his job because his employer has a zero-tolerance policy for dishonesty. He applies for a Representation Order.
 Which of the following best describes the Interests of Justice test for Marcus?
 A.Marcus automatically passes the test because the charge involves an either-way offence.
 B. Marcus is likely to pass the test  because he faces a likely loss of his livelihood. 
@@ -724,7 +790,9 @@ Option B is correct. For criminal cases in the Magistrates' Court, the court app
  Option A is incorrect. There is no "automatic" pass for either-way offences in the Magistrates' Court (though Crown Court trials do automatically satisfy the merits test). Option E is incorrect. While loss of liberty is a primary factor, it is not the only factor.
 
 Question 46 (Dispute resolution)
-GlobalTech Inc, a US company, is in a dispute with a UK software firm over a highly technical patent licensing agreement. The contract contains a clause stating that any disputes must be resolved by arbitration under the rules of the London Court of International Arbitration (LCIA). GlobalTech prefers this method over litigation because they wish to keep the technical details of their source code out of the public domain.
+GlobalTech Inc, a US company, is in a dispute with a UK software firm over a highly technical patent licensing agreement. 
+The contract contains a clause stating that any disputes must be resolved by arbitration under the rules of the London Court of International Arbitration (LCIA). 
+GlobalTech prefers this method over litigation because they wish to keep the technical details of their source code out of the public domain.
 Which characteristic of arbitration makes it the most appropriate mechanism for GlobalTech in this scenario?
 A.Arbitration is a public process, which will ensure the decision is recorded in the law reports.
 B. The parties can appoint an arbitrator with specific technical expertise and the proceedings are private and confidential. 
@@ -738,7 +806,9 @@ Option C is incorrect. Arbitration results in an "award" which is final and lega
 Option E is incorrect. One of the main downsides (or features) of arbitration is finality; there are very limited grounds to appeal an award under the Arbitration Act 1996.
 Question 47 (Dispute resolution)
 
-On 10th October 2021, Mr. Lee was involved in a minor road traffic accident. He felt a slight neck twinge but thought nothing of it and did not seek medical attention. On 1st March 2023, after months of worsening pain, he was diagnosed with a serious spinal disc injury that a specialist directly attributed to the 2021 accident. Mr. Lee wishes to bring a claim in negligence against the other driver. He contacts a solicitor on 15th April 2024.
+On 10th October 2021, Mr. Lee was involved in a minor road traffic accident. He felt a slight neck twinge but thought nothing of it and did not seek medical attention. 
+On 1st March 2023, after months of worsening pain, he was diagnosed with a serious spinal disc injury that a specialist directly attributed to the 2021 accident.
+ Mr. Lee wishes to bring a claim in negligence against the other driver. He contacts a solicitor on 15th April 2024.
 In relation to the primary limitation period for his personal injury claim, which of the following is correct?
 A. Time expired on 10th October 2023 (three years from the accident date), so the claim is now statute-barred.
 B. Time expires on 1st March 2026 (three years from the date of knowledge of the significant injury), so the claim is still in time.
@@ -770,7 +840,11 @@ C is incorrect. Losses are allocated to partners according to the profit-sharing
 D is incorrect. Partners cannot surrender their share of a loss to the entity or other partners; losses are personal to each partner.
 E is incorrect as trading losses are a valuable asset and can be utilised in several ways.
 Question 49 (BUSINESS LAW)
-In "Precision Engineering Ltd," Daniel (a 40% shareholder and technical director) petitions the court on the grounds of unfair prejudice under s.994 of the Companies Act 2006. He proves that the majority shareholder and managing director, Michael (60%), has excluded him from management, paid himself excessive salaries and bonuses without declaration, and awarded major contracts to a connected company without tender. The relationship is irretrievably broken down. The company remains profitable with good prospects.
+In "Precision Engineering Ltd," Daniel (a 40% shareholder and technical director) petitions the court on the grounds of unfair prejudice under s.994 of the Companies Act 2006. 
+
+He proves that the majority shareholder and managing director, Michael (60%), has excluded him from management, paid himself excessive salaries and bonuses without declaration, and awarded major contracts to a connected company without tender. 
+
+The relationship is irretrievably broken down. The company remains profitable with good prospects.
 
 Following a finding of unfair prejudice, which of the following remedies is the court most likely to order?
 
@@ -789,8 +863,11 @@ Option D is incorrect. Winding up is a remedy of last resort under s.122(1)(g) 
 Option E is incorrect. While the court can order compensation, it is more common to reflect any past financial loss in the valuation of the shares to be purchased (e.g., by using a valuation date before the prejudice began).
 
 
+
 Question 50 (PROFESSIONAL ETHICS)
-Solicitor Noah's firm is instructed by a long-standing business client, Chloe, who is remortgaging her £800,000 London home to release equity for a new business venture. The lender is a mainstream high-street bank with which the firm has a panel appointment. The bank's standard instructions permit the firm to act for both borrower and lender in the transaction, provided no conflict arises. The loan-to-value ratio is 60%.
+Solicitor Noah's firm is instructed by a long-standing business client, Chloe, who is remortgaging her £800,000 London home to release equity for a new business venture.
+
+ The lender is a mainstream high-street bank with which the firm has a panel appointment. The bank's standard instructions permit the firm to act for both borrower and lender in the transaction, provided no conflict arises. The loan-to-value ratio is 60%.
 
 Before accepting this dual retainer, what is the fundamental requirement that Noah must ensure is satisfied according to the SRA Code of Conduct?
 
@@ -811,7 +888,11 @@ Option E is incorrect. AML checks are mandatory but are a separate regulatory r
 
 Question 51 (LEGAL SERVICES)
 
-A consortium of entrepreneurs, none of whom are lawyers, wishes to establish a new legal service provider, "The Business Boutique Ltd," aiming to offer a streamlined service to startups. Their business plan involves preparing and registering new companies at Companies House for their clients. They intend to hire a recently qualified solicitor to carry out this work. They believe that because they will employ a qualified solicitor, their company will automatically be authorised to provide this service and they can begin trading immediately. They have not yet applied to the SRA for authorisation.
+A consortium of entrepreneurs, none of whom are lawyers, wishes to establish a new legal service provider, "The Business Boutique Ltd," aiming to offer a streamlined service to startups. 
+
+Their business plan involves preparing and registering new companies at Companies House for their clients. They intend to hire a recently qualified solicitor to carry out this work. 
+
+They believe that because they will employ a qualified solicitor, their company will automatically be authorised to provide this service and they can begin trading immediately. They have not yet applied to the SRA for authorisation.
 
 What is the accurate position regarding their plan to provide this service?
 
@@ -837,7 +918,11 @@ E is incorrect. The preparation of certain instruments for the creation of a com
 
 Question 52 (PROFESSIONAL ETHICS)
 
-"Keystone Corporate Law Ltd" is an authorised firm with a good reputation. The SRA commences a routine investigation into the firm's compliance following an anonymous tip-off about its internal governance. During the investigation, the SRA requests access to all board minutes and financial stability reports for the past two years. The managing partner of Keystone, believing the request to be a fishing expedition and an overreach, instructs the firm to provide only heavily redacted documents, omitting all discussions about client profitability and strategic business planning, arguing this information is commercially sensitive and irrelevant to regulatory compliance.
+"Keystone Corporate Law Ltd" is an authorised firm with a good reputation. The SRA commences a routine investigation into the firm's compliance following an anonymous tip-off about its internal governance. 
+
+During the investigation, the SRA requests access to all board minutes and financial stability reports for the past two years. 
+
+The managing partner of Keystone, believing the request to be a fishing expedition and an overreach, instructs the firm to provide only heavily redacted documents, omitting all discussions about client profitability and strategic business planning, arguing this information is commercially sensitive and irrelevant to regulatory compliance.
 
 What is the likely regulatory outcome of the firm's decision?
 
@@ -865,7 +950,9 @@ Question 53 ( LEGAL SERVICES)
 
 Mr. and Mrs. Dexter instructed a firm of solicitors, "County Legal Partners," to challenge a decision by their local planning authority to refuse them permission to build a home extension. The solicitor handling the matter failed to file their judicial review claim form within the strict three-month time limit, mistakenly calculating the deadline incorrectly. 
 
-As a result, their claim against the public authority was struck out as being out of time, and they lost their right to challenge what they believed was an unlawful administrative decision. The firm's internal complaints procedure resulted in an apology but no offer of financial redress. Dissatisfied, the Dexter wish to escalate the matter to an independent body that can compel the firm to provide compensation for the solicitor's clear negligence.
+As a result, their claim against the public authority was struck out as being out of time, and they lost their right to challenge what they believed was an unlawful administrative decision. The firm's internal complaints procedure resulted in an apology but no offer of financial redress.
+
+ Dissatisfied, the Dexter wish to escalate the matter to an independent body that can compel the firm to provide compensation for the solicitor's clear negligence.
 
 Which body is constitutionally established to perform this specific function, and what is the correct sequence of action?
 
@@ -891,17 +978,15 @@ E is incorrect. The Local Government Ombudsman investigates maladministration by
 
 Question 54 (TORT)
 
-Mr. David Fletcher, a chartered surveyor, was engaged by Mr. & Mrs. Carter to conduct a full structural survey on a Victorian terraced house they were planning to purchase. Mr. Fletcher’s report stated that the property was "structurally sound" and that the roof showed "no signs of significant wear". Relying on this report, the Carters proceeded with the purchase, forgoing a cheaper, more basic survey from another firm. 
-Six months after moving in, during a period of heavy snowfall, a large section of the roof timbers, which were extensively rotten, collapsed into the loft, causing significant damage to the first-floor ceiling and ruining a valuable antique bed. An independent surveyor confirmed that the rot was long-standing and would have been obvious to a competent surveyor conducting a diligent inspection. The Carters are now facing substantial repair costs and have sued Mr. Fletcher for the cost of the repairs and the consequent devaluation of their property.
-
-Is Mr Fletcher liable to the Carters?
-
-A. No, Mr. Fletcher is not liable. The Carters' decision to forgo a cheaper survey was their own choice and breaks the chain of causation.
-B. No, Mr. Fletcher is not liable. A surveyor's report is an opinion based on a visual inspection.
-C. Yes, Mr. Fletcher will be liable if his inspection failed to meet the standard of a reasonably competent surveyor,
-
-D. Yes, Mr. Fletcher will be liable if his inspection failed to meet the standard of a reasonable man.
-E. Yes, Mr. Fletcher is liable, but only for the fee the Carters paid for the survey, as this was the total value of the service he was contracted to provide.
+Mr. David Fletcher, a chartered surveyor, conducted a full structural survey for Mr. & Mrs. Carter before they bought a Victorian house.
+ His report stated the property was “structurally sound” and the roof showed “no significant wear.”
+ Relying on this, the Carters proceeded with the purchase. Six months later, during heavy snowfall, rotten roof timbers collapsed, damaging the ceiling and an antique bed. An independent surveyor confirmed the rot was long-standing and would have been obvious to a competent surveyor.
+Is Mr. Fletcher liable to the Carters?
+A. No, because the Carters chose to forgo a cheaper survey.
+B. No, because a surveyor’s report is just an opinion.
+C. Yes, if his inspection fell below the standard of a reasonably competent surveyor.
+D. Yes, if his inspection fell below the standard of a reasonable man.
+E. Yes, but only for the fee paid for the survey.
 
 C is the correct option.
 
@@ -913,39 +998,29 @@ B is incorrect. While a survey is not an absolute warranty, it is not merely an 
 E is incorrect. The duty of care in professional negligence is not limited to a refund of the fee. It extends to all losses that are a foreseeable consequence of the professional's breach of duty, which in this case includes the cost of repairing the defect and the loss in property value.
 
 
-
-
 Question 55 (TORT)
-
-Benjamin Carter, a 58-year-old warehouse operative with over twenty years of experience at "QuickStock Logistics," was instructed by his manager, Mr. Higgins, to clear a blockage from a high-level conveyor system that was causing a significant backlog in orders. The company had a official safe system of work detailed in the employee handbook and in posters around the warehouse. 
-This required the use of a specific mobile elevating work platform (MEWP) and a two-person team for this task, one to operate the platform and another to act as a banksman. On this day, the designated MEWP was undergoing its mandatory annual service. Mr. Higgins, under pressure to clear the blockage quickly, told Benjamin to "just use the tall ladder and get it sorted." The ladder was not designed for prolonged work at height and lacked the stability of the MEWP. 
-While Benjamin was attempting to dislodge the blockage, the ladder slipped on the polished concrete floor. He fell three metres, suffering a complex fracture to his pelvis and a serious back injury. Benjamin is now pursuing a claim against QuickStock Logistics.
-
+Benjamin Carter, an experienced warehouse operative, was instructed by his manager to clear a blockage from a high-level conveyor. 
+Company policy required a two-person team using a mobile elevating work platform (MEWP), but the MEWP was unavailable. Under pressure, the manager told Benjamin to use a tall ladder instead. 
+While doing so, the ladder slipped and Benjamin suffered serious injuries.
 Does QuickStock Logistics owe Benjamin a duty of care?
+A. No, Benjamin voluntarily assumed the risk by ignoring safety procedures.
+B. Yes, the manager’s instruction to bypass the safe system created an unsafe working environment.
+C. No, the manager acted negligently on his own and was outside the scope of employment.
+D. Yes, but only if the ladder was defective or poorly maintained.
+E. No, Benjamin’s clumsiness was the sole cause of the accident.
+Correct Answer: B
+Explanation:
+B is correct. Employers owe a non-delegable duty to provide a safe system of work. The manager’s direct instruction to ignore established safety procedures and use unsafe equipment created a hazardous situation, constituting a breach of this duty. Liability arises even if procedures existed, because the employer must ensure they are followed.
+A is incorrect. Volenti (voluntary assumption of risk) is rarely successful in employment cases, particularly when the employee is following direct instructions under workplace pressure. The primary duty to ensure safety remains with the employer.
+C is incorrect. The manager was acting within the course of employment when giving work instructions. The company is vicariously liable for acts of employees carried out in the course of their duties.
+D is incorrect. Liability does not depend solely on a defective ladder. The key breach was instructing the employee to bypass a safe system, creating the unsafe condition.
+E is incorrect. The accident resulted from the unsafe system of work, not solely from the employee’s actions or the floor condition. The employer’s duty includes providing safe methods for performing hazardous tasks.
 
-A. No, the company does not owe a duty. Benjamin, as an experienced employee, voluntarily assumed the risk by agreeing to use the ladder despite knowing the official safety procedure.
 
-B. Yes, the company owes a duty. The manager's instruction to bypass the established safe system of work created an unsafe working environment.
-C. No, the company does not owe a duty. The manager acted negligently on his own initiative, and his actions were outside the scope of his employment.
-D. Yes, the company owes a duty, but only if it can be proven that the specific ladder was defective or improperly maintained, which caused it to slip.
-E. No, the company does not owe a duty. The employee's own clumsiness was the sole cause of the accident.
-
-B is the correct option.
-
-Explanation
-
-B is the correct option. An employer has a non-delegable duty to provide a safe system of work. This duty is personal to the employer and cannot be discharged by simply having a written procedure. The manager, acting as an agent of the company, instructed an employee to bypass this safe system and use unsafe equipment. This direct instruction from a superior created the hazardous situation and constitutes a clear breach of the employer's fundamental duty to its employee, regardless of the pressure to complete the work.
-
-A is incorrect. The defence of volenti (voluntary assumption of risk) is very difficult to establish in an employment context. An employee following a direct instruction from a manager, especially under pressure, is not considered to be voluntarily agreeing to accept the legal risk of injury. The primary duty for safety remains with the employer.
-
-C is incorrect. The manager was acting within the course of his employment when he gave a work-related instruction to an employee. The company is vicariously liable for the torts of its employees committed in the course of their employment, which includes a manager negligently instructing a subordinate.
-
-D is incorrect. This focuses too narrowly on a potential defect in the ladder. The primary breach was the systemic failure to provide and enforce a safe system of work. The company's liability arises from instructing an employee to use an inappropriate and unsafe method for the task, not solely from the condition of the ladder itself.
-
-E is incorrect. The employer's duty extends beyond providing a physically safe premises. It includes a duty to devise and enforce a safe system for performing hazardous tasks. The accident was caused by the unsafe system of using a ladder for a task requiring a stable platform, not merely by the floor's condition or the employee's actions.
 
 Question 56 (DISPUTE RESOLUTION)
-Daniel was involved in a car accident on 10 September 2021. He suffered minor whiplash but didn't think it was serious enough to sue. In December 2023, his neck pain became debilitating. On 14 January 2024, a specialist confirmed that the 2021 accident had caused a significant spinal disc protrusion that would require surgery. Daniel wants to issue a claim for personal injury.
+Daniel was involved in a car accident on 10 September 2021. He suffered minor whiplash but didn't think it was serious enough to sue. In December 2023, his neck pain became debilitating. 
+On 14 January 2024, a specialist confirmed that the 2021 accident had caused a significant spinal disc protrusion that would require surgery. Daniel wants to issue a claim for personal injury.
 What is the latest date by which Daniel must issue his claim?
 A.10 September 2024 (3 years from the accident). 
 B. 14 January 2027 (3 years from the date of the specialist's report). 
@@ -1009,7 +1084,9 @@ Question 59 (BUSINESS LAW)
 
 Tom is a director of "Tech Solutions Ltd." At a board meeting in January, the company's accountant presents financial forecasts showing that without a significant cash injection, the company will be unable to pay its debts as they fall due from March onwards. The directors, including Tom, decide to continue trading, hoping a new product launch will save the company. 
 
-They do not seek professional advice on the company's viability. In April, with the situation worsening, they take out a new £25,000 loan from a different lender to fund a last-ditch marketing campaign, increasing the total liabilities. The product fails to gain traction, and the company enters insolvent liquidation in May, with debts of £200,000. The liquidator believes the directors should have acted earlier to minimise creditor losses. 
+They do not seek professional advice on the company's viability. In April, with the situation worsening, they take out a new £25,000 loan from a different lender to fund a last-ditch marketing campaign, increasing the total liabilities. 
+
+The product fails to gain traction, and the company enters insolvent liquidation in May, with debts of £200,000. The liquidator believes the directors should have acted earlier to minimise creditor losses. 
 
 When did Tom's potential liability for wrongful trading most likely begin?
 
@@ -1030,35 +1107,32 @@ Explanation
 
 Question 60 (BUSINESS LAW)
 
-"Swift Deliveries Ltd," a private courier company, has consistently and knowingly failed to meet its statutory filing obligations over the past two consecutive years. Its annual accounts have been filed late on multiple occasions, resulting in the accumulation of significant automatic financial penalties from Companies House. Furthermore, the company's most recent confirmation statement is now also significantly overdue by several months, compounding its compliance failures. The company's sole director, Mr. Nathan Jones, has personally received and subsequently ignored repeated formal reminders and escalating warning notices sent by Companies House. Mr. Jones has consistently prioritised immediate day-to-day operational pressures over these legal responsibilities. The company is now facing severe and worsening cash flow difficulties, partly exacerbated by the unpaid fines. A key supplier, upon discovering the company's publicly documented and poor compliance history via a standard register search, has formally refused to extend any further credit for essential fuel and vehicle maintenance. This supplier is now threatening to petition for the company's compulsory liquidation.
-
-Beyond the immediate financial penalties, what are the most severe potential consequences now facing both "Swift Deliveries Ltd" and Mr. Jones personally?
-
-A.The only consequences are the automatic financial penalties against the company, and Mr. Jones bears no personal risk as his liability is limited.
-B.The company will be automatically dissolved within 30 days, and Mr. Jones will be automatically disqualified from acting as a director for five years.
-C.The company faces being struck off the register, and Mr. Jones risks personal liability for company debts and director disqualification proceedings.
-D.The consequences are solely reputational, affecting the company's credit score but protecting Mr. Jones from any legal action.
-E.The supplier's petition will be automatically successful, leading to immediate liquidation and criminal charges against Mr. Jones for the late filings.
-
-Explanation
-
-C is the correct option. Persistent non-compliance, especially after repeated warnings, empowers the Registrar to commence strike-off proceedings, which could lead to the company's dissolution. Furthermore, as outlined in the text, directors can face severe personal consequences for such failures. These include director disqualification proceedings for unfitness, which can bar them from acting as a director for 2-15 years. If the company continues to trade while insolvent, perhaps to pay the accumulating penalties, Mr. Jones could also face personal liability for the company's debts under the wrongful trading provisions of the Insolvency Act 1986.
-
-A is incorrect because it ignores the significant personal risks for directors. While the company incurs financial penalties, a director who knowingly and persistently fails to ensure compliance is exposed to disqualification and, in insolvency, personal liability.
-
-B is incorrect as the processes are not automatic. Strike-off requires a formal procedure, and disqualification requires an application to the court by the Secretary of State, which involves an assessment of the director's conduct.
-
-D is incorrect as the consequences are legal and financial, not merely reputational. The public nature of the non-compliance can trigger actions from creditors and the registrar that have severe legal and financial outcomes for both the company and the director.
-
-E is incorrect because it overstates the process. A creditor's petition for compulsory liquidation is not automatic; it requires a court hearing. While the filing history supports the petition, it does not guarantee its success. Criminal charges for simple late filing are not typical; the primary sanctions are civil and administrative.
+"Swift Deliveries Ltd," a private courier, has repeatedly filed annual accounts and confirmation statements late, accruing significant penalties. Its sole director, Mr. Nathan Jones, ignored repeated reminders from Companies House. A key supplier has refused further credit and may petition for compulsory liquidation.
+Beyond the immediate penalties, what are the most serious potential consequences for the company and Mr. Jones personally?
+A. Only the automatic financial penalties apply; Mr. Jones has no personal risk.
+B. Automatic company dissolution and a five-year director disqualification.
+C. Possible strike-off of the company and director disqualification; Mr. Jones may face personal liability for company debts.
+D. Solely reputational consequences affecting credit, with no personal liability.
+E. Automatic liquidation and criminal charges against Mr. Jones.
+Correct Answer: C
+Explanation:
+C is correct. Persistent non-compliance allows the Registrar to begin strike-off proceedings, potentially leading to company dissolution. Directors can face disqualification proceedings for unfitness, barring them from acting for 2–15 years. If the company continues trading while insolvent, Mr. Jones could also incur personal liability for company debts under wrongful trading provisions (Insolvency Act 1986).
+A is incorrect. This ignores serious personal risks. Directors who knowingly fail to ensure compliance are exposed to disqualification and potential personal liability.
+B is incorrect. Strike-off and disqualification are not automatic; they require formal procedures and court or registrar action.
+D is incorrect. Consequences are legal and financial, not merely reputational. Creditors and the registrar can take enforceable action.
+E is incorrect. Creditors’ petitions are not automatic; criminal charges for late filings are rare. Civil and administrative sanctions are the primary consequences.
 
 Question 61 (BUSINESS LAW)
 
 
 
-Eleanor, Fiona, and Grace have successfully operated a small artisan bakery as partners for two years without a formal partnership agreement. Their business has been consistently profitable, specializing in high-quality breads and pastries. Eleanor and Grace have now identified a prime location in a neighbouring town and are eager to expand the business by opening a second shop. This ambitious plan would require the partnership to take on a substantial bank loan to cover the costs of the new lease, renovations, and initial stock. 
+Eleanor, Fiona, and Grace have successfully operated a small artisan bakery as partners for two years without a formal partnership agreement. Their business has been consistently profitable, specializing in high-quality breads and pastries. 
 
-They believe this expansion is a logical and necessary step for the business's long-term growth and increased market presence. Fiona, however, is perfectly content with their single, manageable shop and its current level of profit. Being deeply risk-averse, she is vehemently opposed to the expansion plan, fearing the potential financial burden of the loan and the significantly increased workload it would create for all of them. At a recent partners' meeting, Eleanor and Grace voted in favour of the expansion and outvoted Fiona. They have subsequently announced that they will proceed with securing the loan and the new location.
+Eleanor and Grace have now identified a prime location in a neighbouring town and are eager to expand the business by opening a second shop. This ambitious plan would require the partnership to take on a substantial bank loan to cover the costs of the new lease, renovations, and initial stock. 
+
+They believe this expansion is a logical and necessary step for the business's long-term growth and increased market presence. Fiona, however, is perfectly content with their single, manageable shop and its current level of profit. Being deeply risk-averse, she is vehemently opposed to the expansion plan, fearing the potential financial burden of the loan and the significantly increased workload it would create for all of them. 
+
+At a recent partners' meeting, Eleanor and Grace voted in favour of the expansion and outvoted Fiona. They have subsequently announced that they will proceed with securing the loan and the new location.
 
 Can Eleanor and Grace lawfully proceed with the expansion plan based on the default statutory rules?
 
@@ -1082,7 +1156,11 @@ E is incorrect as personal guarantees do not override the statutory governance r
 
 Question 62 (BUSINESS LAW)
 
-Isabella, Lorenzo, and Matteo are partners in a digital agency they founded three years ago. Isabella, the lead developer, works approximately sixty hours per week on complex technical projects. Lorenzo, the creative director, works a standard forty-hour week managing the design team and client presentations. Matteo, the strategist, works around twenty-five hours per week but secured the agency's foundational client roster. Their signed Partnership Agreement explicitly states in Article 5.1: "Net profits shall be divided as follows: Isabella 50%, Lorenzo 30%, and Matteo 20%." Following a highly profitable year, Matteo now argues he is entitled to an equal one-third share of the profits. He claims the default provision of the Partnership Act 1890 is inherently fairer and should override their specific written agreement, despite having consented to its terms.
+Isabella, Lorenzo, and Matteo are partners in a digital agency they founded three years ago. Isabella, the lead developer, works approximately sixty hours per week on complex technical projects. Lorenzo, the creative director, works a standard forty-hour week managing the design team and client presentations. 
+
+Matteo, the strategist, works around twenty-five hours per week but secured the agency's foundational client roster. Their signed Partnership Agreement explicitly states in Article 5.1: "Net profits shall be divided as follows: Isabella 50%, Lorenzo 30%, and Matteo 20%."
+
+ Following a highly profitable year, Matteo now argues he is entitled to an equal one-third share of the profits. He claims the default provision of the Partnership Act 1890 is inherently fairer and should override their specific written agreement, despite having consented to its terms.
 
 Is Matteo entitled to an equal share of the profits?
 
@@ -1110,7 +1188,9 @@ E is incorrect as there is no legal requirement for profit-sharing to be linked 
 Question 63 (CONSTITUTIONAL LAW)
 The Department for Transport, under Minister Sarah, launches a new, expensive computer system for managing the national rail network. The system, which was chosen by senior civil servants in the department after a lengthy but flawed procurement process, fails catastrophically on its first day, causing nationwide travel chaos and wasting hundreds of millions of pounds of public money. 
 
-An independent inquiry finds that the failure was due to poor advice from civil servants and a flawed procurement process within the department, but it clears Minister Sarah of any personal wrongdoing or direct involvement in the decision. Opposition MPs and the media are calling for Minister Sarah's resignation, arguing that someone must be held accountable for the fiasco. The Prime Minister has expressed her "full confidence" in Minister Sarah. 
+An independent inquiry finds that the failure was due to poor advice from civil servants and a flawed procurement process within the department, but it clears Minister Sarah of any personal wrongdoing or direct involvement in the decision.
+
+ Opposition MPs and the media are calling for Minister Sarah's resignation, arguing that someone must be held accountable for the fiasco. The Prime Minister has expressed her "full confidence" in Minister Sarah. 
 
 Which of the following statements best describes the constitutional convention that applies to Minister Sarah's situation?
 
@@ -1129,31 +1209,30 @@ Explanation
 E is incorrect. While misleading Parliament is a particularly serious breach that would certainly demand resignation, it is not the only circumstance. A catastrophic departmental failure of this magnitude, costing vast public funds, is a recognised trigger for the operation of the convention.
 
 Question 64 (CONSTITUTIONAL LAW)
-The Prime Minister, David, wishes to deploy British troops to a conflict zone in a foreign country to evacuate British nationals. He advises the Monarch to exercise the Royal Prerogative power to deploy the armed forces. The deployment is successful and all citizens are brought home safely. However, a pressure group argues that such a significant decision, which carries risks to life and international relations, should not be made by the Prime Minister alone using historical Crown powers and should require a debate and vote in Parliament. 
-
-The government responds that the use of the prerogative in this area is a long-standing and efficient practice, vital for swift action in emergencies. The pressure group is considering lobbying for a new law. 
-
-Which of the following statements best describes the constitutional relationship between Parliament and the Royal Prerogative power to deploy troops?
-a) The Royal Prerogative is an absolute power and cannot be questioned or regulated by Parliament in any way.
-b) Parliamentary Sovereignty means that Parliament could pass a statute to abolish or regulate the prerogative power of deployment, but it has not yet done so.
-c) A constitutional convention now requires that the House of Commons must always give its approval before troops are deployed, making a vote legally necessary.
-d) The courts, following the GCHQ case, have no jurisdiction to review the exercise of the prerogative power to deploy troops, as it is a matter of high policy.
-e) The Monarch can refuse to exercise the prerogative power if she personally believes the deployment is unwise.
-
-B is the correct option 
-
+The Prime Minister advises the Monarch to exercise the Royal Prerogative to deploy armed forces overseas for a rapid evacuation of British nationals from a deteriorating conflict zone. 
+The operation is executed successfully. In the aftermath, significant political debate arises. Many MPs and legal commentators argue that such a momentous decision should not rest solely on executive discretion, and that Parliament should have a formal legal role.
+Which statement best describes the constitutional position regarding Parliament and this prerogative power?
+A. The prerogative is absolute and cannot be questioned by Parliament.
+B. Parliament could pass a law to regulate this prerogative power.
+C. A binding convention now requires a prior vote in the Commons.
+D. The courts cannot review this prerogative power at all.
+E. The Monarch can personally refuse to approve a deployment.
+Answer: B
 Explanation
-B is the correct option. This is a precise and accurate statement. Parliament is sovereign and has the ultimate power. While the prerogative power to deploy troops still exists, Parliament could pass an Act (like the Fixed-term Parliaments Act did for dissolution) to replace it with a statutory requirement for approval. 
-A is incorrect. The Royal Prerogative is a residual source of power that is subordinate to statute. Parliament is sovereign and can legislate to abrogate any prerogative power.
-C is incorrect. While a convention known as the "Parliamentary Convention on Military Action" has developed, whereby the government should seek the approval of the Commons for substantive deployments, it is not yet a firmly established or legally binding requirement. It is a political practice, not a legal one.
-D is incorrect. The GCHQ case established that the source of the power (prerogative) does not make it immune from judicial review. The court's ability to review depends on the subject matter. 
-E is incorrect. By convention, the Monarch must act on the advice of ministers in the exercise of her prerogative powers. She has no personal discretion in matters of policy like this.
+B is correct. Parliamentary Sovereignty means statute is supreme. Parliament has not abolished this prerogative, but it possesses the ultimate power to do so or to regulate it by law (e.g., by requiring parliamentary approval).
+A is incorrect. Prerogative powers are subordinate to statute. Parliament can legislate to abrogate or limit them.
+C is incorrect. While a political convention to consult Parliament has developed, it is not a legally binding requirement. A vote is not legally necessary.
+D is incorrect. The GCHQ case established that the exercise of prerogative power is not immune from judicial review simply because of its source, though decisions on national security may attract a very high degree of deference.
+E is incorrect. By constitutional convention, the Monarch exercises this prerogative power strictly on the advice of ministers and has no independent, personal discretion in such matters of state policy.
+
 
 Question 65  (CONSTITUTIONAL LAW)
 
 The UK Parliament, concerned about a recent rise in cybercrime, passes the 'Cybersecurity Act 2024'. The Act grants the Home Secretary, a senior government minister, sweeping new powers to monitor online communications. David, a civil liberties campaigner, is deeply opposed to this law. He believes it is a draconian measure that infringes on fundamental privacy rights. 
 
-David launches a public campaign, arguing that the courts should strike down the Act because it is unjust and undermines democratic freedoms. He also criticises the fact that the Home Secretary, who is an elected MP, will be responsible for wielding these new powers, arguing that it is wrong for a member of the executive to also be a member of the legislature. In response, the government states that the Act is a necessary tool for public safety and was passed with a clear majority in the House of Commons. 
+David launches a public campaign, arguing that the courts should strike down the Act because it is unjust and undermines democratic freedoms. He also criticises the fact that the Home Secretary, who is an elected MP, will be responsible for wielding these new powers, arguing that it is wrong for a member of the executive to also be a member of the legislature. 
+
+In response, the government states that the Act is a necessary tool for public safety and was passed with a clear majority in the House of Commons. 
 
 What is the core constitutional position regarding David's challenge and his criticism of the Home Secretary's role?
 a) The courts can strike down the Cybersecurity Act 2024 if they determine it disproportionately infringes the right to privacy.
@@ -1174,7 +1253,10 @@ Explanation
 Question 66 (CONSTITUTIONAL LAW)
 
 Minister Chloe is the Secretary of State for the Department of Transport. A major scandal erupts when it is revealed that her department awarded a multi-million pound contract for new trains to a company owned by her brother-in-law, without following the standard competitive tendering process. Minister Chloe had no personal knowledge of the award, which was handled by senior civil servants in her department. 
-The Prime Minister and the rest of the Cabinet publicly express their full confidence in Minister Chloe. However, opposition MPs and the media are demanding her resignation, arguing that there has been a catastrophic failure of oversight within her department. Minister Chloe appears before a Select Committee and apologises for the "systemic failure" but states she was not personally involved. 
+
+The Prime Minister and the rest of the Cabinet publicly express their full confidence in Minister Chloe. However, opposition MPs and the media are demanding her resignation, arguing that there has been a catastrophic failure of oversight within her department. 
+
+Minister Chloe appears before a Select Committee and apologises for the "systemic failure" but states she was not personally involved. 
 
 What is the core constitutional convention that applies to Minister Chloe in this situation?
 a) Minister Chloe is protected by the convention of collective responsibility, meaning she cannot be personally blamed for the actions of her department.
@@ -1195,7 +1277,11 @@ Explanation
 
 Question 67 (LEGAL SYSTEM)
 
-The Scottish Parliament passes the 'Education (Scotland) Act 2024', which abolishes university tuition fees for all Scottish students. The UK government at Westminster, which has a different policy for England, is concerned that this will create an unfair funding disparity and negatively impact the UK-wide budget. The UK Parliament subsequently passes the 'National Education Funding Act 2024', which imposes a UK-wide cap on public spending for university tuition support. This Act directly contradicts the Scottish legislation and effectively nullifies it. The Scottish First Minister condemns the Act, stating that education is a devolved matter and Westminster has violated a key constitutional convention by legislating in this area without the Scottish Parliament's consent. 
+The Scottish Parliament passes the 'Education (Scotland) Act 2024', which abolishes university tuition fees for all Scottish students. The UK government at Westminster, which has a different policy for England, is concerned that this will create an unfair funding disparity and negatively impact the UK-wide budget. 
+
+The UK Parliament subsequently passes the 'National Education Funding Act 2024', which imposes a UK-wide cap on public spending for university tuition support. This Act directly contradicts the Scottish legislation and effectively nullifies it. 
+
+The Scottish First Minister condemns the Act, stating that education is a devolved matter and Westminster has violated a key constitutional convention by legislating in this area without the Scottish Parliament's consent. 
 
 What is the core constitutional issue regarding the UK Parliament's action?
 
@@ -1216,29 +1302,34 @@ Option E is Incorrect: Due to Parliamentary Sovereignty, UK courts cannot strike
 
 Question 68 (CONTRACT)
 
-The "Metropolitan Council" published a detailed invitation to tender for a five-year school catering contract worth several million pounds. The invitation document was 50 pages long and stated in clause 1.1, "The Council does not bind itself to accept the lowest or any tender." "Nourish & Co.", a large catering firm, spent thousands of pounds preparing and submitting the most competitive and comprehensive bid. Confident of their success, they immediately leased new kitchen facilities and hired additional staff specifically for this contract. 
-
-The Council, however, after a change in political leadership, decided not to award the contract to any external bidder and to manage the service in-house to create public sector jobs. Nourish & Co. claimed that by conducting a detailed and expensive tender process, the Council had made an implied offer to consider all conforming tenders, which they had accepted by submitting a costly bid, forming a collateral contract.
-
-Does the Council have a contractual obligation to consider Nourish & Co.'s tender in good faith?
-
-A. Yes, because an invitation to tender of this scale and detail carries an implied obligation to consider all submitted bids fairly and in good faith.
-B. Yes, because Nourish & Co. incurred significant expenses in reliance on submitting their tender, creating an estoppel that prevents the Council from acting arbitrarily.
-C. No, because an invitation to tender is an invitation to treat, and the submission of a bid is an offer which the Council is free to reject for any reason, including a change in policy.
-D. No, because the Council explicitly reserved the right not to accept any tender in clause 1.1
-E. No, because the contract was for services over a long duration and required a formal signed agreement to be binding, which was never executed.
-D is the correct option 
+A local authority published a detailed, high-value invitation to tender for a school catering contract. The document explicitly stated, "The Council does not bind itself to accept the lowest or any tender." 
+A catering company, Nourish & Co., invested heavily in preparing and submitting a bid. After a change in policy, the council decided not to award any external contract and to run the service in-house instead.
+Nourish & Co. argues the council is obligated to consider its tender fairly. 
+Is the council under a contractual obligation to do so?
+A. Yes, because a detailed tender process implies a duty to consider bids in good faith.
+B. Yes, because the company’s substantial expenditure creates an estoppel preventing arbitrary action.
+C. No, because an invitation to tender is not an offer, and bids can be rejected for any reason.
+D. No, because the council’s explicit clause reserved its right not to accept any tender.
+E. No, because a long-term service contract requires a formal signed agreement.
+Answer: D
 Explanation
-D is the correct option. The Council's explicit statement that it did not bind itself to accept any tender negates any argument that the invitation was an offer or that it implied any binding obligation to consider bids. It reinforces the standard position that the invitation was an invitation to treat (Spencer v Harding). 
-A is incorrect. While in some specific contexts (like a process contract) an obligation to consider conforming tenders may arise, the default position is that an invitation to tender is an invitation to treat. The explicit reservation of rights in clause 1.1 makes it very difficult to imply such a term.
-B is incorrect. Estoppel is a shield, not a sword, and cannot be used to create a primary contractual obligation to award a contract or to force a party into a contractual relationship they never agreed to.
-C is incorrect. This states the classic legal position: the invitation is an ITT, and the bid is an offer.
- E is incorrect. While many service contracts are signed, a contract can be formed through offer and acceptance without a formal signed document. The issue here is that no offer was ever made by the Council.
+D is correct. The explicit statement that the council is not bound to accept any tender negates any implied obligation to consider bids. This reinforces the standard legal position that an invitation to tender is an invitation to treat (Spencer v Harding), not an offer, and creates no binding process contract.
+
+A is incorrect. While in very specific contexts a duty to consider conforming tenders may arise, an express clause reserving absolute discretion defeats the implication of any such binding obligation.
+
+B is incorrect. Estoppel typically operates as a defence, not to create a primary obligation to contract. It cannot force a party into a contractual relationship it explicitly reserved the right not to enter.
+
+C is incorrect. While this states the classic legal position (invitation to treat vs. offer), option D is more precise because it directly addresses the council's specific, effective disclaimer.
+
+E is incorrect. The lack of a signed agreement is not the decisive issue. A contract can be formed through conduct, but here, no offer from the council ever existed to accept.
+
 
 
 Question 69 (DISPUTE RESOLUTION)
 
-Industrial Flow Ltd (the Claimant) has served a negligence claim on BuildRight Corp (the Defendant) regarding faulty pipework. During the proceedings, the Defendant provides evidence that the work was actually performed by a sub-contractor, Pipes & Seals Ltd. The Claimant now wishes to add the sub-contractor as a second defendant to the existing action before the limitation period expires.
+Industrial Flow Ltd (the Claimant) has served a negligence claim on BuildRight Corp (the Defendant) regarding faulty pipework.
+ During the proceedings, the Defendant provides evidence that the work was actually performed by a sub-contractor, Pipes & Seals Ltd. 
+The Claimant now wishes to add the sub-contractor as a second defendant to the existing action before the limitation period expires.
 Which of the following best describes the procedural requirement for the Claimant to add Pipes & Seals Ltd as a second defendant?
 A.The Claimant must obtain the court's permission to add the new party. 
 B. The Claimant can add the party automatically by amending the Claim Form. 
@@ -1253,7 +1344,8 @@ Option C is incorrect. The consent of the existing defendant does not remove the
 Option D is incorrect. While a defendant can bring in a third party, the claimant is entitled to apply to sue them directly.
 Option E is incorrect. It is more efficient to add a party to the existing claim than to start entirely new proceedings.
 Question 70 (DISPUTE RESOLUTION) 
-John, a claimant issues a claim form at the County Court Money Claims Centre on 1st January 2025. The defendant is located within the jurisdiction of England and Wales. The claimant's solicitor, dealing with a heavy caseload, only arranges for the claim form and particulars to be served personally on the defendant on 5th May 2025. The defendant applies to the court to set aside the claim on the basis that it was not served within the required time limit.
+John, a claimant issues a claim form at the County Court Money Claims Centre on 1st January 2025. The defendant is located within the jurisdiction of England and Wales. 
+The claimant's solicitor, dealing with a heavy caseload, only arranges for the claim form and particulars to be served personally on the defendant on 5th May 2025. The defendant applies to the court to set aside the claim on the basis that it was not served within the required time limit.
 Has the claimant complied with the time limit for serving the claim form under CPR Part 7?
 A. Yes, because the claimant has 6 months from the date of issue to serve the claim form.
 B. No, because the claim form must be served within 4 months of the date of issue.
@@ -1265,7 +1357,8 @@ Explanation:
 Option B is correct. CPR 7.5(1) states that for claims where the defendant is within the jurisdiction, a claim form must be served within 4 months of the date of issue. The claim form was issued on 1st January 2025. The last day for service was therefore 1st May 2025 (4 months later). Service was effected on 5th May 2025, which is outside this period and therefore invalid unless the court has previously granted an extension. The solicitor's workload is not a valid reason for an automatic extension. The defendant is entitled to have the claim set aside for invalid service (CPR 7.6, 11).  Therefore options A, C, D and E are incorrect.
 
 Question 71  (DISPUTE RESOLUTION)
-A claim form is issued on 15th February 2025. The claimant's solicitor obtains a written order from the court on 10th April 2025, extending the time for service of the claim form by 28 days, to 13th May 2025. On Friday, 9th May 2025, at 4:45 p.m., the solicitor serves the claim form by email to the defendant's solicitor's generic email address, as permitted by agreement. The defendant's solicitor does not read the email until Monday, 12th May 2025, and argues it was served out of time.
+A claim form is issued on 15th February 2025. The claimant's solicitor obtains a written order from the court on 10th April 2025, extending the time for service of the claim form by 28 days, to 13th May 2025.
+ On Friday, 9th May 2025, at 4:45 p.m., the solicitor serves the claim form by email to the defendant's solicitor's generic email address, as permitted by agreement. The defendant's solicitor does not read the email until Monday, 12th May 2025, and argues it was served out of time.
 Is the claim form deemed to have been served within the extended deadline?
 A. No, because it was read by the defendant's solicitor only on 12th May, which is after the deadline.
 B. Yes, because email service is deemed effective immediately upon sending.
@@ -1278,16 +1371,15 @@ Option D is correct. This tests the interaction between an extension order and t
 
 
 Question 72 (DISPUTE RESOLUTION)
-Thomas was involved in a minor car accident on 1st January 2023 when another driver ran a red light and collided with his vehicle. He felt a slight twinge in his neck but thought nothing of it, assuming it was just minor whiplash that would resolve itself. Over the following year, the pain in his neck and shoulders worsened gradually, becoming a constant ache that interfered with his sleep and his ability to work at his computer. 
-
-On 1st March 2024, after his GP could not diagnose the issue with basic examinations, he was referred to a specialist orthopaedic consultant. On 15th April 2024, the specialist, after reviewing MRI scans, informed Thomas that he had a serious spinal ligament injury that was likely caused by the car accident and was a significant, permanent impairment that would require ongoing physiotherapy. Thomas, now realising the long-term implications, instructs you on 1st May 2024.
-
- When does the limitation period for his personal injury claim expire?
-A. The limitation period expired on 1st January 2026, being three years from the date of the accident.
-B. The limitation period will expire on 1st March 2027, three years from the date he first sought specialist medical advice for the worsening pain.
-C. The limitation period will expire on 15th April 2027, three years from the date he acquired the knowledge that his injury was  attributable to the accident.
-D. He is already out of time because he should have brought the claim within one year of the accident, given that he was aware of some pain immediately.
-E. The limitation period is six years from the date of the accident, as it is a claim connected to a road traffic incident.
+Thomas was in a minor car accident on 1 January 2023, feeling only a slight neck twinge. 
+Over the next year, pain worsened and interfered with work and sleep. On 1 March 2024, he was referred to a specialist, who on 15 April 2024 diagnosed a serious spinal ligament injury likely caused by the accident. 
+Thomas instructs you on 1 May 2024.
+When does the limitation period for his personal injury claim expire?
+A. 1 January 2026, three years from the accident.
+B. 1 March 2027, three years from first specialist referral.
+C. 15 April 2027, three years from when he acquired knowledge the injury was caused by the accident.
+D. He is already out of time because he felt pain immediately after the accident.
+E. Six years from the accident, as it involves a road traffic incident.
 
 C is the correct option
 Explanation
@@ -1299,7 +1391,9 @@ Explanation
 
 Question 73 (DISPUTE RESOLUTION)
 
-Sarah slips on a wet floor in a supermarket, "ValueSave," on 1st June 2024, while reaching for an item on their top shelf, fracturing her wrist. The floor had just been mopped, but no warning signs were present. Her solicitor sends a detailed Letter of Claim to ValueSave's insurers on 1st July 2024, outlining the facts, the specific injury, the absence of warning signs, and the initial financial losses including lost earnings from her job as a hairdresser. 
+Sarah slips on a wet floor in a supermarket, "ValueSave," on 1st June 2024, while reaching for an item on their top shelf, fracturing her wrist. 
+
+The floor had just been mopped, but no warning signs were present. Her solicitor sends a detailed Letter of Claim to ValueSave's insurers on 1st July 2024, outlining the facts, the specific injury, the absence of warning signs, and the initial financial losses including lost earnings from her job as a hairdresser. 
 
 The insurers acknowledge the letter promptly within five working days. They now need to investigate the incident, which involves obtaining witness statements from staff, reviewing CCTV footage, and checking their cleaning schedules.
 
@@ -1319,9 +1413,11 @@ Explanation
 E is incorrect. The Protocol timetable is triggered by the receipt of the Letter of Claim, not the date of the accident itself.
 
 Question 74 (TORT)
-Anya is a 38 year old delivery driver for "QuickCourier Ltd." While making a delivery in her marked van on 10th May 2024, she negligently reverses into and damages a parked Ferrari of the 2023 model owned by Ben. Anya, who is ordinarily a cautious and meticulous driver was running behind schedule because of the bad news she had heard that morning and, in a hurry, failed to check her mirrors properly.
+Anya is a 38 year old delivery driver for "QuickCourier Ltd." While making a delivery in her marked van on 10th May 2024, she negligently reverses into and damages a parked Ferrari of the 2023 model owned by Ben. Anya, who is ordinarily a cautious driver was running behind schedule because of the bad news she had heard that morning and failed to check her mirrors properly.
 
- Ben who is furious for the damage done to his beloved vehicle has obtained clear CCTV footage from a neighbouring property showing the van, the QuickCourier logo, and the moment of impact. Ben wants to claim for the £3,000 cost of repairs from his garage. He is unsure whether to pursue the driver, the company, or both, and seeks your advice on the most effective way to proceed. 
+ Ben who is furious for the damage done to his beloved vehicle has obtained clear CCTV footage from a neighbouring property showing the van, the QuickCourier logo, and the moment of impact.
+
+ Ben wants to claim for the £3,000 cost of repairs from his garage. He is unsure whether to pursue the driver, the company, or both, and seeks your advice on the most effective way to proceed. 
 
 Who is the correct defendant against whom Ben should bring his claim?
 
@@ -1343,8 +1439,10 @@ Explanation
 
 
 Question 75 (DISPUTE RESOLUTION)
-In 2018, ShoddyBuild Ltd completed the construction of a house for Mr. and Mrs. Clarke. Unknown to the Clarkes, the foundations were structurally inadequate and did not meet building regulations. In January 2024, following a severe storm, a large crack appeared in the main supporting wall, and the upper floor began to sag.
-The Clarkes immediately commissioned a structural engineer, whose report, received on 1 May 2024, confirmed that the damage was directly caused by the original 2018 construction defect. The report noted that this was a latent defect that could not have been discovered earlier without invasive and expensive testing. The Clarkes instructed a solicitor on 1 June 2024 to bring a claim in the tort of negligence.
+In 2018, ShoddyBuild Ltd completed the construction of a house for Mr. and Mrs. Clarke. Unknown to the Clarkes, the foundations were structurally inadequate and did not meet building regulations. 
+In January 2024, following a severe storm, a large crack appeared in the main supporting wall, and the upper floor began to sag.
+The Clarkes immediately commissioned a structural engineer, whose report, received on 1 May 2024, confirmed that the damage was directly caused by the original 2018 construction defect. 
+The report noted that this was a latent defect that could not have been discovered earlier without invasive and expensive testing. The Clarkes instructed a solicitor on 1 June 2024 to bring a claim in the tort of negligence.
 What is the expiry date for the limitation period for the Clarkes to issue their claim in negligence?
 A.2024; six years from the date of the original construction.
 B.1 May 2027; three years from the date of knowledge of the latent damage. 
@@ -1361,9 +1459,12 @@ Option E is incorrect. This is the "long-stop" date (the absolute maximum time a
 
 Question 76 (LEGAL SERVICES)
 
-Michael runs a popular online blog called "The Legal Eagle," where he offers free advice on family law matters. He has no formal legal qualifications but is well-read and has personal experience with the family courts. His friend, Sarah, is going through a difficult separation. Overwhelmed and unable to afford a solicitor, she confides in Michael. He invites her to his home office, where he spends several hours reviewing her correspondence.
+Michael runs a popular online blog called "The Legal Eagle," where he offers free advice on family law matters. He has no formal legal qualifications but is well-read and has personal experience with the family courts. 
 
- He drafts a detailed Form C100 application for a child arrangements order, carefully wording the section on why the court should make the order to align with the welfare checklist. He prints the form, advises Sarah on which court to send it to, and signs the section designated for the "Applicant's Legal Representative," stating his name and "The Legal Eagle." He refuses any payment, seeing it as an act of friendship. 
+His friend, Sarah, is going through a difficult separation. Overwhelmed and unable to afford a solicitor, she confides in Michael. He invites her to his home office, where he spends several hours reviewing her correspondence.
+
+ He drafts a detailed Form C100 application for a child arrangements order, carefully wording the section on why the court should make the order to align with the welfare checklist.
+ He prints the form, advises Sarah on which court to send it to, and signs the section designated for the "Applicant's Legal Representative," stating his name and "The Legal Eagle." He refuses any payment, seeing it as an act of friendship. 
 
 Which of the following statements most accurately describes the legal and regulatory implications of Michael's actions?
 A. Michael has not committed any offence because his assistance was free, voluntary, and given in a private capacity.
@@ -1404,7 +1505,9 @@ Explanation
 E is incorrect. The reserved activity of "probate activities" is explicitly defined as preparing any papers for a grant of representation for a fee. The identity of the person who submits the papers to the registry is irrelevant to the classification of the company's service as a reserved activity.
 
 Question 78 (LEGAL SERVICES)
-David is an experienced and senior paralegal at "Stratton Solicitors," an SRA-regulated firm. He has worked in the commercial property department for ten years. His supervising partner, Fatima, asks him to take the lead on a high-value but procedurally straightforward office lease assignment. David's responsibilities include liaising with the other side, drafting the licence to assign and the deed of variation, and preparing the Land Registry application. David carries out all these tasks diligently and to a high standard. The documents are now ready for execution and submission. 
+David is an experienced and senior paralegal at "Stratton Solicitors," an SRA-regulated firm. He has worked in the commercial property department for ten years. His supervising partner, Fatima, asks him to take the lead on a high-value but procedurally straightforward office lease assignment. 
+
+David's responsibilities include liaising with the other side, drafting the licence to assign and the deed of variation, and preparing the Land Registry application. David carries out all these tasks diligently and to a high standard. The documents are now ready for execution and submission. 
 
 What must happen next for "Stratton Solicitors" to remain compliant with the rules governing reserved legal activities?
 
@@ -1423,7 +1526,8 @@ Explanation
 D is incorrect. While transparency with the client is a regulatory duty, client consent cannot override the statutory and regulatory requirement that reserved activities must be carried out by or under the supervision of an authorised person. The duty to the court and the regulatory system is non-delegable. E is incorrect.
 
 Question 79 (CONSTITUTIONAL LAW)
-Mr Shedrack Lyon, an MP makes a speech in the House of Commons during a debate on national security. In the speech, the MP names a high-ranking intelligence officer, Mr Thomas Smith, accusing them of corruption. This information was previously protected by a court injunction. The intelligence officer wishes to sue the MP for defamation in the High Court.
+Mr Shedrack Lyon, an MP makes a speech in the House of Commons during a debate on national security. In the speech, the MP names a high-ranking intelligence officer, Mr Thomas Smith, accusing them of corruption. 
+This information was previously protected by a court injunction. The intelligence officer wishes to sue the MP for defamation in the High Court.
 Which of the following best describes the legal position regarding the MP’s liability?
 A.The MP is liable because a court injunction overrules parliamentary privilege in matters of national security.
 B. The MP is protected by absolute privilege and the speech cannot be questioned in any court
@@ -1458,7 +1562,8 @@ Option C is incorrect because the police have no statutory power to charge "secu
 Option D is incorrect. While Article 11 protects the right to protest, the "notice" requirement is considered a proportionate and lawful restriction for public safety. Anonymity for organizers is not a recognized defense to the Section 11 requirements.
 Option E is incorrect. The legal definitions of "procession" (moving) and "assembly" (static) are based on the nature of the event itself, not the validity of the notice provided.
 Question 81 (LEGAL SYSTEM)
-Jane was tapping on her window in her house in Central London and calling for men. The Street Offences Act makes it an offense for a prostitute to "loiter or solicit in a street or public place." Jane, the defendant is charged after tapping on a window and calling to men from a private balcony. The balcony is not technically "in the street." However, the court finds the defendant guilty, stating that the Act was intended to allow people to walk down the street without being molested or solicited. Jane feels the court misinterpreted the Street Offences Act. According to Jane, the word ‘street’ is pretty straightforward.
+Jane was tapping on her window in her house in Central London and calling for men. The Street Offences Act makes it an offense for a prostitute to "loiter or solicit in a street or public place." Jane, the defendant is charged after tapping on a window and calling to men from a private balcony. 
+The balcony is not technically "in the street." However, the court finds the defendant guilty, stating that the Act was intended to allow people to walk down the street without being molested or solicited. Jane feels the court misinterpreted the Street Offences Act. According to Jane, the word ‘street’ is pretty straightforward.
 Which rule of statutory interpretation is most clearly being applied?
 A.The Literal Rule. 
 B. The Golden Rule.
@@ -1470,9 +1575,13 @@ Explanation
 Option C is correct. This scenario is based on Smith v Hughes. The Mischief Rule (established in Heydon’s Case) requires the court to look at the common law before the Act, identify the "mischief" or defect the Act was intended to fix, and then interpret the statute to "suppress the mischief." Therefore, options A,B, D and E are incorrect.
 
 Question 82 (DISPUTE RESOLUTION)
-Michael is a self-employed electrician entered into a contract with David, to rewire a house for £12,000. David paid a £6,000 deposit, but Michael failed to start the work on the agreed date and then informed David he was no longer available, citing a fictitious personal emergency. David has obtained two quotes from other electricians, both confirming that the work would now cost significantly more due to increased material prices and their own scheduling. 
+Michael is a self-employed electrician entered into a contract with David, to rewire a house for £12,000. David paid a £6,000 deposit, but Michael failed to start the work on the agreed date and then informed David he was no longer available, citing a fictitious personal emergency. 
 
-Furious and out of pocket, David has decided to sue Michael to recover his £6,000 deposit and the additional costs he will now incur. The claim is defended, and the court is now considering how to manage the case. David wants a quick resolution but is concerned about legal costs, as he has already suffered a financial loss. He is representing himself with some guidance from the Citizens Advice Bureau but is unsure of the procedures. 
+David has obtained two quotes from other electricians, both confirming that the work would now cost significantly more due to increased material prices and their own scheduling. 
+
+Furious and out of pocket, David has decided to sue Michael to recover his £6,000 deposit and the additional costs he will now incur. The claim is defended, and the court is now considering how to manage the case. 
+
+David wants a quick resolution but is concerned about legal costs, as he has already suffered a financial loss. He is representing himself with some guidance from the Citizens Advice Bureau but is unsure of the procedures. 
 
 What should be the most appropriate procedural track for this claim?
 
@@ -1491,7 +1600,8 @@ Explanation
 
 Question 83 (LEGAL SYSTEM)
 The Official Secrets Act makes it an offense to obstruct a member of the armed forces "in the vicinity of" a prohibited place. A defendant is arrested for obstructing an officer while standing inside a prohibited airbase. 
-The defendant argues that "in the vicinity of" means "near to," and since he was inside, he was not "in the vicinity." The court decides that "in the vicinity" should be interpreted to include being "inside" to avoid a result that is clearly absurd and contrary to Parliament’s intention.
+The defendant argues that "in the vicinity of" means "near to," and since he was inside, he was not "in the vicinity." 
+The court decides that "in the vicinity" should be interpreted to include being "inside" to avoid a result that is clearly absurd and contrary to Parliament’s intention.
 Which rule of statutory interpretation has the court applied?
 A.The Mischief Rule
 B.  The Literal Rule: 
@@ -1504,7 +1614,8 @@ Option C is correct. This scenario is based on Adler v George. The Golden Rule i
 
 Question 84 (DISPUTE RESOLUTION)
 
-Fatima has a long-term health condition that her employer has refused to make reasonable adjustments for, despite her providing extensive medical evidence. After months of stress and a deterioration in her health, she felt she had no choice but to resign, sending a resignation letter citing constructive dismissal. She feels she has been discriminated against under the Equality Act 2010 and constructively dismissed. She wants to bring a claim against her former employer for compensation and to highlight their poor practices.
+Fatima has a long-term health condition that her employer has refused to make reasonable adjustments for, despite her providing extensive medical evidence. After months of stress and a deterioration in her health, she felt she had no choice but to resign, sending a resignation letter citing constructive dismissal. 
+She feels she has been discriminated against under the Equality Act 2010 and constructively dismissed. She wants to bring a claim against her former employer for compensation and to highlight their poor practices.
 
 Which of the following statements is CORRECT?
 A. Fatima’s claim should be brought in the County Court.
@@ -1520,7 +1631,9 @@ C is incorrect. The welfare of an adult who lacks capacity is governed by the M
 
 Question 85 (DISPUTE RESOLUTION)
 
-A large pharmaceutical company, "PharmaGen," believes a rival company has produced a new anti-inflammatory drug that infringes its patented chemical compound. It is seeking legal advice on where to bring a claim for an injunction and substantial damages, as the rival's product is capturing a significant market share and causing irreparable harm to its business. The case is highly technical and will require expert evidence from pharmacologists. 
+A large pharmaceutical company, "PharmaGen," believes a rival company has produced a new anti-inflammatory drug that infringes its patented chemical compound. 
+
+It is seeking legal advice on where to bring a claim for an injunction and substantial damages, as the rival's product is capturing a significant market share and causing irreparable harm to its business. The case is highly technical and will require expert evidence from pharmacologists. 
 
 Separately, a group of local residents and environmental activists wishes to challenge a decision by a government minister to grant development consent for a new runway at a major international airport, arguing the minister failed to properly consider the project's environmental impact assessment regarding air quality and noise pollution, in breach of statutory duties. They seek to have the decision quashed.
 
@@ -1540,7 +1653,8 @@ Explanation
 E is incorrect. The Family Division deals with matters such as divorce, child welfare, and forced marriage protection orders. It does not handle judicial review of planning or environmental decisions, which fall under the exclusive jurisdiction of the Administrative Court within the King's Bench Division.
 
 Question 86 (DISPUTE RESOLUTION)
-Ben purchased a new luxury refrigerator from 'CoolKitchens Ltd,' an online retailer, for £2,500. The refrigerator broke down completely within three months. Ben has rejected the goods and demands a full refund, which CoolKitchens has refused. Separately, Ben's landlord has refused to return his £1,000 tenancy deposit at the end of his tenancy without providing any legitimate reason.
+Ben purchased a new luxury refrigerator from 'CoolKitchens Ltd,' an online retailer, for £2,500. The refrigerator broke down completely within three months. 
+Ben has rejected the goods and demands a full refund, which CoolKitchens has refused. Separately, Ben's landlord has refused to return his £1,000 tenancy deposit at the end of his tenancy without providing any legitimate reason.
 Which of the following statements is CORRECT?
 A.Ben’s refund claim must be issued in the High Court.
 B. Ben’s deposit claim is for the County Court.
@@ -1557,16 +1671,14 @@ E is incorrect. The claims involve different laws and parties and must be issue
 
 
 Question 87 (DISPUTE RESOLUTION)
-A complex contractual dispute is tried in the High Court before a High Court Judge sitting in the King's Bench Division. The case involves the interpretation of a novel clause in a standard form construction contract widely adopted across the industry concerning allocation of risk for delays caused by unforeseen ground conditions. 
-
-There is no binding precedent directly on point, though there are two conflicting Court of Appeal decisions on related contractual interpretation issues. The High Court Judge feels bound by one of these Court of Appeal decisions and rules against the claimant, but certifies that the case involves a point of law of general public importance relating wholly to statutory interpretation of the Housing Grants, Construction and Regeneration Act 1996. Both parties agree the case should go straight to the Supreme Court given its industry-wide importance. The claimant's solicitor begins preparing a leapfrog appeal application. The defendant consents in writing to the leapfrog procedure.
-
-Can a leapfrog appeal proceed directly from the High Court to the Supreme Court?
-A. Yes, because both parties consent to the leapfrog procedure and the High Court Judge has certified the case involves a point of general public importance.
-B. No, because leapfrog appeals require the High Court Judge's certificate, both parties' consent, and the Supreme Court's permission.
-C. Yes, because the case involves interpretation of a statute, which automatically qualifies for the leapfrog procedure under the Administration of Justice Act 1969.
-D. No, because leapfrog appeals are only available in criminal cases, not civil commercial disputes.
-E. Yes, because the existence of two conflicting Court of Appeal decisions makes it pointless to appeal to the Court of Appeal first.
+A High Court Judge in the King’s Bench Division rules against the claimant in a construction contract dispute involving statutory interpretation under the Housing Grants, Construction and Regeneration Act 1996. 
+There is no binding precedent, and two conflicting Court of Appeal decisions exist on related points. The Judge certifies the case involves a point of law of general public importance. Both parties consent to a leapfrog appeal directly to the Supreme Court.
+Can the appeal proceed directly from the High Court to the Supreme Court?
+A. Yes, because both parties consent and the High Court Judge certified the case.
+B. No, because leapfrog appeals require the High Court Judge's certificate, both parties’ consent, and Supreme Court permission.
+C. Yes, because statutory interpretation automatically qualifies for leapfrog under the Administration of Justice Act 1969.
+D. No, because leapfrog appeals are only available in criminal cases.
+E. Yes, because conflicting Court of Appeal decisions make an intermediate appeal pointless.
 The correct option is B.
 
 Explanation:
@@ -1580,24 +1692,21 @@ Option E is incorrect because conflicting Court of Appeal decisions alone do not
 
 Question 88 (DISPUTE RESOLUTION)
 
-A defendant is convicted in the Magistrates' Court of common assault following a trial before three lay magistrates. The defendant had pleaded not guilty and gave evidence in his own defence, claiming he acted in self-defence. The magistrates rejected his account, preferring the evidence of the complainant and an independent witness. The defendant is sentenced to a community order requiring 80 hours of unpaid work. 
-
-The defendant remains convinced of his innocence and believes the magistrates were wrong to reject his self-defence argument. He also believes that one of the witnesses against him was not credible and that if the case were heard again, he could present his defence more effectively. The defendant did not have legal representation at his trial but now instructs a solicitor who advises that he has options to challenge the conviction. The solicitor explains the different routes available for challenging the magistrates' decision and the procedures involved in each route.
-
-What is the defendant's position regarding appealing his conviction from the Magistrates' Court?
-A. The defendant must apply for permission to appeal to the Crown Court and demonstrate that the appeal has a real prospect of success.
-B. The defendant has an automatic right to appeal to the Crown Court, where the case will be completely re-heard with witnesses giving evidence again.
-C. The defendant can only appeal on a point of law by way of case stated to the High Court, not to the Crown Court.
-D. The defendant cannot appeal because he did not have legal representation at the Magistrates' Court trial.
-E. The defendant must first apply to the Magistrates' Court for permission to appeal before the Crown Court can hear the case.
-
-The correct option is B.
+Samson, a defendant is convicted in the Magistrates’ Court of common assault after pleading not guilty and giving evidence claiming self-defence.The magistrates reject his account, preferring other witnesses. He is sentenced to 80 hours’ unpaid work. 
+He did not have legal representation at trial but now instructs a solicitor and wants to challenge the conviction.
+What is the defendant’s position regarding appealing his conviction?
+A. Must apply for permission to appeal to the Crown Court and show a real prospect of success.
+B. Has an automatic right to appeal to the Crown Court, with a full re-hearing and witnesses giving evidence again.
+C. Can only appeal on a point of law by case stated to the High Court.
+D. Cannot appeal because he lacked legal representation at trial.
+E. Must first apply to the Magistrates’ Court for permission before the Crown Court can hear the case.
+Correct Answer: B
 Explanation:
-Option B is correct because it accurately states that a defendant convicted in the Magistrates' Court has an automatic right to appeal to the Crown Court without needing permission. This is a key exception to the usual rule that appeals require permission. The appeal takes the form of a complete re-hearing before a Crown Court Judge and usually two magistrates. The case is heard again from the beginning with witnesses giving evidence afresh. This provides a relatively quick and accessible route for defendants to challenge magistrates' decisions on both conviction and sentence.
-Option A is incorrect because permission is not required for appeals from the Magistrates' Court to the Crown Court. The right of appeal is automatic.
-Option C is incorrect because whilst appeal by case stated to the High Court is one route (for points of law), it is not the only route. Appeals on fact and mixed fact/law can be made to the Crown Court.
-Option D is incorrect because the absence of legal representation at trial does not prevent a right of appeal. The right exists regardless of representation status.
-Option E is incorrect because no application for permission is required to the Magistrates' Court. The defendant simply files a notice of appeal with the Crown Court.
+B is correct. A defendant convicted in the Magistrates’ Court has an automatic right of appeal to the Crown Court. The appeal is a complete re-hearing, with witnesses giving evidence afresh, and both conviction and sentence can be challenged. This provides a straightforward route for defendants dissatisfied with magistrates’ findings.
+A is incorrect. Permission is not required for appeals from the Magistrates’ Court to the Crown Court; the right is automatic.
+C is incorrect. Appeal by case stated to the High Court is available only for points of law, not factual disputes. The Crown Court can hear appeals on fact and mixed fact/law.
+D is incorrect. Lack of legal representation at the original trial does not prevent the right to appeal.
+E is incorrect. No prior application to the Magistrates’ Court is necessary; the defendant files a notice of appeal directly with the Crown Court.
 
 Question 89 (LEGAL SYSTEM)
 
@@ -1622,7 +1731,11 @@ E is incorrect because a Ministerial Statement is an oral or written announcemen
 
 Question 90 (CONSTITUTIONAL LAW)
 
-A backbench MP, Sarah Jones, is deeply concerned about the environmental impact of disposable barbecue grills, which have been linked to several serious heathland fires. She wishes to introduce a Bill to ban their sale and use in all national parks and areas of outstanding natural beauty. As she is not a government minister, she must enter a ballot to win the limited parliamentary time allocated for this type of legislation. She is successful in the ballot and introduces the "Disposable Barbecues (Prohibition) Bill." The Bill receives its First Reading, which is a formality. It then proceeds to a Second Reading, where its general principles are debated. Despite receiving cross party support, the government does not allocate any of its own parliamentary time to the Bill, and it ultimately runs out of time before the end of the parliamentary session, causing it to "fall." 
+A backbench MP, Sarah Jones, is deeply concerned about the environmental impact of disposable barbecue grills, which have been linked to several serious heathland fires. She wishes to introduce a Bill to ban their sale and use in all national parks and areas of outstanding natural beauty. As she is not a government minister, she must enter a ballot to win the limited parliamentary time allocated for this type of legislation. 
+
+She is successful in the ballot and introduces the "Disposable Barbecues (Prohibition) Bill." The Bill receives its First Reading, which is a formality. It then proceeds to a Second Reading, where its general principles are debated. 
+
+Despite receiving cross party support, the government does not allocate any of its own parliamentary time to the Bill, and it ultimately runs out of time before the end of the parliamentary session, causing it to "fall." 
 
 What is the correct term for a Bill of this type, introduced by an MP or Lord who is not a government minister?
 
