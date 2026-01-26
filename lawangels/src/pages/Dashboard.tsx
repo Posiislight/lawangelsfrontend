@@ -6,10 +6,13 @@ import DashboardLayout from '../components/DashboardLayout'
 import GlobalSearch from '../components/GlobalSearch'
 import { dashboardApi, type UserStats, type RecentActivity } from '../services/dashboardApi'
 import type { Exam } from '../services/quizApi'
+import { INSPIRATIONAL_QUOTES } from '../constants/quotes'
 
 export default function Dashboard() {
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState('overview')
+  // Initialize with a random quote
+  const [quote, setQuote] = useState(() => INSPIRATIONAL_QUOTES[Math.floor(Math.random() * INSPIRATIONAL_QUOTES.length)])
   const [isLoading, setIsLoading] = useState(true)
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([])
@@ -63,6 +66,16 @@ export default function Dashboard() {
     }
 
     fetchDashboardData()
+  }, [])
+
+  // Rotate quote every 20 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomQuote = INSPIRATIONAL_QUOTES[Math.floor(Math.random() * INSPIRATIONAL_QUOTES.length)]
+      setQuote(randomQuote)
+    }, 20 * 60 * 1000) // 20 minutes
+
+    return () => clearInterval(interval)
   }, [])
 
   const learningModes = [
@@ -156,10 +169,12 @@ export default function Dashboard() {
               Welcome {user?.first_name || 'Student'}! 👋
             </h1>
             <p className="text-sm md:text-base text-gray-600">
-              {userStats?.currentStreak && userStats.currentStreak > 0
-                ? `${userStats.currentStreak} day streak! Keep up the momentum!`
-                : 'Keep up the momentum!'
-              }
+              {userStats?.currentStreak && userStats.currentStreak > 0 && (
+                <span className="font-semibold text-orange-600 mr-2">
+                  {userStats.currentStreak} day streak!
+                </span>
+              )}
+              {quote}
             </p>
           </div>
 
