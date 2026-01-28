@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext'
 import { useSidebar } from '../contexts/SidebarContext'
-import { BookOpen, Home, HelpCircle, X, Book, Video, Grid, Brain, FileText, Bot, ClipboardList, LogOut } from 'lucide-react'
+import { BookOpen, Home, HelpCircle, X, Book, Video, Grid, Brain, FileText, Bot, ClipboardList, LogOut, Lightbulb, Calendar } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../assets/lawangelslogo.png'
 import logotext from '../assets/logotext.png'
@@ -111,6 +111,12 @@ export default function Sidebar() {
               <Link to="/angel-ai" className="block" onClick={handleNavClick}>
                 <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" active={isActive('/angel-ai')} open={true} />
               </Link>
+              <Link to="/sqe-tips" className="block" onClick={handleNavClick}>
+                <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" active={isActive('/sqe-tips')} open={true} />
+              </Link>
+              <Link to="/key-timeframes" className="block" onClick={handleNavClick}>
+                <NavItem icon={<Calendar className="w-5 h-5" />} label="Key Timeframes" active={isActive('/key-timeframes')} open={true} />
+              </Link>
             </div>
           </nav>
 
@@ -211,6 +217,12 @@ export default function Sidebar() {
         <div className="space-y-2">
           <Link to="/angel-ai" className="block">
             <NavItem icon={<Bot className="w-5 h-5" />} label="Angel AI" active={isActive('/angel-ai')} open={sidebarOpen} />
+          </Link>
+          <Link to="/sqe-tips" className="block">
+            <NavItem icon={<Lightbulb className="w-5 h-5" />} label="SQE Tips" active={isActive('/sqe-tips')} open={sidebarOpen} />
+          </Link>
+          <Link to="/key-timeframes" className="block">
+            <NavItem icon={<Calendar className="w-5 h-5" />} label="Key Timeframes" active={isActive('/key-timeframes')} open={sidebarOpen} />
           </Link>
         </div>
       </nav>

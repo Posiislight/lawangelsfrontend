@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext'
-import { Bell, ArrowRight, CheckCircle } from 'lucide-react'
+import { Bell, CheckCircle, Eye } from 'lucide-react'
 import { useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 
@@ -10,193 +10,235 @@ export default function SQETips() {
   const tips = {
     'exam-strategy': [
       {
-        title: 'Time Management During the Exam',
+        title: 'Race Against the Clock',
         category: 'Exam Strategy',
         difficulty: 'Intermediate',
-        reads: 2450,
+        reads: 3200,
         icon: '⏱️',
-        content: 'The SQE exams are timed assessments. Allocate approximately 1 minute per mark. For a 50-mark question, you should spend around 50 minutes. Practice under timed conditions to develop speed and accuracy. Leave time at the end to review your answers.',
+        content: 'You have roughly 102 seconds (approx 1.7 mins) per question. Anything slower puts pressure on later questions. Treat the exam like a race.',
         tips: [
-          'Read all questions before starting',
-          'Tackle easy questions first to build confidence',
-          'Flag difficult questions and return to them',
-          'Save 10 minutes for final review'
+          'Track your pace strictly',
+          'Don\'t get stuck on one question',
+          'Flag uncertain answers and move on',
+          '70 seconds average pace'
         ]
       },
       {
-        title: 'Structuring Answers Effectively',
-        category: 'Exam Strategy',
-        difficulty: 'Intermediate',
-        reads: 1890,
-        icon: '📝',
-        content: 'Use a clear structure: IRAC (Issue, Rule, Application, Conclusion) for problem questions and a logical flow for essay questions. State the issue clearly, explain the relevant law, apply it to the facts, and conclude.',
-        tips: [
-          'Use paragraph breaks to separate points',
-          'Start with a clear statement of the legal issue',
-          'Cite relevant case law and legislation',
-          'Link each point back to the question asked'
-        ]
-      },
-      {
-        title: 'Exam Technique - Multiple Choice Questions',
+        title: 'Read the Call First',
         category: 'Exam Strategy',
         difficulty: 'Beginner',
-        reads: 3100,
-        icon: '✓',
-        content: 'For MCQs: read the question carefully, identify what is being asked, eliminate obviously wrong answers first, and be cautious of options that seem too broad or contain absolutes.',
+        reads: 2800,
+        icon: '📜',
+        content: 'Know exactly what you’re being asked before diving into the scenario. Read the question line (the last sentence) first to frame your reading of the facts.',
         tips: [
-          'Eliminate obviously incorrect options',
-          'Be wary of "all of the above" options',
-          'Pay attention to words like "always", "never"',
-          'Mark for review if unsure'
+          'Read the last sentence first',
+          'Identify the specific legal issue',
+          'Scan facts with the specific question in mind',
+          'Avoid getting distracted by irrelevant details'
         ]
       },
       {
-        title: 'Managing Exam Anxiety',
+        title: 'Master the Interface',
         category: 'Exam Strategy',
         difficulty: 'Beginner',
-        reads: 2200,
-        icon: '🧠',
-        content: 'Anxiety is normal but manageable. Practice past papers under exam conditions, maintain a healthy sleep schedule, and use breathing techniques during the exam. Remember that you\'re aiming to pass, not to be perfect.',
+        reads: 1500,
+        icon: '💻',
+        content: 'Familiarity with navigation, flagging, and timing reduces anxiety on the day. Know exactly how to flag questions and check your progress.',
         tips: [
-          'Practice deep breathing (4-4-4 technique)',
-          'Do timed practice papers regularly',
-          'Get adequate sleep before the exam',
-          'Arrive early to settle in'
+          'Learn the flagging system',
+          'Know how to review unanswered questions',
+          'Get comfortable with the screen layout',
+          'Don\'t waste time learning tools during exam'
+        ]
+      },
+      {
+        title: 'Build Endurance',
+        category: 'Exam Strategy',
+        difficulty: 'Advanced',
+        reads: 2100,
+        icon: '🏃',
+        content: 'Many candidates say SQE 1 is as much an endurance exam as a knowledge test. Online exam fatigue is real. Simulate full-length sittings to build stamina.',
+        tips: [
+          'Simulate full 2.5 hour sessions',
+          'Practice maintaining focus',
+          'Don\'t just do short quizzes',
+          'Build up mental stamina'
+        ]
+      },
+      {
+        title: 'Fuel Your Brain',
+        category: 'Exam Strategy',
+        difficulty: 'Beginner',
+        reads: 1200,
+        icon: '🍳',
+        content: 'Low blood sugar = slower thinking. Candidates who skipped breakfast often regretted it. Eat a proper meal before the exam.',
+        tips: [
+          'Eat a slow-release carb breakfast',
+          'Stay hydrated',
+          'Avoid heavy sugar crashes',
+          'Brain function requires fuel'
         ]
       }
     ],
     'common-mistakes': [
       {
-        title: 'Confusing Similar Legal Concepts',
+        title: 'The "Reasonable Man" Trap',
         category: 'Common Mistakes',
         difficulty: 'Intermediate',
-        reads: 1650,
-        icon: '❌',
-        content: 'Students often confuse conditions precedent with conditions subsequent, or misidentify when a duty of care is owed. Create flashcards distinguishing similar concepts. Use case examples to anchor the differences.',
+        reads: 3100,
+        icon: '🧔',
+        content: 'It’s a classic distractor. Only choose the "reasonable man" option if you are certain it correctly applies to the specific legal test in question. Often it is too vague.',
         tips: [
-          'Create comparison tables',
-          'Use real case examples',
-          'Test yourself regularly on distinctions',
-          'Teach the concept to someone else'
+          'Be skeptical of "reasonable" options',
+          'Look for specific legal tests first',
+          'Check if specific case law applies',
+          'Don\'t use it as a default guess'
         ]
       },
       {
-        title: 'Ignoring the Specific Question Asked',
+        title: 'Absolute Language Red Flags',
         category: 'Common Mistakes',
         difficulty: 'Beginner',
-        reads: 2300,
-        icon: '🎯',
-        content: 'The most common mistake is answering a different question from the one asked. Underline key words in the question, identify what specifically is being asked, and ensure your answer directly addresses the question.',
+        reads: 2900,
+        icon: '🚩',
+        content: 'Words like "always", "never", or "automatically" are often red flags. The law usually has exceptions. Be very suspicious of answers containing these absolutes.',
         tips: [
-          'Highlight the key words in every question',
-          'Summarize what is being asked in one sentence',
-          'Check that your answer directly addresses the question',
-          'Avoid generic explanations'
+          'Highlight "always/never/automatically"',
+          'Look for exceptions',
+          'Law is rarely absolute',
+          'Prefer qualified answers'
         ]
       },
       {
-        title: 'Applying Law Without Reference to Facts',
+        title: 'Avoid Overthinking',
         category: 'Common Mistakes',
         difficulty: 'Intermediate',
-        reads: 1920,
-        icon: '🔗',
-        content: 'Don\'t just state the law - apply it to the specific facts given. Examiners want to see how you analyze the given scenario using legal principles. Always bridge between the law and the facts.',
+        reads: 2500,
+        icon: '🧠',
+        content: 'Many candidates report changing correct answers because they assumed the exam was "trying to trick them." Trust your first instinct unless you clearly misread.',
         tips: [
-          'For each legal rule, apply it to the facts',
-          'Use phrases like "In this case..." or "Applying this to..."',
-          'Identify specific facts that are relevant',
-          'Explain why certain facts matter'
+          'Stick to your first choice',
+          'Only change if you misread facts',
+          'Don\'t invent traps',
+          'First instinct is often subconscious knowledge'
         ]
       },
       {
-        title: 'Not Citing Authority',
+        title: 'Length ≠ Correctness',
         category: 'Common Mistakes',
         difficulty: 'Beginner',
-        reads: 1780,
-        icon: '📚',
-        content: 'Always cite the source of your legal statements - whether it\'s case law, legislation, or precedent. This demonstrates authority and strengthens your argument. Know the key leading cases for each topic.',
+        reads: 1800,
+        icon: '📏',
+        content: 'Don’t assume the longest answer is correct. Concise answers are frequently the right ones. Don\'t pick an answer just because it "sounds" the most like a lawyer.',
         tips: [
-          'Learn leading cases for each topic',
-          'Always cite when stating a legal principle',
-          'Use correct case citation format',
-          'Reference the specific section of legislation'
+          'Concise is often correct',
+          'Focus on legal accuracy',
+          'Ignore word count',
+          'Read every option fully'
+        ]
+      },
+      {
+        title: 'Real-World Logic vs Law',
+        category: 'Common Mistakes',
+        difficulty: 'Intermediate',
+        reads: 2200,
+        icon: '🌍',
+        content: 'Answer according to the law, not what feels fair or commercially sensible. Professional conduct rules often defy "common sense" business logic.',
+        tips: [
+          'Apply strict legal rules',
+          'Ignore personal fairness',
+          'Commercial sense isn\'t always legal',
+          'Follow the statute/code'
         ]
       }
     ],
     'study-techniques': [
       {
-        title: 'Active Recall and Spaced Repetition',
+        title: 'Master Key Timeframes',
         category: 'Study Techniques',
-        difficulty: 'Beginner',
-        reads: 2800,
-        icon: '🔄',
-        content: 'Rather than passive reading, use active recall: cover notes and try to remember the information. Space out your learning over time rather than cramming. This builds long-term retention. Use the 70/30 rule: 70% of time retrieving information, 30% learning new material.',
+        difficulty: 'Intermediate',
+        reads: 3500,
+        icon: '📅',
+        content: 'Limitation periods, appeal windows, notice requirements, and procedural deadlines are easy marks, but only if you’ve memorised them cold.',
         tips: [
-          'Create flashcards and test yourself daily',
-          'Practice questions without looking at notes',
-          'Review material at increasing intervals',
-          'Teach concepts to study partners'
+          'Use the Key Timeframes tool',
+          'Memorize exact day counts',
+          'Know when periods start',
+          'These are "free marks"'
         ]
       },
       {
-        title: 'Case Analysis Method',
+        title: 'Accounting Entries Mantra',
         category: 'Study Techniques',
-        difficulty: 'Intermediate',
+        difficulty: 'Advanced',
         reads: 2100,
-        icon: '⚖️',
-        content: 'For each important case, use this structure: Facts → Issue → Decision → Reasoning → Application. This ensures you understand not just the outcome but the legal principle established.',
+        icon: '💷',
+        content: 'Repetition works. If you can recite comprehensive accounting entries daily, solicitor accounting rules will stick. Make it a daily mantra.',
         tips: [
-          'Create case analysis templates',
-          'Study cases in context of topic',
-          'Compare similar cases side by side',
-          'Understand the principle, not just the outcome'
+          'Recite entries daily',
+          'Know Debit/Credit rules',
+          'Practice writing them out',
+          'Visualize the ledger movement'
         ]
       },
       {
-        title: 'Concept Mapping and Visual Learning',
+        title: 'Active Revision',
         category: 'Study Techniques',
         difficulty: 'Beginner',
-        reads: 1950,
-        icon: '🗺️',
-        content: 'Create visual maps of how legal concepts relate. For example, map the requirements for a valid contract or the different types of trusts. Visual learning helps you see the big picture and connections between topics.',
+        reads: 2700,
+        icon: '🔄',
+        content: 'Candidates consistently say improvement came after heavy question practice, not just reading notes. Revise from questions, not just textbooks.',
         tips: [
-          'Use mind mapping software or draw by hand',
-          'Color-code different concepts',
-          'Show relationships between topics',
-          'Review maps regularly'
+          'Prioritize practice questions',
+          'Learn from wrong answers',
+          'Active recall over passive reading',
+          'Simulate exam thinking'
         ]
       },
       {
-        title: 'Practice Under Exam Conditions',
+        title: 'Consistency Beats Intensity',
         category: 'Study Techniques',
         difficulty: 'Intermediate',
-        reads: 2450,
-        icon: '⏰',
-        content: 'The best preparation is practicing under timed, exam-like conditions. This builds stamina, improves your speed, and reduces exam anxiety. Aim to complete at least 10 full practice exams before your SQE.',
+        reads: 1900,
+        icon: '📈',
+        content: 'Candidates who passed often say steady daily revision outperformed last-minute cramming. A proper night’s sleep beats late-night cramming.',
         tips: [
-          'Use official SQE sample papers',
-          'Time yourself strictly',
-          'Mark your answers objectively',
-          'Review mistakes thoroughly'
+          'Study daily in blocks',
+          'Avoid burnout',
+          'Sleep helps memory retention',
+          'Plan long-term'
+        ]
+      },
+      {
+        title: 'Elimination Technique',
+        category: 'Study Techniques',
+        difficulty: 'Beginner',
+        reads: 3100,
+        icon: '🗑️',
+        content: 'Often two options are clearly wrong. Narrowing the field to two options dramatically increases your statistical chance of accuracy.',
+        tips: [
+          'Cross out obvious wrongs',
+          'Focus on remaining options',
+          'Compare closely',
+          'Increases specific accuracy'
         ]
       }
     ]
   }
 
   const categories = [
-    { id: 'exam-strategy', label: 'Exam Strategy', count: 4 },
-    { id: 'common-mistakes', label: 'Common Mistakes', count: 4 },
-    { id: 'study-techniques', label: 'Study Techniques', count: 4 }
+    { id: 'exam-strategy', label: 'Exam Strategy', count: tips['exam-strategy'].length },
+    { id: 'common-mistakes', label: 'Common Mistakes', count: tips['common-mistakes'].length },
+    { id: 'study-techniques', label: 'Study Techniques', count: tips['study-techniques'].length }
   ]
 
   const quickTips = [
-    { icon: '📖', title: 'Read the question twice', description: 'Read questions twice - once to understand, once to ensure you understand what\'s being asked' },
-    { icon: '🎯', title: 'Focus on the law being tested', description: 'Identify which area of law is being tested and what specific principle is at issue' },
-    { icon: '💡', title: 'Know your key cases', description: 'Memorize landmark cases and their significance in establishing legal principles' },
-    { icon: '✍️', title: 'Practice your handwriting', description: 'Clear writing is easier to mark and shows you\'ve thought about your answer' },
-    { icon: '🔍', title: 'Spot issues immediately', description: 'Develop the skill to identify legal issues quickly - essential for time management' },
-    { icon: '📊', title: 'Balance theory and practice', description: '60% exam-style questions, 40% theory to ensure you can apply what you know' }
+    { icon: '⏱️', title: '70 Seconds', description: 'Be strict with your timing. Average 1.7 minutes per question.' },
+    { icon: '🚫', title: 'Avoid Absolutes', description: 'Be wary of "always" and "never". Law loves exceptions.' },
+    { icon: '🏁', title: 'Trust First Instinct', description: 'Statistically, your first choice is usually right.' },
+    { icon: '🔁', title: 'Consistency', description: 'Daily steady practice beats panic cramming.' },
+    { icon: '🧐', title: 'Read the Call', description: 'Read the final question sentence first.' },
+    { icon: '😴', title: 'Sleep Well', description: 'Rest is crucial for recall and endurance.' }
   ]
 
   return (
@@ -261,8 +303,8 @@ export default function SQETips() {
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-6 py-2 rounded-lg font-medium transition-all ${selectedCategory === cat.id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-500'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-500'
                   }`}
               >
                 {cat.label} ({cat.count})
@@ -285,11 +327,7 @@ export default function SQETips() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs px-3 py-1 bg-blue-100 text-blue-600 rounded-full font-medium">
-                    {tip.difficulty}
-                  </span>
-                </div>
+
               </div>
 
               <p className="text-gray-700 mb-4">{tip.content}</p>
@@ -311,23 +349,11 @@ export default function SQETips() {
                   <Eye className="w-4 h-4" />
                   {tip.reads.toLocaleString()} reads
                 </span>
-                <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
-                  Read More <ArrowRight className="w-4 h-4" />
-                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
     </DashboardLayout>
-  )
-}
-
-function Eye({ className }: { className: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-    </svg>
   )
 }

@@ -198,11 +198,23 @@ export default function GamifiedQuizResults() {
                     </button>
 
                     <button
-                        onClick={() => navigate(`/quiz/play/${summary.topic}/${attemptId}`)}
-                        className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg"
+                        onClick={async () => {
+                            if (!summary) return
+                            try {
+                                setLoading(true)
+                                const newAttempt = await topicQuizApi.createAttempt(summary.topic)
+                                navigate(`/quiz/play/${summary.topic}/${newAttempt.id}`)
+                            } catch (err) {
+                                console.error('Failed to restart quiz:', err)
+                                setLoading(false)
+                                // Optional: Show error toast/alert here
+                            }
+                        }}
+                        disabled={loading}
+                        className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:from-cyan-600 hover:to-blue-600 transition shadow-lg disabled:opacity-50"
                     >
-                        <RotateCcw className="w-5 h-5" />
-                        Play Again
+                        {loading ? <Loader className="w-5 h-5 animate-spin" /> : <RotateCcw className="w-5 h-5" />}
+                        {loading ? 'Starting...' : 'Play Again'}
                     </button>
                 </div>
 

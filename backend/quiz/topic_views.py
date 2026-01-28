@@ -194,7 +194,28 @@ class TopicQuizAttemptViewSet(viewsets.ModelViewSet):
             total_questions=num_questions,
             lives_remaining=3,
         )
-        attempt.set_question_id_list(selected_questions)
+        
+        # Snapshot questions for performance
+        snapshot = []
+        for q_id in selected_questions:
+            try:
+                q = PracticeQuestion.objects.get(id=q_id)
+                snapshot.append({
+                    'id': q.id,
+                    'question_id': q.question_id,
+                    'text': q.text,
+                    'difficulty': q.difficulty,
+                    'options': q.options,
+                    'correct_answer': q.correct_answer,
+                    'explanation': q.explanation
+                })
+            except PracticeQuestion.DoesNotExist:
+                continue
+                
+        attempt.questions_snapshot = snapshot
+        attempt.correct_answers = {str(q['id']): q['correct_answer'] for q in snapshot} # Populate cache
+        attempt.set_question_id_list([q['id'] for q in snapshot])
+        attempt.total_questions = len(snapshot) # Adjust if any missing
         attempt.save()
         
         logger.info(f"User {request.user.username} started topic quiz: {topic_slug} with {num_questions} questions")
@@ -219,6 +240,35 @@ class TopicQuizAttemptViewSet(viewsets.ModelViewSet):
         question_ids = attempt.get_question_id_list()
         if attempt.current_question_index >= len(question_ids):
             return Response({'error': 'No more questions'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Try to use snapshot if available
+        if attempt.questions_snapshot:
+            try:
+                # Find question in snapshot
+                current_q_id = attempt.get_question_id_list()[attempt.current_question_index]
+                question_data = next((q for q in attempt.questions_snapshot if q['id'] == current_q_id), None)
+                
+                if question_data:
+                    # Filter out correct answer for client
+                    client_q_data = {
+                        'id': question_data['id'],
+                        'question_id': question_data['question_id'],
+                        'text': question_data['text'],
+                        'difficulty': question_data['difficulty'],
+                        'options': question_data['options']
+                    }
+                    
+                    return Response({
+                        'question': client_q_data,
+                        'question_number': attempt.current_question_index + 1,
+                        'total_questions': attempt.total_questions,
+                        'lives_remaining': attempt.lives_remaining,
+                        'points_earned': attempt.points_earned,
+                        'current_streak': attempt.current_streak,
+                    })
+            except Exception as e:
+                logger.error(f"Error using snapshot for attempt {attempt.id}: {e}")
+                # Fallback to DB query below
         
         current_q_id = question_ids[attempt.current_question_index]
         logger.info(f"Attempt {attempt.id}: Fetching question {attempt.current_question_index + 1}/{len(question_ids)} (ID: {current_q_id})")
@@ -290,17 +340,42 @@ class TopicQuizAttemptViewSet(viewsets.ModelViewSet):
         selected_answer = serializer.validated_data['selected_answer']
         time_spent = serializer.validated_data.get('time_spent_seconds', 0)
 
-        # Re-fetch Question using Expected PK to be safe
-        try:
-            question = PracticeQuestion.objects.get(id=expected_q_pk)
-        except PracticeQuestion.DoesNotExist:
-            return Response({'error': 'Question broken'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # Use snapshot if available
+        question_data = None
+        if attempt.questions_snapshot:
+            question_data = next((q for q in attempt.questions_snapshot if q['id'] == expected_q_pk), None)
+            
+        if attempt.correct_answers and str(expected_q_pk) in attempt.correct_answers:
+             correct_answer = attempt.correct_answers[str(expected_q_pk)]
+        else:
+             # Fallback to snapshot (shouldn't happen if initialized correctly)
+             if question_data:
+                correct_answer = question_data['correct_answer']
+             else:
+                # DB fallback
+                 try:
+                    q = PracticeQuestion.objects.get(id=expected_q_pk)
+                    correct_answer = q.correct_answer
+                 except PracticeQuestion.DoesNotExist:
+                     return Response({'error': 'Question broken'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        # Get explanation (still need textual data)
+        if question_data:
+            explanation = question_data['explanation']
+        else:
+             # Fallback
+             try:
+                question = PracticeQuestion.objects.get(id=expected_q_pk)
+                explanation = question.explanation
+             except PracticeQuestion.DoesNotExist:
+                 explanation = ""
+
 
         # Check if already answered
         if TopicQuizAnswer.objects.filter(attempt=attempt, question_id=expected_q_pk).exists():
              return Response({'error': 'Question already answered'}, status=status.HTTP_400_BAD_REQUEST)
 
-        is_correct = selected_answer == question.correct_answer
+        is_correct = selected_answer == correct_answer
         
         # Record the answer and update game state
         points_earned = attempt.record_answer(is_correct)
@@ -330,22 +405,51 @@ class TopicQuizAttemptViewSet(viewsets.ModelViewSet):
                 if attempt.current_streak > profile.longest_streak:
                     profile.longest_streak = attempt.current_streak
             
+            if attempt.status == 'completed':
+                profile.total_quizzes_completed += 1
+                profile.add_xp(attempt.points_earned)
+                
+                if attempt.current_streak > profile.longest_streak:
+                    profile.longest_streak = attempt.current_streak
+            
             profile.save()
+            
+        else:
+             # Optimize save for in-progress updates - avoid writing back huge snapshot/cache blobs
+             attempt.save(update_fields=[
+                 'points_earned', 'current_streak', 'correct_count', 'wrong_count', 
+                 'lives_remaining', 'status', 'current_question_index'
+             ])
         
         # Prepare next question if available
         next_question_data = None
         if attempt.status == 'in_progress' and attempt.current_question_index < len(question_ids):
             next_q_id = question_ids[attempt.current_question_index]
-            try:
-                next_q = PracticeQuestion.objects.get(id=next_q_id)
-                next_question_data = TopicQuizQuestionSerializer(next_q).data
-            except PracticeQuestion.DoesNotExist:
-                pass
+            
+            # Use snapshot for next question
+            if attempt.questions_snapshot:
+                next_q_data = next((q for q in attempt.questions_snapshot if q['id'] == next_q_id), None)
+                if next_q_data:
+                    next_question_data = {
+                        'id': next_q_data['id'],
+                        'question_id': next_q_data['question_id'],
+                        'text': next_q_data['text'],
+                        'difficulty': next_q_data['difficulty'],
+                        'options': next_q_data['options']
+                    }
+            
+            if not next_question_data:
+                # Fallback
+                try:
+                    next_q = PracticeQuestion.objects.get(id=next_q_id)
+                    next_question_data = TopicQuizQuestionSerializer(next_q).data
+                except PracticeQuestion.DoesNotExist:
+                    pass
         
         response_data = {
             'is_correct': is_correct,
-            'correct_answer': question.correct_answer,
-            'explanation': question.explanation,
+            'correct_answer': correct_answer,
+            'explanation': explanation,
             'points_earned': points_earned,
             'total_points': attempt.points_earned,
             'lives_remaining': attempt.lives_remaining,

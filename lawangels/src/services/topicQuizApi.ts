@@ -232,6 +232,10 @@ class TopicQuizApiClient {
         });
     }
 
+    async createAttempt(topic: string): Promise<TopicQuizAttempt> {
+        return this.startQuiz(topic);
+    }
+
     async getAttempt(attemptId: number): Promise<TopicQuizAttempt> {
         return this.request<TopicQuizAttempt>(`/topic-attempts/${attemptId}/`);
     }

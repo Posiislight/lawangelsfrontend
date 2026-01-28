@@ -1,0 +1,206 @@
+--- CONTENT OF Basic Accounting Principles For Solicitors Account.docx ---
+Basic Accounting Principles For Solicitors Account
+COMPREHENSIVE ACCOUNTING ENTRIES TABLE
+Principle | Explanation | Practical Example
+1. Debit the Receiver, Credit the Giver | This is the "Golden Rule" of double-entry. If the bank receives money, you debit the bank. If a client gives you money, you credit their ledger. | You receive a £500 deposit. Debit Cash (Bank) because the bank received it. Credit Client Ledger because the client gave it.
+2. Income Balances are Credits | Money that is "yours" (the firm's profit) or money you "owe" (client funds) sits on the Credit side of a ledger. | At the end of a case, you have £1,000 in the client's name. This should show as a Credit on their ledger—representing a debt you owe them.
+3. Profit & VAT are Credits | These represent the firm’s earnings. They only move to the Debit side when you actually pay them out (e.g., paying VAT to HMRC). | When you send a bill for £100 + £20 VAT, you Credit Profit Costs (£100) and Credit VAT (£20) to record that income.
+4. Identify the "Who" | Before writing anything, ask: "Who is the money moving between?" Is it Client-to-Firm, Firm-to-Third-Party, or Client-to-Client? | Moving a deposit from a buyer to a seller? You Debit the Giver (Buyer) and Credit the Receiver (Seller).
+5. The Interest Rule | You cannot keep the interest earned on client money for yourself. It belongs to the client unless you have a written agreement saying otherwise. | If a client’s £100k generates £50 interest in your account, you must Credit that £50 to their ledger.
+6. The 5-Week Rule | You must perform a "reconciliation" (matching your books to the bank statement) at least every 5 weeks to catch errors early. | Every month, the COFA (Compliance Officer) checks that the total on the Client Ledgers matches the actual cash in the Client Bank Account.
+7. The £250k Threshold | Not every firm needs an expensive accountant's audit. If you hold very little client money, the SRA waives the formal report. | A small firm that never holds more than £10,000 on average does not need to submit a formal Accountant's Report.
+8. Petty Cash | This is for "milk and stamps." It’s firm money kept in a physical box for tiny office expenses. | You buy a £2 pack of pens. Debit Stationery Ledger (the receiver of the pens) and Credit Petty Cash (the giver of the money).
+No | Transaction | Accounting Entry
+1 | Firm receives client money (e.g., property deposit) | Debit Cash sheet client account;  Credit Client ledger
+2 | Firm pays out client money (e.g., to a seller) | Debit Client ledger;  Credit Cash sheet client account
+3 | Receiving mortgage funds from a Bank | Debit Cash sheet client account;  Credit Client ledger
+4 | Acting for both Lender (Bank) and Buyer | Debit cash client account; Credit Client ledger (Bank)
+
+2. Debit Client ledger (Bank); Credit Client ledger (Buyer)
+5 | Paying a professional disbursement (as agent) | Debit Client ledger;  Credit Cash sheet client account
+6 | Deposit held for client as a stakeholder | Debit cash sheet client account;   Credit stakeholder ledger
+7 | Completion: transfer stakeholder money to seller client | Debit Client stakeholder ledger; Credit Sellers ledger
+8 | Withdrawing cash for petty cash | Debit petty cash account; Credit Cash business section
+9 | Making a petty cash payment (e.g., stationery) | Debit Stationery ledger; Credit petty cash
+10 | Receiving a "Mixed" Cheque (Fees + Disbursement) | Debit Cash sheet client account; Credit Client ledger
+11 | Transferring Firm's part of Mixed Cheque (14-day rule) | Debit Client ledger; Credit Cash sheet client account
+
+Debit Cash business section; Credit Business ledger
+12 | Sending a Bill (Recording Profit Costs & VAT) | Debit Business ledger (Client side)
+
+Credit Profit costs ledger AND Credit VAT ledger
+13 | Paying a Disbursement from Office Account (Firm funds it) | Debit Business ledger (Client side); 
+
+Credit Cash business section
+14 | Client pays a Bill from their own personal funds | Debit Cash business section; Credit Business ledger
+15 | Transferring Client money to Business A/c to pay a Bill | Debit Client ledger; Credit Cash sheet client account
+
+Debit Cash business section; Credit Business ledger
+16 | Inter-Client Transfer (e.g., A buys B’s car) | Debit Client A Ledger; Credit Client B Ledger
+17 | Interest received on General Client A/c (kept by firm) | Debit Cash sheet client account; Credit Business ledger (Income)
+18 | Interest paid to Client from Firm's own funds | Debit Business ledger (Expense); Credit Cash business section
+
+Debit Cash sheet client account; Credit Client ledger
+19 | Paying a "Principal" Disbursement (e.g., search + VAT) | Debit Business ledger AND Debit VAT ledger
+
+Credit Cash business section
+20 | Payment of firm's VAT liability to HMRC | Debit VAT ledger; Credit Cash business section
+21 | Writing off a Bill (Bad Debt) | Debit Profit Costs AND Debit VAT ledger
+
+Credit Business ledger (Client side)
+22 | Correcting a Breach (Money in wrong account) | Debit Incorrect Account; Credit Ledger
+
+Debit Ledger; Credit Correct Account
+23 | Receiving an overpayment from a client | Debit Cash sheet client account; Credit Client ledger
+24 | Refund to client from client account | Debit Client ledger; Credit Cash sheet client account
+------------------------------------------------
+--- CONTENT OF Business Law Key Timeframes.docx ---
+ SQE Key Time Frames and Deadlines for Criminal Practice
+Decision-Making and Resolution Table
+Stage / Action | Time Limit / Deadline | Authority | Day Type | Notes
+Notice of General Meeting | At least 14 clear days | CA 2006 s. 307 | Calendar | "Clear" means excluding the day of service and the day of the meeting.
+GM (Shareholder Request) | Board must call within 21 days | CA 2006 s. 304 | Calendar | Meeting must then be held within 28 days of the notice.
+Special Resolutions | Must be filed within 15 days | CA 2006 s. 30 | Calendar | Copy of the resolution must be sent to the Registrar of Companies.
+Charge Registration | Within 21 days | CA 2006 s. 859A | Calendar | Includes weekends/bank holidays; late delivery requires a court order.
+Removal of Director | 28 days (Special Notice) | CA 2006 s. 312 | Calendar | Notice of intention to remove must be given to the company.
+Director Representations | At least 14 days before GM | CA 2006 s. 169 | Calendar | If special notice is not practicable, the company must advertise it.
+Share Buyback (Capital) | 5 to 7 weeks window | CA 2006 s. 723 | Calendar | Payment made 5–7 weeks after the special resolution is passed.
+Registration of Director | Within 14 days of change | CA 2006 s. 167 | Calendar | Form AP01 (appointment) or TM01 (termination) to Companies House.
+First Registration | 2 months from completion | LRA 2002 | Calendar | Statutory deadline for first registration of a property (if applicable to the business).
+Moratorium (Insolvency) | Initial 20 business days | CIGA 2020 | Business | Can be extended for a further 20 business days.
+Corporation Tax (Small) | 9 months and 1 day | Finance Act | Calendar | Deadline for payment after the end of the accounting period.
+Corporation Tax (Large) | Quarterly instalments | Finance Act | Calendar | Large companies pay in 4 instalments during and after the period.
+VAT Registration | Within 30 days | VATA 1994 | Calendar | Required if taxable turnover exceeds the threshold in a 12-month period.
+Accounting Records | 3 or 6 years | CA 2006 s. 388 | Calendar | Private companies (3 yrs); Public companies (6 yrs).
+Decision / Action | Resolution Type | Majority Required | Authority (CA 2006) | Filing Deadline
+Change Company Name | Special (SR) | ≥ 75% | s. 77(1) | 15 days
+Amend Articles of Association | Special (SR) | ≥ 75% | s. 21(1) | 15 days
+Disapply Pre-emption Rights | Special (SR) | ≥ 75% | s. 569 / 571 | 15 days
+Buyback Shares out of Capital | Special (SR) | ≥ 75% | s. 716 | 15 days
+Reduction of Share Capital | Special (SR) | ≥ 75% | s. 641 | 15 days
+Appoint a Director | Ordinary (OR) | > 50% | MA 17 / s. 160 | 14 days (Form AP01)
+Remove a Director | Ordinary (OR) | > 50% | s. 168 | 14 days (Form TM01)
+Substantial Property Transaction | Ordinary (OR) | > 50% | s. 190 | Internal Record
+Loan to a Director | Ordinary (OR) | > 50% | s. 197 | Internal Record
+Long-term Service Contract (>2yr) | Ordinary (OR) | > 50% | s. 188 | Internal Record
+Ratify a Director's Breach | Ordinary (OR) | > 50% | s. 239 | Internal Record
+Authority to Allot Shares | Ordinary (OR) | > 50% | s. 551 | 15 days
+Declare a Final Dividend | Ordinary (OR) | > 50% | MA 30 | N/A
+------------------------------------------------
+--- CONTENT OF Criminal_Practice_Key_Timeframes (2).docx ---
+ SQE Key Time Frames and Deadlines for Criminal Practice
+Stage | Time Limit / Deadline | Authority | Notes
+Detention without charge | 24 hours from relevant time | PACE s.41 | Initial maximum period
+Superintendent extension | Up to 36 hours total | PACE s.42 | Indictable offences only
+Magistrates’ extension | Up to 96 hours total | PACE s.43–44 | Application to magistrates
+Review of detention | First at 6h, then every 9h | PACE s.40 | Inspector/superintendent
+Delay legal advice | Up to 36 hours | PACE s.58(6) | Indictable offences only
+Delay informing someone of arrest | Up to 36 hours | PACE s.56 | Inspector authorisation
+Charge to first magistrates’ appearance | Next sitting day | CrimPR | If in custody
+Initial details of prosecution case (IDPC) | Before plea before venue | CrimPR Part 8 | Either-way offences
+Summary offence – laying information | 6 months from offence | Magistrates’ Courts Act 1980 | Statutory limitation
+Custody time limit – magistrates | 182 days | CTLR 1987 | From first remand
+Custody time limit – Crown Court | 182 days | CTLR 1987 | From sending
+Defence statement (Crown Court) | 28 days after prosecution disclosure | CPIA 1996
+Defence statement (magistrates) | 14 days after prosecution disclosure | CPIA 1996
+Prosecution response to defence statement | 14 days | CPIA 1996
+Notice of hearsay | As soon as practicable | CJA 2003
+Bad character application | At least 14 days before trial | CrimPR Part 21
+Appeal from magistrates’ court | 21 days from sentence/conviction | MCA 1980 s.108
+------------------------------------------------
+--- CONTENT OF Dispute resolution Key Timeframes.docx ---
+ SQE Key Time Frames and Deadlines for Dispute resolution
+Stage / Action | Time Limit / Deadline | Authority | Day Type | Notes
+Limitation (Contract) | 6 years from breach | Limitation Act 1980 | Calendar | Standard period to commence a claim for breach of contract.
+Limitation (Tort/Negligence) | 3 years from injury/knowledge | Limitation Act 1980 | Calendar | Typically from the date of the injury or date of knowledge.
+Response to Prof. Negligence | 21 days (Acknowledgment) | Pre-Action Protocol | Calendar | The professional must acknowledge the Preliminary Notice.
+Investigation of Prof. Neg. Claim | 3 months | Pre-Action Protocol | Calendar | Period for the professional to investigate and send a Letter of Response.
+Service of Claim Form (In UK) | Within 4 months of issue | CPR Part 7 | Calendar | The claimant must complete the step required for service within this window.
+Deemed Service (Post/DX) | 2nd business day after posting | CPR r. 6.14 / 6.26 | Business | For claim forms, it is the 2nd business day; for other docs, it is the 2nd day.
+Acknowledgment of Service | 14 days after service of POC | CPR Part 10 | Calendar | Extends the deadline for filing a defence to 28 days total.
+Filing a Defence | 14 days (or 28 days if AoS filed) | CPR Part 15 | Calendar | From the date of service of the Particulars of Claim (POC).
+Defence Extension (Agreement) | Up to 28 days | CPR r. 15.5 | Calendar | Parties can agree an extension without a court order.
+Directions Questionnaire | Date specified in Notice of Allocation | CPR Part 26 | Calendar | Usually 14 or 28 days depending on the track.
+Small Claims Track | Up to £10,000 | CPR Part 26 | N/A | For straightforward, lower-value disputes.
+Fast Track | £10,000 to £25,000 | CPR Part 26 | N/A | Trial usually lasts no more than one day.
+Intermediate Track | £25,000 to £100,000 | CPR Part 26 | N/A | For cases that are not too complex for a standard timetable.
+Multi-Track | Over £100,000 | CPR Part 26 | N/A | For high-value or complex cases requiring bespoke directions.
+Trial Bundle Filing | 3 to 7 days before trial | CPR Part 39 | Calendar | Usually filed by the claimant’s solicitor.
+Permission to Appeal | 21 days | CPR Part 52 | Calendar | From the date of the decision of the lower court.
+------------------------------------------------
+--- CONTENT OF Landlaw Key Timeframes.docx ---
+ SQE Key Time Frames and Deadlines for Landlaw
+Stage / Action | Time Limit / Deadline | Authority | Day Type | Notes
+Proof of Title (Unregistered) | 15 years of title | s. 44 LPA 1925 | Calendar | Seller must show an unbroken chain of ownership starting with a "good root" at least 15 years old.
+First Registration (Compulsory) | Within 2 months of trigger | s. 6 LRA 2002 | Calendar | Mandatory after events like a sale, gift, or grant of a 7+ year lease.
+Late First Registration | Voids the legal estate | s. 7 LRA 2002 | N/A | Title reverts to the transferor, and the buyer only holds an equitable interest.
+Notice to Complete (Contract) | 10 working days | Standard Conditions | Working | Time of the essence: once served, the party has 10 days to finish the transaction.
+Land Registry (OS1) Priority | 30 working days | LRA 2002 | Working | Protects the buyer's application against other entries while they register their title.
+Land Charges (K15) Priority | 15 working days | LCA 1972 | Working | Used for unregistered land; protects the buyer from subsequent entries against the owner's name.
+Lease Creation (Parol Rule) | 3 years or less | s. 54(2) LPA 1925 | Calendar | Short leases can be legal without a deed if they take effect in possession at the best rent.
+Limitation (Adverse Possession) | 10 years (Registered) | LRA 2002 | Calendar | Squatter can apply for registration after 10 years of adverse possession.
+Limitation (Adverse Possession) | 12 years (Unregistered) | Limitation Act 1980 | Calendar | Right of the paper owner is extinguished after 12 years of adverse possession.
+Home Rights Protection | Until end of marriage/death | s. 30 FLA 1996 | Calendar | A non-owning spouse's right of occupation must be registered to bind a buyer.
+Written Notice of Severance | Immediate upon delivery | s. 196 LPA 1925 | N/A | Severance of a joint tenancy is effective when notice is served at the last known home/business address.
+------------------------------------------------
+--- CONTENT OF Legal services Key timeframes.docx ---
+ SQE Key Time Frames and Deadlines for Legal services
+Stage / Action | Time Limit / Deadline | Authority | Day Type | Notes
+IHT Payment (Death) | End of 6 months | IHTA 1984 | Calendar | Due by the end of the 6th month after the month of death.
+IHT on LCTs (Apr-Sep) | By 30 April | IHTA 1984 | Calendar | For lifetime transfers made between 6 April and 30 September.
+IHT on PETs | End of 6 months | IHTA 1984 | Calendar | Due 6 months after the end of the month of death if the PET becomes taxable.
+IHT Correction | Within 6 months | IHTA 1984 | Calendar | Deadline to notify HMRC after discovering an error in the account.
+Grant of Representation | 6 months (Recommended) | Inheritance Act 1975 | Calendar | PRs should wait this long before distribution to protect against 1975 Act claims.
+Section 27 Notice | At least 2 months | Trustee Act 1925 | Calendar | Period creditors have to come forward after advertisement before PRs distribute assets.
+Variation of a Will | Within 2 years | IHTA 1984 / TCGA | Calendar | Time limit for a variation to be "read back" into the will for tax purposes.
+Disclaimer of a Gift | Within 2 years | IHTA 1984 s. 142 | Calendar | To ensure the disclaimer has no adverse tax consequences for the original beneficiary.
+AML Moratorium Period | 31 days | POCA 2002 | Calendar | The period the NCA has to investigate after a SAR is submitted and consent is initially refused.
+Internal Complaint Response | 8 weeks | Legal Ombudsman (LeO) | Calendar | Maximum time for a firm to resolve an internal complaint before the client goes to the LeO.
+Filing Special Resolutions | Within 15 days | CA 2006 | Calendar | For incorporated firms making constitutional changes.
+Charge Registration (Firm) | Within 21 days | CA 2006 | Calendar | Deadline to register security over firm assets at Companies House.
+Notice of General Meeting | At least 14 clear days | CA 2006 | Calendar | Notice required for shareholders of incorporated firms.
+------------------------------------------------
+--- CONTENT OF Professional Ethics Key Timeframes.docx ---
+ SQE Key Time Frames and Deadlines for Professional Ethics
+Stage / Action | Time Limit / Deadline | Authority | Day Type | Notes
+Internal Complaint Response | 8 weeks | Legal Ombudsman (LeO) | Calendar | Maximum time a firm has to resolve a complaint before the client can go to the LeO.
+Response to SRA Investigation | Specified in the notice | SRA Code of Conduct | Calendar | Solicitors must respond to SRA requests for information promptly and within set limits.
+Reporting Serious Breaches | Promptly | SRA Code of Conduct | N/A | Obligation to report serious breaches of regulatory arrangements to the SRA.
+Reporting to COLP/COFA | Promptly | SRA Code of Conduct | N/A | Staff must report facts capable of amounting to a serious breach to compliance officers.
+Professional Negligence Acknowledgment | 21 days | Pre-Action Protocol | Calendar | The solicitor must acknowledge a Preliminary Notice of a claim against them.
+Investigation of Negligence Claim | 3 months | Pre-Action Protocol | Calendar | Period allowed for a firm to investigate and provide a full Letter of Response.
+Deemed Service (Court Docs) | 2nd business day | CPR r. 6.14 / 6.26 | Business | Applies to the service of claim forms and other formal legal documents.
+Solicitor’s Bill Challenge | 1 month | Solicitors Act 1974 | Calendar | A client has a right to request an assessment of a bill by the court.
+------------------------------------------------
+--- CONTENT OF Property Practice Key Timeframes.docx ---
+SQE Key Time Frames and Deadlines for Property Practice
+Stage | Time Limit / Deadline | Authority | Day Type | Notes
+EPC Provision | Within 7 days of marketing | EPC Regulations | Calendar | Preferably within 7 days; absolute maximum of 28 days.
+Planning Enforcement (Operational) | 4 years from breach (pre-25 April 2024) | TCPA 1990 s. 171B | Calendar | Building works or change of use to single dwelling.
+Planning Enforcement (General) | 10 years from breach | TCPA 1990 | Calendar | Standard limit for all breaches in England as of April 2024.
+Enforcement Notice Appeal | Before the 28th day | TCPA 1990 | Calendar | An enforcement notice becomes effective 28 days after service.
+Notice to Complete | 10 working days | SC / SCPC | Working | Time of the essence: period to complete once notice is served.
+Land Registry (OS1) Priority | 30 working days | LRA 2002 | Working | Protects the buyer/lender's application against other entries.
+Land Charges (K15) Priority | 15 working days | LCA 1972 | Working | Used for unregistered land to protect against subsequent entries.
+SDLT Submission (England) | Within 14 days | Finance Act | Calendar | Deadline for submitting the return and paying tax to HMRC.
+LTT Submission (Wales) | Within 30 days | LTT (Wales) | Calendar | Deadline for submitting the return and paying tax to the WRA.
+Companies House Registration | 21 days from creation | Companies Act | Calendar | To register a mortgage if the buyer is a company.
+First Registration | 2 months from completion | LRA 2002 | Calendar | Mandatory for transactions triggering first registration.
+Section 25 Notice (Landlord) | 6–12 months before date | LTA 1954 | Calendar | Notice to terminate or renew a business tenancy.
+Section 26 Request (Tenant) | 6–12 months before start | LTA 1954 | Calendar | Tenant’s request for a new business lease.
+Notice of Assignment (Lease) | Usually 1 month | Lease terms | Calendar | Assignee notifies the landlord of the transfer.
+------------------------------------------------
+--- CONTENT OF Wills Key timeframes .docx ---
+ SQE Key Time Frames and Deadlines for Wills and administration of estates.
+Stage / Action | Time Limit / Deadline | Authority | Day Type | Notes
+IHT Payment (Death) | End of 6 months | IHTA 1984 | Calendar | Due by the end of the sixth month following the month of death.
+IHT on PETs | End of 6 months | IHTA 1984 | Calendar | Due six months after the end of the month of death if the PET becomes taxable.
+IHT on LCTs (Apr-Sep) | By 30 April | IHTA 1984 | Calendar | For transfers made between 6 April and 30 September in any year.
+IHT (Instalment Option) | 10 equal annual instalments | IHTA 1984 | Calendar | Available for "instalment option property" like land or business interests.
+Family Provision Claim | Within 6 months | 1975 Act | Calendar | From the date on which the grant of representation is first taken out.
+Section 27 Notice | At least 2 months | Trustee Act 1925 | Calendar | PRs must wait at least 2 months after advertising before distributing.
+Pecuniary Legacies | Within 1 year | AEA 1925 | Calendar | The "executor's year": interest generally starts accruing after this period.
+Correction to IHT Account | Within 6 months | IHTA 1984 | Calendar | Period to notify HMRC after the PRs discover an error in the original account.
+Variation of a Will | Within 2 years | IHTA 1984 / TCGA | Calendar | For the variation to be read back into the will for IHT/CGT purposes.
+Disclaimer of a Gift | Within 2 years | IHTA 1984 s.142 | Calendar | For the disclaimer to have no adverse tax consequences for the original beneficiary.
+------------------------------------------------

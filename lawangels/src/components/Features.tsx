@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import businesslawimg from '../assets/BUSINESS LAW.jpg';
 import Dashboardcut from '../assets/newdashboardscreenshot.png';
 import fullbooklistimg from '../assets/full book list L.A.-min.jpg';
+import KeyTimeframes from '../assets/Keyframes and dealines.jpeg';
+import AllSummaryNotes from '../assets/All Summary Notes.jpeg';
 
 export default function Features() {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -11,6 +13,8 @@ export default function Features() {
         Dashboardcut,
         fullbooklistimg,
         businesslawimg,
+        KeyTimeframes,
+        AllSummaryNotes,
     ];
 
     // Auto-advance slides every 4 seconds

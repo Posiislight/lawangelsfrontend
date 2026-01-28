@@ -219,6 +219,12 @@ export default function MockQuestions() {
       // Resume directly to exam with saved progress
       setSelectedExam(exam)
       setResumeProgress(savedProgress)
+
+      const savedMode = savedProgress.practiceMode as PracticeMode | undefined
+      if (savedMode) {
+        setExamSettings(prev => ({ ...prev, practiceMode: savedMode }))
+      }
+
       setCurrentView('exam')
     } else {
       // Normal flow: start -> customize -> exam

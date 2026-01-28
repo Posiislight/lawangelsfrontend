@@ -470,7 +470,7 @@ export default function PracticeQuestions() {
                                                 >
                                                     <input
                                                         type="radio"
-                                                        name="answer"
+                                                        name={`answer-${currentQuestion.id}`}
                                                         value={option.label}
                                                         checked={isSelected}
                                                         onChange={() => handleSelectAnswer(option.label)}

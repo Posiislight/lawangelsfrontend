@@ -16,6 +16,7 @@ interface SavedProgress {
   answeredQuestions: Record<number, { answer: string; isCorrect: boolean }>
   timeLeft: number
   savedAt: string
+  practiceMode?: PracticeMode
 }
 
 interface MockExamProps {
@@ -92,7 +93,7 @@ export default function MockExam({
     answerState: 'unanswered',
     answeredQuestions: savedProgress?.answeredQuestions || {},
     speedReaderTime: 70,
-    practiceMode: practiceMode,
+    practiceMode: savedProgress?.practiceMode || practiceMode,
     finishingExam: false,
   })
 
@@ -349,6 +350,17 @@ export default function MockExam({
     }
   }
 
+  const handleJumpToQuestion = (index: number) => {
+    const savedAnswer = state.answeredQuestions[index]
+
+    setState(prev => ({
+      ...prev,
+      currentQuestion: index,
+      selectedAnswer: savedAnswer?.answer || null,
+      answerState: savedAnswer ? 'navigated' : 'unanswered',
+    }))
+  }
+
   const handleFinishExam = async () => {
     if (!state.attempt) {
       console.error('No attempt data available')
@@ -398,7 +410,8 @@ export default function MockExam({
       currentQuestion: state.currentQuestion,
       answeredQuestions: state.answeredQuestions,
       timeLeft: state.timeLeft,
-      savedAt: new Date().toISOString()
+      savedAt: new Date().toISOString(),
+      practiceMode: state.practiceMode
     }
     localStorage.setItem(`exam_progress_${state.examId}`, JSON.stringify(progressData))
 
@@ -630,7 +643,7 @@ export default function MockExam({
                         <div className="flex-shrink-0 mt-0.5">
                           <input
                             type="radio"
-                            name="answer"
+                            name={`answer-${question.id}`}
                             value={option.label}
                             checked={isSelected}
                             onChange={() => handleSelectAnswer(option.label)}
@@ -724,7 +737,7 @@ export default function MockExam({
                   {[...Array(totalQuestions)].map((_, i) => (
                     <button
                       key={i}
-                      onClick={() => setState(prev => ({ ...prev, currentQuestion: i }))}
+                      onClick={() => handleJumpToQuestion(i)}
                       className={`w-8 h-8 rounded-full text-xs font-medium transition flex items-center justify-center ${state.currentQuestion === i
                         ? 'bg-[#0F172B] text-white shadow-lg'
                         : state.answeredQuestions[i] !== undefined
@@ -743,7 +756,7 @@ export default function MockExam({
                 <div className="md:hidden w-full max-w-[200px]">
                   <select
                     value={state.currentQuestion}
-                    onChange={(e) => setState(prev => ({ ...prev, currentQuestion: parseInt(e.target.value) }))}
+                    onChange={(e) => handleJumpToQuestion(parseInt(e.target.value))}
                     className="w-full p-2 border border-gray-300 rounded-lg text-sm bg-white"
                   >
                     {[...Array(totalQuestions)].map((_, i) => (
@@ -789,7 +802,8 @@ export default function MockExam({
                     currentQuestion: state.currentQuestion,
                     answeredQuestions: state.answeredQuestions,
                     timeLeft: state.timeLeft,
-                    savedAt: new Date().toISOString()
+                    savedAt: new Date().toISOString(),
+                    practiceMode: state.practiceMode
                   }
                   localStorage.setItem(`exam_progress_${state.examId}`, JSON.stringify(progressData))
 

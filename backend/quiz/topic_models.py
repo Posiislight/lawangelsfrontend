@@ -109,6 +109,13 @@ class TopicQuizAttempt(models.Model):
     points_earned = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     current_streak = models.IntegerField(default=0)  # Current correct answer streak
     
+    # Snapshot of questions for this attempt (Performance optimization)
+    # Stores list of dicts: [{id, text, options, correct_answer, explanation, ...}]
+    questions_snapshot = models.JSONField(null=True, blank=True)
+    
+    # Cache of correct answers {str(id): 'A'} for instant checking
+    correct_answers = models.JSONField(default=dict)
+    
     # Progress
     current_question_index = models.IntegerField(default=0)  # 0-indexed position
     total_questions = models.IntegerField(default=5)

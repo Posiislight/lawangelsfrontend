@@ -36,20 +36,32 @@ const TOPIC_LABELS: Record<string, string> = {
   'criminal_law': 'Criminal Law',
   'criminal_practice': 'Criminal Practice',
   'land_law': 'Land Law',
-  'solicitors_accounts': 'Solicitors Accounts',
-  'professional_ethics': 'Professional Ethics',
+  'solicitors_accounts': 'Business Law and Practice', // Merged as requested
+  'professional_ethics': 'Professional Ethics and Conduct',
   'trusts': 'Trusts & Equity',
   'wills': 'Wills & Administration',
   'property': 'Property Transactions',
   'commercial': 'Commercial Law',
   'mixed': 'Mixed Topics',
   'contract_law': 'Contract Law',
-  'business_law': 'Business Law',
+  'business_law': 'Business Law and Practice',
   'legal_services': 'Legal Services',
-  'tort': 'Tort',
+  'tort': 'Tort Law',
   'dispute_resolution': 'Dispute Resolution',
-  'constitutional_law': 'Constitutional Law'
+  'constitutional_law': 'Constitutional and Administrative Law',
+  'legal_system': 'Legal System of England & Wales'
 }
+
+const FLK1_TOPICS = [
+  'Professional Ethics and Conduct',
+  'Business Law and Practice',
+  'Constitutional and Administrative Law',
+  'Contract Law',
+  'Dispute Resolution',
+  'Legal Services',
+  'Legal System of England & Wales',
+  'Tort Law'
+]
 
 export default function Results() {
 
@@ -271,6 +283,12 @@ export default function Results() {
     // Otherwise convert snake_case to Title Case
     topicLabel = TOPIC_LABELS[topicLabel] || topicLabel.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 
+    // Apply FLK1 filtering if applicable
+    const isFLK1 = attemptData.exam_title.toUpperCase().includes('FLK1')
+    if (isFLK1 && !FLK1_TOPICS.includes(topicLabel)) {
+      return acc // Skip measuring non-FLK1 topics for FLK1 exams
+    }
+
     // Use the label as the key for grouping
     const topicKey = topicLabel
 
@@ -283,7 +301,6 @@ export default function Results() {
     }
     return acc
   }, {} as Record<string, { total: number; correct: number }>)
-
   // Filter answers
   const filteredAnswers = answers.filter(answer => {
     if (filter === 'all') return true
